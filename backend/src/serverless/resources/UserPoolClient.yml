@@ -1,0 +1,37 @@
+Resources:
+  # Cria um cliente do grupo de usuários a ser usado pelo grupo de identidades
+  UserPoolClient: 
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        UserPoolId: !Ref UserPool
+        AllowedOAuthFlowsUserPoolClient: true          
+        CallbackURLs:
+          - http://localhost:3001
+        AllowedOAuthFlows:
+          - code
+          - implicit
+        AllowedOAuthScopes:
+          - phone
+          - email
+          - openid
+          - profile
+        SupportedIdentityProviders:
+          - COGNITO
+  
+  UserPoolDomain: 
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref UserPool
+      Domain: ${self:service}-${opt:stage, self:provider.stage}      
+
+  # Cria um pool de identidades federado
+  IdentityPool: 
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      IdentityPoolName: ${self:service}-identity-pool-${opt:stage, self:provider.stage}
+      AllowUnauthenticatedIdentities: true
+      CognitoIdentityProviders:
+        - ClientId: !Ref UserPoolClient
+          ProviderName: !GetAtt UserPool.ProviderName
+
+  

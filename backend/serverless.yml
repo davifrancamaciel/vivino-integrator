@@ -1,0 +1,115 @@
+service: vivino-integrator-api
+
+plugins:
+  - serverless-offline
+  - serverless-prune-plugin
+
+custom:  
+  secrets: ${file(secrets-${opt:stage, self:provider.stage}.json)}
+  serverless-offline:
+    httpPort: 4000   
+  USER_POO_ID_OFFLINE: ${self:custom.secrets.USER_POO_ID_OFFLINE}
+ 
+  # prune:
+  #   automatic: true
+  #   number: 3
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+  
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  logRetentionInDays: 7
+  stage: dev
+  region: us-east-1
+  memorySize: 256
+
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+    USER_POO_ID_OFFLINE: ${self:custom.USER_POO_ID_OFFLINE} # quando o projeto está rodando local   
+    USER_POO_ID: !Ref UserPool    
+    REGION: ${opt:region, self:provider.region}
+    # SQS_URL: "https://sqs.${opt:region, self:provider.region}.amazonaws.com/${aws:accountId}/${self:service}-${opt:stage, self:provider.stage}-"
+    STAGE: ${opt:stage, self:provider.stage}    
+    SERVICE_NAME: ${self:service}-${opt:stage, self:provider.stage}
+    PRODUCTS_TABLE: 'PRODUCTS_${opt:stage, self:provider.stage}'    
+  package:
+    excludeDevDependencies: true  
+    exclude:
+      - .git/**
+      - .vscode/**        
+      - venv/**
+      - node_modules/**
+      - keys.bat     
+    
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - cognito-idp:Admin*
+            - cognito-idp:DescribeIdentityProvider
+            - cognito-idp:DescribeResourceServer
+            - cognito-idp:DescribeUserPool
+            - cognito-idp:DescribeUserPoolClient
+            - cognito-idp:DescribeUserPoolDomain
+            - cognito-idp:GetGroup
+            - cognito-idp:ListGroups
+            - cognito-idp:ListUserPoolClients
+            - cognito-idp:ListUsers
+            - cognito-idp:ListUsersInGroup
+            - cognito-idp:UpdateGroup
+          Resource: !GetAtt UserPool.Arn
+        - Effect: "Allow"
+          Action:
+            - "sqs:*"
+          Resource:
+            - "*"
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource:
+            - "*"
+        - Effect: "Allow"
+          Action:
+            - "events:ListRules"
+            - "events:PutRule"
+          Resource:
+            - "*"
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:PutyItem
+            - dynamodb:DeleteItem
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+          Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.PRODUCTS_TABLE}'
+  
+functions:
+  - ${file(src/serverless/functions/VerifyToken.yml)}
+  - ${file(src/serverless/functions/Groups.yml)}
+  - ${file(src/serverless/functions/Users.yml)}
+  - ${file(src/serverless/functions/Products.yml)}
+  
+  
+# você pode adicionar modelos de recursos do CloudFormation aqui
+resources:
+  - ${file(src/serverless/resources/UserPool.yml)}
+  - ${file(src/serverless/resources/UserPoolGroups.yml)}
+  - ${file(src/serverless/resources/UserPoolClient.yml)}
+  - ${file(src/serverless/resources/UserPoolRoules.yml)}
+  - ${file(src/serverless/resources/GatewayResponseErrors.yml)} 
+  - ${file(src/serverless/resources/DynamoTableProducts.yml)} 
+ 

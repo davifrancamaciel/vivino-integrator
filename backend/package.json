@@ -1,0 +1,32 @@
+{
+  "name": "vivino-integrator-api",
+  "author": "Davi França Maciel",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "sls offline start",
+    "debug": "sls offline -s dev",
+    "deploy": "sls deploy",
+    "deploy:prod": "sls deploy --stage prod",
+    "create_domain": "sls create_domain",
+    "info": "sls info",
+    "migrate": "sequelize db:migrate",
+    "prune": "sls prune -n 3"
+  },
+  "keywords": [],
+  "dependencies": {
+    "date-fns": "^2.28.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.5"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.1065.0",
+    "sequelize-cli": "^6.4.1",
+    "serverless": "^3.19.0",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^8.3.1",
+    "serverless-prune-plugin": "^2.0.1"
+  }
+}

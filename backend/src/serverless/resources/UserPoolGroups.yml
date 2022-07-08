@@ -1,0 +1,30 @@
+#Grupos de usuários do sistema
+Resources:
+    CognitoUserPoolGroupAdmin:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Super-usuário, pode executar todas as tarefas dos outros usuários, e mais gerenciamento de usuários no sistema (criar/editar/remover). Normalmente profissional de TI ou da Engenharia de set-tops"
+        GroupName: "Administrador"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima
+    CognitoUserPoolGroupUsers:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário gerenciar usuários do sistema"
+        GroupName: "Usuarios"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima
+    CognitoUserPoolGroupProducts:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário enviar mensagens para Broadcast"
+        GroupName: "Produtos"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima
+    CognitoUserPoolGroupServices:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário alterar o intervalo de tempo de execução dos serviços"
+        GroupName: "Serviços"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima 

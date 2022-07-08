@@ -1,0 +1,3 @@
+verifyToken:
+    handler: src/functions/verifyToken.auth
+    timeout: 300 

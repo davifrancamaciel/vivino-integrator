@@ -1,0 +1,40 @@
+users:
+    handler: src/functions/users.list
+    events:
+      - http:
+          path: users
+          method: get
+          authorizer: verifyToken
+          cors: true
+usersById:
+  handler: src/functions/users.listById
+  events:
+    - http:
+        path: users/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true
+usersCreate:
+  handler: src/functions/users.create
+  events:
+    - http:
+        path: users
+        method: post
+        authorizer: verifyToken
+        cors: true
+usersUpdate:
+  handler: src/functions/users.update
+  events:
+    - http:
+        path: users
+        method: put
+        authorizer: verifyToken
+        cors: true
+usersDelete:
+  handler: src/functions/users.delete
+  events:
+    - http:
+        path: users/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true

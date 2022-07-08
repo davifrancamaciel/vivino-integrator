@@ -1,0 +1,45 @@
+Resources:
+
+  # Cria um grupo de usuários no cognito para que seu aplicativo seja autenticado
+  # Fixme: o endereço de e-mail do cliente precisa ser inserido e verificado manualmente
+  # https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email: 
+  UserPool: 
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UsernameConfiguration:
+        CaseSensitive: false
+      AutoVerifiedAttributes:
+        - email
+      #UsernameAttributes:
+      #  - email
+      UserPoolName: ${self:service}-user-pool-${opt:stage, self:provider.stage}
+      EmailVerificationSubject: "Bem vindo ao Integrador Vivino - Código de verificação"
+      EmailVerificationMessage: ${file(src/serverless/layouts/template-email-code.html)}        
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Mutable: false
+          Required: true
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: type_access
+          AttributeDataType: String
+          Mutable: true
+          Required: false      
+      Policies:
+          PasswordPolicy:
+            RequireLowercase: false
+            RequireSymbols: false
+            RequireNumbers: true
+            MinimumLength: 8
+            RequireUppercase: false
+            #TemporaryPasswordValidityDays: 7
+      AdminCreateUserConfig:
+        InviteMessageTemplate:
+          EmailSubject: "Bem vindo ao Integrador Vivino - Senha temporária"
+          EmailMessage: ${file(src/serverless/layouts/template-email-password.html)}                  
+        UnusedAccountValidityDays: 7
+        #Permitir que somente o administrador crie usuários
+        AllowAdminCreateUserOnly: true

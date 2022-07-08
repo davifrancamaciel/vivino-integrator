@@ -1,0 +1,8 @@
+groups:
+  handler: src/functions/groups.listUserGroups
+  events:
+    - http:
+        path: groups
+        method: get       
+        authorizer: verifyToken
+        cors: true
