@@ -29,7 +29,7 @@ const CreateEdit: React.FC<PropTypes> = (props) => {
         })`
       };
       setLoading(true);
-      const result = await api.put(`${apiRoutes.services}/services`, obj);
+      const result = await api.put(`${apiRoutes.settings}/services`, obj);
 
       if (result.success) {
         showHideModal();

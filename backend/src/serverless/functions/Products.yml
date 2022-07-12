@@ -37,22 +37,13 @@ productsDelete:
         path: products/{id}
         method: delete
         authorizer: verifyToken
-        cors: true 
-productsListAll:
-  handler: src/functions/products.listAll
-  events:
-    - http:
-        path: products/all
-        method: get
-        authorizer: verifyToken
-        cors: true 
-
+        cors: true
 productsImport:
   handler: src/functions/productsImport.import
   timeout: 600 
   events:
     - http:
         path: products/import
-        method: post
-        authorizer: verifyToken
+        method: get
+        # authorizer: verifyToken
         cors: true 

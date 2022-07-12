@@ -23,14 +23,14 @@ export const apiRoutes = {
   groups: 'groups',
   users: appRoutes.users,
   products: appRoutes.products,
-  services: appRoutes.services
+  settings: 'settings'
 };
 
 export const apiRoutesArray = [
   apiRoutes.users,
   apiRoutes.groups,
   apiRoutes.products,
-  apiRoutes.services
+  apiRoutes.settings
 ];
 
 export const roules = {

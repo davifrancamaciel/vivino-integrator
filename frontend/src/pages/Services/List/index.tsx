@@ -24,7 +24,7 @@ const List: React.FC = () => {
   const actionFilter = async (pageNumber: number = 1) => {
     try {
       setLoading(true);
-      const resp = await api.get(`${apiRoutes.services}/services`);
+      const resp = await api.get(`${apiRoutes.settings}/services`);
       setLoading(false);
 
       const { Rules } = resp.data;

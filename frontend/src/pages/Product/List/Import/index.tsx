@@ -6,11 +6,12 @@ import {
   DownOutlined,
   DownloadOutlined
 } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
 
 import api from 'services/api-aws-amplify';
 import { apiRoutes, systemColors } from 'utils/defaultValues';
 import { PropTypes } from './interfaces';
-import { MessageGroup } from '../../interfaces';
+import { Product } from '../../interfaces';
 import GridList from 'components/GridList';
 
 import { Container } from './styles';
@@ -19,7 +20,7 @@ import { calculateSeconds } from 'utils';
 const Import: React.FC<PropTypes> = ({ onImportComplete }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [items, setItems] = useState<MessageGroup[]>([]);
+  const [items, setItems] = useState<Product[]>([]);
   const [fileName, setFileName] = useState('');
 
   const action = async () => {
@@ -40,52 +41,76 @@ const Import: React.FC<PropTypes> = ({ onImportComplete }) => {
   };
 
   const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    let itemsList: MessageGroup[] = [];
-    const file = !!e.target.files && e.target.files[0];
-    if (file) {
-      setFileName(file.name);
+    try {
+      let itemsList: Product[] = [];
+      const file = !!e.target.files && e.target.files[0];
       if (file) {
-        var reader = new FileReader();
-        reader.onload = function (progressEvent) {
-          const fileReaded: any = this.result;
-          var fileContentArray = fileReaded.split(/\r\n/);
+        setFileName(file.name);
+        if (file) {
+          var reader = new FileReader();
+          reader.onload = function (progressEvent: any) {
+            debugger;
+            var arraybuffer = progressEvent.target.result;
 
-          if (fileContentArray.length > 1000) {
-            notification.warning({
-              message:
-                'O limite de linhas no arquivo não poderá ser maior que 1000 por importação'
+            /* convert data to binary string */
+            var data = new Uint8Array(arraybuffer);
+            var arr = new Array();
+            for (var i = 0; i != data.length; ++i)
+              arr[i] = String.fromCharCode(data[i]);
+            var bstr = arr.join('');
+
+            /* Call XLSX */
+            var workbook = XLSX.read(bstr, {
+              type: 'binary'
             });
-            return;
-          }
 
-          for (var line = 0; line < fileContentArray.length; line++) {
-            if (line > 0) {
-              const objLine = fileContentArray[line].split('|');
-              const [id, name, briefing, objective] = objLine;
-              const group: MessageGroup = {
-                id,
-                name,
-                briefing,
-                objective,
-                active: true
-              };
-              if (group.name && group.id && group.id?.length < 5)
-                itemsList.push(group);
-            }
-          }
-          setItems(itemsList);
-          if (!itemsList.length) {
-            notification.warning({
-              message:
-                'Verifique se o arquivo selecionado contem linhas válidas'
-            });
-            return;
-          }
-          showHideModal();
-        };
+            /* DO SOMETHING WITH workbook HERE */
+            var first_sheet_name = workbook.SheetNames[0];
+            /* Get worksheet */
+            var worksheet = workbook.Sheets[first_sheet_name];
+            console.log(
+              XLSX.utils.sheet_to_json(worksheet, {
+                raw: true
+              })
+            );
+            // var fileContentArray = fileReaded.split(/\r\n/);
 
-        reader.readAsText(file);
+            // for (var line = 0; line < fileContentArray.length; line++) {
+            //   if (line > 0) {
+            //     const objLine = fileContentArray[line].split('|');
+            //     const [id, name, briefing, objective] = objLine;
+            //     const group: Product = {
+            //       productId: id,
+            //       active: true,
+            //       productName: name,
+            //       bottleSize: briefing,
+            //       price: objective,
+            //       quantityIsMinimum: true
+            //     };
+            //     if (
+            //       group.productName &&
+            //       group.productId &&
+            //       group.productId?.length < 5
+            //     )
+            //       itemsList.push(group);
+            //   }
+            // }
+            // setItems(itemsList);
+            // if (!itemsList.length) {
+            //   notification.warning({
+            //     message:
+            //       'Verifique se o arquivo selecionado contem linhas válidas'
+            //   });
+            //   return;
+            // }
+            // showHideModal();
+          };
+
+          reader.readAsText(file);
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   }, []);
 
@@ -104,7 +129,7 @@ const Import: React.FC<PropTypes> = ({ onImportComplete }) => {
 
   const onDelete = (id?: string | number) => {
     if (id) {
-      const newList = items.filter((i: MessageGroup) => i.id !== id);
+      const newList = items.filter((i: Product) => i.productId !== id);
       !newList.length && setVisible(false);
       setItems(newList);
       notification.success({
@@ -140,7 +165,7 @@ const Import: React.FC<PropTypes> = ({ onImportComplete }) => {
   return (
     <div>
       <input
-        accept=".txt"
+        accept=".xls"
         type="file"
         id="inputUpload"
         style={{ display: 'none' }}

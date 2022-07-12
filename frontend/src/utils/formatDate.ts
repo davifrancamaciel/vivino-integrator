@@ -16,13 +16,16 @@ export const formatDate = (value: string) =>
 export const formatDateHour = (value?: string) =>
   !value ? '' : format(parseISO(value), 'dd/MM/yyyy HH:mm', { locale: pt });
 
+export const formatDateHourByNumber = (value?: string) =>
+  !value ? '' : format(Number(value), 'dd/MM/yyyy HH:mm', { locale: pt });
+
 export const extractHour = (value: string) =>
   !value ? '' : format(parseISO(value), 'HH:mm', { locale: pt });
 
 export const setHour = (date: any, time: any) => {
   try {
     if (!date) return null;
-    
+
     if (time && typeof time !== 'string') {
       time = time._d.toISOString();
       time = format(parseISO(time), 'HH:mm');
@@ -30,9 +33,9 @@ export const setHour = (date: any, time: any) => {
 
     if (typeof date !== 'string') date = date._d.toISOString();
 
-    if (!time) time = format(parseISO(date), 'HH:mm');   
+    if (!time) time = format(parseISO(date), 'HH:mm');
 
-    const [hour, minute] = time.split(':');  
+    const [hour, minute] = time.split(':');
     const newDate = setMilliseconds(
       setSeconds(setMinutes(setHours(parseISO(date), hour), minute), 0),
       0

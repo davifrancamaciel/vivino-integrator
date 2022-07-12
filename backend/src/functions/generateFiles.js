@@ -1,16 +1,84 @@
 "use strict";
 
+const AWS = require("aws-sdk");
+const { create } = require('xmlbuilder2');
 const s3 = require("../services/AwsS3Service");
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+const params = {
+    TableName: process.env.PRODUCTS_TABLE,
+};
+
 module.exports.handler = async (event) => {
     const { bucketName } = process.env
-    const key = 'vivinofeed.xml '
+    const key = 'vivinofeed.xml'
     try {
-        await s3.remove(key, bucketName);
 
-        const fileStream = ''
-        const result = await s3.put(fileStream, key, bucketName);
+        let localParams = {
+            ...params, Limit: 2000,
+            FilterExpression: "#active = :active_val",
+            ExpressionAttributeNames: {
+                "#active": "active",
+            },
+            ExpressionAttributeValues: { ":active_val": true }
+        };
+        let data = await dynamodb.scan(localParams).promise();
+
+        const array = data.Items
+
+        const root = create({ version: '1.0', encoding: "UTF-8" }).ele('vivino-product-list')
+
+        array.forEach(element => {
+            var product = root.ele('product')
+
+            product.ele('product-name').txt(element.productName).up()
+            product.ele('price').txt(element.price).up()
+            product.ele('quantity-is-minimum').txt(element.quantityIsMinimum ? true : false).up()
+            product.ele('bottle_size').txt(element.bottleSize).up()
+            product.ele('bottle_quantity').txt(element.bottleQuantity).up()
+            product.ele('link').txt(element.link).up()
+            product.ele('inventory-count').txt(element.inventoryCount).up()
+            product.ele('product-id').txt(element.productId).up()
+
+            var extras = product.ele('extras')
+            extras.ele('producer').txt(element.producer).up()
+            extras.ele('wine-name').txt(element.wineName).up()
+            extras.ele('appellation').txt(element.appellation).up()
+            extras.ele('vintage').txt(element.vintage).up()
+            extras.ele('country').txt(element.country).up()
+            extras.ele('color').txt(element.color).up()
+            extras.ele('image').txt(element.image).up()
+            extras.ele('ean').txt(element.ean).up()
+            extras.ele('description').txt(element.description).up()
+            extras.ele('alcohol').txt(element.alcohol).up()
+            extras.ele('producer-address').txt(element.producerAddress).up()
+            extras.ele('importer-address').txt(element.importerAddress).up()
+            extras.ele('varietal').txt(element.varietal).up()
+            extras.ele('ageing').txt(element.ageing).up()
+            extras.ele('closure').txt(element.closure).up()
+            extras.ele('winemaker').txt(element.winemaker).up()
+            extras.ele('production-size', { unit: 'bottles' }).txt(element.productionSize).up()
+            extras.ele('residual-sugar', { unit: 'g/l' }).txt(element.residualSugar).up()
+            extras.ele('acidity', { unit: 'g/l' }).txt(element.acidity).up()
+            extras.ele('ph').txt(element.ph).up()
+            extras.ele('contains-milk-allergens').txt(element.containsMilkAllergens ? 'yes' : 'no').up()
+            extras.ele('contains-egg-allergens').txt(element.containsEggAllergens ? 'yes' : 'no').up()
+            extras.ele('non-alcoholic').txt(element.nonAlcoholic ? 'yes' : 'no').up()
+            extras.up()
+
+            product.up()
+        });
+
+        root.up();
+
+        const xml = root.end({ prettyPrint: true });
+        console.log(xml);
+
+        await s3.remove(key, bucketName);
+        const result = await s3.put(xml, key, bucketName);
+        console.log(result)
         return handlerResponse(201, result)
     }
     catch (err) {

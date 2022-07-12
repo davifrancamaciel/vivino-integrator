@@ -1,13 +1,10 @@
 import { types } from './interfaces';
 
 export const formatName = (name: string) => {
-  if (name.includes('GetFilesFtp')) {
-    return 'Servico de coleta de arquivos FTP';
+  if (name.includes('GenerateFiles')) {
+    return 'Servico gerador de Feed XML Vivino';
   }
-
-  if (name.includes('WorkerSend')) {
-    return 'Servico de envio de mensagens';
-  }
+   
   return '';
 };
 

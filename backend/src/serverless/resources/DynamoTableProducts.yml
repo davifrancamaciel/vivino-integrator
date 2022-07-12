@@ -4,10 +4,10 @@ Resources:
       Properties:
         TableName: ${self:provider.environment.PRODUCTS_TABLE}
         AttributeDefinitions:
-          - AttributeName: product_id
+          - AttributeName: productId
             AttributeType: S
         KeySchema:
-          - AttributeName: product_id
+          - AttributeName: productId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

@@ -6,17 +6,7 @@ const { getUser } = require("../services/UserService");
 
 const RESOURCE_NAME = 'Vinho'
 
-const dynamodbOfflineOptions = {
-    region: "localhost",
-    endpoint: "http://localhost:8000",
-};
-
-const isOffline = () => process.env.IS_OFFLINE;
-
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-// const dynamodb = isOffline()
-//     ? new AWS.DynamoDB.DocumentClient(dynamodbOfflineOptions)
-//     : new AWS.DynamoDB.DocumentClient();
 
 const params = {
     TableName: process.env.PRODUCTS_TABLE,
@@ -26,47 +16,40 @@ module.exports.list = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const whereStatement = {};
+        let whereStatementExpressionAttributeValues = undefined,
+            whereStatementFilterExpression = undefined,
+            whereStatementExpressionAttributeNames = undefined;
 
-        if (event.queryStringParameters) {
-            const { id, name, objective, briefing, requester, active } = event.queryStringParameters
-
-            if (id) whereStatement.id = id;
-
-            if (name)
-                whereStatement.name = { [Op.like]: `%${name}%` }
-            if (objective)
-                whereStatement.objective = { [Op.like]: `%${objective}%` }
-            if (briefing)
-                whereStatement.briefing = { [Op.like]: `%${briefing}%` }
-            if (requester)
-                whereStatement.requester = { [Op.like]: `%${requester}%` }
-            if (active !== undefined)
-                whereStatement.active = active === 'true';
-
-        }
-        
         const queryString = {
-            limit: 5,
+            limit: 100,
             ...event.queryStringParameters,
         };
-        const { limit, next } = queryString;
+        const { limit, next, productId, productName, producer, wineName } = queryString;
+
+        if (productId) {
+            whereStatementExpressionAttributeValues = { ":productId_val": `${productId}` }
+            whereStatementFilterExpression = "#productId = :productId_val"
+            whereStatementExpressionAttributeNames = { "#productId": "productId", }
+        }
 
         let localParams = {
             ...params,
             Limit: limit,
-        };
+            FilterExpression: whereStatementFilterExpression,
+            ExpressionAttributeNames: whereStatementExpressionAttributeNames,
+            ExpressionAttributeValues: whereStatementExpressionAttributeValues
+        };  
+
         if (next) {
             localParams.ExclusiveStartKey = {
-                //usuario_id: usuario_id,
-                product_id: next,
+                productId: next,
             };
         }
         let data = await dynamodb.scan(localParams).promise();
 
         let nextToken =
             data.LastEvaluatedKey != undefined
-                ? data.LastEvaluatedKey.product_id
+                ? data.LastEvaluatedKey.productId
                 : null;
 
         const result = {
@@ -74,14 +57,7 @@ module.exports.list = async (event, context) => {
             next_token: nextToken,
         };
 
-        // const { count, rows } = await Products.findAndCountAll({
-        //     where: whereStatement,
-        //     limit: Number(pageSize) || 10,
-        //     offset: (Number(pageNumber) - 1) * 10,
-        //     order: [['id', 'DESC']],
-        // })
-
-        return handlerResponse(200, { count: 0, rows: [], result })
+        return handlerResponse(200, { count: data.Count, rows: result.items, result })
 
     } catch (err) {
         return handlerErrResponse(err)
@@ -91,19 +67,12 @@ module.exports.list = async (event, context) => {
 module.exports.listById = async (event) => {
     const { pathParameters } = event
     try {
-        const result = await dynamodb
-            .get({
-                ...params,
-                Key: {
-                    product_id: pathParameters.id,
-                },
-            })
-            .promise();
+        const result = await dynamodb.get({ ...params, Key: { productId: pathParameters.id }, }).promise();
 
         if (!result)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrado`)
 
-        return handlerResponse(200, result)
+        return handlerResponse(200, result.Item)
     } catch (err) {
         return handlerErrResponse(err, pathParameters)
     }
@@ -123,12 +92,8 @@ module.exports.create = async (event) => {
 
         const timestamp = new Date().getTime();
 
-        const { product_id, name } = body
-
         const product = {
-            product_id:'1',
-            name,
-            status: true,
+            ...body,
             createdAt: timestamp,
             updatedAt: timestamp,
         };
@@ -151,27 +116,124 @@ module.exports.update = async (event) => {
         if (!user.havePermissionApprover)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const { id, name } = body
+        const {
+            productId,
+            productName,
+            price,
+            quantityIsMinimum,
+            bottleSize,
+            bottleQuantity,
+            link,
+            inventoryCount,
+            producer,
+            wineName,
+            appellation,
+            vintage,
+            country,
+            color,
+            image,
+            ean,
+            description,
+            alcohol,
+            producerAddress,
+            importerAddress,
+            varietal,
+            ageing,
+            closure,
+            winemaker,
+            productionSize,
+            residualSugar,
+            acidity,
+            ph,
+            containsMilkAllergens,
+            containsEggAllergens,
+            nonAlcoholic,
+            active,
+        } = body
         const timestamp = new Date().getTime();
-        const result = await dynamodb
+        await dynamodb
             .update({
-                ...params,
-                Key: {
-                    product_id: id,
-                },
+                ...params, Key: { productId },
                 UpdateExpression:
-                    "SET name = :name, updatedAt = :updatedAt",
-                ConditionExpression: "attribute_exists(product_id)",
+                    `SET                     
+                        productName = :productName,
+                        price = :price,
+                        quantityIsMinimum = :quantityIsMinimum,
+                        bottleSize = :bottleSize,
+                        bottleQuantity = :bottleQuantity,
+                        link = :link,
+                        inventoryCount = :inventoryCount,
+                        producer = :producer,
+                        wineName = :wineName,
+                        appellation = :appellation,
+                        vintage = :vintage,
+                        country = :country,
+                        color = :color,
+                        image = :image,
+                        ean = :ean,
+                        description = :description,
+                        alcohol = :alcohol,
+                        producerAddress = :producerAddress,
+                        importerAddress = :importerAddress,
+                        varietal = :varietal,
+                        ageing = :ageing,
+                        closure = :closure,
+                        winemaker = :winemaker,
+                        productionSize = :productionSize,
+                        residualSugar = :residualSugar,
+                        acidity = :acidity,
+                        ph = :ph,
+                        containsMilkAllergens = :containsMilkAllergens,
+                        containsEggAllergens = :containsEggAllergens,
+                        nonAlcoholic = :nonAlcoholic,
+                        active = :active,
+                        updatedAt = :updatedAt`
+                ,
+                ConditionExpression: "attribute_exists(productId)",
                 ExpressionAttributeValues: {
-                    ":name": name,
-                    ":updatedAt": timestamp,
+                    ":productName": valueVerify(productName),
+                    ":price": valueVerify(price),
+                    ":quantityIsMinimum": valueVerify(quantityIsMinimum),
+                    ":bottleSize": valueVerify(bottleSize),
+                    ":bottleQuantity": valueVerify(bottleQuantity),
+                    ":link": valueVerify(link),
+                    ":inventoryCount": valueVerify(inventoryCount),
+                    ":producer": valueVerify(producer),
+                    ":wineName": valueVerify(wineName),
+                    ":appellation": valueVerify(appellation),
+                    ":vintage": valueVerify(vintage),
+                    ":country": valueVerify(country),
+                    ":color": valueVerify(color),
+                    ":image": valueVerify(image),
+                    ":ean": valueVerify(ean),
+                    ":description": valueVerify(description),
+                    ":alcohol": valueVerify(alcohol),
+                    ":producerAddress": valueVerify(producerAddress),
+                    ":importerAddress": valueVerify(importerAddress),
+                    ":varietal": valueVerify(varietal),
+                    ":ageing": valueVerify(ageing),
+                    ":closure": valueVerify(closure),
+                    ":winemaker": valueVerify(winemaker),
+                    ":productionSize": valueVerify(productionSize),
+                    ":residualSugar": valueVerify(residualSugar),
+                    ":acidity": valueVerify(acidity),
+                    ":ph": valueVerify(ph),
+                    ":containsMilkAllergens": containsMilkAllergens,
+                    ":containsEggAllergens": containsEggAllergens,
+                    ":nonAlcoholic": nonAlcoholic,
+                    ":active": active,
+                    ":updatedAt": timestamp
                 },
             })
             .promise();
-        return handlerResponse(204, result, `${RESOURCE_NAME} alterado com sucesso`)
+        return handlerResponse(200, {}, `${RESOURCE_NAME} alterado com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, body)
     }
+}
+
+const valueVerify = (value) => {
+    return value ? value : null
 }
 
 module.exports.delete = async (event) => {
@@ -191,9 +253,9 @@ module.exports.delete = async (event) => {
             .delete({
                 ...params,
                 Key: {
-                    product_id: id,
+                    productId: id,
                 },
-                ConditionExpression: "attribute_exists(product_id)",
+                ConditionExpression: "attribute_exists(productId)",
             })
             .promise();
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removido com sucesso`)
@@ -201,31 +263,3 @@ module.exports.delete = async (event) => {
         return handlerErrResponse(err, pathParameters)
     }
 }
-
-module.exports.listAll = async (event, context) => {
-    try {
-        context.callbackWaitsForEmptyEventLoop = false;
-
-        const whereStatement = {};
-
-        if (event.queryStringParameters) {
-            const { active } = event.queryStringParameters
-            if (active !== undefined)
-                whereStatement.active = active === 'true';
-        }
-
-        // const resp = await Products.findAll({
-        //     where: whereStatement,
-        //     attributes: ['id', 'name'],
-        //     order: [['name', 'ASC']],
-        // })
-
-        // const respFormated = resp.map(item => ({
-        //     value: item.id,
-        //     label: `(${item.id}) ${item.name}`,
-        // }));
-        // return handlerResponse(200, respFormated)
-    } catch (err) {
-        return handlerErrResponse(err)
-    }
-};

@@ -3,9 +3,7 @@ generateFiles:
   timeout: 600 
   memorySize: 512
   environment:
-    bucketName: ${self:service}-${opt:stage, self:provider.stage}-files
-  events:
-    - s3:
-        bucket: ${self:service}-${opt:stage, self:provider.stage}-files
-    - schedule: rate(1 minute)
+    bucketName: ${self:custom.bucketFeeds}
+  events:    
+    - schedule: rate(1 day)
         
