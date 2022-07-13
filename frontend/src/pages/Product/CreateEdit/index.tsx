@@ -41,6 +41,7 @@ const CreateEdit: React.FC = (props: any) => {
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
       const result = await api[method](apiRoutes.products, state);
+      api.get(`${apiRoutes.products}/run-update-xml`);
 
       setLoading(false);
 
@@ -64,8 +65,8 @@ const CreateEdit: React.FC = (props: any) => {
           type={'number'}
           disabled={type === 'update'}
           placeholder="1"
-          value={state.productId}
-          onChange={(e) => dispatch({ productId: e.target.value })}
+          value={state.id}
+          onChange={(e) => dispatch({ id: e.target.value })}
         />
       </Col>
       <Col lg={12} md={12} sm={24} xs={24}>

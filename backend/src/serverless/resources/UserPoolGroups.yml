@@ -21,10 +21,3 @@ Resources:
         GroupName: "Produtos"
         UserPoolId:
           Ref: UserPool #Refere-se ao grupo de usuários criado acima
-    CognitoUserPoolGroupServices:
-      Type: AWS::Cognito::UserPoolGroup
-      Properties: 
-        Description: "Permissão para usuário alterar o intervalo de tempo de execução dos serviços"
-        GroupName: "Serviços"
-        UserPoolId:
-          Ref: UserPool #Refere-se ao grupo de usuários criado acima 

@@ -1,5 +1,5 @@
 export interface Product {
-  productId?: string;
+  id?: string;
   productName?: string;
   price?: string;
   quantityIsMinimum?: boolean;
@@ -36,7 +36,7 @@ export interface Product {
 }
 
 export const initialStateForm: Product = {
-  productId: undefined,
+  id: undefined,
   productName: '',
   price: '',
   bottleSize: '',
@@ -50,7 +50,7 @@ export const initialStateForm: Product = {
 };
 
 export interface Filter {
-  productId?: string;
+  id?: string;
   productName: string;
   producer: string;
   wineName: string;
@@ -59,7 +59,7 @@ export interface Filter {
 }
 
 export const initialStateFilter: Filter = {
-  productId: '',
+  id: '',
   productName: '',
   producer: '',
   wineName: '',

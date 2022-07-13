@@ -9,7 +9,7 @@ import ViewData from 'components/ViewData';
 import { initialStateForm, Product } from 'pages/Product/interfaces';
 import api from 'services/api-aws-amplify';
 import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
-import { formatDateHourByNumber } from 'utils/formatDate';
+import { formatDateHour } from 'utils/formatDate';
 import BooleanTag from 'components/BooleanTag';
 
 const Details: React.FC = (props: any) => {
@@ -30,8 +30,8 @@ const Details: React.FC = (props: any) => {
       const item: Product = {
         ...data,
         image: <Image style={{ height: '200px' }} src={data.image} />,
-        createdAt: formatDateHourByNumber(data.createdAt),
-        updatedAt: formatDateHourByNumber(data.updatedAt),
+        createdAt: formatDateHour(data.createdAt),
+        updatedAt: formatDateHour(data.updatedAt),
         link: (
           <a href={data.link} target={'_blank'}>
             Clique aqui

@@ -25,18 +25,11 @@ const MessageGroupCreateEdit = lazy(
   () => import('pages/Product/CreateEdit')
 );
 const MessageGroupDetails = lazy(() => import('pages/Product/Details'));
-const ServicesList = lazy(() => import('pages/Services/List'));
 
 const routesArray: IRouteProps[] = [
   { path: '/login', component: Login, isPrivate: false },
   { path: '/forgot-password', component: Forgot, isPrivate: false },
-  { path: '/change-password', component: ChangePassword },
- 
-  {
-    path: `/${appRoutes.services}`,
-    component: ServicesList,
-    roule: roules.services
-  },
+  { path: '/change-password', component: ChangePassword }, 
   { path: '/', component: Dashboard },
   { path: `/${appRoutes.users}`, component: UserList, roule: roules.users },
   {

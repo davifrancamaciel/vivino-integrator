@@ -5,5 +5,10 @@ generateFiles:
   environment:
     bucketName: ${self:custom.bucketFeeds}
   events:    
-    - schedule: rate(1 day)
+    - http:
+        path: products/run-update-xml
+        method: get
+        authorizer: verifyToken
+        cors: true 
+      
         

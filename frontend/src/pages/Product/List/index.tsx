@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Col, Tag, Image } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
-import { Input } from 'components/_inputs';
-import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
+import { Input, Select } from 'components/_inputs';
+import {
+  apiRoutes,
+  appRoutes,
+  booleanFilter,
+  systemColors
+} from 'utils/defaultValues';
 import { initialStateFilter, Product } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
-import { formatDateHourByNumber } from 'utils/formatDate';
-import Import from './Import';
+import { formatDateHour } from 'utils/formatDate';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -34,14 +38,13 @@ const List: React.FC = () => {
       const { count, rows } = resp.data;
       const itemsFormatted = rows.map((p: Product) => ({
         ...p,
-        id: p.productId,
         image: (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Image style={{ height: '60px' }} src={p.image} />
           </div>
         ),
-        createdAt: formatDateHourByNumber(p.createdAt),
-        updatedAt: formatDateHourByNumber(p.updatedAt),
+        createdAt: formatDateHour(p.createdAt),
+        updatedAt: formatDateHour(p.updatedAt),
         active: (
           <Tag color={p.active ? systemColors.GREEN : systemColors.RED}>
             {p.active ? 'Ativo' : 'Inativo'}
@@ -64,16 +67,16 @@ const List: React.FC = () => {
         actionButton={() => actionFilter()}
         loading={loading}
       >
-        <Col lg={3} md={12} sm={24} xs={24}>
+        <Col lg={4} md={12} sm={24} xs={24}>
           <Input
             label={'Código'}
             type={'number'}
             placeholder="Ex.: 100"
-            value={state.productId}
-            onChange={(e) => dispatch({ productId: e.target.value })}
+            value={state.id}
+            onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
-        <Col lg={7} md={12} sm={24} xs={24}>
+        <Col lg={10} md={12} sm={24} xs={24}>
           <Input
             label={'Nome do produto'}
             placeholder="Ex.: Famille Perrin Réserve Côtes-du-Rhône 2019 Rouge"
@@ -81,7 +84,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ productName: e.target.value })}
           />
         </Col>
-        <Col lg={7} md={12} sm={24} xs={24}>
+        <Col lg={10} md={12} sm={24} xs={24}>
           <Input
             label={'Produtor'}
             placeholder="Ex.: Famille Perrin"
@@ -89,7 +92,15 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ producer: e.target.value })}
           />
         </Col>
-        <Col lg={7} md={12} sm={24} xs={24}>
+        <Col lg={4} md={12} sm={24} xs={24}>
+          <Select
+            label={'Ativos'}
+            options={booleanFilter}
+            value={state?.active}
+            onChange={(active) => dispatch({ active })}
+          />
+        </Col>
+        <Col lg={10} md={12} sm={24} xs={24}>
           <Input
             label={'Nome do vinho'}
             placeholder="Réserve"
@@ -98,12 +109,11 @@ const List: React.FC = () => {
           />
         </Col>
       </PanelFilter>
-      <GridList
-        headerChildren={<Import onImportComplete={actionFilter} />}
+      <GridList        
         scroll={{ x: 840 }}
         columns={[
           { title: 'Imagem', dataIndex: 'image' },
-          { title: 'Código', dataIndex: 'productId' },
+          { title: 'Código', dataIndex: 'id' },
           { title: 'Nome do produto', dataIndex: 'productName' },
           { title: 'Tamanho', dataIndex: 'bottleSize' },
           { title: 'País', dataIndex: 'country' },
@@ -114,7 +124,10 @@ const List: React.FC = () => {
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}
-        onDelete={() => actionFilter(state.pageNumber)}
+        onDelete={() => {
+          actionFilter(state.pageNumber);
+          api.get(`${apiRoutes.products}/run-update-xml`);
+        }}
         propTexObjOndelete={'productName'}
         totalRecords={totalRecords}
         pageSize={state.pageSize}

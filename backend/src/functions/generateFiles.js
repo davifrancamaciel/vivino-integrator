@@ -1,36 +1,29 @@
 "use strict";
 
-const AWS = require("aws-sdk");
+const db = require('../database');
+const Product = require('../models/Product')(db.sequelize, db.Sequelize);
 const { create } = require('xmlbuilder2');
 const s3 = require("../services/AwsS3Service");
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-
-const params = {
-    TableName: process.env.PRODUCTS_TABLE,
-};
 
 module.exports.handler = async (event) => {
     const { bucketName } = process.env
     const key = 'vivinofeed.xml'
     try {
 
-        let localParams = {
-            ...params, Limit: 2000,
-            FilterExpression: "#active = :active_val",
-            ExpressionAttributeNames: {
-                "#active": "active",
-            },
-            ExpressionAttributeValues: { ":active_val": true }
-        };
-        let data = await dynamodb.scan(localParams).promise();
+        if (process.env.IS_OFFLINE)
+            return handlerResponse(200, {}, 'Processo rodando local')
 
-        const array = data.Items
+        const resp = await Product.findAll({
+            where: { active: true },           
+            order: [['id', 'DESC']],
+            limit: 2000,
+        })
 
         const root = create({ version: '1.0', encoding: "UTF-8" }).ele('vivino-product-list')
 
-        array.forEach(element => {
+        resp.forEach(element => {
             var product = root.ele('product')
 
             product.ele('product-name').txt(element.productName).up()
@@ -40,7 +33,7 @@ module.exports.handler = async (event) => {
             product.ele('bottle_quantity').txt(element.bottleQuantity).up()
             product.ele('link').txt(element.link).up()
             product.ele('inventory-count').txt(element.inventoryCount).up()
-            product.ele('product-id').txt(element.productId).up()
+            product.ele('product-id').txt(element.id).up()
 
             var extras = product.ele('extras')
             extras.ele('producer').txt(element.producer).up()

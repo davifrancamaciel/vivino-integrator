@@ -4,8 +4,7 @@ import { Layout, Menu } from 'antd';
 import {
   UserOutlined,
   DashboardOutlined,
-  UnorderedListOutlined, 
-  CloudServerOutlined
+  UnorderedListOutlined
 } from '@ant-design/icons';
 import { Auth } from 'aws-amplify';
 
@@ -57,7 +56,6 @@ const SliderMenu: React.FC = (props: any) => {
           <Link to={'/'}>Dashboard</Link>
         </Menu.Item>
 
-   
         {checkRouleProfileAccess(groupsUser, roules.products) && (
           <SubMenu
             key={`sub-/${appRoutes.products}`}
@@ -71,7 +69,7 @@ const SliderMenu: React.FC = (props: any) => {
               <Link to={`/${appRoutes.products}/create`}>Novo</Link>
             </Menu.Item>
           </SubMenu>
-        )}  
+        )}
 
         {checkRouleProfileAccess(groupsUser, roules.users) && (
           <SubMenu
@@ -86,15 +84,6 @@ const SliderMenu: React.FC = (props: any) => {
               <Link to={`/${appRoutes.users}/create`}>Novo</Link>
             </Menu.Item>
           </SubMenu>
-        )}
-      
-        {checkRouleProfileAccess(groupsUser, roules.services) && (
-          <Menu.Item
-            icon={<CloudServerOutlined />}
-            key={`/${appRoutes.services}`}
-          >
-            <Link to={`/${appRoutes.services}`}>Serviços</Link>
-          </Menu.Item>
         )}
       </Menu>
     </Sider>
