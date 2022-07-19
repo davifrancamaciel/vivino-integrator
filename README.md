@@ -1,6 +1,7 @@
 
 <h3 align="center">
-<img src="frontend/src/assets/favicon.png" style='height:40px'> O Integrador Vivino é um projeto desenvolvido integraçoes de vinhos com a plataforma de marketplace [Vivino][vivino].
+  <img src="frontend/src/assets/favicon.png" style='height:40px'> O Integrador Vivino é um projeto desenvolvido integraçoes de vinhos com a plataforma de marketplace 
+  <a href='https://www.vivino.com/BR/pt-BR' target='_blank'>Vivino</a>.
 </h3>
 
 ## **:rocket: OBJETIVO**
@@ -9,6 +10,11 @@ O projeto tem como finalidade gerenciar usuários por perfis definidos e produto
 
 -  [Demo](http://vivino-integrator-dev.s3-website-us-east-1.amazonaws.com) 
 
+Credenciais
+```sh
+login integradorvivino
+senha 1234demo
+```
 ## **:computer: TECNOLOGIAS**
 
 
@@ -147,7 +153,7 @@ $ npm run config:aws
 # Feita a criação do ambiente basta executar o comando abaixo para fazer o deploy
 $ npm run deploy:aws
 
-# Ao rodar os comandos acima pode ser que gere algum erro por conta de existir o bucketName claro-message-nag-dev será necessario um novo nome
+# Ao rodar os comandos acima pode ser que gere algum erro por conta de existir o bucketName vivino-integrator-dev será necessario um novo nome
 ```
 
 > Se o browser não abrir automaticamente, acesse: http://localhost:3000.
@@ -170,6 +176,7 @@ $ npm run deploy:aws
 - [Serverless][serverless]
 - [Sequelize][sequelize]
 - [Sequelize cli][sequelize_cli]
+- [Vivino][vivino]
 
 
 
