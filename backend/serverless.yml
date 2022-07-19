@@ -82,7 +82,7 @@ functions:
   - ${file(src/serverless/functions/Users.yml)}
   - ${file(src/serverless/functions/Products.yml)}
   - ${file(src/serverless/functions/GenerateFiles.yml)}
-  
+    
 # você pode adicionar modelos de recursos do CloudFormation aqui
 resources:
   - ${file(src/serverless/resources/UserPool.yml)}

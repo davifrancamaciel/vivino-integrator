@@ -12,7 +12,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "config:aws-validate": "aws cloudformation validate-template --template-body file://stack.yml",
-    "config:aws": "aws cloudformation create-stack --stack-name vivino-integrator-dev --template-body file://stack.yml",
+    "config:aws": "aws cloudformation create-stack --stack-name vivino-integrator-prod --template-body file://stack.yml",
     "deploy:aws": "env-cmd -f.env.development npm run build && aws s3 sync build s3://vivino-integrator-dev",
     "deploy:aws_prod": "env-cmd -f.env.production npm run build && aws s3 sync build s3://vivino-integrator-prod",
     "deploy:fb": "env-cmd -f.env.development npm run build && firebase deploy",

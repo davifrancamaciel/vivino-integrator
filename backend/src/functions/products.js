@@ -115,7 +115,7 @@ module.exports.delete = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = pathParameters
-        await MessageGroup.destroy({ where: { id } });
+        await Product.destroy({ where: { id } });
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removido com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, pathParameters)

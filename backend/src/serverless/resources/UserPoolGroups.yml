@@ -3,7 +3,7 @@ Resources:
     CognitoUserPoolGroupAdmin:
       Type: AWS::Cognito::UserPoolGroup
       Properties: 
-        Description: "Super-usuário, pode executar todas as tarefas dos outros usuários, e mais gerenciamento de usuários no sistema (criar/editar/remover). Normalmente profissional de TI ou da Engenharia de set-tops"
+        Description: "Super-usuário, pode executar todas as tarefas dos outros usuários, e mais gerenciamento de usuários no sistema (criar/editar/remover)"
         GroupName: "Administrador"
         UserPoolId:
           Ref: UserPool #Refere-se ao grupo de usuários criado acima
@@ -17,7 +17,7 @@ Resources:
     CognitoUserPoolGroupProducts:
       Type: AWS::Cognito::UserPoolGroup
       Properties: 
-        Description: "Permissão para usuário enviar mensagens para Broadcast"
+        Description: "Permissão para usuário gerenciar Produtos"
         GroupName: "Produtos"
         UserPoolId:
           Ref: UserPool #Refere-se ao grupo de usuários criado acima

@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "sls offline start",
-    "debug": "sls offline -s dev",
+    "debug": "sls offline -s prod",
     "deploy": "sls deploy",
     "deploy:prod": "sls deploy --stage prod",
     "create_domain": "sls create_domain",

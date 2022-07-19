@@ -30,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
         containsMilkAllergens: { type: DataTypes.BOOLEAN },
         containsEggAllergens: { type: DataTypes.BOOLEAN },
         nonAlcoholic: { type: DataTypes.BOOLEAN },
-        active: { type: DataTypes.BOOLEAN },
+        active: { type: DataTypes.BOOLEAN },        
     });
     return Product;
 };

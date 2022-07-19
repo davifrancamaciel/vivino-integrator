@@ -1,5 +1,5 @@
 //configurações usadas atualmente somente para rodar as migrations
-const STAGE = true ? 'dev' : 'prod'
+const STAGE = false ? 'dev' : 'prod'
 
 const secrets = require(`../../secrets-${STAGE}.json`);
 
