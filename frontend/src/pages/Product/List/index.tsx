@@ -13,6 +13,7 @@ import { initialStateFilter, Product } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
+import { formatPrice } from 'utils/formatPrice';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -43,6 +44,7 @@ const List: React.FC = () => {
             <Image style={{ height: '60px' }} src={p.image} />
           </div>
         ),
+        price: formatPrice(Number(p.price) || 0),
         createdAt: formatDateHour(p.createdAt),
         updatedAt: formatDateHour(p.updatedAt),
         active: (
@@ -109,12 +111,13 @@ const List: React.FC = () => {
           />
         </Col>
       </PanelFilter>
-      <GridList        
+      <GridList
         scroll={{ x: 840 }}
         columns={[
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'id' },
           { title: 'Nome do produto', dataIndex: 'productName' },
+          { title: 'Preço', dataIndex: 'price' },
           { title: 'Tamanho', dataIndex: 'bottleSize' },
           { title: 'País', dataIndex: 'country' },
           { title: 'Produtor', dataIndex: 'producer' },

@@ -11,6 +11,7 @@ import api from 'services/api-aws-amplify';
 import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
 import { formatDateHour } from 'utils/formatDate';
 import BooleanTag from 'components/BooleanTag';
+import { formatPrice } from 'utils/formatPrice';
 
 const Details: React.FC = (props: any) => {
   const history = useHistory();
@@ -29,6 +30,7 @@ const Details: React.FC = (props: any) => {
       const { data } = resp;
       const item: Product = {
         ...data,
+        price: formatPrice(Number(data.price) || 0),
         image: <Image style={{ height: '200px' }} src={data.image} />,
         createdAt: formatDateHour(data.createdAt),
         updatedAt: formatDateHour(data.updatedAt),
@@ -122,7 +124,7 @@ const Details: React.FC = (props: any) => {
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Produtor" value={state.producer} />
       </Col>
-      <Col lg={6} md={12} sm={24} xs={24}>
+      <Col lg={12} md={12} sm={24} xs={24}>
         <ViewData label="Nome do vinho" value={state.wineName} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
@@ -143,9 +145,7 @@ const Details: React.FC = (props: any) => {
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Álcool" value={state.alcohol} />
       </Col>
-      <Col lg={6} md={24} sm={24} xs={24}>
-        <ViewData label="Descrição" value={state.description} />
-      </Col>
+     
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Endereço do produtor" value={state.producerAddress} />
       </Col>
@@ -157,6 +157,9 @@ const Details: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Varietal" value={state.varietal} />
+      </Col>
+      <Col lg={24} md={24} sm={24} xs={24}>
+        <ViewData label="Descrição" value={state.description} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Envelhecimento" value={state.ageing} />
