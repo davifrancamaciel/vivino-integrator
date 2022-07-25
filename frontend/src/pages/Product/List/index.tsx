@@ -14,8 +14,10 @@ import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
+import { useQuery } from 'hooks/queryString';
 
 const List: React.FC = () => {
+  const query = useQuery();
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -25,14 +27,22 @@ const List: React.FC = () => {
     actionFilter();
   }, []);
 
-  const actionFilter = async (pageNumber: number = 1) => {
+  useEffect(() => {
+    actionFilter(1, query.get('active') || undefined);
+  }, []);
+
+  const actionFilter = async (
+    pageNumber: number = 1,
+    active: string = state.active
+  ) => {
     try {
-      dispatch({ pageNumber });
+      dispatch({ pageNumber, active });
 
       setLoading(true);
       const resp = await api.get(apiRoutes.products, {
         ...state,
-        pageNumber
+        pageNumber,
+        active
       });
       setLoading(false);
 

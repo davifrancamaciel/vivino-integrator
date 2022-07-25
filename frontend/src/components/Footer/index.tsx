@@ -6,7 +6,9 @@ const Footer: React.FC = () => {
   const version = process.env.REACT_APP_VERSION;
   return (
     <Container>
-      ©{`${year} version ${version}`}
+      <a href="https://api.whatsapp.com/send?phone=5524993954479" target={'_blank'}>
+        Davi Maciel ©{`${year} versão ${version}`}
+      </a>
     </Container>
   );
 };

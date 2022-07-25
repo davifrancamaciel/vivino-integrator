@@ -32,12 +32,12 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      // if (!state.name) {
-      //   notification.warning({
-      //     message: 'Existem campos obrigatórios não preenchidos'
-      //   });
-      //   return;
-      // }
+      if (!state.productName || !state.price || !state.bottleSize) {
+        notification.warning({
+          message: 'Existem campos obrigatórios não preenchidos'
+        });
+        return;
+      }
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
       const result = await api[method](apiRoutes.products, state);
@@ -91,6 +91,7 @@ const CreateEdit: React.FC = (props: any) => {
 
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
+          required={true}
           label={'Tamanho da garrafa'}
           placeholder="750 ml"
           value={state.bottleSize}

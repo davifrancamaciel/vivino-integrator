@@ -19,12 +19,14 @@ export const appRoutes = {
 };
 
 export const apiRoutes = {
+  dashboard: 'dashboard',
   groups: 'groups',
   users: appRoutes.users,
   products: appRoutes.products,
 };
 
 export const apiRoutesArray = [
+  apiRoutes.dashboard,
   apiRoutes.users,
   apiRoutes.groups,
   apiRoutes.products,

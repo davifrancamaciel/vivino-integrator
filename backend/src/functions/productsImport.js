@@ -62,13 +62,13 @@ module.exports.import = async (event) => {
             };
             array.push(product)
 
-            const item = await Product.findByPk(product.id);
-            if (item) {
-                product.price = item.price;
-                await item.update(product);
-            }
-            else
-                await Product.create(product);
+            // const item = await Product.findByPk(product.id);
+            // if (item) {
+            //     product.price = item.price;
+            //     await item.update(product);
+            // }
+            // else
+            //     await Product.create(product);
 
             if (element.DATA_CADASTRO) {
                 const date = formatDateCreatePtToEn(element.DATA_CADASTRO);
@@ -88,4 +88,3 @@ const formatDateCreatePtToEn = (value) => {
     const [day, month, year] = date.split('/')
     return `${year}-${month}-${day} ${hour}`
 }
-

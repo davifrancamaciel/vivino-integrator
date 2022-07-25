@@ -78,6 +78,7 @@ provider:
             - "*"       
 functions:
   - ${file(src/serverless/functions/VerifyToken.yml)}
+  - ${file(src/serverless/functions/Dashboard.yml)}
   - ${file(src/serverless/functions/Groups.yml)}
   - ${file(src/serverless/functions/Users.yml)}
   - ${file(src/serverless/functions/Products.yml)}
