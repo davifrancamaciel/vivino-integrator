@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Col, Input, Row, Tooltip } from 'antd';
+import { Button, Col, Input, notification, Row, Tooltip } from 'antd';
 import {
   CopyOutlined,
   WarningOutlined,
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
     },
     {
       color: systemColors.RED,
-      text: 'Vinhos não itegrados',
+      text: 'Vinhos não integrados',
       active: false,
       isPermission,
       icon: <WarningOutlined />
@@ -48,12 +48,28 @@ const Dashboard: React.FC = () => {
   ];
 
   const getUrlFeed = () => {
-    const isDev = window.location.href.includes('dev');
+    const isProd = window.location.href.includes('prod');
 
     setUrlFeed(
       `https://vivino-integrator-api-${
-        isDev ? 'dev' : 'prod'
+        isProd ? 'prod' : 'dev'
       }-feeds.s3.amazonaws.com/vivinofeed.xml`
+    );
+  };
+
+  const copyTextToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text).then(
+      function () {
+        console.log('Async: Copying to clipboard was successful!');
+        notification.success({
+          message: 'Link copiado'
+        });
+        return true
+      },
+      function (err) {
+        console.error('Async: Could not copy text: ', err);
+        return false
+      }
     );
   };
   return (
@@ -70,9 +86,13 @@ const Dashboard: React.FC = () => {
               readOnly={true}
               style={{ width: 'calc(100% - 32px)' }}
               defaultValue={urlFeed}
+              value={urlFeed}
             />
-            <Tooltip title="Copiar url do feed">
-              <Button icon={<CopyOutlined />} />
+            <Tooltip title="Copiar o link do feed">
+              <Button
+                icon={<CopyOutlined />}
+                onClick={() => copyTextToClipboard(urlFeed)}
+              />
             </Tooltip>
           </Input.Group>
         </Col>
