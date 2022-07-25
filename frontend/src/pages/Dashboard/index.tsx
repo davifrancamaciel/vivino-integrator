@@ -18,10 +18,12 @@ const Dashboard: React.FC = () => {
   const { userAuthenticated } = useAppContext();
   const [groups, setGroups] = useState<string[]>([]);
   const [isPermission, setIsPermission] = useState(false);
+  const [urlFeed, setUrlFeed] = useState('');
 
   useEffect(() => {
     const { signInUserSession } = userAuthenticated;
     setGroups(signInUserSession.accessToken.payload['cognito:groups']);
+    getUrlFeed();
   }, []);
 
   useEffect(() => {
@@ -44,6 +46,16 @@ const Dashboard: React.FC = () => {
       icon: <WarningOutlined />
     }
   ];
+
+  const getUrlFeed = () => {
+    const isDev = window.location.href.includes('dev');
+
+    setUrlFeed(
+      `https://vivino-integrator-api-${
+        isDev ? 'dev' : 'prod'
+      }-feeds.s3.amazonaws.com/vivinofeed.xml`
+    );
+  };
   return (
     <div>
       <Header>
@@ -57,7 +69,7 @@ const Dashboard: React.FC = () => {
             <Input
               readOnly={true}
               style={{ width: 'calc(100% - 32px)' }}
-              defaultValue="https://vivino-integrator-api-prod-feeds.s3.amazonaws.com/vivinofeed.xml"
+              defaultValue={urlFeed}
             />
             <Tooltip title="Copiar url do feed">
               <Button icon={<CopyOutlined />} />
