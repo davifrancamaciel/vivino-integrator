@@ -115,11 +115,30 @@ const List: React.FC = () => {
         <Col lg={10} md={12} sm={24} xs={24}>
           <Input
             label={'Nome do vinho'}
-            placeholder="Réserve"
+            placeholder="Ex.: Réserve"
             value={state.wineName}
             onChange={(e) => dispatch({ wineName: e.target.value })}
           />
         </Col>
+        <Col lg={5} md={6} sm={12} xs={24}>
+          <Input
+            label={'Preco de'}
+            placeholder="Ex.: 1"
+            type={'number'}
+            value={state.priceMin}
+            onChange={(e) => dispatch({ priceMin: e.target.value })}
+          />
+        </Col>
+        <Col lg={5} md={6} sm={12} xs={24}>
+          <Input
+            label={'Preco até'}
+            placeholder="Ex.: 1000"
+            type={'number'}
+            value={state.priceMax}
+            onChange={(e) => dispatch({ priceMax: e.target.value })}
+          />
+        </Col>
+        
       </PanelFilter>
       <GridList
         scroll={{ x: 840 }}

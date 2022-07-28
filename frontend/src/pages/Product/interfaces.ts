@@ -54,6 +54,8 @@ export interface Filter {
   productName: string;
   producer: string;
   wineName: string;
+  priceMin?:string;
+  priceMax?:string;
   pageNumber: number;
   pageSize: number;
 }

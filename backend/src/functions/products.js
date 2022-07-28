@@ -15,7 +15,7 @@ module.exports.list = async (event, context) => {
         const whereStatement = {};
 
         if (event.queryStringParameters) {
-            const { id, productName, producer, wineName, active } = event.queryStringParameters
+            const { id, productName, producer, wineName, active, priceMin, priceMax } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
 
@@ -27,6 +27,22 @@ module.exports.list = async (event, context) => {
                 whereStatement.wineName = { [Op.like]: `%${wineName}%` }
             if (active !== undefined && active !== '')
                 whereStatement.active = active === 'true';
+
+            if (priceMin)
+                whereStatement.price = {
+                    [Op.gte]: Number(priceMin),
+                };
+            if (priceMax)
+                whereStatement.price = {
+                    [Op.lte]: Number(priceMax),
+                };
+            if (priceMin && priceMax)
+                whereStatement.price = {
+                    [Op.between]: [
+                        Number(priceMin),
+                        Number(priceMax),
+                    ],
+                };
         }
 
         const { pageSize, pageNumber } = event.queryStringParameters

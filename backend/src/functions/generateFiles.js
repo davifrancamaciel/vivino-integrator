@@ -1,5 +1,6 @@
 "use strict";
 
+const { Op } = require('sequelize');
 const db = require('../database');
 const Product = require('../models/Product')(db.sequelize, db.Sequelize);
 const { create } = require('xmlbuilder2');
@@ -12,18 +13,32 @@ module.exports.handler = async (event) => {
     const key = 'vivinofeed.xml'
     try {
 
-        if (process.env.IS_OFFLINE)
-            return handlerResponse(200, {}, 'Processo rodando local')
+        // if (process.env.IS_OFFLINE)
+        //     return handlerResponse(200, {}, 'Processo rodando local')
 
         const resp = await Product.findAll({
-            where: { active: true },           
+            where: {
+                active: true,
+                inventoryCount: { [Op.gte]: 1 },
+                bottleQuantity: { [Op.gte]: 1 }
+            },
             order: [['id', 'DESC']],
             limit: 2000,
         })
 
         const root = create({ version: '1.0', encoding: "UTF-8" }).ele('vivino-product-list')
 
+        let products = []
         resp.forEach(element => {
+
+            const p = {
+                id: element.id,
+                wineName: element.wineName,
+                productName: element.productName,
+                customName: formatName(element)
+            }
+            products.push(p)
+
             var product = root.ele('product')
 
             product.ele('product-name').txt(element.productName).up()
@@ -72,9 +87,24 @@ module.exports.handler = async (event) => {
         await s3.remove(key, bucketName);
         const result = await s3.put(xml, key, bucketName);
         console.log(result)
-        return handlerResponse(201, result)
+        return handlerResponse(201, { result, products })
     }
     catch (err) {
         return handlerErrResponse(err)
     }
+
+}
+const formatName = (product) => {
+    let pName = ''
+    if (product.producer)
+        pName = `${pName} ${product.producer}`
+    if (product.productName)
+        pName = `${pName} ${product.productName}`
+    if (product.appellation)
+        pName = `${pName} ${product.appellation}`
+    if (product.vintage)
+        pName = `${pName} ${product.vintage}`
+    if (product.color)
+        pName = `${pName} ${product.color}`
+    return pName.trim()
 }
