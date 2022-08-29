@@ -13,6 +13,7 @@ import { useAppContext } from 'hooks/contextLib';
 import Card from './Card';
 import { Header } from './styles';
 import { checkRouleProfileAccess } from 'utils/checkRouleProfileAccess';
+import Products from './Products';
 
 const Dashboard: React.FC = () => {
   const { userAuthenticated } = useAppContext();
@@ -33,7 +34,7 @@ const Dashboard: React.FC = () => {
   const arrayCards: CardPropTypes[] = [
     {
       color: systemColors.GREEN,
-      text: 'Vinhos integrados',
+      text: 'Vinhos disponíveis para integração',
       active: true,
       isPermission,
       icon: <CheckOutlined />
@@ -64,11 +65,11 @@ const Dashboard: React.FC = () => {
         notification.success({
           message: 'Link copiado'
         });
-        return true
+        return true;
       },
       function (err) {
         console.error('Async: Could not copy text: ', err);
-        return false
+        return false;
       }
     );
   };
@@ -97,6 +98,7 @@ const Dashboard: React.FC = () => {
           </Input.Group>
         </Col>
       </Row>
+        <Products />
     </div>
   );
 };

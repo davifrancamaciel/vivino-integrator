@@ -6,3 +6,11 @@ dashboardProductsByStatus:
         method: get
         authorizer: verifyToken
         cors: true
+dashboardProductsWarning:
+  handler: src/functions/dashboard.productsWarning
+  events:
+    - http:
+        path: dashboard/products-warning
+        method: get
+        authorizer: verifyToken
+        cors: true
