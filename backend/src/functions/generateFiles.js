@@ -13,8 +13,8 @@ module.exports.handler = async (event) => {
     const key = 'vivinofeed.xml'
     try {
 
-        // if (process.env.IS_OFFLINE)
-        //     return handlerResponse(200, {}, 'Processo rodando local')
+        if (process.env.IS_OFFLINE)
+            return handlerResponse(200, {}, 'Processo rodando local')
 
         const resp = await Product.findAll({
             where: {

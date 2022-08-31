@@ -111,6 +111,11 @@ module.exports.update = async (event) => {
 
         const result = await item.update(body);
 
+        console.log('USUÁRIO ', user?.name)
+        console.log('BODY ', body)
+        console.log('PRODUTO ALTERADO DE ', item.dataValues)
+        console.log('PARA ', result.dataValues)
+
         return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, body)
