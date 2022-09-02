@@ -21,3 +21,10 @@ Resources:
         GroupName: "Produtos"
         UserPoolId:
           Ref: UserPool #Refere-se ao grupo de usuários criado acima
+    CognitoUserPoolGroupRomanians:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário gerenciar Romaneios"
+        GroupName: "Romaneios"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima          

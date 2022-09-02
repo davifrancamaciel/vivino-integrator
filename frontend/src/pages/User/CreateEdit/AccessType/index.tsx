@@ -5,6 +5,7 @@ import { apiRoutes } from 'utils/defaultValues';
 import { PropTypes } from './interfaces';
 import { Group } from 'utils/commonInterfaces';
 import { useAppContext } from 'hooks/contextLib';
+// import logo from 'assets/loading.gif';
 
 const AccessType: React.FC<PropTypes> = ({
   groupsSelecteds,
@@ -13,6 +14,10 @@ const AccessType: React.FC<PropTypes> = ({
   const { groups, setGroups } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [selectedRowKeysLoad, setSelectedRowKeysLoad] = useState<number[]>([]);
+  // const tableLoading: any = {
+  //   spinning: loading,
+  //   indicator: <img src={logo} />
+  // };
   useEffect(() => {
     !groups.length && onLoad();
   }, []);
@@ -56,11 +61,11 @@ const AccessType: React.FC<PropTypes> = ({
         size="small"
         scroll={{ x: 600 }}
         pagination={false}
-        loading={loading}
         rowSelection={{
           type: 'checkbox',
           ...rowSelection
         }}
+        loading={loading}
         columns={[
           { title: 'Permissão', dataIndex: 'label', width: 180 },
           { title: 'Descrição', dataIndex: 'description' }

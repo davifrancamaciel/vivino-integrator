@@ -15,7 +15,8 @@ export const systemColors = {
 
 export const appRoutes = {
   users: 'users',
-  products: 'products', 
+  products: 'products',
+  romanians: 'romanians'
 };
 
 export const apiRoutes = {
@@ -23,6 +24,8 @@ export const apiRoutes = {
   groups: 'groups',
   users: appRoutes.users,
   products: appRoutes.products,
+  romanians: appRoutes.romanians,
+  companies: 'companies'
 };
 
 export const apiRoutesArray = [
@@ -30,12 +33,15 @@ export const apiRoutesArray = [
   apiRoutes.users,
   apiRoutes.groups,
   apiRoutes.products,
+  apiRoutes.romanians,
+  apiRoutes.companies
 ];
 
 export const roules = {
   administrator: 'administrador',
   users: 'usuarios',
   products: 'produtos',
+  romanians: 'romaneios'
 };
 
 export const enumStatusUserAws = {

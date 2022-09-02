@@ -48,6 +48,11 @@ export default createGlobalStyle`
         background-color: ${systemColors.RED_DARK}
     }
 
+    /* .ant-spin-dot { 
+        width: 5em;
+        height: 5em;
+    } */
+
     .ant-picker{
         width: 100%;
     }

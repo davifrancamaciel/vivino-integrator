@@ -22,6 +22,7 @@ const getUser = async (event) => {
             const userToken = JSON.parse(user)
             userToken.havePermissionApprover = isHavePermissionApprover(userToken["cognito:groups"]);
             userToken.groups = userToken["cognito:groups"]
+            console.log('USUÁRIO ', userToken.name)
             return userToken
         } else
             return null

@@ -8,6 +8,7 @@ import ActionUpdate from './actionUpdate';
 import ActionView from './actionView';
 import ActionSelect from './actionSelect';
 import { systemColors } from 'utils/defaultValues';
+// import logo from 'assets/loading.gif';
 
 import { PropTypes } from './interfaces';
 
@@ -15,6 +16,10 @@ import { Container, Footer, Header, HeaderButtom } from './styles';
 import { numberWithDots } from 'utils';
 
 const Index: React.FC<PropTypes> = (props) => {
+  // const tableLoading: any = {
+  //   spinning: props.loading,
+  //   indicator: <img src={logo} />
+  // };
 
   const header = !props.routes.routeCreate ? null : (
     <Header>
@@ -37,6 +42,7 @@ const Index: React.FC<PropTypes> = (props) => {
     <Container>
       <Table
         {...props}
+        // loading={tableLoading}
         columns={[
           ...props.columns,
           props.routes.routeView ||

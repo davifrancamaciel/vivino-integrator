@@ -1,0 +1,40 @@
+romanians:
+  handler: src/functions/romanians.list
+  events:
+    - http:
+        path: romanians
+        method: get
+        authorizer: verifyToken
+        cors: true 
+romaniansById:
+  handler: src/functions/romanians.listById
+  events:
+    - http:
+        path: romanians/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true 
+romaniansCreate:
+  handler: src/functions/romanians.create
+  events:
+    - http:
+        path: romanians
+        method: post
+        authorizer: verifyToken
+        cors: true  
+romaniansUpdate:
+  handler: src/functions/romanians.update
+  events:
+    - http:
+        path: romanians
+        method: put
+        authorizer: verifyToken
+        cors: true 
+romaniansDelete:
+  handler: src/functions/romanians.delete
+  events:
+    - http:
+        path: romanians/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true

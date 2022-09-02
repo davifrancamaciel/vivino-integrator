@@ -1,56 +1,76 @@
 "use strict";
 
 const { Op } = require('sequelize');
+const { startOfDay, endOfDay, parseISO } = require('date-fns');
 const db = require('../database');
-const Product = require('../models/Product')(db.sequelize, db.Sequelize);
+const Company = require('../models/Company')(db.sequelize, db.Sequelize);
+const Romanian = require('../models/Romanian')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 const { getUser } = require("../services/UserService");
 
-const RESOURCE_NAME = 'Vinho'
+const RESOURCE_NAME = 'Romaneio'
 
 module.exports.list = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
         const whereStatement = {};
+        const whereStatementCompany = {};
 
         if (event.queryStringParameters) {
-            const { id, productName, producer, wineName, active, priceMin, priceMax } = event.queryStringParameters
+            const {
+                id, companyName, noteNumber, clientName, shippingCompanyName, trackingCode,
+                saleDateAtStart, saleDateAtEnd, originSale
+            } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
 
-            if (productName)
-                whereStatement.productName = { [Op.like]: `%${productName}%` }
-            if (producer)
-                whereStatement.producer = { [Op.like]: `%${producer}%` }
-            if (wineName)
-                whereStatement.wineName = { [Op.like]: `%${wineName}%` }
-            if (active !== undefined && active !== '')
-                whereStatement.active = active === 'true';
+            if (companyName)
+                whereStatementCompany.name = { [Op.like]: `%${companyName}%` }
+            if (noteNumber)
+                whereStatement.noteNumber = { [Op.like]: `%${noteNumber}%` }
+            if (clientName)
+                whereStatement.clientName = { [Op.like]: `%${clientName}%` }
+            if (shippingCompanyName)
+                whereStatement.shippingCompanyName = { [Op.like]: `%${shippingCompanyName}%` }
 
-            if (priceMin)
-                whereStatement.price = {
-                    [Op.gte]: Number(priceMin),
+            if (originSale)
+                whereStatement.originSale = { [Op.like]: `%${originSale}%` }
+
+            if (trackingCode)
+                whereStatement.trackingCode = { [Op.like]: `%${trackingCode}%` }
+
+            if (saleDateAtStart)
+                whereStatement.saleDateAt = {
+                    [Op.gte]: startOfDay(parseISO(saleDateAtStart)),
                 };
-            if (priceMax)
-                whereStatement.price = {
-                    [Op.lte]: Number(priceMax),
+
+            if (saleDateAtEnd)
+                whereStatement.saleDateAt = {
+                    [Op.lte]: endOfDay(parseISO(saleDateAtEnd)),
                 };
-            if (priceMin && priceMax)
-                whereStatement.price = {
+            if (saleDateAtStart && saleDateAtEnd)
+                whereStatement.saleDateAt = {
                     [Op.between]: [
-                        Number(priceMin),
-                        Number(priceMax),
+                        startOfDay(parseISO(saleDateAtStart)),
+                        endOfDay(parseISO(saleDateAtEnd)),
                     ],
                 };
         }
 
         const { pageSize, pageNumber } = event.queryStringParameters
-        const { count, rows } = await Product.findAndCountAll({
+        const { count, rows } = await Romanian.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
-            offset: (Number(pageNumber) - 1) * 10,
+            offset: (Number(pageNumber) - 1) * Number(pageSize),
             order: [['id', 'DESC']],
+            include: [
+                {
+                    model: Company,
+                    as: 'company',
+                    attributes: ['name'],
+                    where: whereStatementCompany
+                }]
         })
 
         return handlerResponse(200, { count, rows })
@@ -63,7 +83,14 @@ module.exports.list = async (event, context) => {
 module.exports.listById = async (event) => {
     const { pathParameters } = event
     try {
-        const result = await Product.findByPk(pathParameters.id)
+        const result = await Romanian.findByPk(pathParameters.id, {
+            include: [
+                {
+                    model: Company,
+                    as: 'company',
+                    attributes: ['name'],
+                }]
+        })
         if (!result)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrado`)
 
@@ -84,9 +111,12 @@ module.exports.create = async (event) => {
 
         if (!user.havePermissionApprover)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
+        const objOnSave = body
+        if (!objOnSave.saleDateAt)
+            objOnSave.saleDateAt = new Date()
 
-        const { id } = body
-        const result = await Product.create({ id: Number(id), ...body });
+
+        const result = await Romanian.create(objOnSave);
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, body)
@@ -105,10 +135,10 @@ module.exports.update = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = body
-        const item = await Product.findByPk(Number(id))
-        
+        const item = await Romanian.findByPk(Number(id))
+
         console.log('BODY ', body)
-        console.log('PRODUTO ALTERADO DE ', item.dataValues)
+        console.log('ROMANEIO ALTERADO DE ', item.dataValues)
         if (!item)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrado`)
 
@@ -136,7 +166,7 @@ module.exports.delete = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = pathParameters
-        await Product.destroy({ where: { id } });
+        await Romanian.destroy({ where: { id } });
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removido com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, pathParameters)

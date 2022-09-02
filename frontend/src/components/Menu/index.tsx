@@ -30,7 +30,7 @@ const SliderMenu: React.FC = (props: any) => {
         userAuth.signInUserSession.accessToken.payload['cognito:groups']
       );
     } catch (e) {
-      if (e != 'No current user' && e != 'The user is not authenticated') {
+      if (e !== 'No current user' && e !== 'The user is not authenticated') {
         console.log(e);
       }
     }
@@ -70,6 +70,21 @@ const SliderMenu: React.FC = (props: any) => {
             </Menu.Item>
           </SubMenu>
         )}
+
+        {/* {checkRouleProfileAccess(groupsUser, roules.romanians) && (
+          <SubMenu
+            key={`sub-/${appRoutes.romanians}`}
+            title={'Romaneios'}
+            icon={<UnorderedListOutlined />}
+          >
+            <Menu.Item key={`/${appRoutes.romanians}`}>
+              <Link to={`/${appRoutes.romanians}`}>Lista</Link>
+            </Menu.Item>
+            <Menu.Item key={`/${appRoutes.romanians}/create`}>
+              <Link to={`/${appRoutes.romanians}/create`}>Novo</Link>
+            </Menu.Item>
+          </SubMenu>
+        )} */}
 
         {checkRouleProfileAccess(groupsUser, roules.users) && (
           <SubMenu

@@ -1,0 +1,8 @@
+companies:
+  handler: src/functions/companies.listAll
+  events:
+    - http:
+        path: companies
+        method: get
+        authorizer: verifyToken
+        cors: true 
