@@ -10,8 +10,11 @@ module.exports = function (sequelize, DataTypes) {
         shippingCompanyName: { type: DataTypes.STRING(255) },
         shippingValue: { type: DataTypes.STRING(50) },
         trackingCode: { type: DataTypes.STRING(50) },
+        place: { type: DataTypes.STRING(255) },
         originSale: { type: DataTypes.STRING(255) },
+        formOfPayment: { type: DataTypes.STRING(255) },
         saleDateAt: { type: DataTypes.DATE },
+        delivered: { type: DataTypes.BOOLEAN },
     });
     Romanian.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });
     return Romanian;

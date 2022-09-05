@@ -12,10 +12,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      productName: {
-        type: Sequelize.STRING(255),
-      },
-
+      productName: { type: Sequelize.STRING(255), },
       productName: { type: Sequelize.STRING(255), allowNull: true, },
       price: { type: Sequelize.STRING(100), allowNull: true, },
       quantityIsMinimum: { type: Sequelize.BOOLEAN, allowNull: true, },
@@ -47,14 +44,8 @@ module.exports = {
       containsEggAllergens: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false, },
       nonAlcoholic: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false, },
       active: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true, },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
+      createdAt: { type: Sequelize.DATE, allowNull: false, },
+      updatedAt: { type: Sequelize.DATE, allowNull: false, },
     });
   },
 

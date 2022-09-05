@@ -13,8 +13,11 @@ export interface Romanian {
   trackingCode?: string;
   originSale?: string;
   saleDateAt?: string;
+  place?: string;
+  formOfPayment?: string;
   createdAt?: string;
   updatedAt?: string;
+  delivered: boolean;
 }
 
 export const initialStateForm: Romanian = {
@@ -23,7 +26,8 @@ export const initialStateForm: Romanian = {
   noteValue: '',
   clientName: '',
   createdAt: '',
-  updatedAt: ''
+  updatedAt: '',
+  delivered: false
 };
 
 export interface Filter {

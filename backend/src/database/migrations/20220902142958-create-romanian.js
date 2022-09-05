@@ -12,47 +12,25 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      noteNumber: {
-        type: Sequelize.STRING(50),
-      },
-      noteValue: {
-        type: Sequelize.STRING(50),
-      },
       companyId: {
         type: Sequelize.INTEGER,
         references: { model: 'companies', key: 'id' },
         onUpdate: 'CASCADE',
         allowNull: false,
       },
-      clientName: {
-        type: Sequelize.STRING(255),
-      },
-      shippingCompanyName: {
-        type: Sequelize.STRING(255),
-      },
-      shippingValue: {
-        type: Sequelize.STRING(50),
-      },
-      trackingCode: {
-        type: Sequelize.STRING(50),
-        allowNull: true,
-      },
-      originSale: {
-        type: Sequelize.STRING(255),
-        allowNull: true,
-      },
-      saleDateAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
+      noteNumber: { type: Sequelize.STRING(50), allowNull: true },
+      noteValue: { type: Sequelize.STRING(50), allowNull: true },
+      clientName: { type: Sequelize.STRING(255), allowNull: true },
+      shippingCompanyName: { type: Sequelize.STRING(255), },
+      shippingValue: { type: Sequelize.STRING(50), allowNull: true },
+      trackingCode: { type: Sequelize.STRING(255), allowNull: true, },
+      originSale: { type: Sequelize.STRING(255), allowNull: true, },
+      saleDateAt: { type: Sequelize.DATE, allowNull: false, },
+      place: { type: Sequelize.STRING(255), allowNull: true, },
+      formOfPayment: { type: Sequelize.STRING(255), allowNull: true, },
+      delivered: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false, },
+      createdAt: { type: Sequelize.DATE, allowNull: false, },
+      updatedAt: { type: Sequelize.DATE, allowNull: false, },
     });
   },
 

@@ -11,6 +11,7 @@ import api from 'services/api-aws-amplify';
 import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
+import BooleanTag from 'components/BooleanTag';
 
 const Details: React.FC = (props: any) => {
   const history = useHistory();
@@ -33,7 +34,8 @@ const Details: React.FC = (props: any) => {
         shippingValue: formatPrice(Number(data.shippingValue) || 0),
         saleDateAt: formatDateHour(data.saleDateAt),
         createdAt: formatDateHour(data.createdAt),
-        updatedAt: formatDateHour(data.updatedAt)
+        updatedAt: formatDateHour(data.updatedAt),
+        delivered: <BooleanTag value={data.delivered} />
       };
       dispatch(item);
       console.log(item);
@@ -67,16 +69,25 @@ const Details: React.FC = (props: any) => {
         <ViewData label="Valor da nota" value={state.noteValue} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Transporadora" value={state.shippingCompanyName} />
+        <ViewData label="Transporadora/Entregador" value={state.shippingCompanyName} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Valor do frete" value={state.shippingValue} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Código de rastreamento" value={state.trackingCode} />
+        <ViewData label="Código/link de rastreamento" value={state.trackingCode} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Origem da venda" value={state.originSale} />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <ViewData label="Local" value={state.place} />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <ViewData label="Forma de pagamento" value={state.formOfPayment} />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <ViewData label="Entregue" value={state.delivered} />
       </Col>
 
       <Divider />

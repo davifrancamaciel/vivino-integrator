@@ -114,7 +114,7 @@ const List: React.FC = () => {
         </Col>
         <Col lg={7} md={12} sm={24} xs={24}>
           <Input
-            label={'Código de rastreio'}
+            label={'Código/link de rastreio'}
             placeholder="Ex.: 111213217"
             value={state.trackingCode}
             onChange={(e) => dispatch({ trackingCode: e.target.value })}
@@ -140,10 +140,10 @@ const List: React.FC = () => {
           { title: 'Código', dataIndex: 'id' },
           { title: 'Empresa', dataIndex: 'company' },
           { title: 'Cliente', dataIndex: 'clientName' },
-          { title: 'Transportadora', dataIndex: 'shippingCompanyName' },
+          { title: 'Transportadora/Entregador', dataIndex: 'shippingCompanyName' },
           { title: 'Nota', dataIndex: 'noteNumber' },
           { title: 'Valor', dataIndex: 'noteValue' },
-          { title: 'Código de tastreio', dataIndex: 'trackingCode' },
+          { title: 'Código/link de rastreio', dataIndex: 'trackingCode' },
           { title: 'Origem da venda', dataIndex: 'originSale' },
           { title: 'Data da venda', dataIndex: 'saleDateAt' }
         ]}

@@ -71,7 +71,7 @@ const SliderMenu: React.FC = (props: any) => {
           </SubMenu>
         )}
 
-        {/* {checkRouleProfileAccess(groupsUser, roules.romanians) && (
+        {checkRouleProfileAccess(groupsUser, roules.romanians) && (
           <SubMenu
             key={`sub-/${appRoutes.romanians}`}
             title={'Romaneios'}
@@ -84,7 +84,7 @@ const SliderMenu: React.FC = (props: any) => {
               <Link to={`/${appRoutes.romanians}/create`}>Novo</Link>
             </Menu.Item>
           </SubMenu>
-        )} */}
+        )}
 
         {checkRouleProfileAccess(groupsUser, roules.users) && (
           <SubMenu

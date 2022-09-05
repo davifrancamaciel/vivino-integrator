@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Col, notification } from 'antd';
-import { DatePicker, Input, Select } from 'components/_inputs';
+import { DatePicker, Input, Select, Switch } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
@@ -94,19 +94,19 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
 
-      <Col lg={6} md={12} sm={24} xs={24}>
+      <Col lg={12} md={12} sm={24} xs={24}>
         <Input
           required={true}
-          label={'Transporadora'}
+          label={'Transporadora/Entregador'}
           placeholder="Camilo dos Santos"
           value={state.shippingCompanyName}
           onChange={(e) => dispatch({ shippingCompanyName: e.target.value })}
         />
       </Col>
-      <Col lg={6} md={12} sm={24} xs={24}>
+      <Col lg={12} md={12} sm={24} xs={24}>
         <Input
-          label={'Código de rastreamento'}
-          placeholder="1"
+          label={'Código/link de rastreamento'}
+          placeholder=""
           value={state.trackingCode}
           onChange={(e) => dispatch({ trackingCode: e.target.value })}
         />
@@ -122,6 +122,23 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
+          label={'Local'}
+          placeholder=""
+          value={state.place}
+          onChange={(e) => dispatch({ place: e.target.value })}
+        />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <Input
+          label={'Forma PGTO'}
+          placeholder=""
+          value={state.formOfPayment}
+          onChange={(e) => dispatch({ formOfPayment: e.target.value })}
+        />
+      </Col>
+
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <Input
           label={'Origem da venda'}
           placeholder="Mercado livre"
           value={state.originSale}
@@ -133,6 +150,16 @@ const CreateEdit: React.FC = (props: any) => {
           label={'Data da venda'}
           value={state.saleDateAt}
           onChange={(saleDateAt) => dispatch({ saleDateAt })}
+        />
+      </Col>
+      <Col lg={6} md={8} sm={24} xs={24}>
+        <Switch
+          label={'Entregue'}
+          title="Não / Sim"
+          checked={state.delivered}
+          checkedChildren="Sim"
+          unCheckedChildren="Não"
+          onChange={() => dispatch({ delivered: !state.delivered })}
         />
       </Col>
     </PanelCrud>
