@@ -1,19 +1,23 @@
 export interface Company {
   name: string;
 }
+export interface ShippingCompany {
+  name: string;
+}
 export interface Romanian {
   id?: string;
   company?: Company;
+  shippingCompany?: ShippingCompany;
   noteNumber?: string;
   noteValue?: string;
   companyId?: number;
   clientName?: string;
-  shippingCompanyName?: string;
+  shippingCompanyId?: number;
   shippingValue?: string;
   trackingCode?: string;
   originSale?: string;
   saleDateAt?: string;
-  place?: string;
+  volume?: string;
   formOfPayment?: string;
   createdAt?: string;
   updatedAt?: string;

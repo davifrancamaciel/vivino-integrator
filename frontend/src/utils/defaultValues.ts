@@ -25,7 +25,8 @@ export const apiRoutes = {
   users: appRoutes.users,
   products: appRoutes.products,
   romanians: appRoutes.romanians,
-  companies: 'companies'
+  companies: 'companies',
+  shippingCompanies: 'shipping-companies'
 };
 
 export const apiRoutesArray = [
@@ -34,7 +35,8 @@ export const apiRoutesArray = [
   apiRoutes.groups,
   apiRoutes.products,
   apiRoutes.romanians,
-  apiRoutes.companies
+  apiRoutes.companies,
+  apiRoutes.shippingCompanies,
 ];
 
 export const roules = {

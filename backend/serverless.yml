@@ -84,6 +84,7 @@ functions:
   - ${file(src/serverless/functions/Products.yml)}
   - ${file(src/serverless/functions/GenerateFiles.yml)}
   - ${file(src/serverless/functions/Companies.yml)}
+  - ${file(src/serverless/functions/ShippingCompanies.yml)}
   - ${file(src/serverless/functions/Romanians.yml)}  
     
 # você pode adicionar modelos de recursos do CloudFormation aqui

@@ -95,13 +95,12 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
 
       <Col lg={12} md={12} sm={24} xs={24}>
-        <Input
-          required={true}
+        <Select
           label={'Transporadora/Entregador'}
-          placeholder="Camilo dos Santos"
-          value={state.shippingCompanyName}
-          onChange={(e) => dispatch({ shippingCompanyName: e.target.value })}
-        />
+          url={`${apiRoutes.shippingCompanies}`}
+          value={state.shippingCompanyId}
+          onChange={(shippingCompanyId) => dispatch({ shippingCompanyId })}
+        />       
       </Col>
       <Col lg={12} md={12} sm={24} xs={24}>
         <Input
@@ -122,10 +121,10 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
-          label={'Local'}
+          label={'Volumes'}
           placeholder=""
-          value={state.place}
-          onChange={(e) => dispatch({ place: e.target.value })}
+          value={state.volume}
+          onChange={(e) => dispatch({ volume: e.target.value })}
         />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>

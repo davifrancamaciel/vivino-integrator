@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'companies';
+const TABLE_NAME = 'shippingCompanies';
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -25,14 +25,13 @@ function load() {
 }
 
 const data_array = [
-  'Wine Brothers',
-  'Ventura Vinhos RJ',
-  'LF Market',
-  'Rose Market',
-  'Ventus Prime',
-  'Ary Delicatessen',
-  'Ely Delicatessen',
-  'Ubimar',
-  'Ventura Vinhos ES',
+  'Transalfa ',
+  'TNT Fedex',
+  'Camilo dos Santos',
+  'Correios',
+  'Motorista Igor',
+  'Motorista Daniel',
+  'Motorista Patrick',
+  'Motorista Andre',
 ];
 

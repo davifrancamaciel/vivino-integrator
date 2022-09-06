@@ -4,6 +4,7 @@ const { Op } = require('sequelize');
 const { startOfDay, endOfDay, parseISO } = require('date-fns');
 const db = require('../database');
 const Company = require('../models/Company')(db.sequelize, db.Sequelize);
+const ShippingCompany = require('../models/ShippingCompany')(db.sequelize, db.Sequelize);
 const Romanian = require('../models/Romanian')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 const { getUser } = require("../services/UserService");
@@ -16,6 +17,7 @@ module.exports.list = async (event, context) => {
 
         const whereStatement = {};
         const whereStatementCompany = {};
+        const whereStatementShippingCompany = {}
 
         if (event.queryStringParameters) {
             const {
@@ -32,7 +34,7 @@ module.exports.list = async (event, context) => {
             if (clientName)
                 whereStatement.clientName = { [Op.like]: `%${clientName}%` }
             if (shippingCompanyName)
-                whereStatement.shippingCompanyName = { [Op.like]: `%${shippingCompanyName}%` }
+                whereStatementShippingCompany.name = { [Op.like]: `%${shippingCompanyName}%` }
 
             if (originSale)
                 whereStatement.originSale = { [Op.like]: `%${originSale}%` }
@@ -70,6 +72,12 @@ module.exports.list = async (event, context) => {
                     as: 'company',
                     attributes: ['name'],
                     where: whereStatementCompany
+                },
+                {
+                    model: ShippingCompany,
+                    as: 'shippingCompany',
+                    attributes: ['name'],
+                    where: whereStatementShippingCompany
                 }]
         })
 
@@ -88,6 +96,11 @@ module.exports.listById = async (event) => {
                 {
                     model: Company,
                     as: 'company',
+                    attributes: ['name'],
+                },
+                {
+                    model: ShippingCompany,
+                    as: 'shippingCompany',
                     attributes: ['name'],
                 }]
         })

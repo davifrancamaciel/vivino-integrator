@@ -39,7 +39,8 @@ const List: React.FC = () => {
       const itemsFormatted = rows.map((r: Romanian) => ({
         ...r,
         nameInfoDel: `Romaneio código ${r.id} empresa ${r.company?.name}`,
-        company: r.company?.name,
+        companyName: r.company?.name,
+        shippingCompanyName: r.shippingCompany?.name,
         noteValue: formatPrice(Number(r.noteValue) || 0),
         shippingValue: formatPrice(Number(r.shippingValue) || 0),
         saleDateAt: formatDateHour(r.saleDateAt),
@@ -138,7 +139,7 @@ const List: React.FC = () => {
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Empresa', dataIndex: 'company' },
+          { title: 'Empresa', dataIndex: 'companyName' },
           { title: 'Cliente', dataIndex: 'clientName' },
           { title: 'Transportadora/Entregador', dataIndex: 'shippingCompanyName' },
           { title: 'Nota', dataIndex: 'noteNumber' },

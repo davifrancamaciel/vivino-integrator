@@ -1,0 +1,8 @@
+shippingCompanies:
+  handler: src/functions/shippingCompanies.listAll
+  events:
+    - http:
+        path: shipping-companies
+        method: get
+        authorizer: verifyToken
+        cors: true 

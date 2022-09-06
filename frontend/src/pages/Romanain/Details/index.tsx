@@ -69,7 +69,7 @@ const Details: React.FC = (props: any) => {
         <ViewData label="Valor da nota" value={state.noteValue} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Transporadora/Entregador" value={state.shippingCompanyName} />
+        <ViewData label="Transporadora/Entregador" value={state.shippingCompany?.name} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Valor do frete" value={state.shippingValue} />
@@ -81,7 +81,7 @@ const Details: React.FC = (props: any) => {
         <ViewData label="Origem da venda" value={state.originSale} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Local" value={state.place} />
+        <ViewData label="Volumes" value={state.volume} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Forma de pagamento" value={state.formOfPayment} />
