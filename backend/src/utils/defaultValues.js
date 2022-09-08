@@ -34,16 +34,8 @@ const AutomaticMessageUnityEnum = {
 const roules = {
     administrator: 'administrador',
     users: 'usuarios',
-    message_approver: 'aprovador',
-    message_writer: 'escritor',
-    message_send_groups: 'grupo',
-    message_send_broadcast: 'broadcast',
-    message_send_emergency: 'emergência',
-    net_tray: 'net_tray',
-    report: 'relatorios',
-    settings: 'configurações',
-    services: 'serviços',
-    decoders: 'decoders',
+    romanians: 'romaneios',
+    products: 'produtos',
 };
 
 const cognito = {

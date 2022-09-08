@@ -44,6 +44,7 @@ export interface Filter {
   trackingCode?: string;
   saleDateAtStart?: string;
   saleDateAtEnd?: string;
+  delivered?: string;
   pageNumber: number;
   pageSize: number;
 }

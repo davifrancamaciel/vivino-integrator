@@ -10,7 +10,7 @@ import {
 import pt from 'date-fns/locale/pt';
 import moment from 'moment';
 
-export const formatDate = (value: string) =>
+export const formatDate = (value?: string) =>
   !value ? '' : format(parseISO(value), 'dd/MM/yyyy', { locale: pt });
 
 export const formatDateHour = (value?: string) =>

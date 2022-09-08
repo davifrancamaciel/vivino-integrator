@@ -4,7 +4,8 @@ const { Op } = require('sequelize');
 const db = require('../database');
 const Product = require('../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
-const { getUser } = require("../services/UserService");
+const { getUser, checkRouleProfileAccess } = require("../services/UserService");
+const { roules } = require("../utils/defaultValues");
 
 const RESOURCE_NAME = 'Vinho'
 
@@ -25,8 +26,8 @@ module.exports.list = async (event, context) => {
                 whereStatement.producer = { [Op.like]: `%${producer}%` }
             if (wineName)
                 whereStatement.wineName = { [Op.like]: `%${wineName}%` }
-            if (active !== undefined && active !== '')
-                whereStatement.active = active === 'true';
+                if (active !== undefined && active !== '')
+                    whereStatement.active = active === 'true';
 
             if (priceMin)
                 whereStatement.price = {
@@ -82,7 +83,7 @@ module.exports.create = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!user.havePermissionApprover)
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = body
@@ -101,12 +102,12 @@ module.exports.update = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!user.havePermissionApprover)
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = body
         const item = await Product.findByPk(Number(id))
-        
+
         console.log('BODY ', body)
         console.log('PRODUTO ALTERADO DE ', item.dataValues)
         if (!item)
@@ -132,7 +133,7 @@ module.exports.delete = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!user.havePermissionApprover)
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = pathParameters

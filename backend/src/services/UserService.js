@@ -35,7 +35,7 @@ const getUser = async (event) => {
 
 const isHavePermissionApprover = (groups) => {
     if (!groups) return false
-    const isHavePermission = groups.filter(x => x.toLocaleLowerCase() === roules.administrator || x.toLocaleLowerCase() === roules.message_approver)
+    const isHavePermission = groups.filter(x => x.toLocaleLowerCase() === roules.administrator || x.toLocaleLowerCase() === roules.romanians)
     return !!isHavePermission.length
 }
 

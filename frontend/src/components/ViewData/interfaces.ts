@@ -1,7 +1,6 @@
-
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 
 export interface PropTypes {
-    label?: string;
-    value: string | number | ReactElement | null;
+  label?: string;
+  value: any;
 }

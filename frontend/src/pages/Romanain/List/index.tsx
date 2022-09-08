@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Col } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
-import { Input, RangePicker } from 'components/_inputs';
-import { apiRoutes, appRoutes } from 'utils/defaultValues';
+import { Input, RangePicker, Select } from 'components/_inputs';
+import { apiRoutes, appRoutes, booleanFilter } from 'utils/defaultValues';
 import { initialStateFilter, Romanian } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
-import { formatDateHour } from 'utils/formatDate';
+import { formatDate, formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
+import Print from '../Print';
+import PrintAll from '../PrintAll';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -36,17 +38,20 @@ const List: React.FC = () => {
       setLoading(false);
 
       const { count, rows } = resp.data;
-      const itemsFormatted = rows.map((r: Romanian) => ({
-        ...r,
-        nameInfoDel: `Romaneio código ${r.id} empresa ${r.company?.name}`,
-        companyName: r.company?.name,
-        shippingCompanyName: r.shippingCompany?.name,
-        noteValue: formatPrice(Number(r.noteValue) || 0),
-        shippingValue: formatPrice(Number(r.shippingValue) || 0),
-        saleDateAt: formatDateHour(r.saleDateAt),
-        createdAt: formatDateHour(r.createdAt),
-        updatedAt: formatDateHour(r.updatedAt)
-      }));
+      const itemsFormatted = rows.map((r: Romanian) => {
+        const product = {
+          ...r,
+          nameInfoDel: `Romaneio código ${r.id} empresa ${r.company?.name}`,
+          companyName: r.company?.name,
+          shippingCompanyName: r.shippingCompany?.name,
+          noteValue: formatPrice(Number(r.noteValue) || 0),
+          shippingValue: formatPrice(Number(r.shippingValue) || 0),
+          saleDateAt: formatDate(r.saleDateAt),
+          createdAt: formatDateHour(r.createdAt),
+          updatedAt: formatDateHour(r.updatedAt)
+        };
+        return { ...product, print: <Print romanian={product} /> };
+      });
       setItems(itemsFormatted);
       console.log(itemsFormatted);
       setTotalRecords(count);
@@ -72,7 +77,15 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
-        <Col lg={7} md={12} sm={24} xs={24}>
+        <Col lg={3} md={12} sm={24} xs={24}>
+          <Select
+            label={'Entregues'}
+            options={booleanFilter}
+            value={state?.delivered}
+            onChange={(delivered) => dispatch({ delivered })}
+          />
+        </Col>
+        <Col lg={4} md={12} sm={24} xs={24}>
           <Input
             label={'Empresa'}
             placeholder="Ary Delicatessen"
@@ -99,7 +112,7 @@ const List: React.FC = () => {
         </Col>
         <Col lg={3} md={12} sm={24} xs={24}>
           <Input
-            label={'Numero da nota'}
+            label={'Nota'}
             placeholder="Ex.: 002379"
             value={state.noteNumber}
             onChange={(e) => dispatch({ noteNumber: e.target.value })}
@@ -121,9 +134,9 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ trackingCode: e.target.value })}
           />
         </Col>
-        <Col lg={7} md={16} sm={24} xs={24}>
+        <Col lg={7} md={24} sm={24} xs={24}>
           <RangePicker
-            label="Data da venda"
+            label="Data da expedição"
             onChange={(value: any, dateString: any) => {
               dispatch({
                 saleDateAtStart: dateString[0]?.split('/').reverse().join('-')
@@ -134,19 +147,25 @@ const List: React.FC = () => {
             }}
           />
         </Col>
+       
       </PanelFilter>
       <GridList
+        headerChildren={<PrintAll state={state} />}
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },
+          { title: 'Nota', dataIndex: 'noteNumber' },
           { title: 'Empresa', dataIndex: 'companyName' },
           { title: 'Cliente', dataIndex: 'clientName' },
-          { title: 'Transportadora/Entregador', dataIndex: 'shippingCompanyName' },
-          { title: 'Nota', dataIndex: 'noteNumber' },
+          {
+            title: 'Transportadora/Entregador',
+            dataIndex: 'shippingCompanyName'
+          },
           { title: 'Valor', dataIndex: 'noteValue' },
           { title: 'Código/link de rastreio', dataIndex: 'trackingCode' },
           { title: 'Origem da venda', dataIndex: 'originSale' },
-          { title: 'Data da venda', dataIndex: 'saleDateAt' }
+          { title: 'Data da expedição', dataIndex: 'saleDateAt' },
+          { title: '', dataIndex: 'print' }
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}

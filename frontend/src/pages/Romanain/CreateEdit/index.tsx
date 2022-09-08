@@ -32,7 +32,7 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      if (!state.noteNumber || !state.companyId) {
+      if (!state.noteNumber || !state.companyId || !state.shippingCompanyId) {
         notification.warning({
           message: 'Existem campos obrigatórios não preenchidos'
         });
@@ -146,7 +146,7 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <DatePicker
-          label={'Data da venda'}
+          label={'Data da expedição'}
           value={state.saleDateAt}
           onChange={(saleDateAt) => dispatch({ saleDateAt })}
         />

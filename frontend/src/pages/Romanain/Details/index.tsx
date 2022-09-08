@@ -69,13 +69,19 @@ const Details: React.FC = (props: any) => {
         <ViewData label="Valor da nota" value={state.noteValue} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Transporadora/Entregador" value={state.shippingCompany?.name} />
+        <ViewData
+          label="Transporadora/Entregador"
+          value={state.shippingCompany?.name}
+        />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Valor do frete" value={state.shippingValue} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Código/link de rastreamento" value={state.trackingCode} />
+        <ViewData
+          label="Código/link de rastreamento"
+          value={state.trackingCode}
+        />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Origem da venda" value={state.originSale} />
@@ -92,7 +98,7 @@ const Details: React.FC = (props: any) => {
 
       <Divider />
       <Col lg={6} md={12} sm={12} xs={24}>
-        <ViewData label="Data da venda" value={state.saleDateAt} />
+        <ViewData label="Data da expedição" value={state.saleDateAt} />
       </Col>
       <Col lg={6} md={12} sm={12} xs={24}>
         <ViewData label="Cadastro" value={state.createdAt} />

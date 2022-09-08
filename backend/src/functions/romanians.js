@@ -7,7 +7,8 @@ const Company = require('../models/Company')(db.sequelize, db.Sequelize);
 const ShippingCompany = require('../models/ShippingCompany')(db.sequelize, db.Sequelize);
 const Romanian = require('../models/Romanian')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
-const { getUser } = require("../services/UserService");
+const { getUser, checkRouleProfileAccess } = require("../services/UserService");
+const { roules } = require("../utils/defaultValues");
 
 const RESOURCE_NAME = 'Romaneio'
 
@@ -22,7 +23,7 @@ module.exports.list = async (event, context) => {
         if (event.queryStringParameters) {
             const {
                 id, companyName, noteNumber, clientName, shippingCompanyName, trackingCode,
-                saleDateAtStart, saleDateAtEnd, originSale
+                saleDateAtStart, saleDateAtEnd, originSale, delivered
             } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
@@ -36,6 +37,8 @@ module.exports.list = async (event, context) => {
             if (shippingCompanyName)
                 whereStatementShippingCompany.name = { [Op.like]: `%${shippingCompanyName}%` }
 
+            if (delivered !== undefined && delivered !== '')
+                whereStatement.delivered = delivered === 'true';
             if (originSale)
                 whereStatement.originSale = { [Op.like]: `%${originSale}%` }
 
@@ -122,7 +125,7 @@ module.exports.create = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!user.havePermissionApprover)
+        if (!checkRouleProfileAccess(user.groups, roules.romanians))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
         const objOnSave = body
         if (!objOnSave.saleDateAt)
@@ -144,7 +147,7 @@ module.exports.update = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!user.havePermissionApprover)
+        if (!checkRouleProfileAccess(user.groups, roules.romanians))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = body
@@ -175,7 +178,7 @@ module.exports.delete = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!user.havePermissionApprover)
+        if (!checkRouleProfileAccess(user.groups, roules.romanians))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = pathParameters
