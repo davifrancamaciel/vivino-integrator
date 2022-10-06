@@ -22,10 +22,6 @@ const List: React.FC = () => {
     actionFilter();
   }, []);
 
-  useEffect(() => {
-    actionFilter();
-  }, []);
-
   const actionFilter = async (pageNumber: number = 1) => {
     try {
       dispatch({ pageNumber });

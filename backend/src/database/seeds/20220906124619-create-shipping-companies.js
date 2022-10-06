@@ -33,5 +33,6 @@ const data_array = [
   'Motorista Daniel',
   'Motorista Patrick',
   'Motorista Andre',
+  'Outros',
 ];
 

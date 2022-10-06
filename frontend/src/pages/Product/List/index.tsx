@@ -24,10 +24,6 @@ const List: React.FC = () => {
   const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
-    actionFilter();
-  }, []);
-
-  useEffect(() => {
     actionFilter(1, query.get('active') || undefined);
   }, []);
 

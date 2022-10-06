@@ -35,7 +35,9 @@ module.exports.handler = async (event) => {
                 id: element.id,
                 wineName: element.wineName,
                 productName: element.productName,
-                customName: formatName(element)
+                customName: formatName(element),
+                alcohol: element.alcohol,
+                alcoholFormatedd: formatAlcohol(element.alcohol)
             }
             products.push(p)
 
@@ -60,7 +62,7 @@ module.exports.handler = async (event) => {
             extras.ele('image').txt(element.image).up()
             extras.ele('ean').txt(element.ean).up()
             extras.ele('description').txt(element.description).up()
-            extras.ele('alcohol').txt(element.alcohol).up()
+            extras.ele('alcohol').txt(formatAlcohol(element.alcohol)).up()
             extras.ele('producer-address').txt(element.producerAddress).up()
             extras.ele('importer-address').txt(element.importerAddress).up()
             extras.ele('varietal').txt(element.varietal).up()
@@ -107,4 +109,14 @@ const formatName = (product) => {
     if (product.color)
         pName = `${pName} ${product.color}`
     return pName.trim()
+}
+
+const formatAlcohol = (alcohol) => {
+
+    if (alcohol && alcohol.includes(','))
+        alcohol = alcohol.replace(',', '.')
+    if (alcohol && !alcohol.includes('%'))
+        alcohol = `${alcohol}%`
+
+    return alcohol
 }

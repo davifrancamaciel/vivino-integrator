@@ -34,7 +34,7 @@ const data_array = [
   'Ely Delicatessen',
   'Ubimar',
   'Ventura Vinhos ES',
-  'Wine Brothers',
-  'A. M .L REIS COMÉRCIO DE ALIMENTOS'
+  'A. M .L REIS COMÉRCIO DE ALIMENTOS',
+  'Outros',
 ];
 
