@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "sls offline start",
-    "debug": "sls offline -s prod",
+    "debug": "sls offline -s dev",
     "deploy": "sls deploy",
     "deploy:prod": "sls deploy --stage prod",
     "create_domain": "sls create_domain",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.1065.0",
-    "sequelize-cli": "^6.4.1",
+    "sequelize-cli": "^6.5.2",
     "serverless": "^3.19.0",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.3.1",

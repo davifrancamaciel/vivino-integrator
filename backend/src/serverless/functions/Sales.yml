@@ -1,0 +1,40 @@
+sales:
+  handler: src/functions/sales.list
+  events:
+    - http:
+        path: sales
+        method: get
+        authorizer: verifyToken
+        cors: true 
+salesById:
+  handler: src/functions/sales.listById
+  events:
+    - http:
+        path: sales/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true 
+salesCreate:
+  handler: src/functions/sales.create
+  events:
+    - http:
+        path: sales
+        method: post
+        authorizer: verifyToken
+        cors: true  
+salesUpdate:
+  handler: src/functions/sales.update
+  events:
+    - http:
+        path: sales
+        method: put
+        authorizer: verifyToken
+        cors: true 
+salesDelete:
+  handler: src/functions/sales.delete
+  events:
+    - http:
+        path: sales/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true

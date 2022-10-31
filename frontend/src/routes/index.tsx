@@ -26,6 +26,9 @@ const ProductDetails = lazy(() => import('pages/Product/Details'));
 const RomanainList = lazy(() => import('pages/Romanain/List'));
 const RomanainCreateEdit = lazy(() => import('pages/Romanain/CreateEdit'));
 const RomanainDetails = lazy(() => import('pages/Romanain/Details'));
+const SaleList = lazy(() => import('pages/Sale/List'));
+const SaleCreateEdit = lazy(() => import('pages/Sale/CreateEdit'));
+const SaleDetails = lazy(() => import('pages/Sale/Details'));
 
 const routesArray: IRouteProps[] = [
   { path: '/login', component: Login, isPrivate: false },
@@ -82,7 +85,27 @@ const routesArray: IRouteProps[] = [
     path: `/${appRoutes.romanians}/details/:id`,
     component: RomanainDetails,
     roule: roules.romanians
-  }
+  },
+  {
+    path: `/${appRoutes.sales}`,
+    component: SaleList,
+    roule: roules.sales
+  },
+  {
+    path: `/${appRoutes.sales}/create`,
+    component: SaleCreateEdit,
+    roule: roules.sales
+  },
+  {
+    path: `/${appRoutes.sales}/edit/:id`,
+    component: SaleCreateEdit,
+    roule: roules.sales
+  },
+  {
+    path: `/${appRoutes.sales}/details/:id`,
+    component: SaleDetails,
+    roule: roules.sales
+  },
 ];
 
 const Routes: React.FC = () => {

@@ -27,4 +27,11 @@ Resources:
         Description: "Permissão para usuário gerenciar Romaneios"
         GroupName: "Romaneios"
         UserPoolId:
-          Ref: UserPool #Refere-se ao grupo de usuários criado acima          
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima        
+    CognitoUserPoolGroupSales:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário gerenciar Vendas"
+        GroupName: "Vendas"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima        
