@@ -36,6 +36,7 @@ const roules = {
     users: 'usuarios',
     romanians: 'romaneios',
     products: 'produtos',
+    sales: 'vendas',
 };
 
 const cognito = {

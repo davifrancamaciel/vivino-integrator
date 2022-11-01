@@ -2,6 +2,7 @@
 
 const { Op } = require('sequelize');
 const db = require('../database');
+const { startOfDay, endOfDay, parseISO } = require('date-fns');
 const Sale = require('../models/Sale')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../services/UserService");
@@ -16,14 +17,14 @@ module.exports.list = async (event, context) => {
         const whereStatement = {};
 
         if (event.queryStringParameters) {
-            const { id, product, userName, valueMin, valueMax } = event.queryStringParameters
+            const { id, product, userName, valueMin, valueMax, createdAtStart, createdAtEnd } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
 
             if (product)
-                whereStatement.product = { [Op.like]: `%${product}%` }            
+                whereStatement.products = { [Op.like]: `%${product}%` }
             if (userName)
-                whereStatement.userName = { [Op.like]: `%${userName}%` }            
+                whereStatement.userName = { [Op.like]: `%${userName}%` }
 
             if (valueMin)
                 whereStatement.value = {
@@ -38,6 +39,22 @@ module.exports.list = async (event, context) => {
                     [Op.between]: [
                         Number(valueMin),
                         Number(valueMax),
+                    ],
+                };
+            if (createdAtStart)
+                whereStatement.createdAt = {
+                    [Op.gte]: startOfDay(parseISO(createdAtStart)),
+                };
+
+            if (createdAtEnd)
+                whereStatement.createdAt = {
+                    [Op.lte]: endOfDay(parseISO(createdAtEnd)),
+                };
+            if (createdAtStart && createdAtEnd)
+                whereStatement.createdAt = {
+                    [Op.between]: [
+                        startOfDay(parseISO(createdAtStart)),
+                        endOfDay(parseISO(createdAtEnd)),
                     ],
                 };
         }
@@ -93,11 +110,13 @@ module.exports.create = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.sales))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-
+        const products = JSON.parse(body.products)
+        const value = products.reduce(function (acc, p) { return acc + p.value; }, 0);
         const objOnSave = {
+            ...body,
             userId: user.sub,
             userName: user.name,
-            ...body
+            value,
         }
         const result = await Sale.create(objOnSave);
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
@@ -125,8 +144,14 @@ module.exports.update = async (event) => {
         if (!item)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrada`)
 
+        const products = JSON.parse(body.products)
+        const value = products.reduce(function (acc, p) { return acc + p.value; }, 0);
+        const objOnSave = {
+            ...body,
 
-        const result = await item.update(body);
+            value,
+        }
+        const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)

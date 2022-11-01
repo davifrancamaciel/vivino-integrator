@@ -9,6 +9,7 @@ import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
+import { Product } from '../CreateEdit/Products/interfaces';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -35,6 +36,7 @@ const List: React.FC = () => {
       const itemsFormatted = rows.map((p: Sale) => ({
         ...p,
         value: formatPrice(Number(p.value) || 0),
+        products: formatProductName(p.products),
         createdAt: formatDateHour(p.createdAt),
         updatedAt: formatDateHour(p.updatedAt)
       }));
@@ -47,6 +49,13 @@ const List: React.FC = () => {
     }
   };
 
+  const formatProductName = (products: any) => {
+    const productsArray: Product[] = JSON.parse(products);
+    return `${productsArray
+      .map((p: Product) => p.name)
+      .join(', ')
+      .slice(1, 20)}...`;
+  };
   return (
     <div>
       <PanelFilter
@@ -85,20 +94,17 @@ const List: React.FC = () => {
             label="Data de venda"
             onChange={(value: any, dateString: any) => {
               dispatch({
-                createAtStart: dateString[0]
-                  ?.split('/')
-                  .reverse()
-                  .join('-')
+                createdAtStart: dateString[0]?.split('/').reverse().join('-')
               });
               dispatch({
-                createAtEnd: dateString[1]?.split('/').reverse().join('-')
+                createdAtEnd: dateString[1]?.split('/').reverse().join('-')
               });
             }}
           />
         </Col>
         <Col lg={5} md={6} sm={12} xs={24}>
           <Input
-            label={'Preco de'}
+            label={'Valor de'}
             placeholder="Ex.: 1"
             type={'number'}
             value={state.valueMin}
@@ -107,7 +113,7 @@ const List: React.FC = () => {
         </Col>
         <Col lg={5} md={6} sm={12} xs={24}>
           <Input
-            label={'Preco até'}
+            label={'Valor até'}
             placeholder="Ex.: 1000"
             type={'number'}
             value={state.valueMax}
@@ -119,8 +125,8 @@ const List: React.FC = () => {
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Nome do produto', dataIndex: 'product' },
-          { title: 'Preço', dataIndex: 'value' },
+          { title: 'Produtos', dataIndex: 'products' },
+          { title: 'Valor', dataIndex: 'value' },
           { title: 'Vendedor', dataIndex: 'userName' },
           { title: 'Criada em', dataIndex: 'createdAt' },
           { title: 'Alterada em', dataIndex: 'updatedAt' }

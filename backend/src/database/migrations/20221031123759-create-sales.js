@@ -12,10 +12,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      product: {
-        type: Sequelize.STRING(255),
+      products: {
+        type: Sequelize.TEXT,
       },
-      value: { type: Sequelize.DECIMAL, defaultValue: 0, },
+      value: { type: Sequelize.DECIMAL(10, 2), defaultValue: 0, },
       userId: { type: Sequelize.STRING(50) },
       userName: { type: Sequelize.STRING(255) },
       note: {

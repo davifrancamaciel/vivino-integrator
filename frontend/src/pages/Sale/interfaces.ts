@@ -1,6 +1,7 @@
+import { Product } from './CreateEdit/Products/interfaces';
 export interface Sale {
   id?: string;
-  product?: string;
+  products: Product[];
   value?: number;
   note?: string;
   userId?: string;
@@ -11,7 +12,7 @@ export interface Sale {
 
 export const initialStateForm: Sale = {
   id: undefined,
-  product: ''
+  products: []
 };
 
 export interface Filter {
@@ -19,6 +20,8 @@ export interface Filter {
   product?: string;
   valueMin?: string;
   valueMax?: string;
+  createdAtStart?: string;
+  createdAtEnd?: string;
   pageNumber: number;
   pageSize: number;
 }
