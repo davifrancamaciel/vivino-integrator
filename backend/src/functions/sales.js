@@ -69,12 +69,15 @@ module.exports.list = async (event, context) => {
 
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             whereStatement.userId = user.sub
+            
+        if (user.sub === '7eaed82d-72e2-40c6-9de9-117f324f5530' || user.sub === '623be749-c4d7-4987-bb3d-5bdd1d810223')
+            whereStatement.userId = { [Op.in]: ['7eaed82d-72e2-40c6-9de9-117f324f5530', '623be749-c4d7-4987-bb3d-5bdd1d810223'] }
 
         const { pageSize, pageNumber } = event.queryStringParameters
         const { count, rows } = await Sale.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
-            offset: (Number(pageNumber) - 1) * 10,
+            offset: (Number(pageNumber) - 1) * pageSize,
             order: [['id', 'DESC']],
         })
 

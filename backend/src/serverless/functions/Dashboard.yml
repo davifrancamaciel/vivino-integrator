@@ -1,8 +1,8 @@
-dashboardProductsByStatus:
-  handler: src/functions/dashboard.productsByStatus
+dashboardCards:
+  handler: src/functions/dashboard.cards
   events:
     - http:
-        path: dashboard/products-by-status/{active}
+        path: dashboard/cards
         method: get
         authorizer: verifyToken
         cors: true
