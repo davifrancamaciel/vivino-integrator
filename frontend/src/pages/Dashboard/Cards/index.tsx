@@ -19,7 +19,6 @@ import Card from './Card';
 const Cards: React.FC = () => {
   const { userAuthenticated } = useAppContext();
   const [groups, setGroups] = useState<string[]>([]);
-  const [isPermission, setIsPermission] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState<CardsReuslt>();
 
@@ -28,10 +27,6 @@ const Cards: React.FC = () => {
     setGroups(signInUserSession.accessToken.payload['cognito:groups']);
     action();
   }, []);
-
-  useEffect(() => {
-    setIsPermission(Boolean(checkRouleProfileAccess(groups, roules.products)));
-  }, [groups]);
 
   const action = async () => {
     try {
@@ -54,7 +49,7 @@ const Cards: React.FC = () => {
         text={`Valor total das ${
           cards?.sales.count ? cards?.sales.count : 0
         } vendas este mês`}
-        isPermission={isPermission}
+        isPermission={Boolean(checkRouleProfileAccess(groups, roules.sales))}
         icon={<ArrowUpOutlined />}
         url={`${appRoutes.sales}`}
       />
@@ -65,7 +60,7 @@ const Cards: React.FC = () => {
         text={`Commissão a pagar sob ${
           cards?.sales.count ? cards?.sales.count : 0
         } vendas este mês`}
-        isPermission={isPermission}
+        isPermission={Boolean(checkRouleProfileAccess(groups, roules.sales))}
         icon={<ArrowDownOutlined />}
         url={`${appRoutes.sales}`}
       />
@@ -74,7 +69,7 @@ const Cards: React.FC = () => {
         value={`${cards?.productsActive.count}`}
         color={systemColors.LIGHT_BLUE}
         text={'Vinhos disponíveis para integração'}
-        isPermission={isPermission}
+        isPermission={Boolean(checkRouleProfileAccess(groups, roules.products))}
         icon={<CheckOutlined />}
         url={`${appRoutes.products}?active=true`}
       />
@@ -84,7 +79,7 @@ const Cards: React.FC = () => {
         value={`${cards?.productsNotActive.count}`}
         color={systemColors.RED}
         text={'Vinhos não integrados'}
-        isPermission={isPermission}
+        isPermission={Boolean(checkRouleProfileAccess(groups, roules.products))}
         icon={<WarningOutlined />}
         url={`${appRoutes.products}?active=false`}
       />

@@ -8,7 +8,9 @@ const Card: React.FC<CardPropTypes> = (props) => {
   return (
     <Link to={props.isPermission ? props.url : '/'}>
       <Container color={props.color}>
-        <span>{props.loading ? <LoadingOutlined /> : props.value}</span>
+        <span>
+          {props.loading ? <LoadingOutlined /> : props.value ? props.value : 0}
+        </span>
         <strong>{props.text}</strong>
         <div>{props.icon}</div>
       </Container>
