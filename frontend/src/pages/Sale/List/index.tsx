@@ -10,6 +10,8 @@ import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import { Product } from '../CreateEdit/Products/interfaces';
+import PrintAll from './PrintAll';
+import Print from './Print';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -33,13 +35,17 @@ const List: React.FC = () => {
       setLoading(false);
 
       const { count, rows } = resp.data;
-      const itemsFormatted = rows.map((p: Sale) => ({
-        ...p,
-        value: formatPrice(Number(p.value) || 0),
-        products: formatProductName(p.products),
-        createdAt: formatDateHour(p.createdAt),
-        updatedAt: formatDateHour(p.updatedAt)
-      }));
+      const itemsFormatted = rows.map((p: any) => {
+        const sale = {
+          ...p,
+          valueFormatted: formatPrice(Number(p.value!)),
+          products: p.productsFormatted,
+          productsFormatted: formatProductName(p.products),
+          createdAt: formatDateHour(p.createdAt),
+          updatedAt: formatDateHour(p.updatedAt)
+        };
+        return { ...sale, print: <Print sale={sale} /> };
+      });
       setItems(itemsFormatted);
       console.log(itemsFormatted);
       setTotalRecords(count);
@@ -54,7 +60,7 @@ const List: React.FC = () => {
     return `${productsArray
       .map((p: Product) => p.name)
       .join(', ')
-      .slice(1, 20)}...`;
+      .slice(0, 20)}...`;
   };
   return (
     <div>
@@ -74,7 +80,7 @@ const List: React.FC = () => {
         </Col>
         <Col lg={10} md={12} sm={24} xs={24}>
           <Input
-            label={'Nome do produto'}
+            label={'Produto'}
             placeholder="Ex.: Bola"
             value={state.product}
             onChange={(e) => dispatch({ product: e.target.value })}
@@ -122,21 +128,23 @@ const List: React.FC = () => {
         </Col>
       </PanelFilter>
       <GridList
+        headerChildren={<PrintAll state={state} />}
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Produtos', dataIndex: 'products' },
-          { title: 'Valor', dataIndex: 'value' },
+          { title: 'Produtos', dataIndex: 'productsFormatted' },
+          { title: 'Valor', dataIndex: 'valueFormatted' },
           { title: 'Vendedor', dataIndex: 'userName' },
           { title: 'Criada em', dataIndex: 'createdAt' },
-          { title: 'Alterada em', dataIndex: 'updatedAt' }
+          { title: 'Alterada em', dataIndex: 'updatedAt' },
+          { title: '', dataIndex: 'print' }
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}
         onDelete={() => {
           actionFilter(state.pageNumber);
         }}
-        propTexObjOndelete={'product'}
+        propTexObjOndelete={'productsFormatted'}
         totalRecords={totalRecords}
         pageSize={state.pageSize}
         loading={loading}

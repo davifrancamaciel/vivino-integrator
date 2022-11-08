@@ -13,9 +13,6 @@ import api from 'services/api-aws-amplify';
 import { formatDate } from 'utils/formatDate';
 import { formatPrice, priceToNumber } from 'utils/formatPrice';
 import { Footer, Summary } from './styles';
-import Td from './Td';
-import { Product } from '../../CreateEdit/Products/interfaces';
-
 interface PropTypes {
   state: Filter;
 }
@@ -67,28 +64,33 @@ const Print: React.FC<PropTypes> = ({ state }) => {
     try {
       setPrint(false);
       setLoading(true);
+      
       const resp = await api.get(apiRoutes.sales, {
         ...state,
         pageNumber,
         pageSize: 100
       });
-      setLoading(false);
-
+      
       const { count, rows } = resp.data;
+      
       const itemsFormatted: Sale[] = rows.map((s: any) => ({
         ...s,
         products: s.productsFormatted,
         value: formatPrice(Number(s.value!)),
         createdAt: formatDate(s.createdAt || '')
       }));
+      
       itemsArray = [...itemsArray, ...itemsFormatted];
+      
       if (count > itemsArray.length) {
         const nextPage = pageNumber + 1;
         await actionFilter(nextPage, itemsArray);
       } else {
         setItems(itemsArray);
+        setLoading(false);
         setPrint(true);
       }
+
     } catch (error) {
       console.log(error);
       setLoading(false);

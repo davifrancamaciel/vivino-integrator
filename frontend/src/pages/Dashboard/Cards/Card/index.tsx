@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { LoadingOutlined } from '@ant-design/icons';
 import { CardPropTypes } from './interfaces';

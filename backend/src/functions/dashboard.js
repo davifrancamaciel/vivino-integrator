@@ -32,7 +32,7 @@ module.exports.cards = async (event, context) => {
             users = `s.userId IN ('7eaed82d-72e2-40c6-9de9-117f324f5530', '623be749-c4d7-4987-bb3d-5bdd1d810223') AND`
 
         const date = new Date();
-        const querySales = `SELECT COUNT(s.id) count, SUM(s.value) totalValueMonth, FORMAT(SUM(s.value) * 0.05,2) commissionMonth FROM sales s 
+        const querySales = `SELECT COUNT(s.id) count, SUM(s.value) totalValueMonth, SUM(s.value) * 0.05 commissionMonth FROM sales s 
                             WHERE ${users} s.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}'`
         const [sales] = await executeSelect(querySales);
 
