@@ -24,15 +24,19 @@ module.exports.cards = async (event, context) => {
         const [productsNotActive] = await executeSelect(queryNotActive);
 
 
-        let users = ''
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+        let users = '', commission = '05'
+        if (!checkRouleProfileAccess(user.groups, roules.administrator)) {
             users = `s.userId = '${user.sub}' AND`
+            commission = '01'
+        }
 
-        if (user.sub === '7eaed82d-72e2-40c6-9de9-117f324f5530' || user.sub === '623be749-c4d7-4987-bb3d-5bdd1d810223')
+        if (user.sub === '7eaed82d-72e2-40c6-9de9-117f324f5530' || user.sub === '623be749-c4d7-4987-bb3d-5bdd1d810223') {
             users = `s.userId IN ('7eaed82d-72e2-40c6-9de9-117f324f5530', '623be749-c4d7-4987-bb3d-5bdd1d810223') AND`
+            commission = '05'
+        }
 
         const date = new Date();
-        const querySales = `SELECT COUNT(s.id) count, SUM(s.value) totalValueMonth, SUM(s.value) * 0.05 commissionMonth FROM sales s 
+        const querySales = `SELECT COUNT(s.id) count, SUM(s.value) totalValueMonth, SUM(s.value) * 0.${commission} commissionMonth FROM sales s 
                             WHERE ${users} s.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}'`
         const [sales] = await executeSelect(querySales);
 

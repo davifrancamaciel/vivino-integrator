@@ -42,9 +42,9 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
           </Col>
           <Col lg={6} md={20} sm={20} xs={20}>
             <Input
-              label={'Preço'}
+              label={'Valor'}
               type={'tel'}
-              placeholder="15.00"
+              placeholder="15,00"
               value={p.value}
               onChange={(e) => change({ ...p, value: formatValueWhithDecimalCaseOnChange(e.target.value) })}
             />
