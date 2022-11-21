@@ -38,3 +38,11 @@ usersDelete:
         method: delete
         authorizer: verifyToken
         cors: true
+usersAll:
+    handler: src/functions/users.listAll
+    events:
+      - http:
+          path: users/all
+          method: get
+          authorizer: verifyToken
+          cors: true

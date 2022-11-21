@@ -4,7 +4,7 @@ import Routes from 'routes';
 import GlobalStyle from 'styles/global';
 import history from 'services/browserhistory';
 import { AppContext } from 'hooks/contextLib';
-import { Group } from './utils/commonInterfaces';
+import { Group, IOptions } from './utils/commonInterfaces';
 import BackToTop from 'components/BackToTop';
 
 const App: React.FC = () => {
@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [userAuthenticated, setUserAuthenticated] = useState(null);
   const [groups, setGroups] = useState<Group[]>([]);
+  const [users, setUsers] = useState<IOptions[]>([]);
   const [width, setWidth] = useState(window.innerWidth);
 
   const value = {
@@ -23,6 +24,8 @@ const App: React.FC = () => {
     setCollapsed,
     groups,
     setGroups,
+    users,
+    setUsers,
     width,
     setWidth
   } as any;

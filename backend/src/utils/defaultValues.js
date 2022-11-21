@@ -37,6 +37,7 @@ const roules = {
     romanians: 'romaneios',
     products: 'produtos',
     sales: 'vendas',
+    saleUserIdChange: 'vendedor_vendas',
 };
 
 const cognito = {
@@ -52,4 +53,9 @@ const cognito = {
     adminRemoveUserFromGroup: 'adminRemoveUserFromGroup',
     listUsersInGroup: 'listUsersInGroup'
 }
-module.exports = { Status, sendTypeEnum, messageTypeEnum, roules, AutomaticMessageUnityEnum, cognito }
+const particularUsers = {
+    userIdTha: '623be749-c4d7-4987-bb3d-5bdd1d810223',
+    userIdSa: '7eaed82d-72e2-40c6-9de9-117f324f5530',
+    userIdRe: '089c0e53-ebd7-444f-a8ec-4856475ecef7'
+};
+module.exports = { Status, sendTypeEnum, messageTypeEnum, roules, AutomaticMessageUnityEnum, cognito, particularUsers }

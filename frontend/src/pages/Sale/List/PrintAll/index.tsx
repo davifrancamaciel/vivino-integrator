@@ -6,7 +6,7 @@ import { parseISO, format } from 'date-fns';
 import PrintContainer from 'components/Report/PrintContainer';
 import TableReport from 'components/Report/TableReport';
 
-import { apiRoutes, systemColors } from 'utils/defaultValues';
+import { apiRoutes, systemColors, particularUsers } from 'utils/defaultValues';
 import { Filter, Sale } from '../../interfaces';
 
 import api from 'services/api-aws-amplify';
@@ -43,8 +43,10 @@ const Print: React.FC<PropTypes> = ({ state }) => {
     const summary = items.reduce(
       (acc, r) => {
         acc.totalSales += Number(priceToNumber(r.value!.toString()));
-        acc.totalCommission +=
-          Number(priceToNumber(r.value!.toString())) * 0.05;
+        if (r.userId !== particularUsers.userIdRe) {
+          acc.totalCommission +=
+            Number(priceToNumber(r.value!.toString())) * 0.05;
+        }
 
         return acc;
       },
@@ -64,24 +66,24 @@ const Print: React.FC<PropTypes> = ({ state }) => {
     try {
       setPrint(false);
       setLoading(true);
-      
+
       const resp = await api.get(apiRoutes.sales, {
         ...state,
         pageNumber,
-        pageSize: 100
+        pageSize: 1000
       });
-      
+
       const { count, rows } = resp.data;
-      
+
       const itemsFormatted: Sale[] = rows.map((s: any) => ({
         ...s,
         products: s.productsFormatted,
         value: formatPrice(Number(s.value!)),
         createdAt: formatDate(s.createdAt || '')
       }));
-      
+
       itemsArray = [...itemsArray, ...itemsFormatted];
-      
+
       if (count > itemsArray.length) {
         const nextPage = pageNumber + 1;
         await actionFilter(nextPage, itemsArray);
@@ -90,7 +92,6 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         setLoading(false);
         setPrint(true);
       }
-
     } catch (error) {
       console.log(error);
       setLoading(false);

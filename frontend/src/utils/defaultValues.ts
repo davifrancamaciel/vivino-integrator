@@ -17,7 +17,7 @@ export const appRoutes = {
   users: 'users',
   products: 'products',
   romanians: 'romanians',
-  sales: 'sales',
+  sales: 'sales'
 };
 
 export const apiRoutes = {
@@ -39,7 +39,7 @@ export const apiRoutesArray = [
   apiRoutes.romanians,
   apiRoutes.sales,
   apiRoutes.companies,
-  apiRoutes.shippingCompanies,
+  apiRoutes.shippingCompanies
 ];
 
 export const roules = {
@@ -48,6 +48,7 @@ export const roules = {
   products: 'produtos',
   romanians: 'romaneios',
   sales: 'vendas',
+  saleUserIdChange: 'vendedor_vendas'
 };
 
 export const enumStatusUserAws = {
@@ -61,3 +62,9 @@ export const booleanFilter: IOptions[] = [
   { value: 'true', label: 'Sim' },
   { value: 'false', label: 'Não' }
 ];
+
+export const particularUsers = {
+  userIdTha: '623be749-c4d7-4987-bb3d-5bdd1d810223',
+  userIdSa: '7eaed82d-72e2-40c6-9de9-117f324f5530',
+  userIdRe: '089c0e53-ebd7-444f-a8ec-4856475ecef7'
+};

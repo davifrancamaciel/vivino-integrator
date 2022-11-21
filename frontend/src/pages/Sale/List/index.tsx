@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col } from 'antd';
+import { startOfMonth, endOfMonth } from 'date-fns';
+
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input, RangePicker, Select } from 'components/_inputs';
@@ -12,6 +14,7 @@ import { formatPrice } from 'utils/formatPrice';
 import { Product } from '../CreateEdit/Products/interfaces';
 import PrintAll from './PrintAll';
 import Print from './Print';
+import moment from 'moment';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -20,17 +23,26 @@ const List: React.FC = () => {
   const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
-    actionFilter(1);
+    const date = new Date();
+    const createdAtStart = startOfMonth(date).toISOString();
+    const createdAtEnd = endOfMonth(date).toISOString();
+    actionFilter(1, createdAtStart, createdAtEnd);
   }, []);
 
-  const actionFilter = async (pageNumber: number = 1) => {
+  const actionFilter = async (
+    pageNumber: number = 1,
+    createdAtStart = state.createdAtStart,
+    createdAtEnd = state.createdAtEnd
+  ) => {
     try {
-      dispatch({ pageNumber });
+      dispatch({ ...state, pageNumber, createdAtStart, createdAtEnd });
 
       setLoading(true);
       const resp = await api.get(apiRoutes.sales, {
         ...state,
-        pageNumber
+        pageNumber,
+        createdAtStart,
+        createdAtEnd
       });
       setLoading(false);
 
@@ -98,6 +110,10 @@ const List: React.FC = () => {
         <Col lg={14} md={16} sm={24} xs={24}>
           <RangePicker
             label="Data de venda"
+            value={[
+              state.createdAtStart ? moment(state.createdAtStart) : null,
+              state.createdAtEnd ? moment(state.createdAtEnd) : null
+            ]}
             onChange={(value: any, dateString: any) => {
               dispatch({
                 createdAtStart: dateString[0]?.split('/').reverse().join('-')

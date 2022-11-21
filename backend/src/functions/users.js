@@ -3,7 +3,7 @@
 const generateHash = require("../utils/generateHash");
 const { cognitoRequest } = require("../services/AwsCognitoService");
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
-const { findUserById, getUser, checkRouleProfileAccess } = require('../services/UserService')
+const { findUserById, getUser, checkRouleProfileAccess, mapUser } = require('../services/UserService')
 const { roules, cognito } = require("../utils/defaultValues");
 
 const RESOURCE_NAME = 'Usuário'
@@ -189,4 +189,27 @@ const removeUserToGroup = async (Username, groups, position) => {
     if (groups.length > position) return await removeUserToGroup(Username, groups, position)
 
     return true
+}
+
+module.exports.listAll = async (event) => {
+    const { queryStringParameters } = event
+    try {
+
+        const qsp = queryStringParameters;
+        const params = {
+            Limit: qsp && qsp.limit ? qsp.limit : 60,
+        }
+        const result = await cognitoRequest(cognito.listUsers, params);
+
+        const respFormated = result.Users.map(item => {
+            const user = mapUser(item)
+            return {
+                value: user.id,
+                label: user.name,
+            }
+        });
+        return handlerResponse(200, respFormated)
+    } catch (err) {
+        return handlerErrResponse(err, queryStringParameters)
+    }
 }

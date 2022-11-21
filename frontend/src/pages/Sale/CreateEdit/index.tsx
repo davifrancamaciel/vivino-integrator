@@ -2,23 +2,42 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Col, Divider, notification } from 'antd';
-import { Textarea } from 'components/_inputs';
+import { Select, Textarea } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
-import { apiRoutes, appRoutes } from 'utils/defaultValues';
+import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import Products from './Products';
 import { Product } from './Products/interfaces';
 import { formatPrice, priceToNumber } from 'utils/formatPrice';
+import { useAppContext } from 'hooks/contextLib';
+
+import ShowByRoule from 'components/ShowByRoule';
+import { IOptions } from '../../../utils/commonInterfaces';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
+  const { users, setUsers } = useAppContext();
   const { state, dispatch } = useFormState(initialStateForm);
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [total, setTotal] = useState<string>();
+
+  useEffect(() => {
+    !users.length && onLoadUsersSales();
+  }, []);
+
+  useEffect(() => {  
+    let userName = '';
+    if (state.userId) {
+      userName = users.find(
+        (user: IOptions) => user.value === state.userId
+      )?.label;
+    }
+    dispatch({ userName });
+  }, [state.userId]);
 
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
@@ -83,6 +102,18 @@ const CreateEdit: React.FC = (props: any) => {
     dispatch({ products });
   };
 
+  const onLoadUsersSales = async () => {
+    try {
+      setLoading(true);
+      const resp = await api.get(`${apiRoutes.users}/all`);
+
+      setUsers(resp.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   return (
     <PanelCrud
       title={`${type === 'update' ? 'Editar' : 'Nova'} venda`}
@@ -94,7 +125,16 @@ const CreateEdit: React.FC = (props: any) => {
       <Divider>Total {total}</Divider>
       <Products products={state.products} setProducts={setProducts} />
       <Divider>Total {total}</Divider>
-
+      <ShowByRoule roule={roules.saleUserIdChange}>
+        <Col lg={24} md={24} sm={24} xs={24}>
+          <Select
+            label={'Vendedor'}
+            options={users}
+            value={state?.userId}
+            onChange={(userId) => dispatch({ userId })}
+          />
+        </Col>
+      </ShowByRoule>
       <Col lg={24} md={24} sm={24} xs={24}>
         <Textarea
           label={'Observações'}

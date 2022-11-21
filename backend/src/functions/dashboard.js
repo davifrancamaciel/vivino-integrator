@@ -6,7 +6,7 @@ const { startOfMonth, endOfMonth } = require('date-fns');
 const Product = require('../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../services/UserService");
-const { roules } = require("../utils/defaultValues");
+const { roules, particularUsers } = require("../utils/defaultValues");
 
 const { executeSelect } = require("../services/ExecuteQueryService");
 
@@ -24,19 +24,21 @@ module.exports.cards = async (event, context) => {
         const [productsNotActive] = await executeSelect(queryNotActive);
 
 
-        let users = '', commission = '05'
+        let users = '', commission = 'SUM(s.value) * 0.05'
         if (!checkRouleProfileAccess(user.groups, roules.administrator)) {
             users = `s.userId = '${user.sub}' AND`
-            commission = '01'
-        }
-
-        if (user.sub === '7eaed82d-72e2-40c6-9de9-117f324f5530' || user.sub === '623be749-c4d7-4987-bb3d-5bdd1d810223') {
-            users = `s.userId IN ('7eaed82d-72e2-40c6-9de9-117f324f5530', '623be749-c4d7-4987-bb3d-5bdd1d810223') AND`
-            commission = '05'
+            commission = 'SUM(s.value) * 0.01'
         }
 
         const date = new Date();
-        const querySales = `SELECT COUNT(s.id) count, SUM(s.value) totalValueMonth, SUM(s.value) * 0.${commission} commissionMonth FROM sales s 
+
+        if (user.sub === particularUsers.userIdTha || user.sub === particularUsers.userIdSa) {
+            users = `s.userId IN ('${particularUsers.userIdSa}', '${particularUsers.userIdTha}', '${particularUsers.userIdRe}') AND`
+            commission = `(SELECT SUM(sc.value) * 0.05  FROM sales sc WHERE sc.userId IN ('${particularUsers.userIdSa}', '${particularUsers.userIdTha}')
+                            AND sc.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}')`
+        }
+
+        const querySales = `SELECT COUNT(s.id) count, SUM(s.value) totalValueMonth, ${commission} commissionMonth FROM sales s 
                             WHERE ${users} s.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}'`
         const [sales] = await executeSelect(querySales);
 

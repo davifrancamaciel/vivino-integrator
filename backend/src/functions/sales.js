@@ -6,7 +6,7 @@ const { startOfDay, endOfDay, parseISO } = require('date-fns');
 const Sale = require('../models/Sale')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../services/UserService");
-const { roules } = require("../utils/defaultValues");
+const { roules, particularUsers } = require("../utils/defaultValues");
 
 const RESOURCE_NAME = 'Venda'
 
@@ -69,9 +69,9 @@ module.exports.list = async (event, context) => {
 
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             whereStatement.userId = user.sub
-            
-        if (user.sub === '7eaed82d-72e2-40c6-9de9-117f324f5530' || user.sub === '623be749-c4d7-4987-bb3d-5bdd1d810223')
-            whereStatement.userId = { [Op.in]: ['7eaed82d-72e2-40c6-9de9-117f324f5530', '623be749-c4d7-4987-bb3d-5bdd1d810223'] }
+
+        if (user.sub === particularUsers.userIdTha || user.sub === particularUsers.userIdSa)
+            whereStatement.userId = { [Op.in]: [`${particularUsers.userIdTha}`, `${particularUsers.userIdSa}`, `${particularUsers.userIdRe}`] }
 
         const { pageSize, pageNumber } = event.queryStringParameters
         const { count, rows } = await Sale.findAndCountAll({
@@ -121,8 +121,14 @@ module.exports.create = async (event) => {
             userName: user.name,
             value,
         }
+
+        if (checkRouleProfileAccess(user.groups, roules.saleUserIdChange) && body.userId && body.userName) {
+            objOnSave.userId = body.userId;
+            objOnSave.userName = body.userName;
+        }
+
         const result = await Sale.create(objOnSave);
-        return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
+        return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, body)
     }
@@ -151,13 +157,16 @@ module.exports.update = async (event) => {
         const value = products.reduce(function (acc, p) { return acc + p.value; }, 0);
         const objOnSave = {
             ...body,
-
             value,
+        }
+        if (checkRouleProfileAccess(user.groups, roules.saleUserIdChange) && body.userId && body.userName) {
+            objOnSave.userId = body.userId;
+            objOnSave.userName = body.userName;
         }
         const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
 
-        return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)
+        return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, body)
     }
