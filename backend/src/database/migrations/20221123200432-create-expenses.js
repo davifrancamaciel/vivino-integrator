@@ -18,6 +18,13 @@ module.exports = {
         onUpdate: 'CASCADE',
         allowNull: false,
       },
+      expenseDadId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'expenses', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true,
+      },
       value: { type: Sequelize.DECIMAL(10, 2), defaultValue: 0, },
       title: { type: Sequelize.STRING(256), allowNull: true, },
       description: { type: Sequelize.STRING(1000), allowNull: true, },

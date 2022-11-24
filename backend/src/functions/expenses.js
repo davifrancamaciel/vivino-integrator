@@ -1,7 +1,7 @@
 "use strict";
 
 const { Op } = require('sequelize');
-const { startOfDay, endOfDay, parseISO } = require('date-fns');
+const { startOfDay, endOfDay, parseISO, addMonths } = require('date-fns');
 const db = require('../database');
 const ExpenseType = require('../models/ExpenseType')(db.sequelize, db.Sequelize);
 const Expense = require('../models/Expense')(db.sequelize, db.Sequelize);
@@ -126,12 +126,31 @@ module.exports.create = async (event) => {
 
         if (!checkRouleProfileAccess(user.groups, roules.expenses))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
-        const objOnSave = body
+        let objOnSave = body
+        objOnSave.dividedIn = Number(body.dividedIn || 1)
+
         if (!objOnSave.paymentDate)
             objOnSave.paymentDate = new Date()
 
-
+        if (objOnSave.dividedIn > 1) {
+            objOnSave.title = `1ª parcela de ${objOnSave.dividedIn} ${objOnSave.title}`
+            objOnSave.value = Number(body.value) / objOnSave.dividedIn
+        }
         const result = await Expense.create(objOnSave);
+
+
+        if (objOnSave.dividedIn > 1 && objOnSave.dividedIn <= 24) {
+            for (let i = 1; i < objOnSave.dividedIn; i++) {
+                const obtOnSavePortion = {
+                    ...objOnSave,
+                    title: objOnSave.title.replace('1ª', `${i + 1}ª`),
+                    expenseDadId: result.id,
+                    paymentDate: addMonths(parseISO(objOnSave.paymentDate), i)
+                }
+                await Expense.create(obtOnSavePortion);
+            }
+        }
+
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
         return handlerErrResponse(err, body)

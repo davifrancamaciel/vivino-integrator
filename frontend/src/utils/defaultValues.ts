@@ -17,7 +17,8 @@ export const appRoutes = {
   users: 'users',
   products: 'products',
   romanians: 'romanians',
-  sales: 'sales'
+  sales: 'sales',
+  expenses: 'expenses',
 };
 
 export const apiRoutes = {
@@ -28,7 +29,9 @@ export const apiRoutes = {
   romanians: appRoutes.romanians,
   sales: appRoutes.sales,
   companies: 'companies',
-  shippingCompanies: 'shipping-companies'
+  shippingCompanies: 'shipping-companies',
+  expenses: 'expenses',
+  expenseTypes: 'expense-types',
 };
 
 export const apiRoutesArray = [
@@ -39,7 +42,9 @@ export const apiRoutesArray = [
   apiRoutes.romanians,
   apiRoutes.sales,
   apiRoutes.companies,
-  apiRoutes.shippingCompanies
+  apiRoutes.shippingCompanies,
+  apiRoutes.expenseTypes,
+  apiRoutes.expenses,
 ];
 
 export const roules = {
@@ -48,7 +53,8 @@ export const roules = {
   products: 'produtos',
   romanians: 'romaneios',
   sales: 'vendas',
-  saleUserIdChange: 'vendedor_vendas'
+  saleUserIdChange: 'vendedor_vendas',
+  expenses: 'despesas',
 };
 
 export const enumStatusUserAws = {

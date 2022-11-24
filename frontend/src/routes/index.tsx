@@ -29,6 +29,9 @@ const RomanainDetails = lazy(() => import('pages/Romanain/Details'));
 const SaleList = lazy(() => import('pages/Sale/List'));
 const SaleCreateEdit = lazy(() => import('pages/Sale/CreateEdit'));
 const SaleDetails = lazy(() => import('pages/Sale/Details'));
+const ExpenseList = lazy(() => import('pages/Expense/List'));
+const ExpenseCreateEdit = lazy(() => import('pages/Expense/CreateEdit'));
+const ExpenseDetails = lazy(() => import('pages/Expense/Details'));
 
 const routesArray: IRouteProps[] = [
   { path: '/login', component: Login, isPrivate: false },
@@ -105,6 +108,26 @@ const routesArray: IRouteProps[] = [
     path: `/${appRoutes.sales}/details/:id`,
     component: SaleDetails,
     roule: roules.sales
+  },
+  {
+    path: `/${appRoutes.expenses}`,
+    component: ExpenseList,
+    roule: roules.expenses
+  },
+  {
+    path: `/${appRoutes.expenses}/create`,
+    component: ExpenseCreateEdit,
+    roule: roules.expenses
+  },
+  {
+    path: `/${appRoutes.expenses}/edit/:id`,
+    component: ExpenseCreateEdit,
+    roule: roules.expenses
+  },
+  {
+    path: `/${appRoutes.expenses}/details/:id`,
+    component: ExpenseDetails,
+    roule: roules.expenses
   },
 ];
 
