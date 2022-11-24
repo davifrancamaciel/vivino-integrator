@@ -42,3 +42,10 @@ Resources:
         GroupName: "Vendedor_vendas"
         UserPoolId:
           Ref: UserPool #Refere-se ao grupo de usuários criado acima      
+    CognitoUserPoolGroupExpenses:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário gerenciar despesas"
+        GroupName: "Despesas"
+        UserPoolId:
+          Ref: UserPool #Refere-se ao grupo de usuários criado acima      

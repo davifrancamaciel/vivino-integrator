@@ -38,6 +38,7 @@ const roules = {
     products: 'produtos',
     sales: 'vendas',
     saleUserIdChange: 'vendedor_vendas',
+    expenses: 'despesas',
 };
 
 const cognito = {
