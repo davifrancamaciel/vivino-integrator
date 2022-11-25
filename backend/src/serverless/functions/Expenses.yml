@@ -46,3 +46,18 @@ expenseTypes:
         method: get
         authorizer: verifyToken
         cors: true 
+expenseWorker:  
+  handler: src/functions/expenseWorker.handler
+  timeout: 300 
+  events:
+  - schedule: rate(1 minute)
+expenseQueue:  
+  handler: src/functions/expenseQueue.handler
+  timeout: 600  
+  memorySize: 512
+  events:
+    - sqs:       
+        arn:
+          Fn::GetAtt:
+            - QueueExpenses
+            - Arn

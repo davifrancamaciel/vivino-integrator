@@ -1,0 +1,18 @@
+Resources:   
+    QueueExpenses:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-expenses"
+        VisibilityTimeout: 601
+        MessageRetentionPeriod: 6000
+        RedrivePolicy:
+          deadLetterTargetArn:
+            "Fn::GetAtt":
+              - ReceiverDeadLetterQueueExpenses
+              - Arn
+          maxReceiveCount: 3
+    ReceiverDeadLetterQueueExpenses:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-expenses-dlq"
+        MessageRetentionPeriod: 1209600 # 14 days in seconds

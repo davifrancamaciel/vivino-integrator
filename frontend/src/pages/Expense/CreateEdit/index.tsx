@@ -42,7 +42,7 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      if (!state.value || !state.title || !state.expenseTypeId) {
+      if (!state.value || !state.expenseTypeId) {
         notification.warning({
           message: 'Existem campos obrigatórios não preenchidos'
         });
@@ -84,6 +84,7 @@ const CreateEdit: React.FC = (props: any) => {
         <Input
           label={'Valor'}
           type={'tel'}
+          required={true}
           placeholder="15,00"
           value={state.value}
           onChange={(e) =>

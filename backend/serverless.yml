@@ -37,7 +37,7 @@ provider:
     REGION: ${opt:region, self:provider.region}
     STAGE: ${opt:stage, self:provider.stage}    
     SERVICE_NAME: ${self:service}-${opt:stage, self:provider.stage}
-    PRODUCTS_TABLE: ${self:service}-${opt:stage, self:provider.stage}-products
+    SQS_URL: "https://sqs.${opt:region, self:provider.region}.amazonaws.com/${aws:accountId}/${self:service}-${opt:stage, self:provider.stage}"
     DB_HOST: ${self:custom.DB_HOST}         
     DB_NAME: ${self:custom.DB_NAME}
     DB_USER: ${self:custom.DB_USERNAME}
@@ -97,5 +97,4 @@ resources:
   - ${file(src/serverless/resources/UserPoolRoules.yml)}
   - ${file(src/serverless/resources/GatewayResponseErrors.yml)}  
   - ${file(src/serverless/resources/S3Bukets.yml)} 
-  
- 
+  - ${file(src/serverless/resources/Queues.yml)} 

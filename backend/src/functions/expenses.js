@@ -133,7 +133,7 @@ module.exports.create = async (event) => {
             objOnSave.paymentDate = new Date()
 
         if (objOnSave.dividedIn > 1) {
-            objOnSave.title = `1ª parcela de ${objOnSave.dividedIn} ${objOnSave.title}`
+            objOnSave.title = `1ª parcela de ${objOnSave.dividedIn} ${objOnSave.title ? objOnSave.title : ''}`
             objOnSave.value = Number(body.value) / objOnSave.dividedIn
         }
         const result = await Expense.create(objOnSave);

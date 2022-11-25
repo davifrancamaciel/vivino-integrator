@@ -134,8 +134,8 @@ const List: React.FC = () => {
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Titulo', dataIndex: 'title' },
           { title: 'Tipo', dataIndex: 'expenseTypeName' },
+          { title: 'Titulo', dataIndex: 'title' },
           { title: 'Valor', dataIndex: 'value' },
           { title: 'Paga', dataIndex: 'paidOut' },
           {
