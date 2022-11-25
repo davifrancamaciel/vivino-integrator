@@ -6,7 +6,7 @@
 
 ## **:rocket: OBJETIVO**
 
-O projeto tem como finalidade gerenciar usuários por perfis definidos e produtos (vinhos).
+Projeto desenvolvido inicialmente para integração de produtos (vinhos), gerenciar usuários por perfis definidos e posteriormente adicionadas novas funcionalidades como vendas, despesas, roamenios de entregas utilizando [AWS Lambda][aws_lambda] com [Node Js][node] no backend e [React][react] + [TypeScript][typescript] no frontend
 
 -  [Demo](http://vivino-integrator-dev.s3-website-us-east-1.amazonaws.com) 
 
@@ -168,8 +168,9 @@ $ npm run deploy:aws
 - [Ant Design][ant]
 - [Styled Components][styled_components]
 - [AWS Amplify][aws_amplify]
-- [Node][node]
+- [Node Js][node]
 - [AWS][aws]
+- [AWS Lambda][aws_lambda]
 - [AWS cli][aws_cli]
 - [AWS sdk][aws_sdk]
 - [AWS manual de chaves][aws_manual_key]
@@ -211,3 +212,5 @@ $ npm run deploy:aws
 [sequelize_cli]: https://www.npmjs.com/package/sequelize-cli
 
 [vivino]: https://www.vivino.com/BR/pt-BR/
+
+[aws_lambda]: https://aws.amazon.com/pt/lambda/
