@@ -16,7 +16,7 @@ module.exports.list = async (event, context) => {
         const whereStatement = {};
 
         if (event.queryStringParameters) {
-            const { id, productName, producer, wineName, active, priceMin, priceMax } = event.queryStringParameters
+            const { id, productName, producer, wineName, active, priceMin, priceMax, inventoryCountMin, inventoryCountMax } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
 
@@ -26,8 +26,8 @@ module.exports.list = async (event, context) => {
                 whereStatement.producer = { [Op.like]: `%${producer}%` }
             if (wineName)
                 whereStatement.wineName = { [Op.like]: `%${wineName}%` }
-                if (active !== undefined && active !== '')
-                    whereStatement.active = active === 'true';
+            if (active !== undefined && active !== '')
+                whereStatement.active = active === 'true';
 
             if (priceMin)
                 whereStatement.price = {
@@ -44,13 +44,29 @@ module.exports.list = async (event, context) => {
                         Number(priceMax),
                     ],
                 };
+
+            if (inventoryCountMin)
+                whereStatement.inventoryCount = {
+                    [Op.gte]: Number(inventoryCountMin),
+                };
+            if (inventoryCountMax)
+                whereStatement.inventoryCount = {
+                    [Op.lte]: Number(inventoryCountMax),
+                };
+            if (inventoryCountMin && inventoryCountMax)
+                whereStatement.inventoryCount = {
+                    [Op.between]: [
+                        Number(inventoryCountMin),
+                        Number(inventoryCountMax),
+                    ],
+                };
         }
 
         const { pageSize, pageNumber } = event.queryStringParameters
         const { count, rows } = await Product.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
-            offset: (Number(pageNumber) - 1) * 10,
+            offset: (Number(pageNumber) - 1) * pageSize,
             order: [['id', 'DESC']],
         })
 

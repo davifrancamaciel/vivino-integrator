@@ -42,47 +42,58 @@ const Cards: React.FC = () => {
 
   return (
     <>
-      <Card
-        loading={loading}
-        value={formatPrice(cards?.sales.totalValueMonth!)}
-        color={systemColors.GREEN}
-        text={`Valor total das ${
-          cards?.sales.count ? cards?.sales.count : 0
-        } vendas este mês`}
-        isPermission={Boolean(checkRouleProfileAccess(groups, roules.sales))}
-        icon={<ArrowUpOutlined />}
-        url={`${appRoutes.sales}`}
-      />
-      <Card
-        loading={loading}
-        value={formatPrice(cards?.sales.commissionMonth!)}
-        color={systemColors.YELLOW}
-        text={`Commissão a pagar sob ${
-          cards?.sales.count ? cards?.sales.count : 0
-        } vendas este mês`}
-        isPermission={Boolean(checkRouleProfileAccess(groups, roules.sales))}
-        icon={<ArrowDownOutlined />}
-        url={`${appRoutes.sales}`}
-      />
-      <Card
-        loading={loading}
-        value={`${cards?.productsActive.count}`}
-        color={systemColors.LIGHT_BLUE}
-        text={'Vinhos disponíveis para integração'}
-        isPermission={Boolean(checkRouleProfileAccess(groups, roules.products))}
-        icon={<CheckOutlined />}
-        url={`${appRoutes.products}?active=true`}
-      />
-
-      <Card
-        loading={loading}
-        value={`${cards?.productsNotActive.count}`}
-        color={systemColors.RED}
-        text={'Vinhos não integrados'}
-        isPermission={Boolean(checkRouleProfileAccess(groups, roules.products))}
-        icon={<WarningOutlined />}
-        url={`${appRoutes.products}?active=false`}
-      />
+      {Boolean(checkRouleProfileAccess(groups, roules.sales)) && (
+        <Card
+          loading={loading}
+          value={formatPrice(cards?.sales.totalValueMonth!)}
+          color={systemColors.GREEN}
+          text={`Valor total das ${
+            cards?.sales.count ? cards?.sales.count : 0
+          } vendas este mês`}
+          isPermission={Boolean(checkRouleProfileAccess(groups, roules.sales))}
+          icon={<ArrowUpOutlined />}
+          url={`${appRoutes.sales}`}
+        />
+      )}
+      {Boolean(checkRouleProfileAccess(groups, roules.sales)) && (
+        <Card
+          loading={loading}
+          value={formatPrice(cards?.sales.commissionMonth!)}
+          color={systemColors.YELLOW}
+          text={`Commissão a pagar sob ${
+            cards?.sales.count ? cards?.sales.count : 0
+          } vendas este mês`}
+          isPermission={Boolean(checkRouleProfileAccess(groups, roules.sales))}
+          icon={<ArrowDownOutlined />}
+          url={`${appRoutes.sales}`}
+        />
+      )}
+      {Boolean(checkRouleProfileAccess(groups, roules.products)) && (
+        <Card
+          loading={loading}
+          value={`${cards?.productsActive.count}`}
+          color={systemColors.LIGHT_BLUE}
+          text={'Vinhos disponíveis para integração'}
+          isPermission={Boolean(
+            checkRouleProfileAccess(groups, roules.products)
+          )}
+          icon={<CheckOutlined />}
+          url={`${appRoutes.products}?active=true`}
+        />
+      )}
+      {Boolean(checkRouleProfileAccess(groups, roules.products)) && (
+        <Card
+          loading={loading}
+          value={`${cards?.productsNotActive.count}`}
+          color={systemColors.RED}
+          text={'Vinhos não integrados'}
+          isPermission={Boolean(
+            checkRouleProfileAccess(groups, roules.products)
+          )}
+          icon={<WarningOutlined />}
+          url={`${appRoutes.products}?active=false`}
+        />
+      )}
     </>
   );
 };

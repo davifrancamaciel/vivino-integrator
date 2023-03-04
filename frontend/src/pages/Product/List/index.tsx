@@ -7,7 +7,8 @@ import {
   apiRoutes,
   appRoutes,
   booleanFilter,
-  systemColors
+  systemColors,
+  pageItemsFilter
 } from 'utils/defaultValues';
 import { initialStateFilter, Product } from '../interfaces';
 import useFormState from 'hooks/useFormState';
@@ -15,6 +16,7 @@ import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
+import ExportCSV from './Export';
 
 const List: React.FC = () => {
   const query = useQuery();
@@ -75,7 +77,7 @@ const List: React.FC = () => {
         actionButton={() => actionFilter()}
         loading={loading}
       >
-        <Col lg={4} md={12} sm={24} xs={24}>
+        <Col lg={4} md={5} sm={24} xs={24}>
           <Input
             label={'Código'}
             type={'number'}
@@ -84,7 +86,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
-        <Col lg={10} md={12} sm={24} xs={24}>
+        <Col lg={6} md={7} sm={24} xs={24}>
           <Input
             label={'Nome do produto'}
             placeholder="Ex.: Famille Perrin Réserve Côtes-du-Rhône 2019 Rouge"
@@ -92,12 +94,20 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ productName: e.target.value })}
           />
         </Col>
-        <Col lg={10} md={12} sm={24} xs={24}>
+        <Col lg={5} md={6} sm={24} xs={24}>
           <Input
             label={'Produtor'}
             placeholder="Ex.: Famille Perrin"
             value={state.producer}
             onChange={(e) => dispatch({ producer: e.target.value })}
+          />
+        </Col>
+        <Col lg={5} md={6} sm={24} xs={24}>
+          <Input
+            label={'Nome do vinho'}
+            placeholder="Ex.: Réserve"
+            value={state.wineName}
+            onChange={(e) => dispatch({ wineName: e.target.value })}
           />
         </Col>
         <Col lg={4} md={12} sm={24} xs={24}>
@@ -106,14 +116,6 @@ const List: React.FC = () => {
             options={booleanFilter}
             value={state?.active}
             onChange={(active) => dispatch({ active })}
-          />
-        </Col>
-        <Col lg={10} md={12} sm={24} xs={24}>
-          <Input
-            label={'Nome do vinho'}
-            placeholder="Ex.: Réserve"
-            value={state.wineName}
-            onChange={(e) => dispatch({ wineName: e.target.value })}
           />
         </Col>
         <Col lg={5} md={6} sm={12} xs={24}>
@@ -134,10 +136,36 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ priceMax: e.target.value })}
           />
         </Col>
-        
+        <Col lg={5} md={6} sm={12} xs={24}>
+          <Input
+            label={'Estoque de'}
+            placeholder="Ex.: 1"
+            type={'number'}
+            value={state.inventoryCountMin}
+            onChange={(e) => dispatch({ inventoryCountMin: e.target.value })}
+          />
+        </Col>
+        <Col lg={5} md={6} sm={12} xs={24}>
+          <Input
+            label={'Estoque até'}
+            placeholder="Ex.: 1000"
+            type={'number'}
+            value={state.inventoryCountMax}
+            onChange={(e) => dispatch({ inventoryCountMax: e.target.value })}
+          />
+        </Col>
+        <Col lg={4} md={12} sm={24} xs={24}>
+          <Select
+            label={'Itens por página'}
+            options={pageItemsFilter}
+            value={state?.pageSize}
+            onChange={(pageSize) => dispatch({ pageSize })}
+          />
+        </Col>
       </PanelFilter>
       <GridList
         scroll={{ x: 840 }}
+        headerChildren={<ExportCSV {...state} />}
         columns={[
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'id' },
@@ -145,7 +173,10 @@ const List: React.FC = () => {
           { title: 'Preço', dataIndex: 'price' },
           { title: 'Tamanho', dataIndex: 'bottleSize' },
           { title: 'País', dataIndex: 'country' },
-          { title: 'Produtor', dataIndex: 'producer' },
+          {
+            title: 'Contagem de inventário (estoque)',
+            dataIndex: 'inventoryCount'
+          },
           { title: 'Ativo', dataIndex: 'active' },
           { title: 'Criado em', dataIndex: 'createdAt' },
           { title: 'Alterado em', dataIndex: 'updatedAt' }

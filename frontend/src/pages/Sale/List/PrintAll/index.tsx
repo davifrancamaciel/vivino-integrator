@@ -13,6 +13,8 @@ import api from 'services/api-aws-amplify';
 import { formatDate } from 'utils/formatDate';
 import { formatPrice, priceToNumber } from 'utils/formatPrice';
 import { Footer, Summary } from './styles';
+import Td from './Td';
+import { Product } from '../../CreateEdit/Products/interfaces';
 interface PropTypes {
   state: Filter;
 }
@@ -75,9 +77,11 @@ const Print: React.FC<PropTypes> = ({ state }) => {
 
       const { count, rows } = resp.data;
 
-      const itemsFormatted: Sale[] = rows.map((s: any) => ({
+      const itemsFormatted = rows.map((s: any) => ({
         ...s,
-        products: s.productsFormatted,
+        products: s.productsFormatted.map(
+          (p: Product) => `${p.name} ${formatPrice(Number(p.value! || 0))}, `
+        ),
         value: formatPrice(Number(s.value!)),
         createdAt: formatDate(s.createdAt || '')
       }));
@@ -113,37 +117,26 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         <TableReport
           isFlower={true}
           title={`Relatorio de vendas ${filteredPeriod}`}
-          headerList={['Código', 'Data', 'Vendedor', 'Valor', 'Obs.']}
+          // headerList={['Código', 'Data', 'Vendedor', 'Valor', 'Obs.']}
         >
           {items.map((sale: Sale, i: number) => (
-            <tr key={i}>
-              <td>{sale.id}</td>
-              <td>{sale.createdAt}</td>
-              <td>{sale.userName}</td>
-              <td>{sale.value}</td>
-              <td>{sale.note}</td>
-              {/* <table>
-                <thead>
-                  <th colSpan={3}>Produto</th>
-                  <th>Valor</th>
-                </thead>
-                <tbody>
-                  {sale.products.map((p: Product, index: number) => (
-                    <tr key={index}>
-                      <td colSpan={3}>{p.name}</td>
-                      <td>{formatPrice(p.value!)}</td>
-                    </tr>
-                  ))}
+            <tr key={i} style={{ border: 'solid 1px #000' }}>
+              <table>
+                <tr>
+                  <Td colSpan={2} title="Código" value={sale.id} />
+                  <Td colSpan={2} title="Data" value={sale.createdAt} />
+                  <Td colSpan={2} title="Vendedor" value={sale.userName} />
+                  <Td colSpan={2} title="Valor" value={sale.value} />
+                </tr>
+                <tr>
+                  <Td colSpan={8} title="Produtos" value={sale.products} />
+                </tr>
+                {sale.note && (
                   <tr>
-                    <Td title="Data" value={sale.createdAt} />
-                    <Td colSpan={2} title="Vendedor" value={sale.userName} />
-                    <Td title="Valor total" value={sale.value} />
+                    <Td colSpan={8} title="Observações" value={sale.note} />
                   </tr>
-                  <tr>
-                    <Td colSpan={4} title="Obs." value={sale.note} />
-                  </tr>
-                </tbody>
-              </table> */}
+                )}
+              </table>
             </tr>
           ))}
         </TableReport>

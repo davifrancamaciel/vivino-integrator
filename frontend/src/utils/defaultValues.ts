@@ -18,7 +18,7 @@ export const appRoutes = {
   products: 'products',
   romanians: 'romanians',
   sales: 'sales',
-  expenses: 'expenses',
+  expenses: 'expenses'
 };
 
 export const apiRoutes = {
@@ -31,7 +31,7 @@ export const apiRoutes = {
   companies: 'companies',
   shippingCompanies: 'shipping-companies',
   expenses: 'expenses',
-  expenseTypes: 'expense-types',
+  expenseTypes: 'expense-types'
 };
 
 export const apiRoutesArray = [
@@ -44,7 +44,7 @@ export const apiRoutesArray = [
   apiRoutes.companies,
   apiRoutes.shippingCompanies,
   apiRoutes.expenseTypes,
-  apiRoutes.expenses,
+  apiRoutes.expenses
 ];
 
 export const roules = {
@@ -54,7 +54,7 @@ export const roules = {
   romanians: 'romaneios',
   sales: 'vendas',
   saleUserIdChange: 'vendedor_vendas',
-  expenses: 'despesas',
+  expenses: 'despesas'
 };
 
 export const enumStatusUserAws = {
@@ -67,6 +67,14 @@ export const booleanFilter: IOptions[] = [
   { value: '', label: 'Todos' },
   { value: 'true', label: 'Sim' },
   { value: 'false', label: 'Não' }
+];
+
+export const pageItemsFilter: IOptions[] = [
+  { value: '10', label: '10' },
+  { value: '50', label: '50' },
+  { value: '100', label: '100' },
+  { value: '500', label: '500' },
+  { value: '1000', label: '1.000' }
 ];
 
 export const particularUsers = {
