@@ -35,7 +35,7 @@ const List: React.FC = () => {
 
       const { count, rows } = resp.data;
       const itemsFormatted = rows.map((r: Romanian) => {
-        const product = {
+        const item = {
           ...r,
           nameInfoDel: `Romaneio código ${r.id} empresa ${r.company?.name}`,
           companyName: r.company?.name,
@@ -46,7 +46,7 @@ const List: React.FC = () => {
           createdAt: formatDateHour(r.createdAt),
           updatedAt: formatDateHour(r.updatedAt)
         };
-        return { ...product, print: <Print romanian={product} /> };
+        return { ...item, print: <Print romanian={item} /> };
       });
       setItems(itemsFormatted);
       console.log(itemsFormatted);

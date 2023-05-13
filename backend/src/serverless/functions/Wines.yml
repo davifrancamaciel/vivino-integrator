@@ -1,0 +1,49 @@
+wines:
+  handler: src/functions/api/wines.list
+  events:
+    - http:
+        path: wines
+        method: get
+        authorizer: verifyToken
+        cors: true 
+winesById:
+  handler: src/functions/api/wines.listById
+  events:
+    - http:
+        path: wines/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true 
+winesCreate:
+  handler: src/functions/api/wines.create
+  events:
+    - http:
+        path: wines
+        method: post
+        authorizer: verifyToken
+        cors: true  
+winesUpdate:
+  handler: src/functions/api/wines.update
+  events:
+    - http:
+        path: wines
+        method: put
+        authorizer: verifyToken
+        cors: true 
+winesDelete:
+  handler: src/functions/api/wines.delete
+  events:
+    - http:
+        path: wines/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true
+winesSaleHistory:
+  handler: src/functions/api/winesSaleHistory.list
+  timeout: 600 
+  events:
+    - http:
+        path: wines/sale-history
+        method: get
+        authorizer: verifyToken
+        cors: true 

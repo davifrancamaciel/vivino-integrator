@@ -1,5 +1,5 @@
 shippingCompanies:
-  handler: src/functions/shippingCompanies.listAll
+  handler: src/functions/api/shippingCompanies.listAll
   events:
     - http:
         path: shipping-companies

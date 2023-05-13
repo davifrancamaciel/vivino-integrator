@@ -12,6 +12,12 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      companyId: {
+        type: Sequelize.UUID,
+        references: { model: 'companies', key: 'id' },
+        onUpdate: 'CASCADE',
+        allowNull: false,
+      },
       expenseTypeId: {
         type: Sequelize.INTEGER,
         references: { model: 'expenseTypes', key: 'id' },
@@ -23,6 +29,12 @@ module.exports = {
         references: { model: 'expenses', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+        allowNull: true,
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'users', key: 'id' },
+        onUpdate: 'CASCADE',       
         allowNull: true,
       },
       value: { type: Sequelize.DECIMAL(10, 2), defaultValue: 0, },

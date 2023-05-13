@@ -1,25 +1,41 @@
 export interface CardPropTypes {
   text: string;
-  isPermission: boolean;
   loading: boolean;
   url: string;
   value: string;
   color?: string;
-  icon?: any;
-  total?: Number;
+  icon?: any;  
 }
 export interface CardsReuslt {
-  productsActive: {
-    count: number;
-  };
-
-  productsNotActive: {
-    count: number;
-  };
-
+  winesActive: { count: number };
+  winesNotActive: { count: number };
+  winesSalesDay: { count: number };
+  winesSalesMonth: { count: number };
   sales: {
     count: number;
     commissionMonth: number;
     totalValueMonth: number;
+    commissionUser: number;
+  };
+  expenses: {
+    count: number;
+    totalValueMonth: number;
   };
 }
+
+export const initialStateCards: CardsReuslt = {
+  winesActive: { count: 0 },
+  winesNotActive: { count: 0 },
+  winesSalesDay: { count: 0 },
+  winesSalesMonth: { count: 0 },
+  sales: {
+    count: 0,
+    commissionMonth: 0,
+    totalValueMonth: 0,
+    commissionUser: 0
+  },
+  expenses: {
+    count: 0,
+    totalValueMonth: 0
+  }
+};

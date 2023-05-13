@@ -1,5 +1,7 @@
 'use strict';
 
+const { companyIdDefault } = require("../../utils/defaultValues");
+
 const TABLE_NAME = 'shippingCompanies';
 
 module.exports = {
@@ -14,9 +16,10 @@ module.exports = {
 
 function load() {
   const list = [];
-  for (let i = 1; i < data_array.length; i++) {
+  for (let i = 0; i < data_array.length; i++) {
     list.push({
       name: data_array[i],
+      companyId: companyIdDefault,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

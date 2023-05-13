@@ -20,18 +20,22 @@ const ChangePassword = lazy(() => import('pages/ChangePassword'));
 const Dashboard = lazy(() => import('pages/Dashboard'));
 const UserList = lazy(() => import('pages/User/List'));
 const UserCreateEdit = lazy(() => import('pages/User/CreateEdit'));
-const ProductList = lazy(() => import('pages/Product/List'));
-const ProductCreateEdit = lazy(() => import('pages/Product/CreateEdit'));
-const ProductDetails = lazy(() => import('pages/Product/Details'));
+const WineList = lazy(() => import('pages/Wine/List'));
+const WineCreateEdit = lazy(() => import('pages/Wine/CreateEdit'));
+const WineDetails = lazy(() => import('pages/Wine/Details'));
+const WineSaleHitoryList = lazy(() => import('pages/WineSaleHitory/List'));
 const RomanainList = lazy(() => import('pages/Romanain/List'));
 const RomanainCreateEdit = lazy(() => import('pages/Romanain/CreateEdit'));
 const RomanainDetails = lazy(() => import('pages/Romanain/Details'));
 const SaleList = lazy(() => import('pages/Sale/List'));
 const SaleCreateEdit = lazy(() => import('pages/Sale/CreateEdit'));
-const SaleDetails = lazy(() => import('pages/Sale/Details'));
 const ExpenseList = lazy(() => import('pages/Expense/List'));
+const ExpenseCommisionList = lazy(() => import('pages/Expense/Commision'));
 const ExpenseCreateEdit = lazy(() => import('pages/Expense/CreateEdit'));
 const ExpenseDetails = lazy(() => import('pages/Expense/Details'));
+const CompanyList = lazy(() => import('pages/Company/List'));
+const CompanyCreateEdit = lazy(() => import('pages/Company/CreateEdit'));
+const ServicesList = lazy(() => import('pages/Services/List'));
 
 const routesArray: IRouteProps[] = [
   { path: '/login', component: Login, isPrivate: false },
@@ -50,24 +54,29 @@ const routesArray: IRouteProps[] = [
     roule: roules.users
   },
   {
-    path: `/${appRoutes.products}`,
-    component: ProductList,
-    roule: roules.products
+    path: `/${appRoutes.wines}`,
+    component: WineList,
+    roule: roules.wines
   },
   {
-    path: `/${appRoutes.products}/create`,
-    component: ProductCreateEdit,
-    roule: roules.products
+    path: `/${appRoutes.wines}/create`,
+    component: WineCreateEdit,
+    roule: roules.wines
   },
   {
-    path: `/${appRoutes.products}/edit/:id`,
-    component: ProductCreateEdit,
-    roule: roules.products
+    path: `/${appRoutes.wines}/edit/:id`,
+    component: WineCreateEdit,
+    roule: roules.wines
   },
   {
-    path: `/${appRoutes.products}/details/:id`,
-    component: ProductDetails,
-    roule: roules.products
+    path: `/${appRoutes.wines}/details/:id`,
+    component: WineDetails,
+    roule: roules.wines
+  },
+  {
+    path: `/${appRoutes.wines}/sale-history`,
+    component: WineSaleHitoryList,
+    roule: roules.wines
   },
   {
     path: `/${appRoutes.romanians}`,
@@ -100,13 +109,13 @@ const routesArray: IRouteProps[] = [
     roule: roules.sales
   },
   {
-    path: `/${appRoutes.sales}/edit/:id`,
-    component: SaleCreateEdit,
+    path: `/${appRoutes.sales}/my-commisions`,
+    component: ExpenseCommisionList,
     roule: roules.sales
   },
   {
-    path: `/${appRoutes.sales}/details/:id`,
-    component: SaleDetails,
+    path: `/${appRoutes.sales}/edit/:id`,
+    component: SaleCreateEdit,
     roule: roules.sales
   },
   {
@@ -129,6 +138,26 @@ const routesArray: IRouteProps[] = [
     component: ExpenseDetails,
     roule: roules.expenses
   },
+  {
+    path: `/${appRoutes.companies}`,
+    component: CompanyList,
+    roule: roules.administrator
+  },
+  {
+    path: `/${appRoutes.companies}/create`,
+    component: CompanyCreateEdit,
+    roule: roules.administrator
+  },
+  {
+    path: `/${appRoutes.companies}/edit/:id`,
+    component: CompanyCreateEdit,
+    roule: roules.administrator
+  },
+  {
+    path: `/${appRoutes.services}`,
+    component: ServicesList,
+    roule: roules.administrator
+  }
 ];
 
 const Routes: React.FC = () => {

@@ -4,8 +4,8 @@ import { startOfMonth, endOfMonth } from 'date-fns';
 
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
-import { Input, RangePicker, Select } from 'components/_inputs';
-import { apiRoutes, appRoutes, booleanFilter } from 'utils/defaultValues';
+import { Input, RangePicker } from 'components/_inputs';
+import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import { initialStateFilter, Sale } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
@@ -50,6 +50,7 @@ const List: React.FC = () => {
       const itemsFormatted = rows.map((p: any) => {
         const sale = {
           ...p,
+          userName: p.user.name,
           valueFormatted: formatPrice(Number(p.value!)),
           products: p.productsFormatted,
           productsFormatted: formatProductName(p.products),

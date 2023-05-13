@@ -10,7 +10,6 @@ export interface Romanian {
   shippingCompany?: ShippingCompany;
   noteNumber?: string;
   noteValue?: string;
-  companyId?: number;
   clientName?: string;
   shippingCompanyId?: number;
   shippingValue?: string;
@@ -22,6 +21,7 @@ export interface Romanian {
   createdAt?: string;
   updatedAt?: string;
   delivered: boolean;
+  companyId?: string;
 }
 
 export const initialStateForm: Romanian = {

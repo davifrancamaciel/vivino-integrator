@@ -1,0 +1,26 @@
+eventsBridgeUpdate:
+  handler: src/functions/api/eventsBridge.update
+  events:
+    - http:
+        path: services
+        method: put
+        authorizer: verifyToken
+        cors: true 
+eventsBridgeGet:
+  handler: src/functions/api/eventsBridge.get
+  events:
+    - http:
+        path: services
+        method: get
+        authorizer: verifyToken
+        cors: true
+sendEmailQueue:
+  handler: src/functions/queue/sendEmail.handler
+  timeout: 600 
+  memorySize: 512
+  events:    
+    - sqs:       
+        arn:
+          Fn::GetAtt:
+            - SendEmailQueue
+            - Arn

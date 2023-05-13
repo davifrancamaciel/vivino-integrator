@@ -16,9 +16,12 @@ export const systemColors = {
 export const appRoutes = {
   users: 'users',
   products: 'products',
+  wines: 'wines',
   romanians: 'romanians',
   sales: 'sales',
-  expenses: 'expenses'
+  expenses: 'expenses',
+  companies: 'companies',  
+  services: 'services'
 };
 
 export const apiRoutes = {
@@ -26,12 +29,15 @@ export const apiRoutes = {
   groups: 'groups',
   users: appRoutes.users,
   products: appRoutes.products,
+  wines: appRoutes.wines,
   romanians: appRoutes.romanians,
   sales: appRoutes.sales,
-  companies: 'companies',
+  companies: appRoutes.companies,
+  services: appRoutes.services,
   shippingCompanies: 'shipping-companies',
   expenses: 'expenses',
-  expenseTypes: 'expense-types'
+  expenseTypes: 'expense-types',
+  
 };
 
 export const apiRoutesArray = [
@@ -39,18 +45,21 @@ export const apiRoutesArray = [
   apiRoutes.users,
   apiRoutes.groups,
   apiRoutes.products,
+  apiRoutes.wines,
   apiRoutes.romanians,
   apiRoutes.sales,
   apiRoutes.companies,
   apiRoutes.shippingCompanies,
   apiRoutes.expenseTypes,
-  apiRoutes.expenses
+  apiRoutes.expenses,
+  apiRoutes.services,
 ];
 
 export const roules = {
   administrator: 'administrador',
   users: 'usuarios',
   products: 'produtos',
+  wines: 'vinhos',
   romanians: 'romaneios',
   sales: 'vendas',
   saleUserIdChange: 'vendedor_vendas',
@@ -76,9 +85,3 @@ export const pageItemsFilter: IOptions[] = [
   { value: '500', label: '500' },
   { value: '1000', label: '1.000' }
 ];
-
-export const particularUsers = {
-  userIdTha: '623be749-c4d7-4987-bb3d-5bdd1d810223',
-  userIdSa: '7eaed82d-72e2-40c6-9de9-117f324f5530',
-  userIdRe: '089c0e53-ebd7-444f-a8ec-4856475ecef7'
-};

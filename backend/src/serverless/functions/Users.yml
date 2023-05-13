@@ -1,5 +1,5 @@
 users:
-    handler: src/functions/users.list
+    handler: src/functions/api/users.list
     events:
       - http:
           path: users
@@ -7,7 +7,7 @@ users:
           authorizer: verifyToken
           cors: true
 usersById:
-  handler: src/functions/users.listById
+  handler: src/functions/api/users.listById
   events:
     - http:
         path: users/{id}
@@ -15,7 +15,7 @@ usersById:
         authorizer: verifyToken
         cors: true
 usersCreate:
-  handler: src/functions/users.create
+  handler: src/functions/api/users.create
   events:
     - http:
         path: users
@@ -23,7 +23,7 @@ usersCreate:
         authorizer: verifyToken
         cors: true
 usersUpdate:
-  handler: src/functions/users.update
+  handler: src/functions/api/users.update
   events:
     - http:
         path: users
@@ -31,7 +31,7 @@ usersUpdate:
         authorizer: verifyToken
         cors: true
 usersDelete:
-  handler: src/functions/users.delete
+  handler: src/functions/api/users.delete
   events:
     - http:
         path: users/{id}
@@ -39,7 +39,7 @@ usersDelete:
         authorizer: verifyToken
         cors: true
 usersAll:
-    handler: src/functions/users.listAll
+    handler: src/functions/api/users.listAll
     events:
       - http:
           path: users/all

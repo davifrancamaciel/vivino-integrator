@@ -19,9 +19,10 @@ const getUser = async (event) => {
         const { user } = requestContext.authorizer
 
         if (user) {
-            const userToken = JSON.parse(user)
-            userToken.havePermissionApprover = isHavePermissionApprover(userToken["cognito:groups"]);
-            userToken.groups = userToken["cognito:groups"]
+            const userToken = JSON.parse(user)            
+            userToken.groups = userToken["cognito:groups"];
+            userToken.companyId = userToken["custom:company_id"];
+            userToken.userId = Number(userToken["custom:user_id"] || 0);
             console.log('USUÁRIO ', userToken.name)
             return userToken
         } else
@@ -31,12 +32,6 @@ const getUser = async (event) => {
         console.log('Erro ao recuperar usuário', error)
         return null;
     }
-}
-
-const isHavePermissionApprover = (groups) => {
-    if (!groups) return false
-    const isHavePermission = groups.filter(x => x.toLocaleLowerCase() === roules.administrator || x.toLocaleLowerCase() === roules.romanians)
-    return !!isHavePermission.length
 }
 
 const checkRouleProfileAccess = (groups, roule) => {

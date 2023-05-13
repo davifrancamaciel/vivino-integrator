@@ -1,0 +1,72 @@
+winesVivinoIntegrationXmlQueue:
+  handler: src/functions/queue/winesVivinoIntegrationXml.handler
+  timeout: 600 
+  memorySize: 512
+  environment:
+    bucketName: ${self:custom.bucketPublic}
+  events:    
+    - sqs:       
+        arn:
+          Fn::GetAtt:
+            - WinesXmlGenerateFilesQueue
+            - Arn
+    - http:
+        path: wines/run-update-xml/{companyId}
+        method: get        
+        cors: true 
+winesVivinoIntegrationApiAuthEvent:  
+  handler: src/functions/events/winesVivinoIntegrationApi.auth
+  timeout: 300 
+  environment:
+    VIVINO_API_URL: ${self:custom.VIVINO_API_URL}  
+  events:
+  - eventBridge:
+      name: "${self:service}-${opt:stage, self:provider.stage}-viv-auth"
+      description: Servico autentica loja na vivino e obtem token para requisições de api
+      schedule: cron(30 3 ? * MON *) # 0h30 de segunda-feira hora BR
+  - http:
+        path: wines/run-auth
+        method: get        
+        cors: true
+winesVivinoIntegrationApiSalesEvent:  
+  handler: src/functions/events/winesVivinoIntegrationApi.sales
+  timeout: 300 
+  environment:
+    VIVINO_API_URL: ${self:custom.VIVINO_API_URL}  
+  events:  
+  - eventBridge:
+      name: "${self:service}-${opt:stage, self:provider.stage}-viv-sales"
+      description: Servico que busca vendas do dia anterior na vivino
+      schedule: cron(0 4 * * ? *) # 1h00 de todos dias hora BR
+  - http:
+        path: wines/run-sales
+        method: get        
+        cors: true 
+winesUpdateQueue:
+  handler: src/functions/queue/winesUpdate.handler
+  timeout: 600 
+  memorySize: 512  
+  events:    
+    - sqs:       
+        arn:
+          Fn::GetAtt:
+            - WinesSalesUpdateQueue
+            - Arn
+    - http:
+        path: wines/run-sales-update
+        method: post        
+        cors: true 
+winesWarningEvent:  
+  handler: src/functions/events/winesWarning.handler
+  timeout: 300  
+  environment:
+    bucketName: ${self:custom.bucketPublic} 
+  events:  
+  - eventBridge:
+      name: "${self:service}-${opt:stage, self:provider.stage}-wines-warning"
+      description: Servico que busca vinhos com estoque baixo
+      schedule: cron(0 11 * * ? *) # 1h00 de todos dias hora BR
+  - http:
+        path: wines/run-wines-warning
+        method: get        
+        cors: true 

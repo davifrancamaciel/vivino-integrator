@@ -3,10 +3,11 @@ import { useHistory } from 'react-router-dom';
 import { Col, notification } from 'antd';
 import { DatePicker, Input, Select, Switch } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
-import { apiRoutes, appRoutes } from 'utils/defaultValues';
+import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
+import ShowByRoule from 'components/ShowByRoule';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
@@ -32,7 +33,7 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      if (!state.noteNumber || !state.companyId || !state.shippingCompanyId) {
+      if (!state.noteNumber || !state.shippingCompanyId) {
         notification.warning({
           message: 'Existem campos obrigatórios não preenchidos'
         });
@@ -58,14 +59,16 @@ const CreateEdit: React.FC = (props: any) => {
       loadingBtnAction={false}
       loadingPanel={loading}
     >
-      <Col lg={6} md={12} sm={24} xs={24}>
-        <Select
-          label={'Empresa'}
-          url={`${apiRoutes.companies}`}
-          value={state.companyId}
-          onChange={(companyId) => dispatch({ companyId })}
-        />
-      </Col>
+      <ShowByRoule roule={roules.administrator}>
+        <Col lg={6} md={8} sm={12} xs={24}>
+          <Select
+            label={'Empresa'}
+            url={`${apiRoutes.companies}/all`}
+            value={state.companyId}
+            onChange={(companyId) => dispatch({ companyId })}
+          />
+        </Col>
+      </ShowByRoule>
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
           label={'Nome do cliente'}
@@ -94,15 +97,15 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
 
-      <Col lg={12} md={12} sm={24} xs={24}>
+      <Col lg={6} md={12} sm={24} xs={24}>
         <Select
           label={'Transporadora/Entregador'}
           url={`${apiRoutes.shippingCompanies}`}
           value={state.shippingCompanyId}
           onChange={(shippingCompanyId) => dispatch({ shippingCompanyId })}
-        />       
+        />
       </Col>
-      <Col lg={12} md={12} sm={24} xs={24}>
+      <Col lg={6} md={12} sm={24} xs={24}>
         <Input
           label={'Código/link de rastreamento'}
           placeholder=""

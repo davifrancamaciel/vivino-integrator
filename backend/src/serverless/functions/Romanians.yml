@@ -1,5 +1,5 @@
 romanians:
-  handler: src/functions/romanians.list
+  handler: src/functions/api/romanians.list
   events:
     - http:
         path: romanians
@@ -7,7 +7,7 @@ romanians:
         authorizer: verifyToken
         cors: true 
 romaniansById:
-  handler: src/functions/romanians.listById
+  handler: src/functions/api/romanians.listById
   events:
     - http:
         path: romanians/{id}
@@ -15,7 +15,7 @@ romaniansById:
         authorizer: verifyToken
         cors: true 
 romaniansCreate:
-  handler: src/functions/romanians.create
+  handler: src/functions/api/romanians.create
   events:
     - http:
         path: romanians
@@ -23,7 +23,7 @@ romaniansCreate:
         authorizer: verifyToken
         cors: true  
 romaniansUpdate:
-  handler: src/functions/romanians.update
+  handler: src/functions/api/romanians.update
   events:
     - http:
         path: romanians
@@ -31,7 +31,7 @@ romaniansUpdate:
         authorizer: verifyToken
         cors: true 
 romaniansDelete:
-  handler: src/functions/romanians.delete
+  handler: src/functions/api/romanians.delete
   events:
     - http:
         path: romanians/{id}

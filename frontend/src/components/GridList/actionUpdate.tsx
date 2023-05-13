@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { EditOutlined } from '@ant-design/icons';
 import { Tooltip, Button } from 'antd';
 import { systemColors } from 'utils/defaultValues';

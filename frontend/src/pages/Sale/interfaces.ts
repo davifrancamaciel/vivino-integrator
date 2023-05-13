@@ -1,6 +1,10 @@
 import { Product } from './CreateEdit/Products/interfaces';
+export interface User {
+  name: string;
+}
 export interface Sale {
   id?: string;
+  user?: User;
   products: Product[];
   value?: number;
   note?: string;
@@ -8,6 +12,7 @@ export interface Sale {
   userName?: string;
   createdAt?: string;
   updatedAt?: string;
+  companyId?: string;
 }
 
 export const initialStateForm: Sale = {

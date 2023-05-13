@@ -36,8 +36,8 @@ const List: React.FC = () => {
       const itemsFormatted = rows.map((e: Expense) => {
         const expense = {
           ...e,
-          nameInfoDel: `Despesa ${e.title} do tipo ${e.expenseTypes?.name}`,
-          expenseTypeName: e.expenseTypes?.name,
+          nameInfoDel: `Despesa ${e.title} do tipo ${e.expenseType?.name}`,
+          expenseTypeName: e.expenseType?.name,
           value: formatPrice(Number(e.value) || 0),
           paymentDate: formatDate(e.paymentDate),
           createdAt: formatDateHour(e.createdAt),
@@ -157,7 +157,7 @@ const List: React.FC = () => {
         routes={{
           routeCreate: `/${appRoutes.expenses}/create`,
           routeUpdate: `/${appRoutes.expenses}/edit`,
-          routeView: `/${appRoutes.expenses}/details`,
+          // routeView: `/${appRoutes.expenses}/details`,
           routeDelete: `/${appRoutes.expenses}`
         }}
       />

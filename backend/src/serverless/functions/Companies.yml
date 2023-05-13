@@ -1,8 +1,48 @@
 companies:
-  handler: src/functions/companies.listAll
+  handler: src/functions/api/companies.list
   events:
     - http:
         path: companies
+        method: get
+        authorizer: verifyToken
+        cors: true 
+companiesById:
+  handler: src/functions/api/companies.listById
+  events:
+    - http:
+        path: companies/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true 
+companiesCreate:
+  handler: src/functions/api/companies.create
+  events:
+    - http:
+        path: companies
+        method: post
+        authorizer: verifyToken
+        cors: true  
+companiesUpdate:
+  handler: src/functions/api/companies.update
+  events:
+    - http:
+        path: companies
+        method: put
+        authorizer: verifyToken
+        cors: true 
+companiesDelete:
+  handler: src/functions/api/companies.delete
+  events:
+    - http:
+        path: companies/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true
+companiesAll:
+  handler: src/functions/api/companies.listAll
+  events:
+    - http:
+        path: companies/all
         method: get
         authorizer: verifyToken
         cors: true 

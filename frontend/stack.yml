@@ -3,7 +3,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: vivino-integrator-dev
+      BucketName: vivino-integrator-v2-dev
       AccessControl: PublicRead 
       WebsiteConfiguration:
         IndexDocument: index.html

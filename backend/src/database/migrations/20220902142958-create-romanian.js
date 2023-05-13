@@ -13,7 +13,7 @@ module.exports = {
         primaryKey: true,
       },
       companyId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: { model: 'companies', key: 'id' },
         onUpdate: 'CASCADE',
         allowNull: false,

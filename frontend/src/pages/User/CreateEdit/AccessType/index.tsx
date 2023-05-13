@@ -19,7 +19,8 @@ const AccessType: React.FC<PropTypes> = ({
   //   indicator: <img src={logo} />
   // };
   useEffect(() => {
-    !groups.length && onLoad();
+    // !groups.length && 
+    onLoad();
   }, []);
 
   useEffect(() => {

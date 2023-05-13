@@ -13,18 +13,18 @@ Resources:
       #UsernameAttributes:
       #  - email
       UserPoolName: ${self:service}-user-pool-${opt:stage, self:provider.stage}
-      EmailVerificationSubject: "Bem vindo ao Integrador Vivino - Código de verificação"
+      EmailVerificationSubject: "Bem vindo ao Integrador de serviços - Código de verificação"
       EmailVerificationMessage: ${file(src/serverless/layouts/template-email-code.html)}        
       Schema:
         - Name: email
           AttributeDataType: String
           Mutable: false
           Required: true
-        - Name: name
+        - Name: company_id
           AttributeDataType: String
           Mutable: true
-          Required: true
-        - Name: type_access
+          Required: false
+        - Name: user_id
           AttributeDataType: String
           Mutable: true
           Required: false      
@@ -38,7 +38,7 @@ Resources:
             #TemporaryPasswordValidityDays: 7
       AdminCreateUserConfig:
         InviteMessageTemplate:
-          EmailSubject: "Bem vindo ao Integrador Vivino - Senha temporária"
+          EmailSubject: "Bem vindo ao Integrador de serviços - Senha temporária"
           EmailMessage: ${file(src/serverless/layouts/template-email-password.html)}                  
         UnusedAccountValidityDays: 7
         #Permitir que somente o administrador crie usuários

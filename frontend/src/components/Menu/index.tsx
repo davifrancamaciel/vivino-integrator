@@ -4,7 +4,8 @@ import { Layout, Menu } from 'antd';
 import {
   UserOutlined,
   DashboardOutlined,
-  UnorderedListOutlined
+  UnorderedListOutlined,
+  CloudServerOutlined
 } from '@ant-design/icons';
 import { Auth } from 'aws-amplify';
 
@@ -56,17 +57,22 @@ const SliderMenu: React.FC = (props: any) => {
           <Link to={'/'}>Dashboard</Link>
         </Menu.Item>
 
-        {checkRouleProfileAccess(groupsUser, roules.products) && (
+        {checkRouleProfileAccess(groupsUser, roules.wines) && (
           <SubMenu
-            key={`sub-/${appRoutes.products}`}
-            title={'Produtos'}
+            key={`sub-/${appRoutes.wines}`}
+            title={'Vinhos'}
             icon={<UnorderedListOutlined />}
           >
-            <Menu.Item key={`/${appRoutes.products}`}>
-              <Link to={`/${appRoutes.products}`}>Lista</Link>
+            <Menu.Item key={`/${appRoutes.wines}`}>
+              <Link to={`/${appRoutes.wines}`}>Lista</Link>
             </Menu.Item>
-            <Menu.Item key={`/${appRoutes.products}/create`}>
-              <Link to={`/${appRoutes.products}/create`}>Novo</Link>
+            <Menu.Item key={`/${appRoutes.wines}/create`}>
+              <Link to={`/${appRoutes.wines}/create`}>Novo</Link>
+            </Menu.Item>
+            <Menu.Item key={`/${appRoutes.wines}/sale-history`}>
+              <Link to={`/${appRoutes.wines}/sale-history`}>
+                Histórico de vendas
+              </Link>
             </Menu.Item>
           </SubMenu>
         )}
@@ -97,6 +103,9 @@ const SliderMenu: React.FC = (props: any) => {
             <Menu.Item key={`/${appRoutes.sales}/create`}>
               <Link to={`/${appRoutes.sales}/create`}>Nova</Link>
             </Menu.Item>
+            <Menu.Item key={`/${appRoutes.sales}/my-commisions`}>
+              <Link to={`/${appRoutes.sales}/my-commisions`}>Minhas comissões</Link>
+            </Menu.Item>
           </SubMenu>
         )}
         {checkRouleProfileAccess(groupsUser, roules.expenses) && (
@@ -113,6 +122,7 @@ const SliderMenu: React.FC = (props: any) => {
             </Menu.Item>
           </SubMenu>
         )}
+
         {checkRouleProfileAccess(groupsUser, roules.users) && (
           <SubMenu
             key={`sub-/${appRoutes.users}`}
@@ -126,6 +136,28 @@ const SliderMenu: React.FC = (props: any) => {
               <Link to={`/${appRoutes.users}/create`}>Novo</Link>
             </Menu.Item>
           </SubMenu>
+        )}
+        {checkRouleProfileAccess(groupsUser, roules.administrator) && (
+          <>
+            <SubMenu
+              key={`sub-/${appRoutes.companies}`}
+              title={'Empresas'}
+              icon={<UnorderedListOutlined />}
+            >
+              <Menu.Item key={`/${appRoutes.companies}`}>
+                <Link to={`/${appRoutes.companies}`}>Lista</Link>
+              </Menu.Item>
+              <Menu.Item key={`/${appRoutes.companies}/create`}>
+                <Link to={`/${appRoutes.companies}/create`}>Nova</Link>
+              </Menu.Item>
+            </SubMenu>
+            <Menu.Item
+              icon={<CloudServerOutlined />}
+              key={`/${appRoutes.services}`}
+            >
+              <Link to={`/${appRoutes.services}`}>Serviços</Link>
+            </Menu.Item>
+          </>
         )}
       </Menu>
     </Sider>

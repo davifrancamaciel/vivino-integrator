@@ -14,9 +14,9 @@ module.exports = {
 
 function load() {
   const list = [];
-  for (let i = 1; i < data_array.length; i++) {
+  for (let i = 0; i < data_array.length; i++) {
     list.push({
-      name: data_array[i],
+      name: data_array[i],     
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -25,6 +25,7 @@ function load() {
 }
 
 const data_array = [
+  'Pagamento de comissão',
   '13º 1ª parcela',
   '13º 2ª parcela',
   '13º integral',

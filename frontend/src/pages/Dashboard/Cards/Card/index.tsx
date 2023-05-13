@@ -6,7 +6,7 @@ import { Container } from './styles';
 
 const Card: React.FC<CardPropTypes> = (props) => {
   return (
-    <Link to={props.isPermission ? props.url : '/'}>
+    <Link to={props.url}>
       <Container color={props.color}>
         <span>
           {props.loading ? <LoadingOutlined /> : props.value ? props.value : 0}

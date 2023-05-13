@@ -24,7 +24,7 @@ const Route: React.FC<IRouteProps> = ({
   useEffect(() => {
     const checkAccessToken = async () => {
       try {
-        const userAuth = await Auth.currentAuthenticatedUser();
+        const userAuth = await Auth.currentAuthenticatedUser();       
         userHasAuthenticated(!!userAuth);
         setUserAuthenticated(userAuth);
         const groupsAuth =

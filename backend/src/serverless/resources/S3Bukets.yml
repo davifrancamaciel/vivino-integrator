@@ -1,8 +1,8 @@
 Resources:
-    VivinoBucket:
+    PublicSystemBucket: # nome variável
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:custom.bucketFeeds}
+        BucketName: ${self:custom.bucketPublic}
         AccessControl: PublicRead
         CorsConfiguration:
           CorsRules:

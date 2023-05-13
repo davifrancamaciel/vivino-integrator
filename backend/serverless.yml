@@ -1,4 +1,4 @@
-service: vivino-integrator-api
+service: services-integrator-api
 
 plugins:
   - serverless-offline
@@ -9,9 +9,10 @@ custom:
   serverless-offline:
     httpPort: 4000   
   USER_POO_ID_OFFLINE: ${self:custom.secrets.USER_POO_ID_OFFLINE}
-  bucketFeeds: ${self:service}-${opt:stage, self:provider.stage}-feeds
+  bucketPublic: ${self:service}-${opt:stage, self:provider.stage}-public
+  VIVINO_API_URL: ${self:custom.secrets.VIVINO_API_URL}
   DB_HOST: ${self:custom.secrets.DB_HOST}  
-  DB_NAME: vivino_db
+  DB_NAME: services_db
   DB_USERNAME: root
   DB_PASSWORD: ${self:custom.secrets.DB_PASSWORD}    
   DB_PORT: 3306 
@@ -43,6 +44,7 @@ provider:
     DB_USER: ${self:custom.DB_USERNAME}
     DB_PASS: ${self:custom.DB_PASSWORD}
     DB_PORT: ${self:custom.DB_PORT}
+    EMAIL_FROM_SENDER: ${self:custom.secrets.EMAIL_FROM_SENDER}
     
   package:
     excludeDevDependencies: true  
@@ -75,19 +77,36 @@ provider:
           Action:
             - "s3:*"
           Resource:
-            - "*"       
+            - "*"  
+        - Effect: "Allow"
+          Action:
+            - "sqs:*"
+          Resource:
+            - "*"
+        - Effect: "Allow"
+          Action:
+            - "events:ListRules"
+            - "events:PutRule"
+          Resource:
+            - "*"
+        - Effect: "Allow"
+          Action:
+            - "ses:SendEmail"
+          Resource: "*"
+
 functions:
   - ${file(src/serverless/functions/VerifyToken.yml)}
   - ${file(src/serverless/functions/Dashboard.yml)}
   - ${file(src/serverless/functions/Groups.yml)}
   - ${file(src/serverless/functions/Users.yml)}
-  - ${file(src/serverless/functions/Products.yml)}
-  - ${file(src/serverless/functions/GenerateFiles.yml)}
+  - ${file(src/serverless/functions/Wines.yml)}
+  - ${file(src/serverless/functions/WinesVivinoIntegration.yml)}
   - ${file(src/serverless/functions/Companies.yml)}
   - ${file(src/serverless/functions/ShippingCompanies.yml)}
   - ${file(src/serverless/functions/Romanians.yml)}  
   - ${file(src/serverless/functions/Sales.yml)}  
   - ${file(src/serverless/functions/Expenses.yml)}  
+  - ${file(src/serverless/functions/Eventsbridge.yml)}
     
 # você pode adicionar modelos de recursos do CloudFormation aqui
 resources:

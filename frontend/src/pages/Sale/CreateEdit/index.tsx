@@ -29,7 +29,7 @@ const CreateEdit: React.FC = (props: any) => {
     !users.length && onLoadUsersSales();
   }, []);
 
-  useEffect(() => {  
+  useEffect(() => {
     let userName = '';
     if (state.userId) {
       userName = users.find(
@@ -126,12 +126,22 @@ const CreateEdit: React.FC = (props: any) => {
       <Products products={state.products} setProducts={setProducts} />
       <Divider>Total {total}</Divider>
       <ShowByRoule roule={roules.saleUserIdChange}>
-        <Col lg={24} md={24} sm={24} xs={24}>
+        <Col lg={12} md={12} sm={24} xs={24}>
           <Select
             label={'Vendedor'}
             options={users}
             value={state?.userId}
             onChange={(userId) => dispatch({ userId })}
+          />
+        </Col>
+      </ShowByRoule>
+      <ShowByRoule roule={roules.administrator}>
+        <Col lg={12} md={12} sm={12} xs={24}>
+          <Select
+            label={'Empresa'}
+            url={`${apiRoutes.companies}/all`}
+            value={state.companyId}
+            onChange={(companyId) => dispatch({ companyId })}
           />
         </Col>
       </ShowByRoule>

@@ -5,7 +5,7 @@ export interface Routes {
   routeCreate?: string;
   routeUpdate?: any;
   routeView?: string;
-  routeDelete?: string;
+  routeDelete?: string;  
 }
 
 export interface PropTypes extends TableProps<any> {
@@ -17,6 +17,7 @@ export interface PropTypes extends TableProps<any> {
   pageSize: number;
   totalRecords?: number;
   onClickSelect?: any;
+  onClickRun?: any;
   textBtnCreate?: string;
   propTexObjOndelete?: string;
   hidePagination?: boolean;

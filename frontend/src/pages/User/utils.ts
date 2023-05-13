@@ -5,9 +5,9 @@ export const mapUser = (user: UserCognito): Users => {
     id: findAttribute(user.Attributes, 'sub'),
     name: findAttribute(user.Attributes, 'name'),
     email: findAttribute(user.Attributes, 'email'),
-    accessTypeText: findAttribute(user.Attributes, 'custom:type_access'),
+    companyId: findAttribute(user.Attributes, 'custom:company_id'),
     accessType: user.Groups,
-    login: user.Username,
+    // login: user.Username,
     status: user.Enabled,
     userStatusText: user.UserStatus,
   };

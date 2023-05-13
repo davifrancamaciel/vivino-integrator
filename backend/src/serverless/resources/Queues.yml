@@ -1,18 +1,55 @@
 Resources:   
-    QueueExpenses:
+    WinesXmlGenerateFilesQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "${self:service}-${opt:stage, self:provider.stage}-expenses"
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-wines-xml-generate-files-queue"
         VisibilityTimeout: 601
         MessageRetentionPeriod: 6000
         RedrivePolicy:
           deadLetterTargetArn:
             "Fn::GetAtt":
-              - ReceiverDeadLetterQueueExpenses
+              - ReceiverDeadLetterWinesXmlGenerateFilesQueue
               - Arn
           maxReceiveCount: 3
-    ReceiverDeadLetterQueueExpenses:
+    ReceiverDeadLetterWinesXmlGenerateFilesQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "${self:service}-${opt:stage, self:provider.stage}-expenses-dlq"
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-wines-xml-generate-files-queue-dlq"
         MessageRetentionPeriod: 1209600 # 14 days in seconds
+    
+    WinesSalesUpdateQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-wines-sales-update-queue"
+        VisibilityTimeout: 601
+        MessageRetentionPeriod: 6000
+        RedrivePolicy:
+          deadLetterTargetArn:
+            "Fn::GetAtt":
+              - ReceiverDeadLetterWinesSalesUpdateQueue
+              - Arn
+          maxReceiveCount: 3
+    ReceiverDeadLetterWinesSalesUpdateQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-wines-sales-update-queue-dlq"
+        MessageRetentionPeriod: 1209600 # 14 days in seconds
+    
+    SendEmailQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-send-email-queue"
+        VisibilityTimeout: 601
+        MessageRetentionPeriod: 6000
+        RedrivePolicy:
+          deadLetterTargetArn:
+            "Fn::GetAtt":
+              - ReceiverDeadLetterSendEmailQueue
+              - Arn
+          maxReceiveCount: 3
+    ReceiverDeadLetterSendEmailQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:service}-${opt:stage, self:provider.stage}-send-email-queue-dlq"
+        MessageRetentionPeriod: 1209600 # 14 days in seconds
+    

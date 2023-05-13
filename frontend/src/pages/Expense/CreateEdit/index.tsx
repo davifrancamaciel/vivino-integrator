@@ -9,7 +9,8 @@ import {
   Textarea
 } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
-import { apiRoutes, appRoutes } from 'utils/defaultValues';
+import ShowByRoule from 'components/ShowByRoule';
+import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
@@ -71,6 +72,16 @@ const CreateEdit: React.FC = (props: any) => {
       loadingBtnAction={false}
       loadingPanel={loading}
     >
+      <ShowByRoule roule={roules.administrator}>
+        <Col lg={8} md={8} sm={12} xs={24}>
+          <Select
+            label={'Empresa'}
+            url={`${apiRoutes.companies}/all`}
+            value={state.companyId}
+            onChange={(companyId) => dispatch({ companyId })}
+          />
+        </Col>
+      </ShowByRoule>
       <Col lg={8} md={8} sm={24} xs={24}>
         <Select
           label={'Tipo'}

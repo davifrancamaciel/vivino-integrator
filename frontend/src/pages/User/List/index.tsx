@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Tag, Tooltip } from 'antd';
+import { Col, Tag } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input } from 'components/_inputs';
 import {
   apiRoutes,
   appRoutes,
-  enumStatusUserAws,
+  roules,
   systemColors
 } from 'utils/defaultValues';
-import { initialStateFilter, UserCognito, Users } from '../interfaces';
+import { initialStateFilter, Users } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
-import { mapUser } from '../utils';
+import { formatDateHour } from 'utils/formatDate';
+import ShowByRoule from 'components/ShowByRoule';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<Users[]>([]);
   const [loading, setLoading] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
     actionFilter();
@@ -26,49 +28,27 @@ const List: React.FC = () => {
   const actionFilter = async (pageNumber: number = 1) => {
     setLoading(true);
     try {
-      const queryStringParameters = { limit: 60, ...state };
-      const resp = await api.get(apiRoutes.users, queryStringParameters);
+      const resp = await api.get(apiRoutes.users, {
+        ...state,
+        pageNumber
+      });
+      const { count, rows } = resp.data;
 
-      const dataItems = resp.data.Users.map((x: UserCognito) => mapUser(x));
-      const dataItemsFormatted = dataItems.map((item: Users) => ({
+      const dataItemsFormatted = rows.map((item: Users) => ({
         ...item,
-        userStatusText: userStatusTag(item.userStatusText),
-        statusText: (
-          <Tag color={item.status ? systemColors.GREEN : systemColors.RED}>
-            {item.status ? 'Ativo' : 'Inativo'}
-          </Tag>
-        ),
+        deleteName: `${item.name} da empresa ${item.company?.name}`,
+        companyName: item.company?.name,
+        createdAt: formatDateHour(item.createdAt),
+        updatedAt: formatDateHour(item.updatedAt),
         accessTypeText: accessTypeTags(item.accessTypeText)
       }));
       dispatch({ pageNumber });
       setItems(dataItemsFormatted);
       setLoading(false);
+      setTotalRecords(count);
     } catch (error) {
       setLoading(false);
     }
-  };
-
-  const userStatusTag = (userStatusText: string) => {
-    let color, text, title;
-    switch (userStatusText) {
-      case enumStatusUserAws.FORCE_CHANGE_PASSWORD:
-        color = systemColors.RED;
-        text = 'NÃO CONFIRMADO';
-        title = 'Quando o usuário nunca efetuou login na aplicação';
-        break;
-      case enumStatusUserAws.CONFIRMED:
-        color = systemColors.GREEN;
-        text = 'CONFIRMADO';
-        title = 'Quando o usuário efetuou login ao menos uma vez na aplicação';
-        break;
-      default:
-        break;
-    }
-    return color ? (
-      <Tooltip title={title}>
-        <Tag color={color}>{text}</Tag>
-      </Tooltip>
-    ) : undefined;
   };
 
   const accessTypeTags = (accessType?: string) => {
@@ -92,7 +72,17 @@ const List: React.FC = () => {
         actionButton={() => actionFilter()}
         loading={loading}
       >
-        <Col lg={24} md={24} sm={24} xs={24}>
+        <ShowByRoule roule={roules.administrator}>
+          <Col lg={8} md={12} sm={24} xs={24}>
+            <Input
+              label={'Empresa'}
+              placeholder="Ex.: Loja"
+              value={state.companyName}
+              onChange={(e) => dispatch({ companyName: e.target.value })}
+            />
+          </Col>
+        </ShowByRoule>
+        <Col lg={8} md={12} sm={24} xs={24}>
           <Input
             label={'Nome'}
             placeholder="Ex.: Davi"
@@ -100,23 +90,32 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ name: e.target.value })}
           />
         </Col>
+        <Col lg={8} md={12} sm={24} xs={24}>
+          <Input
+            label={'Email'}
+            placeholder="Ex.: davi@gmail"
+            value={state.email}
+            onChange={(e) => dispatch({ email: e.target.value })}
+          />
+        </Col>
       </PanelFilter>
       <GridList
         scroll={{ x: 600 }}
         columns={[
+          { title: 'Código', dataIndex: 'id' },
+          { title: 'Empresa', dataIndex: 'companyName' },
           { title: 'Nome', dataIndex: 'name' },
-          { title: 'Login', dataIndex: 'login' },
-          { title: 'Permissões de acesso', dataIndex: 'accessTypeText' },
-          { title: 'Status', dataIndex: 'statusText' },
-          { title: 'Status de cadastro', dataIndex: 'userStatusText' }
+          { title: 'Email', dataIndex: 'email' },
+          { title: 'Criado em', dataIndex: 'createdAt' },
+          { title: 'Alterado em', dataIndex: 'updatedAt' }
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}
         onDelete={() => actionFilter(state.pageNumber)}
-        propTexObjOndelete={'name'}
+        propTexObjOndelete={'deleteName'}
         pageSize={state.pageSize}
-        totalRecords={items.length}
-        hidePagination={true}
+        totalRecords={totalRecords}
+        // hidePagination={true}
         loading={loading}
         routes={{
           routeCreate: `/${appRoutes.users}/create`,

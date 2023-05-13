@@ -6,7 +6,7 @@ import { parseISO, format } from 'date-fns';
 import PrintContainer from 'components/Report/PrintContainer';
 import TableReport from 'components/Report/TableReport';
 
-import { apiRoutes, systemColors, particularUsers } from 'utils/defaultValues';
+import { apiRoutes, systemColors } from 'utils/defaultValues';
 import { Filter, Sale } from '../../interfaces';
 
 import api from 'services/api-aws-amplify';
@@ -29,6 +29,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
   const [items, setItems] = useState<Sale[]>([]);
   const [loading, setLoading] = useState(false);
   const [print, setPrint] = useState(false);
+  const [totalCommission, setTotalCommission] = useState(0);
   const [totalSummary, setTotalSummary] = useState<ISummaryTotals>(
     {} as ISummaryTotals
   );
@@ -45,10 +46,8 @@ const Print: React.FC<PropTypes> = ({ state }) => {
     const summary = items.reduce(
       (acc, r) => {
         acc.totalSales += Number(priceToNumber(r.value!.toString()));
-        if (r.userId !== particularUsers.userIdRe) {
-          acc.totalCommission +=
-            Number(priceToNumber(r.value!.toString())) * 0.05;
-        }
+        acc.totalCommission +=
+          Number(priceToNumber(r.value!.toString())) * (totalCommission / 100);
 
         return acc;
       },
@@ -75,10 +74,12 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         pageSize: 1000
       });
 
-      const { count, rows } = resp.data;
+      const { count, rows, commission } = resp.data;
+      setTotalCommission(commission);
 
       const itemsFormatted = rows.map((s: any) => ({
         ...s,
+        userName: s.user.name,
         products: s.productsFormatted.map(
           (p: Product) => `${p.name} ${formatPrice(Number(p.value! || 0))}, `
         ),
@@ -150,10 +151,17 @@ const Print: React.FC<PropTypes> = ({ state }) => {
               Valor total de vendas no periodo {totalSummary.totalSales}
             </span>
             <span>
-              Valor total de comissões sob as vendas em (5%){' '}
-              {totalSummary.totalCommission}
+              Valor total de comissões dos vendedores sob as vendas em (
+              {totalCommission}%) {totalSummary.totalCommission}
             </span>
           </Summary>
+        </Footer>
+        <Footer>
+          <p>
+            Obs a comissão a pagar individual de cada vendedor poderá ser vista
+            no menu de despesas a partir do dia 1º dia de cada mes referente ao
+            mes anterior
+          </p>
         </Footer>
       </PrintContainer>
     </>

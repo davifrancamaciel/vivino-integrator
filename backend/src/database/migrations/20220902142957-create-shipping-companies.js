@@ -12,6 +12,13 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      companyId: {
+        type: Sequelize.UUID,
+        references: { model: 'companies', key: 'id' },
+        onUpdate: 'CASCADE',
+        allowNull: false,
+      },
+
       name: {
         type: Sequelize.STRING(255),
       },

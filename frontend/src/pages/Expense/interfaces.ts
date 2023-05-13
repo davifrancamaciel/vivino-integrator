@@ -3,7 +3,7 @@ export interface ExpenseType {
 }
 export interface Expense {
   id?: string;
-  expenseTypes?: ExpenseType;
+  expenseType?: ExpenseType;
   expenseTypeId?: number;
   dividedIn: number;
   value?: number;
@@ -13,6 +13,7 @@ export interface Expense {
   paymentDate?: string;
   createdAt?: string;
   updatedAt?: string;
+  companyId?: string;
 }
 
 export const initialStateForm: Expense = {

@@ -1,5 +1,5 @@
 groups:
-  handler: src/functions/groups.listUserGroups
+  handler: src/functions/api/groups.listUserGroups
   events:
     - http:
         path: groups

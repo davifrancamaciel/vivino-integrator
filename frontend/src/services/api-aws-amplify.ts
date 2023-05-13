@@ -54,7 +54,7 @@ const request = async (
   let init: any = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${signInUserSession.idToken.jwtToken}`
+      Authorization: `${signInUserSession.idToken.jwtToken}`,     
     }
   };
 

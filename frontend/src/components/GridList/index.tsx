@@ -7,6 +7,7 @@ import ActionDelete from './actionDelete';
 import ActionUpdate from './actionUpdate';
 import ActionView from './actionView';
 import ActionSelect from './actionSelect';
+import ActionRun from './actionRun';
 import { systemColors } from 'utils/defaultValues';
 // import logo from 'assets/loading.gif';
 
@@ -21,20 +22,22 @@ const Index: React.FC<PropTypes> = (props) => {
   //   indicator: <img src={logo} />
   // };
 
-  const header = !props.routes.routeCreate ? null : (
+  const header = (
     <Header>
       <span>Total {numberWithDots(props.totalRecords || 0)}</span>
-      <HeaderButtom>
-        {props.headerChildren}
-        <Link to={props.routes.routeCreate}>
-          <Button
-            style={{ backgroundColor: systemColors.GREEN, color: '#fff' }}
-            icon={<PlusSquareOutlined />}
-          >
-            {props.textBtnCreate ? props.textBtnCreate : 'Novo'}
-          </Button>
-        </Link>
-      </HeaderButtom>
+      {!props.routes.routeCreate ? null : (
+        <HeaderButtom>
+          {props.headerChildren}
+          <Link to={props.routes.routeCreate}>
+            <Button
+              style={{ backgroundColor: systemColors.GREEN, color: '#fff' }}
+              icon={<PlusSquareOutlined />}
+            >
+              {props.textBtnCreate ? props.textBtnCreate : 'Novo'}
+            </Button>
+          </Link>
+        </HeaderButtom>
+      )}
     </Header>
   );
 
@@ -86,6 +89,13 @@ const Index: React.FC<PropTypes> = (props) => {
                 <ActionSelect
                   key={key + 3}
                   onClick={() => props.onClickSelect(item)}
+                  item={item}
+                />
+              ),
+              !props.onClickRun ? null : (
+                <ActionRun
+                  key={key + 4}
+                  onClick={() => props.onClickRun(item)}
                   item={item}
                 />
               )

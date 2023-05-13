@@ -12,12 +12,22 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      companyId: {
+        type: Sequelize.UUID,
+        references: { model: 'companies', key: 'id' },
+        onUpdate: 'CASCADE',
+        allowNull: false,
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'users', key: 'id' },
+        onUpdate: 'CASCADE',
+        allowNull: false,
+      },
       products: {
         type: Sequelize.TEXT,
       },
       value: { type: Sequelize.DECIMAL(10, 2), defaultValue: 0, },
-      userId: { type: Sequelize.STRING(50) },
-      userName: { type: Sequelize.STRING(255) },
       note: {
         type: Sequelize.STRING(500),
         allowNull: true,

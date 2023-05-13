@@ -1,5 +1,5 @@
 sales:
-  handler: src/functions/sales.list
+  handler: src/functions/api/sales.list
   events:
     - http:
         path: sales
@@ -7,7 +7,7 @@ sales:
         authorizer: verifyToken
         cors: true 
 salesById:
-  handler: src/functions/sales.listById
+  handler: src/functions/api/sales.listById
   events:
     - http:
         path: sales/{id}
@@ -15,7 +15,7 @@ salesById:
         authorizer: verifyToken
         cors: true 
 salesCreate:
-  handler: src/functions/sales.create
+  handler: src/functions/api/sales.create
   events:
     - http:
         path: sales
@@ -23,7 +23,7 @@ salesCreate:
         authorizer: verifyToken
         cors: true  
 salesUpdate:
-  handler: src/functions/sales.update
+  handler: src/functions/api/sales.update
   events:
     - http:
         path: sales
@@ -31,7 +31,7 @@ salesUpdate:
         authorizer: verifyToken
         cors: true 
 salesDelete:
-  handler: src/functions/sales.delete
+  handler: src/functions/api/sales.delete
   events:
     - http:
         path: sales/{id}

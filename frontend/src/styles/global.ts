@@ -62,4 +62,7 @@ export default createGlobalStyle`
         color: #999999;
         text-transform: uppercase;
     }
+    .ant-collapse-header-text{
+        width: 100%;
+    }
 `;

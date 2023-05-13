@@ -1,8 +1,14 @@
+export interface Company {
+  name: string;
+}
+
 export interface Users {
+  company?: Company;
   id?: string;
+  companyId?: string;
   name: string;
   email: string;
-  login: string;
+  commissionMonth?: number;
   accessType?: string[];
   accessTypeText?: string;
   status: boolean;
@@ -10,13 +16,15 @@ export interface Users {
   statusText?: any;
   userStatusText?: any;
   resetPassword?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export const initialStateForm: Users = {
   id: undefined,
+  company: undefined,
   name: '',
   email: '',
-  login: '',
   accessType: [],
   status: true,
   password: ''
@@ -24,14 +32,14 @@ export const initialStateForm: Users = {
 
 export interface Filter {
   name: string;
-  typeAccess: string;
+  companyName: string;
   pageNumber: number;
   pageSize: number;
 }
 
 export const initialStateFilter: Filter = {
   name: '',
-  typeAccess: '',
+  companyName: '',
   pageNumber: 1,
   pageSize: 10
 };

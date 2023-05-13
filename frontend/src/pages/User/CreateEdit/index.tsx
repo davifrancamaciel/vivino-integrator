@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, notification } from 'antd';
-import { Input, Switch, InputPassword } from 'components/_inputs';
+import { Col, notification, Tag, Tooltip, Row } from 'antd';
+import { Input, Switch, InputPassword, Select } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
-import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
-import { mapUser } from '../utils';
 import AccessType from './AccessType';
+import ShowByRoule from 'components/ShowByRoule';
+
+import {
+  apiRoutes,
+  appRoutes,
+  enumStatusUserAws,
+  roules,
+  systemColors
+} from 'utils/defaultValues';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
@@ -25,7 +32,22 @@ const CreateEdit: React.FC = (props: any) => {
     try {
       setLoading(true);
       const resp = await api.get(`${apiRoutes.users}/${id}`);
-      dispatch({ ...mapUser(resp.data), resetPassword: false });
+      const { UserAws } = resp.data;
+
+      const itemEdit = {
+        ...resp.data,
+        status: UserAws.Enabled,
+        accessType: UserAws.Groups,
+        resetPassword: false,
+        userStatusText: userStatusTag(UserAws.UserStatus),
+        statusText: (
+          <Tag color={UserAws.Enabled ? systemColors.GREEN : systemColors.RED}>
+            {UserAws.Enabled ? 'Ativo' : 'Inativo'}
+          </Tag>
+        )
+      };
+      console.log(itemEdit);
+      dispatch(itemEdit);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -34,7 +56,7 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      if (!state.email || !state.login) {
+      if (!state.email) {
         notification.warning({
           message: 'Existem campos obrigatórios não preenchidos'
         });
@@ -53,6 +75,29 @@ const CreateEdit: React.FC = (props: any) => {
     }
   };
 
+  const userStatusTag = (userStatusText: string) => {
+    let color, text, title;
+    switch (userStatusText) {
+      case enumStatusUserAws.FORCE_CHANGE_PASSWORD:
+        color = systemColors.RED;
+        text = 'LOGIN NÃO CONFIRMADO';
+        title = 'Quando o usuário nunca efetuou login na aplicação';
+        break;
+      case enumStatusUserAws.CONFIRMED:
+        color = systemColors.GREEN;
+        text = 'LOGIN CONFIRMADO';
+        title = 'Quando o usuário efetuou login ao menos uma vez na aplicação';
+        break;
+      default:
+        break;
+    }
+    return color ? (
+      <Tooltip title={title}>
+        <Tag color={color}>{text}</Tag>
+      </Tooltip>
+    ) : undefined;
+  };
+
   return (
     <PanelCrud
       title={`${type === 'update' ? 'Editar' : 'Novo'} usuário`}
@@ -61,6 +106,29 @@ const CreateEdit: React.FC = (props: any) => {
       loadingBtnAction={loading}
       loadingPanel={false}
     >
+      {type === 'update' && (
+        <Col lg={24} md={24} sm={24} xs={24}>
+          <Row>
+            <Col lg={5} md={8} sm={12} xs={24}>
+              {state.userStatusText}
+            </Col>
+            <Col lg={5} md={8} sm={12} xs={24}>
+              {state.statusText}
+            </Col>
+          </Row>
+        </Col>
+      )}
+
+      <ShowByRoule roule={roules.administrator}>
+        <Col lg={8} md={8} sm={12} xs={24}>
+          <Select
+            label={'Empresa'}
+            url={`${apiRoutes.companies}/all`}
+            value={state.companyId}
+            onChange={(companyId) => dispatch({ companyId })}
+          />
+        </Col>
+      </ShowByRoule>
       <Col lg={8} md={8} sm={12} xs={24}>
         <Input
           label={'Nome completo'}
@@ -82,12 +150,20 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
       <Col lg={8} md={8} sm={12} xs={24}>
         <Input
-          label={'Login'}
-          required={true}
-          disabled={type === 'update'}
-          placeholder="Defina um login para o usuário"
-          value={state.login}
-          onChange={(e) => dispatch({ login: e.target.value })}
+          label={'Telefone'}
+          type={'tel'}
+          value={state.phone}
+          onChange={(e) => dispatch({ phone: e.target.value })}
+        />
+      </Col>
+
+      <Col lg={8} md={12} sm={24} xs={24}>
+        <Input
+          label={'Comissão'}
+          type={'number'}
+          placeholder="Ex.: 2,5"
+          value={state.commissionMonth}
+          onChange={(e) => dispatch({ commissionMonth: e.target.value })}
         />
       </Col>
       <Col lg={8} md={8} sm={12} xs={24}>
@@ -121,6 +197,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={() => dispatch({ status: !state.status })}
         />
       </Col>
+
       <AccessType
         groupsSelecteds={state.accessType}
         setGroupsSelecteds={(accessType: string[]) => dispatch({ accessType })}

@@ -1,5 +1,5 @@
 expenses:
-  handler: src/functions/expenses.list
+  handler: src/functions/api/expenses.list
   events:
     - http:
         path: expenses
@@ -7,7 +7,7 @@ expenses:
         authorizer: verifyToken
         cors: true 
 expensesById:
-  handler: src/functions/expenses.listById
+  handler: src/functions/api/expenses.listById
   events:
     - http:
         path: expenses/{id}
@@ -15,7 +15,7 @@ expensesById:
         authorizer: verifyToken
         cors: true 
 expensesCreate:
-  handler: src/functions/expenses.create
+  handler: src/functions/api/expenses.create
   events:
     - http:
         path: expenses
@@ -23,7 +23,7 @@ expensesCreate:
         authorizer: verifyToken
         cors: true  
 expensesUpdate:
-  handler: src/functions/expenses.update
+  handler: src/functions/api/expenses.update
   events:
     - http:
         path: expenses
@@ -31,7 +31,7 @@ expensesUpdate:
         authorizer: verifyToken
         cors: true 
 expensesDelete:
-  handler: src/functions/expenses.delete
+  handler: src/functions/api/expenses.delete
   events:
     - http:
         path: expenses/{id}
@@ -39,25 +39,22 @@ expensesDelete:
         authorizer: verifyToken
         cors: true
 expenseTypes:
-  handler: src/functions/expenseTypes.listAll
+  handler: src/functions/api/expenseTypes.listAll
   events:
     - http:
         path: expense-types
         method: get
         authorizer: verifyToken
         cors: true 
-# expenseWorker:  
-#   handler: src/functions/expenseWorker.handler
-#   timeout: 300 
-#   events:
-#   - schedule: rate(1 minute)
-# expenseQueue:  
-#   handler: src/functions/expenseQueue.handler
-#   timeout: 600  
-#   memorySize: 512
-#   events:
-#     - sqs:       
-#         arn:
-#           Fn::GetAtt:
-#             - QueueExpenses
-#             - Arn
+expenseComissionEvent:  
+  handler: src/functions/events/expenseComission.handler
+  timeout: 300   
+  events:  
+    - eventBridge:
+        name: "${self:service}-${opt:stage, self:provider.stage}-expense-comission"
+        description: "Servico de geração de despesa de pagamento de comissão"
+        schedule: cron(0 4 1 * ? *) # 1h00 no primeiro dia do mês hora BR
+    - http:
+          path: expenses/run-comission
+          method: get        
+          cors: true

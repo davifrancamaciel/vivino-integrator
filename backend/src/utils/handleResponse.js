@@ -19,7 +19,7 @@ const handlerResponse = (statusCode, body, message = 'Dados obtidos com sucesso'
     return response
 }
 
-const handlerErrResponse = (err, obj) => {
+const handlerErrResponse = (err, obj, msg) => {
     console.log('handlerErrResponse', err, obj)
     let message = err.message ? err.message : "Unknown error";
     const errAWS = onError(err)
@@ -27,6 +27,7 @@ const handlerErrResponse = (err, obj) => {
     if (message.includes('CONSTRAINT')) {
         message = 'Este intem não poderá ser removido pois está vinculado como chave em outra tabela'
     }
+    if (msg) message = msg
     const body = { error: err.name ? err.name : "Exception", err, obj }
     return handlerResponse(err.statusCode ? err.statusCode : 500, body, message)
 }
