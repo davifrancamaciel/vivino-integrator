@@ -9,6 +9,7 @@ const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect } = require("../../services/ExecuteQueryService");
+const { listProducts } = require("../../services/normalize");
 
 const { roules } = require("../../utils/defaultValues");
 
@@ -18,6 +19,9 @@ module.exports.list = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
+        if (process.env.IS_OFFLINE) 
+            return handlerResponse(200, await listProducts())
+        
         const whereStatement = {};
         const whereStatementUser = {};
 
@@ -247,63 +251,3 @@ const getCommision = async (pageSize, isAdm, companyId) => {
     }
     return commission
 }
-
-// const resp = await listProducts()
-// return handlerResponse(200, resp)
-
-const listProducts = async () => {
-    const result = await Sale.findAll({
-        attibutes: ['productsFormatted'],
-        where: { userId: { [Op.in]: ['7eaed82d-72e2-40c6-9de9-117f324f5530', '623be749-c4d7-4987-bb3d-5bdd1d810223'] } }
-    })
-    let list = []
-    result.map(s => s.productsFormatted.map(p => list.push(formatProduct(p))))
-    const distinctProducts = distinctValues(list, 'name')
-    return order(distinctProducts, 'name')
-}
-
-const capitalize = (name) => {
-    return name.charAt(0).toUpperCase() + name.slice(1)
-}
-
-const formatProduct = (p) => {
-    let name = p.name.trim();
-
-    if (p.name.includes('1 '))
-        return { ...p, name, newName: capitalize(name.replace('1 ', '')) }
-    if (p.name.includes('2 '))
-        return { ...p, name, newName: capitalize(name.replace('2 ', '')), newValue: p.value / 2, }
-    if (p.name.includes('3 '))
-        return { ...p, name, newName: capitalize(name.replace('3 ', '')), newValue: p.value / 3, }
-    if (p.name.includes('4 '))
-        return { ...p, name, newName: capitalize(name.replace('4 ', '')), newValue: p.value / 4, }
-    if (p.name.includes('5 '))
-        return { ...p, name, newName: capitalize(name.replace('5 ', '')), newValue: p.value / 5, }
-    if (p.name.includes('6 '))
-        return { ...p, name, newName: capitalize(name.replace('6 ', '')), newValue: p.value / 6, }
-    if (p.name.includes('7 '))
-        return { ...p, name, newName: capitalize(name.replace('7 ', '')), newValue: p.value / 7, }
-    if (p.name.includes('8 '))
-        return { ...p, name, newName: capitalize(name.replace('8 ', '')), newValue: p.value / 8, }
-
-    return { ...p, name }
-}
-
-
-const distinctValues = (data, key) => {
-    return data.filter(
-        (o, i, arr) => arr.findIndex((t) => t[key] === o[key]) === i
-    );
-};
-
-const order = (data, key) => {
-    return data.sort(function (a, b) {
-        if (a[key] > b[key]) {
-            return 1;
-        }
-        if (a[key] < b[key]) {
-            return -1;
-        }
-        return 0;
-    });
-};

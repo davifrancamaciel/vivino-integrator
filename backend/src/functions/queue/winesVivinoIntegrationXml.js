@@ -7,6 +7,7 @@ const { create } = require('xmlbuilder2');
 const s3 = require("../../services/AwsS3Service");
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { companyIdDefault } = require('../../utils/defaultValues');
+const { readMessageRecursive } = require("./_baseQueue");
 
 module.exports.handler = async (event) => {
 
@@ -18,9 +19,9 @@ module.exports.handler = async (event) => {
             return handlerResponse(200, {}, 'Processo rodando local')
 
         if (event.Records)
-            result = await readMessageRecursive(event.Records, 0);
+            result = await readMessageRecursive(event.Records, 0, createFileXml);
         else if (!event.Records && pathParameters)
-            result = await createFileXml(pathParameters.companyId);
+            result = await createFileXml({ companyId: pathParameters.companyId });
         else
             messageInfo = 'Não existem mensagens pendentes de processamento na fila.'
 
@@ -31,29 +32,7 @@ module.exports.handler = async (event) => {
     }
 }
 
-const readMessageRecursive = async (messages, position) => {
-    try {
-        const message = messages[position];
-        const body = JSON.parse(message.body);
-        const { companyId } = body
-
-        console.log(`PROCESSANDO MENSAGEM ${position + 1} de ${messages.length}`);
-        console.log(`MENSAGEM`, body);
-
-        const result = await createFileXml(companyId);
-
-        position = position + 1
-        if (messages.length > position)
-            return await readMessageRecursive(messages, position);
-
-        return result;
-    } catch (error) {
-        console.log('error ', error);
-        throw new Error('Não foi possível executar este item da fila');
-    }
-}
-
-const createFileXml = async (companyId) => {
+const createFileXml = async ({ companyId }) => {
     const key = `${companyId}/vivinofeed.xml`
 
     const resp = await Wine.findAll({

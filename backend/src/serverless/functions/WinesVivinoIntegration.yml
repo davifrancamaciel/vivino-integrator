@@ -14,7 +14,7 @@ winesVivinoIntegrationXmlQueue:
         path: wines/run-update-xml/{companyId}
         method: get        
         cors: true 
-winesVivinoIntegrationApiAuthEvent:  
+winesVivIntApiAuthEvent:  
   handler: src/functions/events/winesVivinoIntegrationApi.auth
   timeout: 300 
   environment:
@@ -28,7 +28,7 @@ winesVivinoIntegrationApiAuthEvent:
         path: wines/run-auth
         method: get        
         cors: true
-winesVivinoIntegrationApiSalesEvent:  
+winesVivIntApiSalesEvent:  
   handler: src/functions/events/winesVivinoIntegrationApi.sales
   timeout: 300 
   environment:

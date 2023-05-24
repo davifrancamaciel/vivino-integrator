@@ -5,6 +5,7 @@ const WineSaleHistory = require('../../models/WineSaleHistory')(db.sequelize, db
 const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
+const { readMessageRecursive } = require("./_baseQueue");
 
 module.exports.handler = async (event) => {
 
@@ -12,7 +13,7 @@ module.exports.handler = async (event) => {
         let result = null;
 
         if (event.Records)
-            result = await readMessageRecursive(event.Records, 0);
+            result = await readMessageRecursive(event.Records, 0, updateWine);
         else if (!event.Records && event.body)
             result = await updateWine(JSON.parse(event.body));
         else
@@ -22,27 +23,6 @@ module.exports.handler = async (event) => {
     }
     catch (err) {
         return handlerErrResponse(err)
-    }
-}
-
-const readMessageRecursive = async (messages, position) => {
-    try {
-        const message = messages[position];
-        const body = JSON.parse(message.body);
-
-        console.log(`PROCESSANDO MENSAGEM ${position + 1} de ${messages.length}`);
-        console.log(`MENSAGEM`, body);
-
-        const result = await updateWine(body);
-
-        position = position + 1
-        if (messages.length > position)
-            return await readMessageRecursive(messages, position);
-
-        return result;
-    } catch (error) {
-        console.log('error ', error);
-        throw new Error('Não foi possível executar este item da fila');
     }
 }
 

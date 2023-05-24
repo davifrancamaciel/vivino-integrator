@@ -18,7 +18,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         allowNull: false,
       },
-      productName: { type: Sequelize.STRING(255), },
       productName: { type: Sequelize.STRING(255), allowNull: true, },
       price: { type: Sequelize.STRING(100), allowNull: true, },
       quantityIsMinimum: { type: Sequelize.BOOLEAN, allowNull: true, },

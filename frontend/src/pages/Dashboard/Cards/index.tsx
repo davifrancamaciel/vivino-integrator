@@ -75,7 +75,7 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(totalValueMonth! * (commissionMonth! / 100)),
       color: systemColors.YELLOW,
-      text: `Commissão a pagar de ${commissionMonth ?? 0}% sob ${count} vendas`,
+      text: `Commissão a pagar de ${commissionMonth ?? 0}% sob ${count} vendas no mês seguinte`,
       icon: <ArrowDownOutlined />,
       url: `${appRoutes.sales}`
     } as CardPropTypes;
@@ -87,7 +87,7 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(totalValueMonth! * (commissionUser! / 100)),
       color: systemColors.BLUE,
-      text: `Minha commissão a receber de ${commissionUser}% sob ${count} vendas`,
+      text: `Minha commissão a receber de ${commissionUser}% sob ${count} vendas no mês seguinte`,
       icon: <ArrowUpOutlined />,
       url: `${appRoutes.sales}/my-commisions`
     } as CardPropTypes;

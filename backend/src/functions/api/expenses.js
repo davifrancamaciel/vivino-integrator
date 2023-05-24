@@ -223,8 +223,6 @@ module.exports.update = async (event) => {
     }
 }
 
-
-
 module.exports.delete = async (event) => {
     const { pathParameters } = event
     try {
