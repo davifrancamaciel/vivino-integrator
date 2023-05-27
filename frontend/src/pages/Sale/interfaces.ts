@@ -1,11 +1,23 @@
-import { Product } from './CreateEdit/Products/interfaces';
+// import { Product } from './CreateEdit/Products/interfaces';
 export interface User {
   name: string;
+}
+export interface Product {
+  name: string;
+  price: number;
+}
+export interface SaleProduct {
+  productId: number;
+  value: number;
+  valueAmount: number;
+  amount: number;
+  product: Product;
 }
 export interface Sale {
   id?: string;
   user?: User;
   products: Product[];
+  productsSales: SaleProduct[];
   value?: number;
   note?: string;
   userId?: string;
@@ -17,7 +29,8 @@ export interface Sale {
 
 export const initialStateForm: Sale = {
   id: undefined,
-  products: []
+  products: [],
+  productsSales: []
 };
 
 export interface Filter {

@@ -77,7 +77,7 @@ const List: React.FC = () => {
         actionButton={() => actionFilter()}
         loading={loading}
       >
-        <Col lg={4} md={5} sm={24} xs={24}>
+        <Col lg={5} md={5} sm={24} xs={24}>
           <Input
             label={'Código'}
             type={'number'}
@@ -86,30 +86,15 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
-        <Col lg={6} md={7} sm={24} xs={24}>
+        <Col lg={15} md={7} sm={24} xs={24}>
           <Input
             label={'Nome do produto'}
-            placeholder="Ex.: Famille Perrin Réserve Côtes-du-Rhône 2019 Rouge"
-            value={state.productName}
-            onChange={(e) => dispatch({ productName: e.target.value })}
+            placeholder="Ex.: bola"
+            value={state.name}
+            onChange={(e) => dispatch({ name: e.target.value })}
           />
         </Col>
-        <Col lg={5} md={6} sm={24} xs={24}>
-          <Input
-            label={'Produtor'}
-            placeholder="Ex.: Famille Perrin"
-            value={state.producer}
-            onChange={(e) => dispatch({ producer: e.target.value })}
-          />
-        </Col>
-        <Col lg={5} md={6} sm={24} xs={24}>
-          <Input
-            label={'Nome do vinho'}
-            placeholder="Ex.: Réserve"
-            value={state.wineName}
-            onChange={(e) => dispatch({ wineName: e.target.value })}
-          />
-        </Col>
+
         <Col lg={4} md={12} sm={24} xs={24}>
           <Select
             label={'Ativos'}
@@ -169,12 +154,12 @@ const List: React.FC = () => {
         columns={[
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Nome do produto', dataIndex: 'productName' },
+          { title: 'Nome do produto', dataIndex: 'name' },
           { title: 'Preço', dataIndex: 'price' },
-          { title: 'Tamanho', dataIndex: 'bottleSize' },
-          { title: 'País', dataIndex: 'country' },
+          { title: 'Tamanho', dataIndex: 'size' },
+          { title: 'Cor', dataIndex: 'color' },
           {
-            title: 'Contagem de inventário (estoque)',
+            title: 'Estoque',
             dataIndex: 'inventoryCount'
           },
           { title: 'Ativo', dataIndex: 'active' },
@@ -183,11 +168,8 @@ const List: React.FC = () => {
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}
-        onDelete={() => {
-          actionFilter(state.pageNumber);
-          api.get(`${apiRoutes.products}/run-update-xml`);
-        }}
-        propTexObjOndelete={'productName'}
+        onDelete={() => actionFilter(state.pageNumber)}
+        propTexObjOndelete={'name'}
         totalRecords={totalRecords}
         pageSize={state.pageSize}
         loading={loading}

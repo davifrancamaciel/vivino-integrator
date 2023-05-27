@@ -1,6 +1,5 @@
 const db = require('../database');
 const Company = require('./Company')(db.sequelize, db.Sequelize);
-const Sale = require('./Sale')(db.sequelize, db.Sequelize);
 const Product = require('./Product')(db.sequelize, db.Sequelize);
 
 module.exports = function (sequelize, DataTypes) {
@@ -14,8 +13,6 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     SaleProduct.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });
-    SaleProduct.belongsTo(Sale, { foreignKey: 'saleId', as: 'sale' });
     SaleProduct.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
-
     return SaleProduct;
 };

@@ -1,35 +1,13 @@
 export interface Product {
   id?: string;
-  productName?: string;
-  price?: string;
-  quantityIsMinimum?: boolean;
-  bottleSize?: string;
-  bottleQuantity?: number;
-  link?: string;
-  inventoryCount?: number;
-  producer?: string;
-  wineName?: string;
-  appellation?: string;
-  vintage?: string;
-  country?: string;
+  name?: string;
+  price?: string; 
+  size?: string; 
+  inventoryCount?: number; 
   color?: string;
   image?: string;
   ean?: string;
-  description?: string;
-  alcohol?: string;
-  producerAddress?: string;
-  importerAddress?: string;
-  varietal?: string;
-  ageing?: string;
-  closure?: string;
-  winemaker?: string;
-  productionSize?: string;
-  residualSugar?: string;
-  acidity?: string;
-  ph?: string;
-  containsMilkAllergens?: boolean;
-  containsEggAllergens?: boolean;
-  nonAlcoholic?: boolean;
+  description?: string;  
   active: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -37,23 +15,17 @@ export interface Product {
 
 export const initialStateForm: Product = {
   id: undefined,
-  productName: '',
+  name: '',
   price: '',
-  bottleSize: '',
-  quantityIsMinimum: false,
+  size: '',  
   active: true,
-  containsMilkAllergens: false,
-  containsEggAllergens: false,
-  nonAlcoholic: false,
   createdAt: '',
   updatedAt: ''
 };
 
 export interface Filter {
   id?: string;
-  productName: string;
-  producer: string;
-  wineName: string;
+  name: string;  
   priceMin?:string;
   priceMax?:string;
   pageNumber: number;
@@ -62,9 +34,7 @@ export interface Filter {
 
 export const initialStateFilter: Filter = {
   id: '',
-  productName: '',
-  producer: '',
-  wineName: '',
+  name: '',  
   pageNumber: 1,
   pageSize: 10
 };

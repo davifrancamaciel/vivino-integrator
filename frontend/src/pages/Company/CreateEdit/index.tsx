@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, notification } from 'antd';
-import { Input, Switch } from 'components/_inputs';
+import { Col, Divider, notification } from 'antd';
+import { Input, InputPassword, Switch } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
@@ -109,7 +109,50 @@ const CreateEdit: React.FC = (props: any) => {
           }
         />
       </Col>
-
+      {state.vivinoApiIntegrationActive && (
+        <>
+          <Divider>Credênciais Vivino</Divider>
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <Input
+              label={'Código'}
+              type={'tel'}
+              value={state.vivinoId}
+              onChange={(e) => dispatch({ vivinoId: e.target.value })}
+            />
+          </Col>
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <Input
+              label={'Client Id'}
+              value={state.vivinoClientId}
+              onChange={(e) => dispatch({ vivinoClientId: e.target.value })}
+            />
+          </Col>
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <Input
+              label={'Client secret'}
+              value={state.vivinoClientSecret}
+              onChange={(e) => dispatch({ vivinoClientSecret: e.target.value })}
+            />
+          </Col>
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <Input
+              label={'Username'}
+              type={'email'}
+              value={state.vivinoClientUsername}
+              onChange={(e) =>
+                dispatch({ vivinoClientUsername: e.target.value })
+              }
+            />
+          </Col>
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <InputPassword
+              label={'Senha'}
+              value={state.vivinoPassword}
+              onChange={(e) => dispatch({ vivinoPassword: e.target.value })}
+            />
+          </Col>
+        </>
+      )}
       <AccessType
         groupsSelecteds={state.groupsFormatted}
         setGroupsSelecteds={(groupsFormatted: string[]) =>

@@ -29,6 +29,9 @@ const RomanainCreateEdit = lazy(() => import('pages/Romanain/CreateEdit'));
 const RomanainDetails = lazy(() => import('pages/Romanain/Details'));
 const SaleList = lazy(() => import('pages/Sale/List'));
 const SaleCreateEdit = lazy(() => import('pages/Sale/CreateEdit'));
+const ProductList = lazy(() => import('pages/Product/List'));
+const ProductCreateEdit = lazy(() => import('pages/Product/CreateEdit'));
+const ProductDetails = lazy(() => import('pages/Product/Details'));
 const ExpenseList = lazy(() => import('pages/Expense/List'));
 const ExpenseCommisionList = lazy(() => import('pages/Expense/Commision'));
 const ExpenseCreateEdit = lazy(() => import('pages/Expense/CreateEdit'));
@@ -109,14 +112,33 @@ const routesArray: IRouteProps[] = [
     roule: roules.sales
   },
   {
-    path: `/${appRoutes.sales}/my-commisions`,
-    component: ExpenseCommisionList,
-    roule: roules.sales
-  },
-  {
     path: `/${appRoutes.sales}/edit/:id`,
     component: SaleCreateEdit,
     roule: roules.sales
+  },
+  {
+    path: `/${appRoutes.sales}/my-commisions`,
+    component: ExpenseCommisionList,
+    roule: roules.sales
+  },{
+    path: `/${appRoutes.products}`,
+    component: ProductList,
+    roule: roules.products
+  },
+  {
+    path: `/${appRoutes.products}/create`,
+    component: ProductCreateEdit,
+    roule: roules.products
+  },
+  {
+    path: `/${appRoutes.products}/edit/:id`,
+    component: ProductCreateEdit,
+    roule: roules.products
+  },
+  {
+    path: `/${appRoutes.products}/details/:id`,
+    component: ProductDetails,
+    roule: roules.products
   },
   {
     path: `/${appRoutes.expenses}`,

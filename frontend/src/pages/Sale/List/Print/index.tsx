@@ -3,8 +3,7 @@ import PrintContainer from 'components/Report/PrintContainer';
 
 import TableReport from 'components/Report/TableReport';
 import Td from './Td';
-import { Sale } from '../../interfaces';
-import { Product } from '../../CreateEdit/Products/interfaces';
+import { Sale, SaleProduct } from '../../interfaces';
 import { formatPrice } from 'utils/formatPrice';
 
 interface PropTypes {
@@ -20,24 +19,32 @@ const Print: React.FC<PropTypes> = ({ sale }) => {
         <table>
           <thead>
             <tr>
-              <th colSpan={3}>Produto</th>
-              <th>Valor</th>
+              <th>Codigo</th>
+              <th>Produto</th>
+              <th>Preço</th>
+              <th>Valor vendido</th>
+              <th>Quantidade</th>
+              <th>Total</th>
             </tr>
           </thead>
           <tbody>
-            {sale.products.map((p: Product, index: number) => (
+            {sale.productsSales.map((sp: SaleProduct, index: number) => (
               <tr key={index}>
-                <td colSpan={3}>{p.name}</td>
-                <td>{formatPrice(Number(p.value!))}</td>
+                <td >{sp.productId}</td>
+                <td >{sp.product.name}</td>
+                <td>{formatPrice(Number(sp.product.price!))}</td>
+                <td>{formatPrice(Number(sp.value!))}</td>
+                <td >{sp.amount}</td>
+                <td>{formatPrice(Number(sp.valueAmount!))}</td>
               </tr>
             ))}
             <tr>
               <Td title="Data" value={sale.createdAt} />
-              <Td colSpan={2} title="Vendedor" value={sale.userName} />
+              <Td colSpan={4} title="Vendedor" value={sale.userName} />
               <Td title="Valor total" value={sale.value} />
             </tr>
             <tr>
-              <Td colSpan={4} title="Obs." value={sale.note} />
+              <Td colSpan={6} title="Obs." value={sale.note} />
             </tr>
           </tbody>
         </table>

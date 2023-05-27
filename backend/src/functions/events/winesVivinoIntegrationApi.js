@@ -3,7 +3,7 @@
 const axios = require('axios');
 const FormData = require('form-data');
 const db = require('../../database');
-const { subDays } = require('date-fns');
+const { subDays, endOfDay, startOfDay, addHours } = require('date-fns');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const { executeUpdate } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
@@ -16,7 +16,7 @@ module.exports.auth = async (event, context) => {
         context.callbackWaitsForEmptyEventLoop = false;
 
         const resp = await Company.findAll({
-            attributes: ['id', 'vivinoClientId', 'vivinoClientSecret', 'vivinoClientUsername', 'vivinoPassword'],
+            attributes: ['id', 'name', 'vivinoClientId', 'vivinoClientSecret', 'vivinoClientUsername', 'vivinoPassword'],
             where: { vivinoApiIntegrationActive: true, active: true },
         })
 
@@ -38,9 +38,7 @@ module.exports.auth = async (event, context) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 url: `${process.env.VIVINO_API_URL}/oauth/token?app_version=8.19&app_platform=`,
-                headers: {
-                    ...formData.getHeaders()
-                },
+                headers: { ...formData.getHeaders() },
                 data: formData
             };
 
@@ -49,7 +47,7 @@ module.exports.auth = async (event, context) => {
 
             const query = `UPDATE companies SET vivinoAuthToken = '${data.access_token}', updatedAt = NOW() WHERE id = '${companyId}'`;
             await executeUpdate(query);
-            console.log(`EMPRESA COD ${companyId} AUTENTICADA COM SUCESSO NA API VIVINO TOKEN ${data.access_token}`)
+            console.log(`EMPRESA ${element.name} COD ${companyId} AUTENTICADA COM SUCESSO NA API VIVINO TOKEN ${data.access_token}`)
         }
 
         return handlerResponse(200, responseAuth, 'Empresas autenticadas com sucesso')
@@ -69,14 +67,14 @@ module.exports.sales = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const status = 'Confirmed', limit = 2000;
+        const status = 'Approved', limit = 2000;
 
         const { queryStringParameters } = event
         if (queryStringParameters)
             dateReference = queryStringParameters.dateReference
 
         const resp = await Company.findAll({
-            attributes: ['id', 'vivinoId', 'vivinoAuthToken'],
+            attributes: ['id', 'name', 'vivinoId', 'vivinoAuthToken'],
             where: { vivinoApiIntegrationActive: true, active: true },
         })
 
@@ -86,15 +84,13 @@ module.exports.sales = async (event, context) => {
             const element = resp[i];
             companyId = element.id;
 
-            console.log(`BUSCANDO VENDAS DA EMPRESA COD ${companyId} NA API VIVINO DATA ${dateReference}`)
+            console.log(`BUSCANDO VENDAS DA EMPRESA ${element.name} COD ${companyId} NA API VIVINO DATA ${dateReference}`)
 
             const config = {
                 method: 'get',
                 maxBodyLength: Infinity,
                 url: `${process.env.VIVINO_API_URL}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=8.19&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
-                headers: {
-                    'Authorization': `Bearer ${element.vivinoAuthToken}`
-                }
+                headers: { 'Authorization': `Bearer ${element.vivinoAuthToken}` }
             };
 
             const { data } = await axios(config);
@@ -104,6 +100,16 @@ module.exports.sales = async (event, context) => {
             if (data) {
                 data.forEach(element => {
                     const { items, id, created_at, user } = element;
+                    const saleDate = new Date(created_at)
+                    const reference = addHours(new Date(dateReference), 4)
+                    const start = startOfDay(reference);
+                    const end = endOfDay(reference);
+
+                    if (saleDate >= start && saleDate <= end) {
+                        console.log(`${id} NA DATA ${created_at}`)
+                    } else {
+                        console.log(`${id} FORA DA DATA ${created_at}`)
+                    }
                     items && items.forEach(elementItem => itemsProducts.push({
                         sale: {
                             id,

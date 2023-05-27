@@ -7,7 +7,7 @@ import PrintContainer from 'components/Report/PrintContainer';
 import TableReport from 'components/Report/TableReport';
 
 import { apiRoutes, systemColors } from 'utils/defaultValues';
-import { Filter, Sale } from '../../interfaces';
+import { Filter, Sale, SaleProduct } from '../../interfaces';
 
 import api from 'services/api-aws-amplify';
 import { formatDate } from 'utils/formatDate';
@@ -77,11 +77,11 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       const { count, rows, commission } = resp.data;
       setTotalCommission(commission);
 
-      const itemsFormatted = rows.map((s: any) => ({
+      const itemsFormatted = rows.map((s: Sale) => ({
         ...s,
-        userName: s.user.name,
-        products: s.productsFormatted.map(
-          (p: Product) => `${p.name} ${formatPrice(Number(p.value! || 0))}, `
+        userName: s.user!.name,
+        products: s.productsSales.map(
+          (sp: SaleProduct) => `${sp.amount} ${sp.product.name} ${formatPrice(Number(sp.valueAmount! || 0))}, `
         ),
         value: formatPrice(Number(s.value!)),
         createdAt: formatDate(s.createdAt || '')

@@ -5,9 +5,6 @@ const Sale = require('../models/Sale')(db.sequelize, db.Sequelize);
 const Product = require('../models/Product')(db.sequelize, db.Sequelize);
 const SaleProduct = require('../models/SaleProduct')(db.sequelize, db.Sequelize);
 
-// const resp = await listProducts()
-// return handlerResponse(200, resp)
-
 const listProducts = async () => {
     const result = await Sale.findAll({
         attibutes: ['productsFormatted', 'id']
@@ -67,13 +64,13 @@ const listProducts = async () => {
         }
     })
 
-    // return productsOrder.map(x => (x.newName))
-    if (true) {
+    if (false) {
         await Product.bulkCreate(products);
-        return await SaleProduct.bulkCreate(productSaleList);
+        await SaleProduct.bulkCreate(productSaleList);
     }
+    return productsOrder.map(x => (x.newName))
     return productsOrder
-    // return productSaleList.filter(x => x.amount > 1)    
+    return productSaleList.filter(x => x.amount > 1)
 }
 
 const capitalize = (name) => {
@@ -466,6 +463,7 @@ const formatName = (p) => {
     name = name.replace(`Mochila lol`, 'Mochila da lol')
     name = name.replace(`arrudas`, 'arruda')
     name = name.replace(`rosas`, 'rosa')
+    name = name.replace(`Rosas`, 'Rosa')
     name = name.replace(`Musck`, 'Musk')
     name = name.replace(`descartavel`, 'descartável')
 
@@ -484,11 +482,10 @@ const formatName = (p) => {
     name = name.replace(`Escoredor`, 'Escoredor de')
     name = name.replace(`Durem`, 'Durex')
     name = name.replace(`Havaianas`, 'Chinelo havaianas')
-    name = name.replace(`Havanas`, 'Chinelo havaianas')
+    name = name.replace(`Havanas`, 'Chinelo havanas')
     name = name.replace(`Havianas`, 'Chinelo havaianas')
     name = name.replace(`Havainas`, 'Chinelo havaianas')
     name = name.replace(`Havana`, 'Chinelo havaianas')
-    name = name.replace(`havanas`, 'havaianas')
     name = name.replace(`havianas`, 'havaianas')
     name = name.replace(`Chinelo havaiana`, 'Chinelo havaianas')
     name = name.replace(`Ipanema`, 'Chinelo ipanema')
@@ -630,7 +627,62 @@ const formatName = (p) => {
     name = name.replace(`Gorro natal`, 'Gorro de papai noel')
     name = name.replace(`Gorro papai noel`, 'Gorro de papai noel')
     name = name.replace(`Borracha panela 7l`, 'Borracha de panela 7l')
-
+    name = name.replace(` kit de natura`, 'Kit de natura')
+    name = name.replace(`Bolhas sabao`, 'Bolha de sabão')
+    name = name.replace(`Capas`, 'Capa')
+    name = name.replace(`Capa para`, 'Capa de')
+    name = name.replace(`Cartãolina`, 'Cartolina')
+    name = name.replace(`altentica`, 'autêntica')
+    name = name.replace(`autentica`, 'autêntica')
+    name = name.replace(`atlhetic`, 'athletic')
+    name = name.replace(`Cinzeiro`, 'Cinseiro')
+    name = name.replace(`Garra`, 'Garrafa')
+    name = name.replace(`Garrrafa`, 'Garrafa')
+    name = name.replace(`termica`, 'térmica')
+    name = name.replace(`térmicas`, 'térmica')
+    name = name.replace(`Muchila`, 'Mochila')
+    name = name.replace(`Organizadores`, 'Organizador')
+    name = name.replace(`Pamilhas`, 'Palmilhas')
+    name = name.replace(`Molas malucas`, 'Mola maluca')
+    name = name.replace(`Linha costura`, 'Linha de costura')
+    name = name.replace(`touca banho`, 'touca de banho')
+    name = name.replace(`Espremedor limão`, 'Espremedor de limão')
+    name = name.replace(`Paliteiros`, 'Paliteiro')
+    name = name.replace(`Papéis`, 'Papel')
+    name = name.replace(`Par de mia`, 'Par de meia')
+    name = name.replace(`meias`, 'meia')
+    name = name.replace(`tic tac`, 'tictac')
+    name = name.replace(`tik tak`, 'tictac')
+    name = name.replace(`Peneiras`, 'Peneira')
+    name = name.replace(`Pilhas`, 'Pilha')
+    name = name.replace(`Pinças`, 'Pinça')
+    name = name.replace(`Pircey`, 'Pircing')
+    name = name.replace(`Pircieng`, 'Pircing')
+    name = name.replace(`Pirsei`, 'Pircing')
+    name = name.replace(`redondos`, 'redondo')
+    name = name.replace(`plantas`, 'planta')
+    name = name.replace(`Quentinhas`, 'Quentinha')
+    name = name.replace(`Relogio`, 'Relógio')
+    name = name.replace(`terras`, 'terra')
+    name = name.replace(`Terras`, 'Terra')
+    name = name.replace(`Saleiros`, 'Saleiro')
+    name = name.replace(`natala`, 'natal')
+    name = name.replace(`Incensos`, 'Incenso')
+    name = name.replace(`Picanhas`, 'Piranha')
+    name = name.replace(`Pijamas`, 'Pijama')
+    name = name.replace(`Naylon`, 'Nylon')
+    name = name.replace(`rollon`, 'roll on')
+    name = name.replace(`Folha seda`, 'Folha de seda')
+    name = name.replace(`alumio`, 'alumínio')
+    name = name.replace(`aliminio`, 'de alumínio')
+    name = name.replace(`folhas`, 'folha')
+    name = name.replace(`Par c`, 'Par de c')
+    name = name.replace(`Par b`, 'Par de b')
+    name = name.replace(`Par a`, 'Par de a')
+    name = name.replace(`Par l`, 'Par de l')
+    name = name.replace(`Pa `, 'Pá ')
+    
+    
     if (name === 'Chinelo havaianas to' || name === 'Chinelo havaianass to')
         name = 'Chinelo havaianas top'
 
@@ -646,6 +698,8 @@ const replaceS = (name, value) => {
 const formatProduct = (p) => {
     let name = p.name.trim().toLowerCase();
 
+    if (name === '2m elastico')
+        return { ...p, name, newName: capitalize(name.replace('2m elastico', 'Metro elástico')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2unid '))
         return { ...p, name, newName: capitalize(name.replace('2unid ', '')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2caixas de pizza'))
@@ -657,7 +711,7 @@ const formatProduct = (p) => {
     if (p.name.includes('Xaxim grande 2unidades'))
         return { ...p, name, newName: capitalize(name.replace('Xaxim grande 2unidades', 'Xaxim grande')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2M elastico'))
-        return { ...p, name, newName: capitalize(name.replace('2M elastico', 'Metro elastico')), newValue: p.value / 2, qtd: 2 }
+        return { ...p, name, newName: capitalize(name.replace('2M elastico', 'Metro elástico')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('Piercing nariz argola(2unid)'))
         return { ...p, name, newName: capitalize(name.replace('Piercing nariz argola(2unid)', 'Piercing nariz argola')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2  pilhas'))

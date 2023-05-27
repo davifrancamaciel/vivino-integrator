@@ -6,7 +6,7 @@ import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input, RangePicker } from 'components/_inputs';
 import { apiRoutes, appRoutes } from 'utils/defaultValues';
-import { initialStateFilter, Sale } from '../interfaces';
+import { initialStateFilter, Sale, SaleProduct } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
@@ -47,13 +47,12 @@ const List: React.FC = () => {
       setLoading(false);
 
       const { count, rows } = resp.data;
-      const itemsFormatted = rows.map((p: any) => {
+      const itemsFormatted = rows.map((p: Sale) => {
         const sale = {
           ...p,
-          userName: p.user.name,
+          userName: p.user!.name,
           valueFormatted: formatPrice(Number(p.value!)),
-          products: p.productsFormatted,
-          productsFormatted: formatProductName(p.products),
+          productsFormatted: formatProductName(p.productsSales),
           createdAt: formatDateHour(p.createdAt),
           updatedAt: formatDateHour(p.updatedAt)
         };
@@ -67,14 +66,16 @@ const List: React.FC = () => {
       setLoading(false);
     }
   };
-
-  const formatProductName = (products: any) => {
-    const productsArray: Product[] = JSON.parse(products);
-    return `${productsArray
-      .map((p: Product) => p.name)
-      .join(', ')
-      .slice(0, 20)}...`;
+  const formatProductName = (productsArray: SaleProduct[]) => {
+    const limit = 50;
+    let products = productsArray
+      .map((p: SaleProduct) => p.product.name)
+      .join(', ');
+    return products.length > limit
+      ? `${products.slice(0, limit)}...`
+      : products;
   };
+
   return (
     <div>
       <PanelFilter

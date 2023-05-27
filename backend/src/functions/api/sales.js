@@ -6,6 +6,8 @@ const { startOfDay, endOfDay, parseISO } = require('date-fns');
 const Sale = require('../../models/Sale')(db.sequelize, db.Sequelize);
 const User = require('../../models/User')(db.sequelize, db.Sequelize);
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
+const SaleProduct = require('../../models/SaleProduct')(db.sequelize, db.Sequelize);
+const Product = require('../../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect } = require("../../services/ExecuteQueryService");
@@ -19,11 +21,12 @@ module.exports.list = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        if (process.env.IS_OFFLINE) 
-            return handlerResponse(200, await listProducts())
-        
+        // if (process.env.IS_OFFLINE) 
+        //     return handlerResponse(200, await listProducts())
+
         const whereStatement = {};
         const whereStatementUser = {};
+        const whereStatementProduct = {};
 
         const user = await getUser(event)
 
@@ -39,6 +42,8 @@ module.exports.list = async (event, context) => {
 
             if (id) whereStatement.id = id;
 
+            // if (product)
+            //     whereStatementProduct.name = { [Op.like]: `%${product}%` }
             if (product)
                 whereStatement.products = { [Op.like]: `%${product}%` }
             if (userName)
@@ -78,28 +83,38 @@ module.exports.list = async (event, context) => {
         }
 
         const { pageSize, pageNumber } = event.queryStringParameters
-        const { count, rows } = await Sale.findAndCountAll({
+        let { count, rows } = await Sale.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * pageSize,
             order: [['id', 'DESC']],
             include: [
+                // {
+                //     model: SaleProduct,
+                //     as: 'productsSales',
+                //     attributes: ['amount', 'valueAmount', 'value', 'productId'],
+                //     include: [{ model: Product, as: 'product', attributes: ['name', 'price'], where: whereStatementProduct }]
+                // },
                 {
-                    model: User,
-                    as: 'user',
-                    attributes: ['name'],
-                    where: whereStatementUser
+                    model: User, as: 'user', attributes: ['name'], where: whereStatementUser
                 },
                 {
-                    model: Company,
-                    as: 'company',
-                    attributes: ['name'],
+                    model: Company, as: 'company', attributes: ['name'],
                 }]
         })
-
+        const salesIds = rows.map(x => x.id)
+        const salesProductsList = await SaleProduct.findAll({
+            where: { saleId: { [Op.in]: salesIds } },
+            attributes: ['amount', 'valueAmount', 'value', 'productId', 'saleId'],
+            include: [{ model: Product, as: 'product', attributes: ['name', 'price'] }],
+        })
+        const newRows = rows.map(s => {
+            const productsSales = salesProductsList.filter(sp => sp.saleId === s.id)
+            return { ...s.dataValues, productsSales: productsSales.map(x => x.dataValues) }
+        })
         const commission = await getCommision(pageSize, isAdm, user.companyId);
 
-        return handlerResponse(200, { count, rows, commission })
+        return handlerResponse(200, { count, rows: newRows, commission })
 
     } catch (err) {
         return handlerErrResponse(err)
@@ -126,7 +141,13 @@ module.exports.listById = async (event) => {
                     model: Company,
                     as: 'company',
                     attributes: ['name'],
-                }]
+                },
+                {
+                    model: SaleProduct,
+                    as: 'productsSales',
+                    attributes: ['amount', 'valueAmount', 'value', 'productId'],
+                    include: [{ model: Product, as: 'product', attributes: ['name', 'price'] }]
+                },]
         })
         if (!result)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrada`)

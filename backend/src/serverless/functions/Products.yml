@@ -1,0 +1,48 @@
+products:
+  handler: src/functions/api/products.list
+  events:
+    - http:
+        path: products
+        method: get
+        authorizer: verifyToken
+        cors: true 
+productsById:
+  handler: src/functions/api/products.listById
+  events:
+    - http:
+        path: products/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true 
+productsCreate:
+  handler: src/functions/api/products.create
+  events:
+    - http:
+        path: products
+        method: post
+        authorizer: verifyToken
+        cors: true  
+productsUpdate:
+  handler: src/functions/api/products.update
+  events:
+    - http:
+        path: products
+        method: put
+        authorizer: verifyToken
+        cors: true 
+productsDelete:
+  handler: src/functions/api/products.delete
+  events:
+    - http:
+        path: products/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true
+# productsAll:
+#   handler: src/functions/api/products.listAll
+#   events:
+#     - http:
+#         path: products/all
+#         method: get
+#         authorizer: verifyToken
+#         cors: true 
