@@ -24,3 +24,18 @@ sendEmailQueue:
           Fn::GetAtt:
             - SendEmailQueue
             - Arn
+backupEvent:
+  handler: src/functions/events/backup.handler
+  timeout: 600 
+  memorySize: 512
+  environment:
+    bucketName: ${self:custom.bucketPrivate}
+  events:    
+    - eventBridge:
+        name: "${self:service}-${opt:stage, self:provider.stage}-backup"
+        description: Servico que faz backup do banco de dados
+        schedule: cron(30 4 * * ? *) # 1h30 de todos dias hora BR
+    - http:
+        path: services/run-backup
+        method: get        
+        cors: true 

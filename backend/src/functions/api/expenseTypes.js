@@ -19,6 +19,6 @@ module.exports.listAll = async (event, context) => {
         }));
         return handlerResponse(200, respFormated)
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };

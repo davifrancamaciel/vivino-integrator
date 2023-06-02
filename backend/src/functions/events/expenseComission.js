@@ -74,6 +74,6 @@ module.exports.handler = async (event, context) => {
 
         return handlerResponse(200, { expenses, result }, 'Comissões geradas com sucesso')
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };

@@ -5,7 +5,11 @@ import {
   UserOutlined,
   DashboardOutlined,
   UnorderedListOutlined,
-  CloudServerOutlined
+  CloudServerOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  DollarOutlined,
+  BarcodeOutlined
 } from '@ant-design/icons';
 import { Auth } from 'aws-amplify';
 
@@ -91,25 +95,25 @@ const SliderMenu: React.FC = (props: any) => {
             </Menu.Item>
           </SubMenu>
         )}
-         {checkRouleProfileAccess(groupsUser, roules.products) && (
+        {checkRouleProfileAccess(groupsUser, roules.products) && (
           <SubMenu
             key={`sub-/${appRoutes.products}`}
             title={'Produtos'}
-            icon={<UnorderedListOutlined />}
+            icon={<BarcodeOutlined />}
           >
             <Menu.Item key={`/${appRoutes.products}`}>
               <Link to={`/${appRoutes.products}`}>Lista</Link>
             </Menu.Item>
             <Menu.Item key={`/${appRoutes.products}/create`}>
               <Link to={`/${appRoutes.products}/create`}>Novo</Link>
-            </Menu.Item>            
+            </Menu.Item>
           </SubMenu>
         )}
         {checkRouleProfileAccess(groupsUser, roules.sales) && (
           <SubMenu
             key={`sub-/${appRoutes.sales}`}
             title={'Vendas'}
-            icon={<UnorderedListOutlined />}
+            icon={<DollarOutlined />}
           >
             <Menu.Item key={`/${appRoutes.sales}`}>
               <Link to={`/${appRoutes.sales}`}>Lista</Link>
@@ -118,7 +122,9 @@ const SliderMenu: React.FC = (props: any) => {
               <Link to={`/${appRoutes.sales}/create`}>Nova</Link>
             </Menu.Item>
             <Menu.Item key={`/${appRoutes.sales}/my-commisions`}>
-              <Link to={`/${appRoutes.sales}/my-commisions`}>Minhas comissões</Link>
+              <Link to={`/${appRoutes.sales}/my-commisions`}>
+                Minhas comissões
+              </Link>
             </Menu.Item>
           </SubMenu>
         )}
@@ -126,7 +132,7 @@ const SliderMenu: React.FC = (props: any) => {
           <SubMenu
             key={`sub-/${appRoutes.expenses}`}
             title={'Despesas'}
-            icon={<UnorderedListOutlined />}
+            icon={<ArrowDownOutlined />}
           >
             <Menu.Item key={`/${appRoutes.expenses}`}>
               <Link to={`/${appRoutes.expenses}`}>Lista</Link>

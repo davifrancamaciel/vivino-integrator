@@ -8,7 +8,8 @@ import {
   ArrowUpOutlined,
   BarChartOutlined,
   LeftOutlined,
-  RightOutlined
+  RightOutlined,
+  DollarOutlined
 } from '@ant-design/icons';
 
 import {
@@ -64,7 +65,7 @@ const Cards: React.FC = () => {
       value: formatPrice(cards?.sales.totalValueMonth!),
       color: systemColors.GREEN,
       text: `Valor total das ${cards?.sales.count!} vendas`,
-      icon: <ArrowUpOutlined />,
+      icon: <DollarOutlined />,
       url: `${appRoutes.sales}`
     } as CardPropTypes;
   };

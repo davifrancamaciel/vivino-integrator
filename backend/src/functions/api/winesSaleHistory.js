@@ -82,6 +82,6 @@ module.exports.list = async (event, context) => {
         })
         return handlerResponse(200, { count, rows })
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };

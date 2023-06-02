@@ -15,3 +15,7 @@ Resources:
             - "*"
             AllowedHeaders:
             - "*"
+    PrivateSystemBucket: # nome variável
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.bucketPrivate}

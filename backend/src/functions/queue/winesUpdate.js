@@ -22,13 +22,15 @@ module.exports.handler = async (event) => {
         return handlerResponse(201, { result })
     }
     catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 }
 
 const updateWine = async (body) => {
     const { companyId, dateReference, productsSales } = body
     try {
+        if (!productsSales.length)
+            return 'Não ha produtos nesta fila';
 
         console.log(`ATUALIZANDO VINHOS DA EMPRESA COD ${companyId} DATA ${dateReference}`, productsSales)
 

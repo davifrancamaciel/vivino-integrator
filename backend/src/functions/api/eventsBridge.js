@@ -27,11 +27,11 @@ module.exports.get = async (event, context) => {
 
         const prefix = process.env.SERVICE_NAME.includes('prod') ? process.env.SERVICE_NAME.replace('prod', 'pro') : process.env.SERVICE_NAME
         const params = { NamePrefix: prefix }
-        const result = await eventbridge.listRules({}).promise();
+        const result = await eventbridge.listRules(params).promise();
 
         return handlerResponse(200, result)
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };
 
@@ -53,6 +53,6 @@ module.exports.update = async (event) => {
 
         return handlerResponse(201, result, `${RESOURCE_NAME} alteradas com sucesso`);
     } catch (err) {
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }

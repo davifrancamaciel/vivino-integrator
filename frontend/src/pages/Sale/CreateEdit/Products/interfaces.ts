@@ -1,3 +1,5 @@
+import { SaleProduct } from '../../interfaces';
+
 export interface Product {
   id?: string;
   name?: string;
@@ -5,6 +7,6 @@ export interface Product {
 }
 
 export interface PropTypes {
-  products: Product[];
-  setProducts: (products: Product[]) => void;
+  products: SaleProduct[];
+  setProducts: (products: SaleProduct[]) => void;
 }

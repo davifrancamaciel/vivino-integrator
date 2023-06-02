@@ -7,6 +7,7 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect } = require("../../services/ExecuteQueryService");
 const { roules } = require("../../utils/defaultValues");
+const formatPrice = require("../../utils/formatPrice");
 
 const RESOURCE_NAME = 'Produto'
 
@@ -78,7 +79,7 @@ module.exports.list = async (event, context) => {
         return handlerResponse(200, { count, rows })
 
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };
 
@@ -103,7 +104,7 @@ module.exports.listById = async (event) => {
 
         return handlerResponse(200, { ...result?.dataValues, ...resultSale })
     } catch (err) {
-        return handlerErrResponse(err, pathParameters)
+        return await handlerErrResponse(err, pathParameters)
     }
 }
 
@@ -128,7 +129,7 @@ module.exports.create = async (event) => {
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }
 
@@ -159,7 +160,7 @@ module.exports.update = async (event) => {
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }
 
@@ -183,7 +184,32 @@ module.exports.delete = async (event) => {
 
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removido com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, pathParameters)
+        return await handlerErrResponse(err, pathParameters)
     }
 
 }
+
+module.exports.listAll = async (event, context) => {
+    try {
+        const user = await getUser(event)
+
+        if (!user)
+            return handlerResponse(400, {}, 'Usuário não encontrado')
+
+        if (!checkRouleProfileAccess(user.groups, roules.sales))
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
+
+        const resp = await Product.findAll({
+            order: [['name', 'ASC']],
+        })
+
+        const respFormated = resp.map(item => ({
+            ...item.dataValues,
+            value: item.id,
+            label: `${item.name} ${item.size || ''} ${item.color || ''} ${formatPrice(item.price)} COD (${item.id})`,
+        }));
+        return handlerResponse(200, respFormated)
+    } catch (err) {
+        return await handlerErrResponse(err)
+    }
+};

@@ -94,7 +94,6 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ name: e.target.value })}
           />
         </Col>
-
         <Col lg={4} md={12} sm={24} xs={24}>
           <Select
             label={'Ativos'}

@@ -16,7 +16,7 @@ module.exports.handler = async (event) => {
         return handlerResponse(201, { result })
     }
     catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 }
 

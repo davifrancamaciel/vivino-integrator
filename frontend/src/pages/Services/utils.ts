@@ -21,6 +21,11 @@ export const formatName = (name: string) => {
       name: 'Busca vendas do dia anterior na vivino',
       route: 'wines/run-sales'
     };
+  if (name.includes('backupEvent'))
+    return {
+      name: 'Backup do banco de dados',
+      route: 'services/run-backup'
+    };
 
   return { name, route: '' };
 };

@@ -103,7 +103,7 @@ module.exports.list = async (event, context) => {
         return handlerResponse(200, { count, rows })
 
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };
 
@@ -133,7 +133,7 @@ module.exports.listById = async (event) => {
 
         return handlerResponse(200, result)
     } catch (err) {
-        return handlerErrResponse(err, pathParameters)
+        return await handlerErrResponse(err, pathParameters)
     }
 }
 
@@ -181,7 +181,7 @@ module.exports.create = async (event) => {
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }
 
@@ -219,7 +219,7 @@ module.exports.update = async (event) => {
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }
 
@@ -244,6 +244,6 @@ module.exports.delete = async (event) => {
         await Expense.destroy({ where: { id } });
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removida com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, pathParameters)
+        return await handlerErrResponse(err, pathParameters)
     }
 }

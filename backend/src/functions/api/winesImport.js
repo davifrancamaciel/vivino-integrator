@@ -22,7 +22,7 @@ module.exports.import = async (event) => {
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 }
 

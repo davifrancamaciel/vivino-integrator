@@ -1,53 +1,109 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { PlusSquareOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { Button, Col, Row } from 'antd';
-import { Input } from 'components/_inputs';
-import { PropTypes, Product } from './interfaces';
-import { systemColors } from 'utils/defaultValues';
+import { Input, Select } from 'components/_inputs';
+import { PropTypes } from './interfaces';
+import { apiRoutes, systemColors } from 'utils/defaultValues';
 import { formatValueWhithDecimalCaseOnChange } from 'utils/formatPrice';
+import api from 'services/api-aws-amplify';
+import { SaleProduct, Product } from '../../interfaces';
+import { IOptions } from '../../../../utils/commonInterfaces';
 
 const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
+  const [loading, setLoading] = useState(false);
+  const [productsOptions, setProductsOptions] = useState<Product[]>([]);
+  const [options, setOptions] = useState<IOptions[]>([]);
   useEffect(() => {
-    !products.length && setProducts([{ id: uuidv4() } as Product]);
+    onLoad();
+  }, []);
+  useEffect(() => {
+    !products.length && setProducts([{} as SaleProduct]);
   }, [products]);
 
-  const change = (p: Product) => {
-    const newProducts = products.map((product: Product) => {
-      return product.id === p.id ? p : product;
+  const change = (p: SaleProduct) => {
+    console.log(p);
+    debugger;
+    const newProducts = products.map((product: SaleProduct) => {
+      return product.productId === p.productId ? newProduct(p) : newProduct(p);
     });
     setProducts(newProducts);
   };
-  const add = () => {
-    setProducts([...products, { id: uuidv4() } as Product]);
+  const newProduct = (sp: SaleProduct) => {
+    debugger;
+    const product = productsOptions.find((p: Product) => p.id === sp.productId);
+    return {
+      productId: product?.id,
+      value: product?.price,  
+      amount: sp.amount ? sp.amount : 1,
+      valueAmount: sp.amount ? product?.price! * Number(sp.amount) : product?.price
+    } as SaleProduct;
   };
-  const remove = (p: Product) => {
+  const add = () => {
+    setProducts([...products, {} as SaleProduct]);
+  };
+  const remove = (p: SaleProduct) => {
     const newProducts = products.filter(
-      (product: Product) => product.id !== p.id
+      (product: SaleProduct) => product.productId !== p.productId
     );
     setProducts(newProducts);
   };
+  const onLoad = async () => {
+    try {
+      setLoading(true);
+      const resp = await api.get(`${apiRoutes.products}/all`);
+
+      setOptions(resp.data.map((x: IOptions) => x));
+      setProductsOptions(resp.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   return (
     <Col lg={24} md={24} sm={24} xs={24}>
-      {products?.map((p: Product, index: number) => (
+      {products?.map((p: SaleProduct, index: number) => (
         <Row gutter={[16, 24]} key={index} style={{ marginBottom: '15px' }}>
-          <Col lg={16} md={24} sm={24} xs={24}>
-            <Input
+          <Col lg={8} md={24} sm={24} xs={24}>
+            <Select
               label={'Produto'}
-              placeholder="Bola"
-              value={p.name}
-              onChange={(e) => change({ ...p, name: e.target.value })}
+              options={options}
+              loading={loading}
+              value={p.productId}
+              onChange={(productId) => change({ productId } as SaleProduct)}
             />
           </Col>
-          <Col lg={6} md={20} sm={20} xs={20}>
+          <Col lg={3} md={12} sm={12} xs={12}>
+            <Input
+              label={'Qtd'}
+              type={'tel'}
+              placeholder="15,00"
+              value={p.amount}
+              onChange={(e) =>
+                change({
+                  ...p,
+                  amount: formatValueWhithDecimalCaseOnChange(e.target.value)
+                })
+              }
+            />
+          </Col>
+          <Col lg={3} md={12} sm={12} xs={12}>
             <Input
               label={'Valor'}
               type={'tel'}
               placeholder="15,00"
               value={p.value}
-              onChange={(e) => change({ ...p, value: formatValueWhithDecimalCaseOnChange(e.target.value) })}
+              onChange={(e) =>
+                change({
+                  ...p,
+                  value: formatValueWhithDecimalCaseOnChange(e.target.value)
+                })
+              }
             />
+          </Col>
+          <Col lg={3} md={20} sm={20} xs={20}>
+            <Input label={'Total'} value={p.valueAmount} disabled />
           </Col>
           {index === products.length - 1 && (
             <Col lg={2} md={4} sm={4} xs={4}>

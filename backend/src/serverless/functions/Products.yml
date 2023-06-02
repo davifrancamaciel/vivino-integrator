@@ -38,11 +38,11 @@ productsDelete:
         method: delete
         authorizer: verifyToken
         cors: true
-# productsAll:
-#   handler: src/functions/api/products.listAll
-#   events:
-#     - http:
-#         path: products/all
-#         method: get
-#         authorizer: verifyToken
-#         cors: true 
+productsAll:
+  handler: src/functions/api/products.listAll
+  events:
+    - http:
+        path: products/all
+        method: get
+        authorizer: verifyToken
+        cors: true 

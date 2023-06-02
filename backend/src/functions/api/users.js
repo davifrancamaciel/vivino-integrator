@@ -77,7 +77,7 @@ module.exports.list = async (event) => {
 
         return handlerResponse(200, { count, rows })
     } catch (err) {
-        return handlerErrResponse(err, queryStringParameters)
+        return await handlerErrResponse(err, queryStringParameters)
     }
 }
 
@@ -118,7 +118,7 @@ module.exports.listById = async (event) => {
 
         return handlerResponse(200, data)
     } catch (err) {
-        return handlerErrResponse(err, pathParameters)
+        return await handlerErrResponse(err, pathParameters)
     }
 }
 
@@ -181,7 +181,7 @@ module.exports.create = async (event) => {
     } catch (err) {
         await cognitoRequest(cognito.adminDeleteUser, { Username: email });
         await User.destroy({ where: { id: userDbId } });
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }
 
@@ -253,7 +253,7 @@ module.exports.update = async (event) => {
 
         return handlerResponse(200, result, `${RESOURCE_NAME} ${name} alterado com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, body)
+        return await handlerErrResponse(err, body)
     }
 }
 
@@ -286,7 +286,7 @@ module.exports.delete = async (event) => {
 
         return handlerResponse(200, {}, `${RESOURCE_NAME} ${userInDb.name} removido com sucesso`)
     } catch (err) {
-        return handlerErrResponse(err, pathParameters)
+        return await handlerErrResponse(err, pathParameters)
     }
 }
 
@@ -339,6 +339,6 @@ module.exports.listAll = async (event) => {
         }));
         return handlerResponse(200, respFormated)
     } catch (err) {
-        return handlerErrResponse(err, queryStringParameters)
+        return await handlerErrResponse(err, queryStringParameters)
     }
 }

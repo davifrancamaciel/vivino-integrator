@@ -49,7 +49,7 @@ module.exports.cards = async (event, context) => {
         
         return handlerResponse(200, data)
     } catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 };
 

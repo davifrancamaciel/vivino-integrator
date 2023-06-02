@@ -10,6 +10,7 @@ custom:
     httpPort: 4000   
   USER_POO_ID_OFFLINE: ${self:custom.secrets.USER_POO_ID_OFFLINE}
   bucketPublic: ${self:service}-${opt:stage, self:provider.stage}-public
+  bucketPrivate: ${self:service}-${opt:stage, self:provider.stage}-private
   VIVINO_API_URL: ${self:custom.secrets.VIVINO_API_URL}
   DB_HOST: ${self:custom.secrets.DB_HOST}  
   DB_NAME: services_db
@@ -106,7 +107,7 @@ functions:
   - ${file(src/serverless/functions/Romanians.yml)}  
   - ${file(src/serverless/functions/Sales.yml)}  
   - ${file(src/serverless/functions/Expenses.yml)}  
-  - ${file(src/serverless/functions/Eventsbridge.yml)}
+  - ${file(src/serverless/functions/Services.yml)}
   - ${file(src/serverless/functions/Products.yml)}
     
 # você pode adicionar modelos de recursos do CloudFormation aqui

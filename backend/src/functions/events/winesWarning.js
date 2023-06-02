@@ -49,6 +49,6 @@ module.exports.handler = async (event) => {
         return handlerResponse(201, resultS3, `Relatórios de vinhos com estoque baixo criados com sucesso`)
     }
     catch (err) {
-        return handlerErrResponse(err)
+        return await handlerErrResponse(err)
     }
 }

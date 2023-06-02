@@ -8,12 +8,14 @@ import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
+import UploadImages from 'components/UploadImages';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
   const { state, dispatch } = useFormState(initialStateForm);
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState<Array<any>>([]);
 
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
@@ -34,15 +36,13 @@ const CreateEdit: React.FC = (props: any) => {
   const action = async () => {
     try {
       if (!state.name || !state.price) {
-        notification.warning({
-          message: 'Existem campos obrigatórios não preenchidos'
-        });
+        const message = 'Existem campos obrigatórios não preenchidos';
+        notification.warning({ message });
         return;
       }
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
       const result = await api[method](apiRoutes.products, state);
-      
       setLoading(false);
 
       result.success && history.push(`/${appRoutes.products}`);
@@ -69,6 +69,15 @@ const CreateEdit: React.FC = (props: any) => {
           />
         </Col>
       </ShowByRoule>
+      <Col
+        lg={6}
+        md={12}
+        sm={24}
+        xs={24}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <UploadImages setFileList={setFileList} />
+      </Col>
       <Col lg={12} md={12} sm={24} xs={24}>
         <Input
           label={'Nome do produto'}
@@ -88,7 +97,6 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ price: e.target.value })}
         />
       </Col>
-
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
           label={'Tamanho'}
@@ -142,7 +150,6 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ description: e.target.value })}
         />
       </Col>
-      
     </PanelCrud>
   );
 };

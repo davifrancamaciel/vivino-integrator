@@ -24,9 +24,8 @@ module.exports.auth = async (event, context) => {
 
         for (let i = 0; i < resp.length; i++) {
             const element = resp[i];
-
             companyId = element.id;
-
+       
             const formData = new FormData();
             formData.append('client_id', element.vivinoClientId);
             formData.append('client_secret', element.vivinoClientSecret);
@@ -35,9 +34,9 @@ module.exports.auth = async (event, context) => {
             formData.append('grant_type', 'password');
 
             const config = {
-                method: 'post',
+                method: 'POST',
                 maxBodyLength: Infinity,
-                url: `${process.env.VIVINO_API_URL}/oauth/token?app_version=8.19&app_platform=`,
+                url: `${getVivinoUrl(element.vivinoClientId)}/oauth/token?app_version=8.19&app_platform=`,
                 headers: { ...formData.getHeaders() },
                 data: formData
             };
@@ -54,8 +53,7 @@ module.exports.auth = async (event, context) => {
     } catch (err) {
         const message = `ERRO AO AUTENTICAR EMPRESA COD ${companyId} NA API VIVINO DATA ${new Date()}`
         console.error(message)
-        await sendMessage('wines-sales-update-queue-dlq', { message, err });
-        return handlerErrResponse(err, null, message)
+        return await handlerErrResponse(err, null, message)
     }
 };
 
@@ -74,7 +72,7 @@ module.exports.sales = async (event, context) => {
             dateReference = queryStringParameters.dateReference
 
         const resp = await Company.findAll({
-            attributes: ['id', 'name', 'vivinoId', 'vivinoAuthToken'],
+            attributes: ['id', 'name', 'vivinoId', 'vivinoAuthToken', 'vivinoClientId'],
             where: { vivinoApiIntegrationActive: true, active: true },
         })
 
@@ -85,11 +83,11 @@ module.exports.sales = async (event, context) => {
             companyId = element.id;
 
             console.log(`BUSCANDO VENDAS DA EMPRESA ${element.name} COD ${companyId} NA API VIVINO DATA ${dateReference}`)
-
+         
             const config = {
-                method: 'get',
+                method: 'GET',
                 maxBodyLength: Infinity,
-                url: `${process.env.VIVINO_API_URL}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=8.19&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
+                url: `${getVivinoUrl(element.vivinoClientId)}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=8.19&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
                 headers: { 'Authorization': `Bearer ${element.vivinoAuthToken}` }
             };
 
@@ -107,18 +105,19 @@ module.exports.sales = async (event, context) => {
 
                     if (saleDate >= start && saleDate <= end) {
                         console.log(`${id} NA DATA ${created_at}`)
+
+                        items && items.forEach(elementItem => itemsProducts.push({
+                            sale: {
+                                id,
+                                created_at,
+                                unit_count: elementItem.unit_count,
+                                user
+                            },
+                            ...elementItem
+                        }));
                     } else {
                         console.log(`${id} FORA DA DATA ${created_at}`)
                     }
-                    items && items.forEach(elementItem => itemsProducts.push({
-                        sale: {
-                            id,
-                            created_at,
-                            unit_count: elementItem.unit_count,
-                            user
-                        },
-                        ...elementItem
-                    }));
                 });
             }
 
@@ -137,15 +136,15 @@ module.exports.sales = async (event, context) => {
             console.log(`${data?.length} VENDAS ENCONTRADAS`)
 
             queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales };
-            await sendMessage('wines-sales-update-queue', queueObj);
+            if (productsSales.length)
+                await sendMessage('wines-sales-update-queue', queueObj);
         }
 
         return handlerResponse(200, { queueObj, response }, 'Vendas obtidas com sucesso')
     } catch (err) {
         const message = `ERRO AO BUSCAR VENDAS EMPRESA COD ${companyId} NA API VIVINO DATA ${dateReference}`
         console.error(message)
-        await sendMessage('wines-sales-update-queue-dlq', { message, err });
-        return handlerErrResponse(err, null, message)
+        return await handlerErrResponse(err, null, message)
     }
 };
 
@@ -160,3 +159,8 @@ const sum = function (items, prop) {
         return a + b[prop];
     }, 0);
 };
+
+const getVivinoUrl = (vivinoClientId) => {
+    const { VIVINO_API_URL } = process.env
+    return !vivinoClientId.includes('TESTING') ? VIVINO_API_URL.replace('testing.', '') : VIVINO_API_URL
+}

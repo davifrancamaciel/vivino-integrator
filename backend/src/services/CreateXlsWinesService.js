@@ -33,7 +33,7 @@ const create = async (companyId, data) => {
         ws.cell(t + j, 2).string(productName[j]).style(style);
         ws.cell(t + j, 3).string(inventoryCount[j]).style(style);
         ws.cell(t + j, 4).string(updatedAt[j]).style(style);
-        ws.cell(t + j, 1).string(link[j]).style(style);
+        ws.cell(t + j, 5).string(link[j]).style(style);
     }
     const buffer = await wb.writeToBuffer()
 

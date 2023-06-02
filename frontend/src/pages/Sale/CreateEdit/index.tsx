@@ -6,7 +6,7 @@ import { Select, Textarea } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
-import { initialStateForm } from '../interfaces';
+import { initialStateForm, SaleProduct } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import Products from './Products';
 import { Product } from './Products/interfaces';
@@ -98,7 +98,7 @@ const CreateEdit: React.FC = (props: any) => {
     }
   };
 
-  const setProducts = (products: Product[]) => {
+  const setProducts = (products: SaleProduct[]) => {
     dispatch({ products });
   };
 

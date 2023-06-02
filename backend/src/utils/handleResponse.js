@@ -1,6 +1,7 @@
 "use strict";
 
 const onError = require("./errorLib");
+const { sendMessage } = require('../services/AwsQueueService')
 
 const handlerResponse = (statusCode, body, message = 'Dados obtidos com sucesso') => {
     let response = {
@@ -19,7 +20,7 @@ const handlerResponse = (statusCode, body, message = 'Dados obtidos com sucesso'
     return response
 }
 
-const handlerErrResponse = (err, obj, msg) => {
+const handlerErrResponse = async (err, obj, msg) => {
     console.log('handlerErrResponse', err, obj)
     let message = err.message ? err.message : "Unknown error";
     const errAWS = onError(err)
@@ -29,7 +30,24 @@ const handlerErrResponse = (err, obj, msg) => {
     }
     if (msg) message = msg
     const body = { error: err.name ? err.name : "Exception", err, obj }
+
+    if (!process.env.IS_OFFLINE)
+        await sendMailError(err, message)
+
     return handlerResponse(err.statusCode ? err.statusCode : 500, body, message)
+}
+
+const sendMailError = async (err, message) => {
+    const subject = message
+    const to = ['davifrancamaciel@gmail.com'];
+    const body = `<div style='padding:50px'>
+                    <p>${message}</p>
+                    <p>${err?.name}</p>
+                    <p>${err?.table}</p>
+                    <p>${err?.message}</p>
+                  </div>`;
+
+    await sendMessage('send-email-queue', { to, subject, body });
 }
 
 module.exports = { handlerResponse, handlerErrResponse }
