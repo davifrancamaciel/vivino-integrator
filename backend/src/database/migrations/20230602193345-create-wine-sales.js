@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'sales';
+const TABLE_NAME = 'wineSales';
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -19,19 +19,17 @@ module.exports = {
           onUpdate: 'CASCADE',
           allowNull: false,
         },
-        userId: {
-          type: Sequelize.INTEGER,
-          references: { model: 'users', key: 'id' },
-          onUpdate: 'CASCADE',
-          allowNull: false,
+        code: {
+          type: Sequelize.STRING(20),
+          allowNull: true,
         },
-        products: {
+        sale: {
           type: Sequelize.TEXT,
         },
         value: { type: Sequelize.DECIMAL(10, 2), defaultValue: 0, },
-        note: {
-          type: Sequelize.STRING(500),
-          allowNull: true,
+        saleDate: {
+          type: Sequelize.DATE,
+          allowNull: false,
         },
         createdAt: {
           type: Sequelize.DATE,
@@ -41,8 +39,11 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: false,
         },
-      });
-      await queryInterface.addIndex(TABLE_NAME, ['createdAt'], { transaction });  
+      }, { transaction });
+      await queryInterface.addIndex(TABLE_NAME, ['saleDate'], { transaction }); 
+      await queryInterface.addIndex(TABLE_NAME, ['code'], { transaction });
+      await queryInterface.addIndex(TABLE_NAME, ['companyId'], { transaction });
+      await queryInterface.addIndex(TABLE_NAME, ['createdAt'], { transaction });      
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();

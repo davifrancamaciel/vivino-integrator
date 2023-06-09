@@ -5,6 +5,7 @@ const FormData = require('form-data');
 const db = require('../../database');
 const { subDays, endOfDay, startOfDay, addHours } = require('date-fns');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
+const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
 const { executeUpdate } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
 
@@ -25,7 +26,7 @@ module.exports.auth = async (event, context) => {
         for (let i = 0; i < resp.length; i++) {
             const element = resp[i];
             companyId = element.id;
-       
+
             const formData = new FormData();
             formData.append('client_id', element.vivinoClientId);
             formData.append('client_secret', element.vivinoClientSecret);
@@ -65,7 +66,7 @@ module.exports.sales = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const status = 'Approved', limit = 2000;
+        const status = 'Confirmed', limit = 2000;
 
         const { queryStringParameters } = event
         if (queryStringParameters)
@@ -83,7 +84,7 @@ module.exports.sales = async (event, context) => {
             companyId = element.id;
 
             console.log(`BUSCANDO VENDAS DA EMPRESA ${element.name} COD ${companyId} NA API VIVINO DATA ${dateReference}`)
-         
+
             const config = {
                 method: 'GET',
                 maxBodyLength: Infinity,
@@ -93,18 +94,27 @@ module.exports.sales = async (event, context) => {
 
             const { data } = await axios(config);
             response = data;
-            let itemsProducts = [];
+            let itemsProducts = [], sales = [];
 
             if (data) {
                 data.forEach(element => {
-                    const { items, id, created_at, user } = element;
+                    const { items, id, created_at, user, confirmed_at } = element;
                     const saleDate = new Date(created_at)
+                    const saleConfirmed = new Date(confirmed_at)
                     const reference = addHours(new Date(dateReference), 4)
                     const start = startOfDay(reference);
                     const end = endOfDay(reference);
 
-                    if (saleDate >= start && saleDate <= end) {
-                        console.log(`${id} NA DATA ${created_at}`)
+                    if (saleConfirmed >= start && saleConfirmed <= end) {
+                        console.log(`${id} NA DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
+
+                        sales.push({
+                            companyId,
+                            code: id,
+                            value: element.items_total_sum,
+                            sale: JSON.stringify(element),
+                            saleDate
+                        });
 
                         items && items.forEach(elementItem => itemsProducts.push({
                             sale: {
@@ -116,7 +126,7 @@ module.exports.sales = async (event, context) => {
                             ...elementItem
                         }));
                     } else {
-                        console.log(`${id} FORA DA DATA ${created_at}`)
+                        console.log(`${id} FORA DA DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
                     }
                 });
             }
@@ -138,6 +148,9 @@ module.exports.sales = async (event, context) => {
             queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales };
             if (productsSales.length)
                 await sendMessage('wines-sales-update-queue', queueObj);
+
+            if (sales.length)
+                await WineSale.bulkCreate(sales)
         }
 
         return handlerResponse(200, { queueObj, response }, 'Vendas obtidas com sucesso')

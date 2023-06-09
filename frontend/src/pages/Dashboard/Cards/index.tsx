@@ -58,7 +58,7 @@ const Cards: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
   const handleCardSaleMonth = (cards: CardsReuslt) => {
     return {
       loading,
@@ -76,19 +76,21 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(totalValueMonth! * (commissionMonth! / 100)),
       color: systemColors.YELLOW,
-      text: `Commissão a pagar de ${commissionMonth ?? 0}% sob ${count} vendas no mês seguinte`,
+      text: `Commissão a pagar de ${
+        commissionMonth ?? 0
+      }% sob ${count} vendas no mês seguinte`,
       icon: <ArrowDownOutlined />,
       url: `${appRoutes.sales}`
     } as CardPropTypes;
   };
 
   const handleCardSaleCommisionUser = (cards: CardsReuslt) => {
-    const { totalValueMonth, commissionUser, count } = cards.sales;
+    const { totalValueMonth, commissionUser } = cards.sales;
     return {
       loading,
       value: formatPrice(totalValueMonth! * (commissionUser! / 100)),
       color: systemColors.BLUE,
-      text: `Minha commissão a receber de ${commissionUser}% sob ${count} vendas no mês seguinte`,
+      text: `Minha commissão a receber de ${commissionUser}% no mês seguinte`,
       icon: <ArrowUpOutlined />,
       url: `${appRoutes.sales}/my-commisions`
     } as CardPropTypes;
@@ -155,6 +157,14 @@ const Cards: React.FC = () => {
         )}
         {Boolean(checkRouleProfileAccess(groups, roules.wines)) && (
           <>
+            <Card
+              loading={loading}
+              value={`${formatPrice(cards?.winesSalesMonthValue.total ?? 0) }`}
+              color={systemColors.GREEN}
+              text={'Vendas na Vivino'}
+              icon={<DollarOutlined />}
+              url={`${appRoutes.wines}/sales`}
+            />
             <Card
               loading={loading}
               value={`${cards?.winesSalesDay.count ?? 0}`}

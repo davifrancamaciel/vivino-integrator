@@ -20,6 +20,7 @@ module.exports.cards = async (event, context) => {
             winesNotActive: { count: 0, },
             winesSalesDay: { count: 0, },
             winesSalesMonth: { count: 0, },
+            winesSalesMonthValue: { total: 0, },
             sales: {
                 count: 0,
                 commissionMonth: 0,
@@ -39,6 +40,7 @@ module.exports.cards = async (event, context) => {
             data.winesNotActive = await winesNotActive(isAdm, user)
             data.winesSalesDay = await winesSalesDay(date, isAdm, user)          
             data.winesSalesMonth = await winesSalesMonth(date, isAdm, user)
+            data.winesSalesMonthValue = await winesSalesMonthValue(date, isAdm, user)
         }
 
         if (checkRouleProfileAccess(user.groups, roules.sales)) 
@@ -106,6 +108,14 @@ const winesSalesDay = async (date, isAdm, user) => {
 const winesSalesMonth = async (date, isAdm, user) => {
     const query = ` SELECT SUM(total) count FROM wineSaleHistories 
                     WHERE dateReference BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}' 
+                    ${isAdm ? '' : `AND companyId = '${user.companyId}'`}`
+    const [result] = await executeSelect(query);
+    return result
+}
+
+const winesSalesMonthValue = async (date, isAdm, user) => {
+    const query = ` SELECT SUM(value) total FROM wineSales 
+                    WHERE saleDate BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}' 
                     ${isAdm ? '' : `AND companyId = '${user.companyId}'`}`
     const [result] = await executeSelect(query);
     return result

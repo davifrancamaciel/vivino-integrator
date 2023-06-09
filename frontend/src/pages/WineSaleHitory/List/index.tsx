@@ -149,7 +149,7 @@ const List: React.FC = () => {
         </Col>
         <Col lg={7} md={12} sm={24} xs={24}>
           <RangePicker
-            label="Data de venda"
+            label="Data de confirmação"
             value={[
               state.dateReferenceStart
                 ? moment(state.dateReferenceStart)
@@ -201,7 +201,7 @@ const List: React.FC = () => {
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'wineId' },
           { title: 'Nome do produto', dataIndex: 'productName' },
-          { title: 'Data das vendas', dataIndex: 'dateReference' },
+          { title: 'Data da confirmação na Vivino', dataIndex: 'dateReference' },
           { title: 'Estoque anterior', dataIndex: 'inventoryCountBefore' },
           { title: 'Total vendido', dataIndex: 'total' },
           {

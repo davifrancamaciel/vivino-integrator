@@ -24,6 +24,7 @@ const WineList = lazy(() => import('pages/Wine/List'));
 const WineCreateEdit = lazy(() => import('pages/Wine/CreateEdit'));
 const WineDetails = lazy(() => import('pages/Wine/Details'));
 const WineSaleHitoryList = lazy(() => import('pages/WineSaleHitory/List'));
+const WineSaleList = lazy(() => import('pages/WineSale/List'));
 const RomanainList = lazy(() => import('pages/Romanain/List'));
 const RomanainCreateEdit = lazy(() => import('pages/Romanain/CreateEdit'));
 const RomanainDetails = lazy(() => import('pages/Romanain/Details'));
@@ -79,6 +80,11 @@ const routesArray: IRouteProps[] = [
   {
     path: `/${appRoutes.wines}/sale-history`,
     component: WineSaleHitoryList,
+    roule: roules.wines
+  },
+  {
+    path: `/${appRoutes.wines}/sales`,
+    component: WineSaleList,
     roule: roules.wines
   },
   {

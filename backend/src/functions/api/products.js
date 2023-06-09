@@ -68,12 +68,12 @@ module.exports.list = async (event, context) => {
                 };
         }
 
-        const { pageSize, pageNumber, productsWarnig } = event.queryStringParameters
+        const { pageSize, pageNumber } = event.queryStringParameters
         const { count, rows } = await Product.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * pageSize,
-            order: [[productsWarnig ? 'updatedAt' : 'id', 'DESC']],
+            order: [['id', 'DESC']],
         })
 
         return handlerResponse(200, { count, rows })
@@ -191,16 +191,27 @@ module.exports.delete = async (event) => {
 
 module.exports.listAll = async (event, context) => {
     try {
+        const { queryStringParameters } = event
+        let whereStatement = {};
         const user = await getUser(event)
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-
         if (!checkRouleProfileAccess(user.groups, roules.sales))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
+        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+            whereStatement.companyId = user.companyId
+
+        if (queryStringParameters) {
+            const { active } = queryStringParameters
+
+            if (active !== undefined && active !== '')
+                whereStatement.active = active === 'true';
+        }
 
         const resp = await Product.findAll({
             order: [['name', 'ASC']],
+            where: whereStatement,
         })
 
         const respFormated = resp.map(item => ({

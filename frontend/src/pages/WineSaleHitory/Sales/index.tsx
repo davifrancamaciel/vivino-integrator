@@ -63,7 +63,7 @@ const Sales: React.FC<PropTypes> = (props) => {
           { title: 'Email', dataIndex: 'email' },
           { title: 'Quantidade', dataIndex: 'unit_count' },
 
-          { title: 'Criada em', dataIndex: 'created_at' }
+          { title: 'Criada na Vivino em', dataIndex: 'created_at' }
         ]}
         dataSource={sales}
         totalRecords={sales.length}

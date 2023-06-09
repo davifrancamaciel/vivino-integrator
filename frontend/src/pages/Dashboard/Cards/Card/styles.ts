@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   background: ${(props) => (props.color ? props.color : '#fff')};
-  height: 130px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   padding: 15px;

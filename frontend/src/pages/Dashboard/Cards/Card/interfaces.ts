@@ -11,6 +11,7 @@ export interface CardsReuslt {
   winesNotActive: { count: number };
   winesSalesDay: { count: number };
   winesSalesMonth: { count: number };
+  winesSalesMonthValue: { total: number };
   sales: {
     count: number;
     commissionMonth: number;
@@ -28,6 +29,7 @@ export const initialStateCards: CardsReuslt = {
   winesNotActive: { count: 0 },
   winesSalesDay: { count: 0 },
   winesSalesMonth: { count: 0 },
+  winesSalesMonthValue: { total: 0 },
   sales: {
     count: 0,
     commissionMonth: 0,

@@ -25,6 +25,7 @@ module.exports = {
         allowNull: false,
       },
     });
+    
   },
 
   async down(queryInterface, Sequelize) {

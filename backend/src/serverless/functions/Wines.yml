@@ -47,3 +47,12 @@ winesSaleHistory:
         method: get
         authorizer: verifyToken
         cors: true 
+winesSale:
+  handler: src/functions/api/winesSale.list
+  timeout: 600 
+  events:
+    - http:
+        path: wines/sales
+        method: get
+        authorizer: verifyToken
+        cors: true 

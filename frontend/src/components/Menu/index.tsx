@@ -78,6 +78,11 @@ const SliderMenu: React.FC = (props: any) => {
                 Histórico de vendas
               </Link>
             </Menu.Item>
+            <Menu.Item key={`/${appRoutes.wines}/sales`}>
+              <Link to={`/${appRoutes.wines}/sales`}>
+                Vendas
+              </Link>
+            </Menu.Item>
           </SubMenu>
         )}
 
