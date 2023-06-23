@@ -3,7 +3,12 @@ Resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.bucketPublic}
-        AccessControl: PublicRead
+        # AccessControl: PublicRead
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: ObjectWriter
         CorsConfiguration:
           CorsRules:
           - AllowedMethods:

@@ -1,4 +1,3 @@
-// import { Product } from './CreateEdit/Products/interfaces';
 export interface User {
   name: string;
 }
@@ -8,9 +7,12 @@ export interface Product {
   price: number;
 }
 export interface SaleProduct {
+  id?: string;
   productId: number;
   value: number;
+  valueStr?: string;
   valueAmount: number;
+  valueAmountStr?: string;
   amount: number;
   product: Product;
 }

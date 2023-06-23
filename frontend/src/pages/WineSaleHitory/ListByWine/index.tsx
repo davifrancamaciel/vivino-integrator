@@ -98,7 +98,7 @@ const List: React.FC<PropTypes> = ({ wineId }) => {
                 title: 'Vendas',
                 dataIndex: 'sales'
               },
-              { title: 'Criado em', dataIndex: 'createdAt' }
+              { title: 'Importado em', dataIndex: 'createdAt' }
             ]}
             dataSource={items}
             onPagination={(pageNumber) => actionFilter(pageNumber)}

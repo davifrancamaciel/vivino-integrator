@@ -9,7 +9,7 @@
     "dev": "sls offline start",
     "debug": "sls offline -s dev",
     "deploy": "sls deploy",
-    "deploy:prod": "sls deploy --stage prod",
+    "deploy:prod": "sls deploy --stage prd",
     "create_domain": "sls create_domain",
     "info": "sls info",
     "migrate": "sequelize db:migrate",

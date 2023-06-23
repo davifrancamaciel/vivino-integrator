@@ -11,7 +11,7 @@ module.exports.cards = async (event, context) => {
     try {
 
         const user = await getUser(event)
-
+      
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 

@@ -130,7 +130,7 @@ const Sales: React.FC<PropTypes> = (props) => {
         scroll={{ x: 840 }}
         columns={[
           { title: 'Imagem', dataIndex: 'image' },
-          { title: 'Códido', dataIndex: 'sku' },
+          { title: 'Código', dataIndex: 'sku' },
           { title: 'Vinho', dataIndex: 'description' },
           { title: 'Preço unitário', dataIndex: 'unit_price' },
           { title: 'Quantidade', dataIndex: 'unit_count' },

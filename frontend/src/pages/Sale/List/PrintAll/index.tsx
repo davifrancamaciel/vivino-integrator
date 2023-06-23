@@ -14,7 +14,6 @@ import { formatDate } from 'utils/formatDate';
 import { formatPrice, priceToNumber } from 'utils/formatPrice';
 import { Footer, Summary } from './styles';
 import Td from './Td';
-import { Product } from '../../CreateEdit/Products/interfaces';
 interface PropTypes {
   state: Filter;
 }

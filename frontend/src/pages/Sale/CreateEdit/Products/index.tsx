@@ -6,7 +6,10 @@ import { Button, Col, Row } from 'antd';
 import { Input, Select } from 'components/_inputs';
 import { PropTypes } from './interfaces';
 import { apiRoutes, systemColors } from 'utils/defaultValues';
-import { formatValueWhithDecimalCaseOnChange } from 'utils/formatPrice';
+import {
+  priceToNumber,
+  formatValueWhithDecimalCaseOnChange
+} from 'utils/formatPrice';
 import api from 'services/api-aws-amplify';
 import { SaleProduct, Product } from '../../interfaces';
 import { IOptions } from '../../../../utils/commonInterfaces';
@@ -19,36 +22,78 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
     onLoad();
   }, []);
   useEffect(() => {
-    !products.length && setProducts([{} as SaleProduct]);
+    !products.length && add();
   }, [products]);
 
-  const change = (p: SaleProduct) => {
-    console.log(p);
-    debugger;
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
+
+  const changeProduct = (sp: SaleProduct) => {
     const newProducts = products.map((product: SaleProduct) => {
-      return product.productId === p.productId ? newProduct(p) : newProduct(p);
+      return product.id === sp.id ? newProduct(sp) : product;
     });
     setProducts(newProducts);
   };
+
   const newProduct = (sp: SaleProduct) => {
-    debugger;
     const product = productsOptions.find((p: Product) => p.id === sp.productId);
     return {
+      id: sp.id,
       productId: product?.id,
-      value: product?.price,  
-      amount: sp.amount ? sp.amount : 1,
-      valueAmount: sp.amount ? product?.price! * Number(sp.amount) : product?.price
+      value: product?.price,
+      valueStr: formatValueWhithDecimalCaseOnChange(product?.price),
+      amount: 1,
+      valueAmount: product?.price,
+      valueAmountStr: formatValueWhithDecimalCaseOnChange(product?.price)
     } as SaleProduct;
   };
-  const add = () => {
-    setProducts([...products, {} as SaleProduct]);
+
+  const changeAmount = (sp: SaleProduct) => {
+    const newProducts = products.map((product: SaleProduct) => {
+      return product.id === sp.id
+        ? {
+            ...product,
+            amount: sp.amount,
+            // value: sp?.value,
+            // valueStr: formatValueWhithDecimalCaseOnChange(sp?.value),
+            valueAmount: sp.amount * priceToNumber(`${product?.value}`),
+            valueAmountStr: sp.amount * priceToNumber(`${product?.value}`)
+          } 
+        : product;
+    });
+    // setProducts(newProducts);
   };
+
+  const changeValue = (sp: SaleProduct) => {
+    const newProducts = products.map((product: SaleProduct) => {
+      return product.id === sp.id
+        ? {
+            ...product,
+            amount: sp.amount,
+            value: sp?.value,
+            valueStr: formatValueWhithDecimalCaseOnChange(sp?.value),
+            valueAmount: sp.amount * sp?.value,
+            valueAmountStr: formatValueWhithDecimalCaseOnChange(
+              sp.amount * sp?.value
+            )
+          }
+        : product;
+    });
+    setProducts(newProducts);
+  };
+
+  const add = () => {
+    setProducts([...products, { id: uuidv4() } as SaleProduct]);
+  };
+
   const remove = (p: SaleProduct) => {
     const newProducts = products.filter(
-      (product: SaleProduct) => product.productId !== p.productId
+      (product: SaleProduct) => product.id !== p.id
     );
     setProducts(newProducts);
   };
+
   const onLoad = async () => {
     try {
       setLoading(true);
@@ -61,17 +106,18 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
       setLoading(false);
     }
   };
+
   return (
     <Col lg={24} md={24} sm={24} xs={24}>
       {products?.map((p: SaleProduct, index: number) => (
         <Row gutter={[16, 24]} key={index} style={{ marginBottom: '15px' }}>
-          <Col lg={8} md={24} sm={24} xs={24}>
+          <Col lg={12} md={24} sm={24} xs={24}>
             <Select
               label={'Produto'}
               options={options}
               loading={loading}
               value={p.productId}
-              onChange={(productId) => change({ productId } as SaleProduct)}
+              onChange={(productId) => changeProduct({ ...p, productId })}
             />
           </Col>
           <Col lg={3} md={12} sm={12} xs={12}>
@@ -81,10 +127,7 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
               placeholder="15,00"
               value={p.amount}
               onChange={(e) =>
-                change({
-                  ...p,
-                  amount: formatValueWhithDecimalCaseOnChange(e.target.value)
-                })
+                changeAmount({ ...p, amount: Number(e.target.value) })
               }
             />
           </Col>
@@ -95,15 +138,12 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
               placeholder="15,00"
               value={p.value}
               onChange={(e) =>
-                change({
-                  ...p,
-                  value: formatValueWhithDecimalCaseOnChange(e.target.value)
-                })
+                changeValue({ ...p, value: Number(e.target.value) })
               }
             />
           </Col>
-          <Col lg={3} md={20} sm={20} xs={20}>
-            <Input label={'Total'} value={p.valueAmount} disabled />
+          <Col lg={4} md={20} sm={20} xs={20}>
+            <Input label={'Total'} value={p.valueAmountStr} disabled />
           </Col>
           {index === products.length - 1 && (
             <Col lg={2} md={4} sm={4} xs={4}>

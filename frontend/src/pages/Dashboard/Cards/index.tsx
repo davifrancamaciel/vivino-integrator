@@ -47,12 +47,17 @@ const Cards: React.FC = () => {
     action(date);
   }, [date]);
 
+  useEffect(() => {
+    console.log(cards);
+  }, [cards]);
+
   const action = async (date: Date) => {
     try {
       setLoading(true);
       const url = `${apiRoutes.dashboard}/cards`;
       const resp = await api.get(url, { dateReference: date.toISOString() });
-      setCards(resp.data);
+      
+      resp?.data && setCards(resp?.data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -64,17 +69,17 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(cards?.sales.totalValueMonth!),
       color: systemColors.GREEN,
-      text: `Valor total das ${cards?.sales.count!} vendas`,
+      text: `Valor total das ${cards?.sales.count!} vendas no mês`,
       icon: <DollarOutlined />,
       url: `${appRoutes.sales}`
     } as CardPropTypes;
   };
 
   const handleCardSaleCommision = (cards: CardsReuslt) => {
-    const { totalValueMonth, commissionMonth, count } = cards.sales;
+    const { totalValueMonth, commissionMonth, count } = cards?.sales;
     return {
       loading,
-      value: formatPrice(totalValueMonth! * (commissionMonth! / 100)),
+      value: formatPrice(totalValueMonth * (commissionMonth / 100)),
       color: systemColors.YELLOW,
       text: `Commissão a pagar de ${
         commissionMonth ?? 0
@@ -85,7 +90,7 @@ const Cards: React.FC = () => {
   };
 
   const handleCardSaleCommisionUser = (cards: CardsReuslt) => {
-    const { totalValueMonth, commissionUser } = cards.sales;
+    const { totalValueMonth, commissionUser } = cards?.sales;
     return {
       loading,
       value: formatPrice(totalValueMonth! * (commissionUser! / 100)),
@@ -102,15 +107,15 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(totalValueMonth),
       color: systemColors.ORANGE,
-      text: `Valor total das ${count} despesas`,
+      text: `Valor total das ${count} despesas no mês`,
       icon: <ArrowUpOutlined />,
       url: `${appRoutes.expenses}`
     } as CardPropTypes;
   };
 
   const handleCardSaleExpenseMonth = (cards: CardsReuslt) => {
-    const { totalValueMonth: totalValueMonthExpenses } = cards.expenses;
-    const { totalValueMonth: totalValueMonthSales } = cards.sales;
+    const { totalValueMonth: totalValueMonthExpenses } = cards?.expenses;
+    const { totalValueMonth: totalValueMonthSales } = cards?.sales;
     const isPositive =
       Number(totalValueMonthExpenses) < Number(totalValueMonthSales);
     return {
@@ -159,9 +164,9 @@ const Cards: React.FC = () => {
           <>
             <Card
               loading={loading}
-              value={`${formatPrice(cards?.winesSalesMonthValue.total ?? 0) }`}
+              value={`${formatPrice(cards?.winesSalesMonthValue.total ?? 0)}`}
               color={systemColors.GREEN}
-              text={'Vendas na Vivino'}
+              text={'Valor total das vendas no mês'}
               icon={<DollarOutlined />}
               url={`${appRoutes.wines}/sales`}
             />
@@ -169,7 +174,7 @@ const Cards: React.FC = () => {
               loading={loading}
               value={`${cards?.winesSalesDay.count ?? 0}`}
               color={systemColors.GREEN}
-              text={'Vinhos vendidos na vivino ontem'}
+              text={'Garrafas vendidas ontem'}
               icon={<BarChartOutlined />}
               url={`${appRoutes.wines}/sale-history`}
             />
@@ -177,7 +182,7 @@ const Cards: React.FC = () => {
               loading={loading}
               value={`${cards?.winesSalesMonth.count ?? 0}`}
               color={systemColors.LIGHT_BLUE}
-              text={'Vinhos vendidos na vivino'}
+              text={'Garrafas vendidas no mês'}
               icon={<BarChartOutlined />}
               url={`${appRoutes.wines}/sale-history`}
             />

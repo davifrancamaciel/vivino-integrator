@@ -171,7 +171,7 @@ const List: React.FC = () => {
         </Col>
         <Col lg={7} md={12} sm={24} xs={24}>
           <RangePicker
-            label="Data de criação"
+            label="Data de importação"
             value={[
               state.createdAtStart ? moment(state.createdAtStart) : null,
               state.createdAtEnd ? moment(state.createdAtEnd) : null
@@ -212,7 +212,7 @@ const List: React.FC = () => {
             title: 'Vendas',
             dataIndex: 'sales'
           },
-          { title: 'Criado em', dataIndex: 'createdAt' },
+          { title: 'Importado em', dataIndex: 'createdAt' },
           { title: 'Ações', dataIndex: 'custonActions' }
         ]}
         dataSource={items}

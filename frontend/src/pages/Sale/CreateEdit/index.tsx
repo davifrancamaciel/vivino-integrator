@@ -9,10 +9,8 @@ import useFormState from 'hooks/useFormState';
 import { initialStateForm, SaleProduct } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import Products from './Products';
-import { Product } from './Products/interfaces';
 import { formatPrice, priceToNumber } from 'utils/formatPrice';
 import { useAppContext } from 'hooks/contextLib';
-
 import ShowByRoule from 'components/ShowByRoule';
 import { IOptions } from '../../../utils/commonInterfaces';
 
@@ -46,8 +44,8 @@ const CreateEdit: React.FC = (props: any) => {
 
   useEffect(() => {
     const totalSale = state.products
-      .filter((p: Product) => p.value)
-      .reduce((acc: number, p: Product) => acc + priceToNumber(p.value!), 0);
+      .filter((p: SaleProduct) => p.value)
+      .reduce((acc: number, p: SaleProduct) => acc + p.valueAmount, 0);
     setTotal(formatPrice(totalSale));
   }, [state.products]);
 
@@ -56,10 +54,10 @@ const CreateEdit: React.FC = (props: any) => {
       setLoading(true);
       setLoadingEdit(true);
       const resp = await api.get(`${apiRoutes.sales}/${id}`);
-      const productsFormatted = resp.data?.productsFormatted as Product[];
-      const products = productsFormatted.map((p: Product) => ({
+      const productsFormatted = resp.data?.productsFormatted as SaleProduct[];
+      const products = productsFormatted.map((p: SaleProduct) => ({
         ...p,
-        value: p.value?.toString().replace('.', ',')
+        value: p.valueAmount?.toString().replace('.', ',')
       }));
       console.log(products);
       dispatch({ ...resp.data, products });
@@ -75,7 +73,7 @@ const CreateEdit: React.FC = (props: any) => {
   const action = async () => {
     try {
       const productsSale = state.products
-        ?.filter((p: Product) => p.name && p.value)
+        ?.filter((p: SaleProduct) => p.product.name && p.value)
         .map((p: any) => ({ ...p, value: priceToNumber(p.value) }));
       if (!productsSale || !productsSale.length) {
         notification.warning({

@@ -11,7 +11,6 @@ import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
-import { Product } from '../CreateEdit/Products/interfaces';
 import PrintAll from './PrintAll';
 import Print from './Print';
 import moment from 'moment';

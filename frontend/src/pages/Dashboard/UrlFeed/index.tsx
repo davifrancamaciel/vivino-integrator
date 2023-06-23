@@ -15,7 +15,7 @@ const UrlFeed: React.FC = () => {
 
   const getUrlFeed = (companyId: string) => {
     const isProd = window.location.href.includes('prod');
-    const enviroment = isProd ? 'prod' : 'dev';
+    const enviroment = isProd ? 'prd' : 'dev';
     const url = `https://services-integrator-api-${enviroment}-public.s3.amazonaws.com/${companyId}/vivinofeed.xml`;
     setUrlFeed(url);
   };

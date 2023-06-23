@@ -93,15 +93,15 @@ const createFileXml = async ({ companyId }) => {
 
     const xml = root.end({ prettyPrint: true });
 
-    const { bucketName } = process.env
+    const { bucketName, STAGE } = process.env
     await s3.remove(key, bucketName);
     const result = await s3.put(xml, key, bucketName);
 
     console.log(result)
 
-    if (companyId == companyIdDefault) {
-        await s3.remove('vivinofeed.xml', bucketName);
-        const resultAry = await s3.put(xml, 'vivinofeed.xml', bucketName);
+    if (companyId == companyIdDefault && STAGE === 'prd') {
+        await s3.remove('vivinofeed.xml', 'vivino-integrator-api-prod-feeds');
+        const resultAry = await s3.put(xml, 'vivinofeed.xml', 'vivino-integrator-api-prod-feeds');
         console.log(resultAry)
     }
 

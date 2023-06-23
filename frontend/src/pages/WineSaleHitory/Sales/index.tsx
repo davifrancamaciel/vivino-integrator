@@ -57,7 +57,7 @@ const Sales: React.FC<PropTypes> = (props) => {
       <GridList
         scroll={{ x: 840 }}
         columns={[
-          { title: 'Códido', dataIndex: 'id' },
+          { title: 'Código', dataIndex: 'id' },
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Cliente', dataIndex: 'userName' },
           { title: 'Email', dataIndex: 'email' },

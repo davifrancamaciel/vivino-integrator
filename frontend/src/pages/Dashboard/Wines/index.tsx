@@ -29,7 +29,7 @@ const Wines: React.FC = () => {
       });
       setLoading(false);
 
-      const { count, rows } = resp.data;
+      const { count, rows } = resp?.data;
       const itemsFormatted = rows.map((p: Wine) => ({
         ...p,
         updatedAt: formatDateHour(p.updatedAt),
@@ -43,6 +43,8 @@ const Wines: React.FC = () => {
       setItems(itemsFormatted);
       setTotalRecords(count);
     } catch (error) {
+      setItems([]);
+      setTotalRecords(0);
       console.log(error);
       setLoading(false);
     }

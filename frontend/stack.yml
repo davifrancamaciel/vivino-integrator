@@ -3,8 +3,13 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: vivino-integrator-v2-dev
-      AccessControl: PublicRead 
+      BucketName: services-integrator-prod
+      # AccessControl: PublicRead 
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: ObjectWriter
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: index.html
