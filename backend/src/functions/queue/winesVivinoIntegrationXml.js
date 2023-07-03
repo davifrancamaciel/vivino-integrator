@@ -33,7 +33,8 @@ module.exports.handler = async (event) => {
 }
 
 const createFileXml = async ({ companyId }) => {
-    const key = `${companyId}/vivinofeed.xml`
+    const fileName = 'vivinofeed.xml';
+    const key = `${companyId}/${fileName}`;
 
     const resp = await Wine.findAll({
         where: {
@@ -100,8 +101,9 @@ const createFileXml = async ({ companyId }) => {
     console.log(result)
 
     if (companyId == companyIdDefault && STAGE === 'prd') {
-        await s3.remove('vivinofeed.xml', 'vivino-integrator-api-prod-feeds');
-        const resultAry = await s3.put(xml, 'vivinofeed.xml', 'vivino-integrator-api-prod-feeds');
+        const bucket = 'vivino-integrator-api-prod-feeds';
+        await s3.remove(fileName, bucket);
+        const resultAry = await s3.put(xml, fileName, bucket);
         console.log(resultAry)
     }
 

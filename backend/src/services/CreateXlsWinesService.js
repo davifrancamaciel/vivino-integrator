@@ -3,10 +3,12 @@
 const xl = require('excel4node');
 const s3 = require("../services/AwsS3Service");
 const { formatDateHour } = require('../utils/formatDate')
+const formatPrice = require("../utils/formatPrice");
 
 const create = async (companyId, data) => {
     let id = [];
-    let productName = [];    
+    let productName = [];
+    let price = [];
     let inventoryCount = [];
     let updatedAt = [];
     let link = [];
@@ -14,13 +16,14 @@ const create = async (companyId, data) => {
     data.forEach(element => {
         id.push(element.id.toString());
         productName.push(element.productName);
+        price.push(element.price);
         inventoryCount.push(element.inventoryCount.toString());
-        updatedAt.push(formatDateHour(element.updatedAt.toISOString()));       
+        updatedAt.push(formatDateHour(element.updatedAt.toISOString()));
         link.push(element.link);
     });
     var wb = new xl.Workbook()
     var ws = wb.addWorksheet('Vinhos')
-    const cols = ['Código', 'Nome do produto', 'Estoque', 'Data de alteração', 'Link do vinho no seu site']
+    const cols = ['Código', 'Nome do produto', 'Preço', 'Estoque', 'Data de alteração', 'Link do vinho no seu site']
     var style = wb.createStyle({
         font: {
             size: 12
@@ -31,9 +34,10 @@ const create = async (companyId, data) => {
         let t = 2;
         ws.cell(t + j, 1).string(id[j]).style(style);
         ws.cell(t + j, 2).string(productName[j]).style(style);
-        ws.cell(t + j, 3).string(inventoryCount[j]).style(style);
-        ws.cell(t + j, 4).string(updatedAt[j]).style(style);
-        ws.cell(t + j, 5).string(link[j]).style(style);
+        ws.cell(t + j, 3).string(formatPrice(price[j])).style(style);
+        ws.cell(t + j, 4).string(inventoryCount[j]).style(style);
+        ws.cell(t + j, 5).string(updatedAt[j]).style(style);
+        ws.cell(t + j, 6).string(link[j]).style(style);
     }
     const buffer = await wb.writeToBuffer()
 

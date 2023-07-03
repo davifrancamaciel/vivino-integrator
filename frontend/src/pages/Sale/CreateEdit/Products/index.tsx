@@ -7,8 +7,8 @@ import { Input, Select } from 'components/_inputs';
 import { PropTypes } from './interfaces';
 import { apiRoutes, systemColors } from 'utils/defaultValues';
 import {
-  priceToNumber,
-  formatValueWhithDecimalCaseOnChange
+  formatPrice,
+  formatNumberWhithDecimalCaseOnChange
 } from 'utils/formatPrice';
 import api from 'services/api-aws-amplify';
 import { SaleProduct, Product } from '../../interfaces';
@@ -24,11 +24,7 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
   useEffect(() => {
     !products.length && add();
   }, [products]);
-
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
+  
   const changeProduct = (sp: SaleProduct) => {
     const newProducts = products.map((product: SaleProduct) => {
       return product.id === sp.id ? newProduct(sp) : product;
@@ -39,13 +35,12 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
   const newProduct = (sp: SaleProduct) => {
     const product = productsOptions.find((p: Product) => p.id === sp.productId);
     return {
+      product,
       id: sp.id,
       productId: product?.id,
       value: product?.price,
-      valueStr: formatValueWhithDecimalCaseOnChange(product?.price),
       amount: 1,
-      valueAmount: product?.price,
-      valueAmountStr: formatValueWhithDecimalCaseOnChange(product?.price)
+      valueAmount: product?.price
     } as SaleProduct;
   };
 
@@ -54,15 +49,15 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
       return product.id === sp.id
         ? {
             ...product,
-            amount: sp.amount,
-            // value: sp?.value,
-            // valueStr: formatValueWhithDecimalCaseOnChange(sp?.value),
-            valueAmount: sp.amount * priceToNumber(`${product?.value}`),
-            valueAmountStr: sp.amount * priceToNumber(`${product?.value}`)
-          } 
+            amount: formatNumberWhithDecimalCaseOnChange(sp.amountStr),
+            value: sp?.value,
+            valueAmount:
+              formatNumberWhithDecimalCaseOnChange(sp.amountStr) *
+              product?.value
+          }
         : product;
     });
-    // setProducts(newProducts);
+    setProducts(newProducts);
   };
 
   const changeValue = (sp: SaleProduct) => {
@@ -71,12 +66,9 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
         ? {
             ...product,
             amount: sp.amount,
-            value: sp?.value,
-            valueStr: formatValueWhithDecimalCaseOnChange(sp?.value),
-            valueAmount: sp.amount * sp?.value,
-            valueAmountStr: formatValueWhithDecimalCaseOnChange(
-              sp.amount * sp?.value
-            )
+            value: formatNumberWhithDecimalCaseOnChange(sp?.valueStr),
+            valueAmount:
+              sp.amount * formatNumberWhithDecimalCaseOnChange(sp?.valueStr)
           }
         : product;
     });
@@ -127,7 +119,7 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
               placeholder="15,00"
               value={p.amount}
               onChange={(e) =>
-                changeAmount({ ...p, amount: Number(e.target.value) })
+                changeAmount({ ...p, amountStr: e.target.value })
               }
             />
           </Col>
@@ -137,13 +129,15 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
               type={'tel'}
               placeholder="15,00"
               value={p.value}
-              onChange={(e) =>
-                changeValue({ ...p, value: Number(e.target.value) })
-              }
+              onChange={(e) => changeValue({ ...p, valueStr: e.target.value })}
             />
           </Col>
           <Col lg={4} md={20} sm={20} xs={20}>
-            <Input label={'Total'} value={p.valueAmountStr} disabled />
+            <Input
+              label={'Total'}
+              value={formatPrice(p.valueAmount || 0)}
+              disabled
+            />
           </Col>
           {index === products.length - 1 && (
             <Col lg={2} md={4} sm={4} xs={4}>

@@ -11,9 +11,9 @@ export interface SaleProduct {
   productId: number;
   value: number;
   valueStr?: string;
-  valueAmount: number;
-  valueAmountStr?: string;
+  valueAmount: number;  
   amount: number;
+  amountStr?: string;
   product: Product;
 }
 export interface Sale {

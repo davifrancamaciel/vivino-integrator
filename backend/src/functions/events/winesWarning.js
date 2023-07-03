@@ -29,7 +29,7 @@ module.exports.handler = async (event) => {
                     }
                 },
                 order: [['updatedAt', 'DESC'], ['inventoryCount', 'DESC']],
-                attributes: ['id', 'productName', 'inventoryCount', 'updatedAt', 'link'],
+                attributes: ['id', 'productName', 'inventoryCount', 'updatedAt', 'link', 'price'],
             })
 
             if (wines && wines.length) {

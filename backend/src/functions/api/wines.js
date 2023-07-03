@@ -206,7 +206,7 @@ module.exports.delete = async (event) => {
 }
 const sendMessageWineFiles = async (user, wine, type) => {
     await sendMessage('wines-xml-generate-files-queue', {
-        companyId: user.companyId,
+        companyId: wine.companyId,
         userId: user.userId,
         wine,
         type

@@ -10,7 +10,7 @@ const SaleProduct = require('../../models/SaleProduct')(db.sequelize, db.Sequeli
 const Product = require('../../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
-const { executeSelect } = require("../../services/ExecuteQueryService");
+const { executeSelect, executeDelete } = require("../../services/ExecuteQueryService");
 const { listProducts } = require("../../services/normalize");
 
 const { roules } = require("../../utils/defaultValues");
@@ -145,7 +145,7 @@ module.exports.listById = async (event) => {
                 {
                     model: SaleProduct,
                     as: 'productsSales',
-                    attributes: ['amount', 'valueAmount', 'value', 'productId'],
+                    attributes: ['id', 'amount', 'valueAmount', 'value', 'productId'],
                     include: [{ model: Product, as: 'product', attributes: ['name', 'price'] }]
                 },]
         })
@@ -173,13 +173,15 @@ module.exports.create = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.sales))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const products = JSON.parse(body.products)
-        const value = products.reduce(function (acc, p) { return acc + p.value; }, 0);
+        const value = body.productsSales.reduce(function (acc, p) { return acc + Number(p.valueAmount); }, 0);
         const objOnSave = {
             ...body,
             userId: user.userId,
             value,
         }
+        if (!objOnSave.companyId)
+            objOnSave.companyId = user.companyId
+
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             objOnSave.companyId = user.companyId
 
@@ -187,6 +189,9 @@ module.exports.create = async (event) => {
             objOnSave.userId = body.userId;
 
         const result = await Sale.create(objOnSave);
+
+        await createProductsSales(body, result, false);
+
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, body)
@@ -212,8 +217,7 @@ module.exports.update = async (event) => {
         if (!item)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrada`)
 
-        const products = JSON.parse(body.products)
-        const value = products.reduce(function (acc, p) { return acc + p.value; }, 0);
+        const value = body.productsSales.reduce(function (acc, p) { return acc + Number(p.valueAmount); }, 0);
         const objOnSave = {
             ...body,
             value,
@@ -232,6 +236,9 @@ module.exports.update = async (event) => {
             objOnSave.userId = body.userId;
 
         const result = await item.update(objOnSave);
+
+        await createProductsSales(body, result, true);
+
         console.log('PARA ', result.dataValues)
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
@@ -271,4 +278,19 @@ const getCommision = async (pageSize, isAdm, companyId) => {
         commission = Number(queryResult.total)
     }
     return commission
+}
+
+const createProductsSales = async (body, result, isDelete) => {
+    if (isDelete)
+        await executeDelete(`DELETE FROM saleProducts WHERE saleId = ${result.id} AND companyId = '${result.companyId}'`);
+
+    const list = body.productsSales.map(ps => ({
+        companyId: result.companyId,
+        saleId: result.id,
+        productId: ps.productId,
+        value: ps.value,
+        valueAmount: ps.valueAmount,
+        amount: ps.amount,
+    }))
+    await SaleProduct.bulkCreate(list);
 }

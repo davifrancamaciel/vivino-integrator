@@ -16,6 +16,7 @@ module.exports.handler = async (event, context) => {
         context.callbackWaitsForEmptyEventLoop = false;
 
         let date = subMonths(new Date(), 1);
+        const link = 'http://services-integrator-prod.s3-website-us-east-1.amazonaws.com'
 
         const { queryStringParameters } = event
         if (queryStringParameters)
@@ -67,7 +68,8 @@ module.exports.handler = async (event, context) => {
             const subject = element.title.replace(` de ${element.name}`, '')
             const body = `  <div style='padding:50px'>
                                 <p>Olá, ${element.name}</p>
-                                <p>${element.description.replace(` de ${element.name}`, '')}</p>                                
+                                <p>${element.description.replace(` de ${element.name}`, '')}</p> 
+                                <p>Clique <a href="${link}/sales/my-commisions" target="_blank">aqui</a> e veja todas as comissões</p>                               
                             </div>`
             await sendMessage('send-email-queue', { to, subject, body, companyName });
         }

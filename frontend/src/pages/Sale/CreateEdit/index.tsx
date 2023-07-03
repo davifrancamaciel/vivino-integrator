@@ -9,10 +9,9 @@ import useFormState from 'hooks/useFormState';
 import { initialStateForm, SaleProduct } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import Products from './Products';
-import { formatPrice, priceToNumber } from 'utils/formatPrice';
+import { formatPrice } from 'utils/formatPrice';
 import { useAppContext } from 'hooks/contextLib';
 import ShowByRoule from 'components/ShowByRoule';
-import { IOptions } from '../../../utils/commonInterfaces';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
@@ -28,16 +27,6 @@ const CreateEdit: React.FC = (props: any) => {
   }, []);
 
   useEffect(() => {
-    let userName = '';
-    if (state.userId) {
-      userName = users.find(
-        (user: IOptions) => user.value === state.userId
-      )?.label;
-    }
-    dispatch({ userName });
-  }, [state.userId]);
-
-  useEffect(() => {
     props.match.params.id && get(props.match.params.id);
     props.match.params.id ? setType('update') : setType('create');
   }, [props.match.params.id]); // eslint-disable-line
@@ -45,7 +34,7 @@ const CreateEdit: React.FC = (props: any) => {
   useEffect(() => {
     const totalSale = state.products
       .filter((p: SaleProduct) => p.value)
-      .reduce((acc: number, p: SaleProduct) => acc + p.valueAmount, 0);
+      .reduce((acc: number, p: SaleProduct) => acc + Number(p.valueAmount), 0);
     setTotal(formatPrice(totalSale));
   }, [state.products]);
 
@@ -54,12 +43,8 @@ const CreateEdit: React.FC = (props: any) => {
       setLoading(true);
       setLoadingEdit(true);
       const resp = await api.get(`${apiRoutes.sales}/${id}`);
-      const productsFormatted = resp.data?.productsFormatted as SaleProduct[];
-      const products = productsFormatted.map((p: SaleProduct) => ({
-        ...p,
-        value: p.valueAmount?.toString().replace('.', ',')
-      }));
-      console.log(products);
+      const products = resp.data?.productsSales as SaleProduct[];
+
       dispatch({ ...resp.data, products });
       setLoading(false);
       setLoadingEdit(false);
@@ -72,10 +57,19 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      const productsSale = state.products
-        ?.filter((p: SaleProduct) => p.product.name && p.value)
-        .map((p: any) => ({ ...p, value: priceToNumber(p.value) }));
-      if (!productsSale || !productsSale.length) {
+      const productsSales = state.products?.filter(
+        (p: SaleProduct) => p.product?.name && p.value
+      );
+
+      const objOnSave = {
+        ...state,
+        products: JSON.stringify(
+          productsSales.map((p: SaleProduct) => p.product?.name)
+        ),
+        productsSales
+      };
+    
+      if (!productsSales || !productsSales.length) {
         notification.warning({
           message: 'Não existe produtos validos'
         });
@@ -83,15 +77,16 @@ const CreateEdit: React.FC = (props: any) => {
       }
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
-      const result = await api[method](apiRoutes.sales, {
-        ...state,
-        products: JSON.stringify(productsSale)
-      });
+      const result = await api[method](apiRoutes.sales, objOnSave);
 
       setLoading(false);
 
-      result.success && history.push(`/${appRoutes.sales}`);
+      if (result.success && type === 'create')
+        dispatch({ note: '', products: [] });
+      if (result.success && type === 'update')
+        history.push(`/${appRoutes.sales}`);
     } catch (error) {
+      console.error(error);
       setLoading(false);
     }
   };

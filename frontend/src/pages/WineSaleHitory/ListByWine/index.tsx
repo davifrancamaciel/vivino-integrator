@@ -87,7 +87,7 @@ const List: React.FC<PropTypes> = ({ wineId }) => {
           <GridList
             scroll={{ x: 840 }}
             columns={[
-              { title: 'Data das vendas', dataIndex: 'dateReference' },
+              { title: 'Data da confirmação na Vivino', dataIndex: 'dateReference' },
               { title: 'Estoque anterior', dataIndex: 'inventoryCountBefore' },
               { title: 'Total vendido', dataIndex: 'total' },
               {

@@ -25,9 +25,9 @@ const handlerErrResponse = async (err, obj, msg) => {
     let message = err.message ? err.message : "Unknown error";
     const errAWS = onError(err)
     if (errAWS) message = errAWS
-    if (message.includes('CONSTRAINT')) {
-        message = 'Este intem não poderá ser removido pois está vinculado como chave em outra tabela'
-    }
+    // if (message.includes('CONSTRAINT')) {
+    //     message = 'Este intem não poderá ser removido pois está vinculado como chave em outra tabela'
+    // }
     if (msg) message = msg
     const body = { error: err.name ? err.name : "Exception", err, obj }
 
