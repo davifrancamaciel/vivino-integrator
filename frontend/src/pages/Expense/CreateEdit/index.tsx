@@ -34,7 +34,10 @@ const CreateEdit: React.FC = (props: any) => {
     try {
       setLoading(true);
       const resp = await api.get(`${apiRoutes.expenses}/${id}`);
-      dispatch({ ...resp.data });
+      dispatch({
+        ...resp.data,
+        value: formatValueWhithDecimalCaseOnChange(resp.data?.value)
+      });
       setLoading(false);
     } catch (error) {
       setLoading(false);

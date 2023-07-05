@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Row } from 'antd';
+import { Link } from 'react-router-dom';
+import { Image, Modal } from 'antd';
 import { EditOutlined, CloseSquareOutlined } from '@ant-design/icons';
 
 import { systemColors } from 'utils/defaultValues';
@@ -22,6 +23,7 @@ const Sales: React.FC<PropTypes> = (props) => {
       ...histo,
       userName: histo.user.alias,
       email: histo.user.email,
+      code: <Link to={`/wines/sales?code=${histo.id}`}>{histo.id}</Link>,
       image: (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Image style={{ height: '60px' }} src={histo.user.image.location} />
@@ -36,7 +38,7 @@ const Sales: React.FC<PropTypes> = (props) => {
 
   return (
     <Modal
-      width={'80%'}
+      width={'100%'}
       title="Vendas"
       visible={props.visible}
       onOk={() => {}}
@@ -57,7 +59,7 @@ const Sales: React.FC<PropTypes> = (props) => {
       <GridList
         scroll={{ x: 840 }}
         columns={[
-          { title: 'Código', dataIndex: 'id' },
+          { title: 'Código', dataIndex: 'code' },
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Cliente', dataIndex: 'userName' },
           { title: 'Email', dataIndex: 'email' },

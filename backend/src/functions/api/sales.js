@@ -25,8 +25,7 @@ module.exports.list = async (event, context) => {
         //     return handlerResponse(200, await listProducts())
 
         const whereStatement = {};
-        const whereStatementUser = {};
-        const whereStatementProduct = {};
+        const whereStatementUser = {};      
 
         const user = await getUser(event)
 
@@ -41,9 +40,7 @@ module.exports.list = async (event, context) => {
             const { id, product, userName, valueMin, valueMax, createdAtStart, createdAtEnd } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
-
-            // if (product)
-            //     whereStatementProduct.name = { [Op.like]: `%${product}%` }
+            
             if (product)
                 whereStatement.products = { [Op.like]: `%${product}%` }
             if (userName)
@@ -88,19 +85,11 @@ module.exports.list = async (event, context) => {
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * pageSize,
             order: [['id', 'DESC']],
-            include: [
-                // {
-                //     model: SaleProduct,
-                //     as: 'productsSales',
-                //     attributes: ['amount', 'valueAmount', 'value', 'productId'],
-                //     include: [{ model: Product, as: 'product', attributes: ['name', 'price'], where: whereStatementProduct }]
-                // },
-                {
-                    model: User, as: 'user', attributes: ['name'], where: whereStatementUser
-                },
-                {
-                    model: Company, as: 'company', attributes: ['name'],
-                }]
+            include: [{
+                model: User, as: 'user', attributes: ['name'], where: whereStatementUser
+            }, {
+                model: Company, as: 'company', attributes: ['name'],
+            }]
         })
         const salesIds = rows.map(x => x.id)
         const salesProductsList = await SaleProduct.findAll({

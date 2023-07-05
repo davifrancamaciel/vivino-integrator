@@ -19,6 +19,9 @@ export const formatDateHour = (value?: string) =>
 export const formatDateHourByNumber = (value?: string) =>
   !value ? '' : format(Number(value), 'dd/MM/yyyy HH:mm', { locale: pt });
 
+export const formatDateEn = (value?: string) =>
+  !value ? '' : format(parseISO(value), 'yyyy-MM-dd');
+
 export const extractHour = (value: string) =>
   !value ? '' : format(parseISO(value), 'HH:mm', { locale: pt });
 

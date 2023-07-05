@@ -11,7 +11,7 @@ module.exports.cards = async (event, context) => {
     try {
 
         const user = await getUser(event)
-      
+
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
@@ -38,22 +38,46 @@ module.exports.cards = async (event, context) => {
         if (checkRouleProfileAccess(user.groups, roules.wines)) {
             data.winesActive = await winesActive(isAdm, user)
             data.winesNotActive = await winesNotActive(isAdm, user)
-            data.winesSalesDay = await winesSalesDay(date, isAdm, user)          
+            data.winesSalesDay = await winesSalesDay(date, isAdm, user)
             data.winesSalesMonth = await winesSalesMonth(date, isAdm, user)
             data.winesSalesMonthValue = await winesSalesMonthValue(date, isAdm, user)
         }
 
-        if (checkRouleProfileAccess(user.groups, roules.sales)) 
+        if (checkRouleProfileAccess(user.groups, roules.sales))
             data.sales = await salesMonth(date, isAdm, user)
-        
-        if (checkRouleProfileAccess(user.groups, roules.expenses)) 
+
+        if (checkRouleProfileAccess(user.groups, roules.expenses))
             data.expenses = await expensesMonth(date, isAdm, user)
-        
+
         return handlerResponse(200, data)
     } catch (err) {
         return await handlerErrResponse(err)
     }
 };
+
+module.exports.productGraphBar = async (event, context) => {
+    try {
+        const { pathParameters } = event
+        const user = await getUser(event)
+
+        if (!user)
+            return handlerResponse(400, {}, 'Usuário não encontrado')
+
+        let isAdm = checkRouleProfileAccess(user.groups, roules.administrator);
+        let data = null;
+
+        if (pathParameters.type === 'products')
+            data = await productsSalesTotal(isAdm, user);
+
+        if (pathParameters.type === 'wines')
+            data = await winesSalesTotal(isAdm, user);
+
+        return handlerResponse(200, data)
+    } catch (err) {
+        return await handlerErrResponse(err)
+    }
+};
+
 
 const salesMonth = async (date, isAdm, user) => {
     const commission = `(SELECT SUM(u.commissionMonth) FROM users u WHERE u.commissionMonth > 0 ${isAdm ? '' : `AND u.companyId = '${user.companyId}'`})`
@@ -119,4 +143,23 @@ const winesSalesMonthValue = async (date, isAdm, user) => {
                     ${isAdm ? '' : `AND companyId = '${user.companyId}'`}`
     const [result] = await executeSelect(query);
     return result
+}
+
+const productsSalesTotal = async (isAdm, user) => {
+    const query = ` SELECT sp.productId, p.name, SUM(sp.amount) total
+                    FROM services_db.saleProducts sp 
+                    INNER JOIN products p ON p.id = sp.productId 
+                    ${isAdm ? '' : `WHERE sp.companyId = '${user.companyId}'`}
+                    GROUP BY sp.productId
+                    ORDER BY SUM(sp.amount) DESC LIMIT 100`;
+    return await executeSelect(query);
+}
+
+const winesSalesTotal = async (isAdm, user) => {
+    const query = ` SELECT w.id, productName name, SUM(wsh.total) total
+                    FROM services_db.wines w
+                    INNER JOIN services_db.wineSaleHistories wsh on w.id = wsh .wineId 
+                    ${isAdm ? '' : `WHERE wsh.companyId = '${user.companyId}'`}
+                    GROUP BY w.id  ORDER BY SUM(wsh.total) DESC LIMIT 100`;
+    return await executeSelect(query);
 }

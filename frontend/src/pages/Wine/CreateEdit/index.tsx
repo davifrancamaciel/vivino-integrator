@@ -68,17 +68,7 @@ const CreateEdit: React.FC = (props: any) => {
             onChange={(companyId) => dispatch({ companyId })}
           />
         </Col>
-      </ShowByRoule>
-      <Col lg={6} md={12} sm={24} xs={24}>
-        <Input
-          label={'Código do produto'}
-          type={'number'}
-          disabled={type === 'update'}
-          placeholder="1"
-          value={state.id}
-          onChange={(e) => dispatch({ id: e.target.value })}
-        />
-      </Col>
+      </ShowByRoule>      
       <Col lg={12} md={12} sm={24} xs={24}>
         <Input
           label={'Nome do produto'}

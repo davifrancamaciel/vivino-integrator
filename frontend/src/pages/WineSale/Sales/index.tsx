@@ -66,7 +66,7 @@ const Sales: React.FC<PropTypes> = (props) => {
 
   return (
     <Modal
-      width={'80%'}
+      width={'100%'}
       title={`Venda ${sale?.id}`}
       visible={props.visible}
       onOk={() => {}}
@@ -123,6 +123,12 @@ const Sales: React.FC<PropTypes> = (props) => {
           <ViewData
             label="Data da autorização na Vivino"
             value={sale?.authorized_at}
+          />
+        </Col>
+        <Col lg={6} md={12} sm={24} xs={24}>
+          <ViewData
+            label="Data da importação"
+            value={sale?.createdAt}
           />
         </Col>
       </Row>

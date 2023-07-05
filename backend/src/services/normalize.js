@@ -31,7 +31,8 @@ const listProducts = async () => {
             distinctProductsArray.push({ ...element, ids: [{ name, id, value, qtd, saleId, createdAt, updatedAt }] })
         }
     });
-    let productsOrder = order(distinctProductsArray, 'newName')
+    // let productsOrder = order(distinctProductsArray, 'newName')
+    let productsOrder = order(distinctProductsArray, 'createdAt')
     productsOrder = productsOrder.map((x, i) => ({ ...x, id: i + 1 }))
 
     var productSaleList = []
@@ -139,8 +140,8 @@ const formatName = (p) => {
 
     if (name === 'Balde praia' || name === 'Baldinho de praia' || name === 'Baldes de praia')
         return 'Balde de praia'
-    if (name === 'Balybled' || name === 'Blay bayd' || name === 'Blay bled' || name === 'Blaybled' || name === 'Blaybleis')
-        return 'Blay blayd'
+    if (name === 'Balybled' || name === 'Blay bayd' || name === 'Blay bled' || name === 'Blaybled' || name === 'Blaybleis' || name === '1bley blady' || name === 'Blay blayd')
+        return 'Beyblade'
     if (name === 'Banddeija' || name === 'Bandeija')
         return 'Bandeja'
     if (name === 'Banjamin' || name === 'Beijamim' || name === 'Benjamin' || name === 'Bejamim' || name === 'Benjamim')
@@ -681,8 +682,48 @@ const formatName = (p) => {
     name = name.replace(`Par a`, 'Par de a')
     name = name.replace(`Par l`, 'Par de l')
     name = name.replace(`Pa `, 'Pá ')
-    
-    
+    name = name.replace(`Cartolinas`, 'Cartolina')
+    name = name.replace(`tiktak`, 'tictac')
+    name = name.replace(`Carteirinha`, 'Carteira')
+    name = name.replace(`3 chinelos ipanema e 2 cariocas`, 'Chinelo ipanema')
+    name = name.replace(`1sombrinha`, 'Sombrinha')
+    name = name.replace(` bolas de gude`, 'Bolinhas de gude')
+    name = name.replace(`Cartãoes natal`, 'Cartão de natal')
+    name = name.replace(`2 xaxim e planta`, 'Xaxim')
+    name = name.replace(`1planta artificial`, 'Planta artificial')
+    name = name.replace(`Abridor garrafa`, 'Abridor de garrafa')
+    name = name.replace(`Anturio + rosa`, 'Antúrio')
+    name = name.replace(`Autentica`, 'Autêntica')
+    name = name.replace(` + frufru`, '')
+    name = name.replace(`lr 41`, 'lr41')
+    name = name.replace(`Bisnagas`, 'Bisnaga')
+    name = name.replace(` + 1 bichinho`, '')
+    name = name.replace(`Borifador`, 'Borrifador')
+    name = name.replace(` de  pressão`, ' de pressão')
+    name = name.replace(`Borracha panela 7l`, 'Borracha de panela de pressão 7l')
+    name = name.replace(`Borracha de panela 7l`, 'Borracha de panela de pressão 7l')
+    name = name.replace(`Cest `, 'Cesto ')
+    name = name.replace(`Cesto pregador`, 'Cesto de pregador')
+    name = name.replace(` + brinquedo`, '')
+    name = name.replace(` + coador`, '')
+    name = name.replace(` + prendedor`, '')
+    name = name.replace(` + 1 boco`, '')
+    name = name.replace(` + 2 lixas`, '')
+    name = name.replace(` + bichinho`, '')
+    name = name.replace(`s + 2 velas`, '')
+    name = name.replace(` e 1 cartão`, '')
+    name = name.replace(` + homem aranha`, '')
+    name = name.replace(`  roll on`, ' roll on')
+    name = name.replace(`Despertador 1 pilha`, 'Despertador')
+    if (name == 'Dupla-face' || name == 'Dupla face') {
+        name = name.replace(`Dupla-face`, 'Fita Dupla face')
+        name = name.replace(`Dupla face`, 'Fita Dupla face')
+    }
+    if (name == 'Escorredor de' || name == 'Escorredor de ( milene)') {
+        name = 'Escorredor de arroz'
+    }
+    name = name.replace(` de de `, ' de ')
+
     if (name === 'Chinelo havaianas to' || name === 'Chinelo havaianass to')
         name = 'Chinelo havaianas top'
 
@@ -704,6 +745,8 @@ const formatProduct = (p) => {
         return { ...p, name, newName: capitalize(name.replace('2unid ', '')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2caixas de pizza'))
         return { ...p, name, newName: capitalize(name.replace('2', '')), newValue: p.value / 2, qtd: 2 }
+    if (p.name.includes('2,metros de toalha'))
+        return { ...p, name, newName: capitalize('metro de toalha'), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2festões'))
         return { ...p, name, newName: capitalize(name.replace('2festões', 'festões')), newValue: p.value / 2, qtd: 2 }
     if (p.name.includes('2pilhas gradnde'))
@@ -759,6 +802,8 @@ const formatProduct = (p) => {
         return { ...p, name, newName: capitalize(name.replace('810sacos ', 'saco ')), newValue: p.value / 10, qtd: 10 }
     if (p.name.includes('5rolos '))
         return { ...p, name, newName: capitalize(name.replace('5rolos ', 'rolo ')), newValue: p.value / 5, qtd: 5 }
+    if (p.name.includes('5cx de sabonete '))
+        return { ...p, name, newName: capitalize(name.replace('5cx ', 'Caixa ')), newValue: p.value / 5, qtd: 5 }
     if (p.name.includes('1 varão 1,5mt'))
         return { ...p, name, newName: capitalize(name.replace('1 ', '')), newValue: p.value, qtd: 1 }
     if (p.name.includes('0,5 '))

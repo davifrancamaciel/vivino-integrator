@@ -13,11 +13,11 @@
     "eject": "react-scripts eject",
     "config:aws-validate": "aws cloudformation validate-template --template-body file://stack.yml",
     "config:aws": "aws cloudformation create-stack --stack-name services-integrator-prod --template-body file://stack.yml",
-    
     "deploy": "env-cmd -f.env.development npm run build && aws s3 sync build s3://vivino-integrator-v2-dev",
     "deploy:prod": "env-cmd -f.env.production npm run build && aws s3 sync build s3://services-integrator-prod && aws s3 sync build s3://vivino-integrator-prod"
   },
   "dependencies": {
+    "@ant-design/plots": "^1.2.5",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

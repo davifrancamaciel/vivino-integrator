@@ -9,6 +9,10 @@ import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
 import UploadImages from 'components/UploadImages';
+import {
+  formatValueWhithDecimalCaseOnChange,
+  priceToNumber
+} from 'utils/formatPrice';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
@@ -18,6 +22,9 @@ const CreateEdit: React.FC = (props: any) => {
   const [fileList, setFileList] = useState<Array<any>>([]);
 
   useEffect(() => {
+    console.log(state)
+  }, [state]);
+  useEffect(() => {
     props.match.params.id && get(props.match.params.id);
     props.match.params.id ? setType('update') : setType('create');
   }, [props.match.params.id]); // eslint-disable-line
@@ -26,9 +33,15 @@ const CreateEdit: React.FC = (props: any) => {
     try {
       setLoading(true);
       const resp = await api.get(`${apiRoutes.products}/${id}`);
-      dispatch({ ...resp.data });
+      dispatch({
+        ...resp.data,
+        price: formatValueWhithDecimalCaseOnChange(
+          Number(resp.data?.price || 0)
+        )
+      });
       setLoading(false);
     } catch (error) {
+      console.error(error)
       setLoading(false);
     }
   };
@@ -42,7 +55,10 @@ const CreateEdit: React.FC = (props: any) => {
       }
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
-      const result = await api[method](apiRoutes.products, state);
+      const result = await api[method](apiRoutes.products, {
+        ...state,
+        price: priceToNumber(state.price)
+      });
       setLoading(false);
 
       result.success && history.push(`/${appRoutes.products}`);
@@ -91,10 +107,14 @@ const CreateEdit: React.FC = (props: any) => {
         <Input
           label={'Preço'}
           required={true}
-          type={'number'}
+          type={'tel'}
           placeholder="15.00"
           value={state.price}
-          onChange={(e) => dispatch({ price: e.target.value })}
+          onChange={(e) =>
+            dispatch({
+              price: formatValueWhithDecimalCaseOnChange(e.target.value)
+            })
+          }
         />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>

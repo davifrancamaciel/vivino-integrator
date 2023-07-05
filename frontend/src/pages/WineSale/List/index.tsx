@@ -12,8 +12,10 @@ import { formatDateHour } from 'utils/formatDate';
 import moment from 'moment';
 import Sales from '../Sales';
 import { formatPrice } from 'utils/formatPrice';
+import { useQuery } from 'hooks/queryString';
 
 const List: React.FC = () => {
+  const query = useQuery();
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -22,17 +24,21 @@ const List: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    actionFilter(1);
+    actionFilter(1, query.get('code') || undefined);
   }, []);
 
-  const actionFilter = async (pageNumber: number = 1) => {
+  const actionFilter = async (
+    pageNumber: number = 1,
+    code: string = state.code
+  ) => {
     try {
-      dispatch({ pageNumber });
+      dispatch({ pageNumber, code });
 
       setLoading(true);
       const resp = await api.get(`${apiRoutes.wines}/sales`, {
         ...state,
-        pageNumber
+        pageNumber,
+        code
       });
       setLoading(false);
 
@@ -57,7 +63,12 @@ const List: React.FC = () => {
             <Tooltip placement="top" title={`Visualizar venda`}>
               <Button
                 icon={<EyeOutlined />}
-                onClick={() => handleView(sale.saleFormatted)}
+                onClick={() =>
+                  handleView({
+                    createdAt: formatDateHour(sale.createdAt),
+                    ...sale.saleFormatted
+                  })
+                }
                 style={{
                   backgroundColor: systemColors.GREY,
                   color: '#fff',

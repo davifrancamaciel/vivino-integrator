@@ -150,7 +150,10 @@ module.exports.create = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         let objOnSave = body
-        objOnSave.dividedIn = Number(body.dividedIn || 1)
+        objOnSave.dividedIn = Number(body.dividedIn || 1);
+
+        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+            objOnSave.companyId = user.companyId
 
         if (!objOnSave.paymentDate)
             objOnSave.paymentDate = new Date()
@@ -159,9 +162,6 @@ module.exports.create = async (event) => {
             objOnSave.title = `1ª parcela de ${objOnSave.dividedIn} ${objOnSave.title ? objOnSave.title : ''}`
             objOnSave.value = Number(body.value) / objOnSave.dividedIn
         }
-
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
-            objOnSave.companyId = user.companyId
 
         const result = await Expense.create(objOnSave);
 
