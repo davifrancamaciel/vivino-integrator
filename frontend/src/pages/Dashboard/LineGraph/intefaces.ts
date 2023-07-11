@@ -4,7 +4,7 @@ export interface PropTypes {
 }
 
 export interface Products {
-  name: string;
+  label: string;
   id: number;
-  total: number;
+  value: number;
 }

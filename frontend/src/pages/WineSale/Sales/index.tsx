@@ -115,14 +115,14 @@ const Sales: React.FC<PropTypes> = (props) => {
         </Col>
         <Col lg={6} md={12} sm={24} xs={24}>
           <ViewData
-            label="Data da confirmação na Vivino"
-            value={sale?.confirmed_at}
+            label="Data da autorização na Vivino"
+            value={sale?.authorized_at}
           />
         </Col>
         <Col lg={6} md={12} sm={24} xs={24}>
           <ViewData
-            label="Data da autorização na Vivino"
-            value={sale?.authorized_at}
+            label="Data da confirmação na Vivino"
+            value={sale?.confirmed_at}
           />
         </Col>
         <Col lg={6} md={12} sm={24} xs={24}>

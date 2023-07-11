@@ -62,7 +62,7 @@ module.exports.list = async (event, context) => {
             };
 
         if (sale)
-            whereStatementWine.sale = { [Op.like]: `%${sale}%` }
+            whereStatement.sale = { [Op.like]: `%${sale}%` }
 
         const { count, rows } = await WineSale.findAndCountAll({
             where: whereStatement,

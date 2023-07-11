@@ -94,6 +94,12 @@ const Login: React.FC = () => {
             {!loading ? 'Entrar' : ''}
           </Button>
           <Link to={'/forgot-password'}>Esqueceu a senha?</Link>
+          <a
+            href="https://api.whatsapp.com/send?phone=5524993954479&text=Olá, desejo criar uma conta no Integrador Vivino"
+            target={'_blank'}
+          >
+            Criar conta
+          </a>
         </Form>
       </Content>
     </Container>

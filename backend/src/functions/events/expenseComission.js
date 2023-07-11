@@ -63,8 +63,7 @@ module.exports.handler = async (event, context) => {
             const element = expenses[i];
 
             const companyName = element.companyName;
-            // const to = [element.email]
-            const to = ['davifrancamaciel@gmail.com']
+            const to = ['davifrancamaciel@gmail.com', element.email]
             const subject = element.title.replace(` de ${element.name}`, '')
             const body = `  <div style='padding:50px'>
                                 <p>Olá, ${element.name}</p>

@@ -146,7 +146,7 @@ const winesSalesMonthValue = async (date, isAdm, user) => {
 }
 
 const productsSalesTotal = async (isAdm, user) => {
-    const query = ` SELECT sp.productId, p.name, SUM(sp.amount) total
+    const query = ` SELECT sp.productId id, p.name label, SUM(sp.amount) value
                     FROM services_db.saleProducts sp 
                     INNER JOIN products p ON p.id = sp.productId 
                     ${isAdm ? '' : `WHERE sp.companyId = '${user.companyId}'`}
@@ -156,7 +156,7 @@ const productsSalesTotal = async (isAdm, user) => {
 }
 
 const winesSalesTotal = async (isAdm, user) => {
-    const query = ` SELECT w.id, productName name, SUM(wsh.total) total
+    const query = ` SELECT w.id, productName label, SUM(wsh.total) value
                     FROM services_db.wines w
                     INNER JOIN services_db.wineSaleHistories wsh on w.id = wsh .wineId 
                     ${isAdm ? '' : `WHERE wsh.companyId = '${user.companyId}'`}

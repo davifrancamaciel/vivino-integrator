@@ -6,7 +6,7 @@ const db = require('../../database');
 const { subDays, endOfDay, startOfDay, addHours } = require('date-fns');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
-const { executeUpdate } = require("../../services/ExecuteQueryService");
+const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
 
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
@@ -96,17 +96,19 @@ module.exports.sales = async (event, context) => {
             response = data;
             let itemsProducts = [], sales = [];
 
+
             if (data) {
+                
+                const codes = data.map(x => x.id).join(`','`)
+                const query = `SELECT code FROM wineSales WHERE code IN ('${codes}')`
+                const salesIsExist = await executeSelect(query);
+
                 data.forEach(element => {
                     const { items, id, created_at, user, confirmed_at } = element;
-                    const saleDate = new Date(created_at)
-                    const saleConfirmed = new Date(confirmed_at)
-                    const reference = addHours(new Date(dateReference), 4)
-                    const start = startOfDay(reference);
-                    const end = endOfDay(reference);
 
-                    if (saleConfirmed >= start && saleConfirmed <= end) {
-                        console.log(`${id} NA DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
+                    if (!salesIsExist.find(x => x.code === id)) {
+                        const saleDate = new Date(created_at)
+                        console.log(`${id} DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
 
                         sales.push({
                             companyId,
@@ -126,7 +128,7 @@ module.exports.sales = async (event, context) => {
                             ...elementItem
                         }));
                     } else {
-                        console.log(`${id} FORA DA DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
+                        console.warn(`${id} JÁ FOI IMPORTADA created_at ${created_at} confirmed_at ${confirmed_at}`)
                     }
                 });
             }
@@ -144,6 +146,7 @@ module.exports.sales = async (event, context) => {
             console.log(data);
 
             console.log(`${data?.length} VENDAS ENCONTRADAS`)
+            console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS`)
 
             queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales };
             if (productsSales.length)
