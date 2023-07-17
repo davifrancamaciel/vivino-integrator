@@ -10,7 +10,7 @@ const SaleProduct = require('../../models/SaleProduct')(db.sequelize, db.Sequeli
 const Product = require('../../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
-const { executeSelect, executeDelete } = require("../../services/ExecuteQueryService");
+const { executeSelect, executeDelete, executeUpdate } = require("../../services/ExecuteQueryService");
 const { listProducts } = require("../../services/normalize");
 
 const { roules } = require("../../utils/defaultValues");
@@ -25,7 +25,7 @@ module.exports.list = async (event, context) => {
         //     return handlerResponse(200, await listProducts())
 
         const whereStatement = {};
-        const whereStatementUser = {};      
+        const whereStatementUser = {};
 
         const user = await getUser(event)
 
@@ -40,7 +40,7 @@ module.exports.list = async (event, context) => {
             const { id, product, userName, valueMin, valueMax, createdAtStart, createdAtEnd } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
-            
+
             if (product)
                 whereStatement.products = { [Op.like]: `%${product}%` }
             if (userName)
@@ -270,16 +270,27 @@ const getCommision = async (pageSize, isAdm, companyId) => {
 }
 
 const createProductsSales = async (body, result, isDelete) => {
+    const { companyId, id } = result
     if (isDelete)
-        await executeDelete(`DELETE FROM saleProducts WHERE saleId = ${result.id} AND companyId = '${result.companyId}'`);
+        await executeDelete(`DELETE FROM saleProducts WHERE saleId = ${id} AND companyId = '${companyId}'`);
 
     const list = body.productsSales.map(ps => ({
-        companyId: result.companyId,
-        saleId: result.id,
+        companyId,
+        saleId: id,
         productId: ps.productId,
         value: ps.value,
         valueAmount: ps.valueAmount,
         amount: ps.amount,
     }))
     await SaleProduct.bulkCreate(list);
+
+    if (!isDelete) {
+        for (let i = 0; i < list.length; i++) {
+            const element = list[i];
+            const query = ` UPDATE products 
+                                SET inventoryCount = inventoryCount - ${element.amount}, updatedAt = NOW() 
+                            WHERE companyId = '${companyId}' AND id =  ${element.productId}`;
+            await executeUpdate(query);
+        }
+    }
 }

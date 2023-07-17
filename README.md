@@ -6,15 +6,29 @@
 
 ## **:rocket: OBJETIVO**
 
-Projeto desenvolvido inicialmente para integração de produtos (vinhos), gerenciar usuários por perfis definidos e posteriormente adicionadas novas funcionalidades como vendas, despesas, roamenios de entregas utilizando [AWS Lambda][aws_lambda] com [Node Js][node] no backend e [React][react] + [TypeScript][typescript] no frontend
+Projeto desenvolvido inicialmente para integração de Vinhos na plataforma Vivino, gerenciar usuários por perfis definidos e posteriormente adicionadas novas funcionalidades como vendas, despesas, roamenios de entregas utilizando [AWS Lambda][aws_lambda] com [Node Js][node] no backend e [React][react] + [TypeScript][typescript] no frontend
 
--  [Demo](http://vivino-integrator-dev.s3-website-us-east-1.amazonaws.com) 
+Na segunda versão o projeto ganhou mais integrações com a Vivino sendo possivel agora acpturar as vendas na plataforma e atualizar o estoque gerando cadastro das vendas no app Vivino e gerando um histórico de vendas de cada vinho.
+Foi tambem desmembdado de forma que agora possam ser adicionados varios clientes que possuam o mesmo interesse de vender seus vinhos na Vivino desta forma cada empresa possuirá uma conta no integardor totalmente isolada.
 
+Visto a necessidade de desmembramento do sistema para que cada empresa possua a sua conta e um ambiente seguimentado por perfis definidos agora tambem é possivel ter varias contas de lojas que queiram controlar suas vendas, despesas, produtos, usuarios de forma digital.
+
+Foi adicionado um dashboard para que todas as informações contidas no sistema sejam cruzadas e informadas ao usuario para que o mesmo possa ver a saúde de sua empresa.
+
+Para que tudo isso possa acontecer agora o sistema conta com mais tecnologias como SQS, S3 Amazon EventBridge e muito mais.
+-  [Demo V1](http://vivino-integrator-dev.s3-website-us-east-1.amazonaws.com) 
 Credenciais
 ```sh
 login integradorvivino
 senha 1234demo
 ```
+-  [Demo V2](http://services-integrator-dev.s3-website-us-east-1.amazonaws.com) 
+Credenciais
+```sh
+login integradorvivino@gmail.com
+senha 1234demo
+```
+
 ## **:computer: TECNOLOGIAS**
 
 

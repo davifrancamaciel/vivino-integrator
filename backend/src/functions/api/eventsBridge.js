@@ -49,6 +49,10 @@ module.exports.update = async (event) => {
         const { Name, State, ScheduleExpression } = body;
 
         const params = { Name, State, ScheduleExpression }
+        const { STAGE } = process.env
+        if (STAGE === 'dev' && user.sub !== '4468f448-0091-705a-4937-10766c95df3a')
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade');
+
         const result = await eventbridge.putRule(params).promise()
 
         return handlerResponse(201, result, `${RESOURCE_NAME} alteradas com sucesso`);

@@ -21,7 +21,7 @@ const handlerResponse = (statusCode, body, message = 'Dados obtidos com sucesso'
 }
 
 const handlerErrResponse = async (err, obj, msg) => {
-    console.error('handlerErrResponse', err, obj,message)
+    console.error('handlerErrResponse', err, obj, msg)
     let message = err.message ? err.message : "Unknown error";
     const errAWS = onError(err)
     if (errAWS) message = errAWS

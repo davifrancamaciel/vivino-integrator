@@ -3,7 +3,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: services-integrator-prod
+      BucketName: services-integrator-dev
       # AccessControl: PublicRead 
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false

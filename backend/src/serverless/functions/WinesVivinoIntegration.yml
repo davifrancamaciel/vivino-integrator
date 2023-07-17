@@ -36,8 +36,8 @@ winesVivIntApiSalesEvent:
   events:  
   - eventBridge:
       name: "${self:service}-${opt:stage, self:provider.stage}-viv-sales"
-      description: Servico que busca vendas do dia anterior na vivino
-      schedule: cron(0 4 * * ? *) # 1h00 de todos dias hora BR
+      description: Servico que busca vendas do dia na vivino
+      schedule: cron(0/60 10-17 * * ? *) # a cada 1h entre 7 e 14 de todos dias hora BR
   - http:
         path: wines/run-sales
         method: get        

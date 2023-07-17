@@ -3,7 +3,6 @@
 const axios = require('axios');
 const FormData = require('form-data');
 const db = require('../../database');
-const { subDays, endOfDay, startOfDay, addHours } = require('date-fns');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
 const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
@@ -53,7 +52,6 @@ module.exports.auth = async (event, context) => {
         return handlerResponse(200, responseAuth, 'Empresas autenticadas com sucesso')
     } catch (err) {
         const message = `ERRO AO AUTENTICAR EMPRESA COD ${companyId} NA API VIVINO DATA ${new Date()}`
-        console.error(message)
         return await handlerErrResponse(err, null, message)
     }
 };
@@ -61,7 +59,7 @@ module.exports.auth = async (event, context) => {
 module.exports.sales = async (event, context) => {
 
     let companyId = '';
-    let [dateReference, hour] = subDays(new Date(), 1).toISOString().split('T');
+    let [dateReference, hour] = new Date().toISOString().split('T');
 
     try {
         context.callbackWaitsForEmptyEventLoop = false;
@@ -98,9 +96,9 @@ module.exports.sales = async (event, context) => {
 
 
             if (data) {
-                
+
                 const codes = data.map(x => x.id).join(`','`)
-                const query = `SELECT code FROM wineSales WHERE code IN ('${codes}')`
+                const query = `SELECT code FROM wineSales WHERE companyId = '${companyId}' AND code IN ('${codes}')`
                 const salesIsExist = await executeSelect(query);
 
                 data.forEach(element => {
@@ -159,7 +157,6 @@ module.exports.sales = async (event, context) => {
         return handlerResponse(200, { queueObj, response }, 'Vendas obtidas com sucesso')
     } catch (err) {
         const message = `ERRO AO BUSCAR VENDAS EMPRESA COD ${companyId} NA API VIVINO DATA ${dateReference}`
-        console.error(message)
         return await handlerErrResponse(err, null, message)
     }
 };

@@ -12,8 +12,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "config:aws-validate": "aws cloudformation validate-template --template-body file://stack.yml",
-    "config:aws": "aws cloudformation create-stack --stack-name services-integrator-prod --template-body file://stack.yml",
-    "deploy": "env-cmd -f.env.development npm run build && aws s3 sync build s3://vivino-integrator-v2-dev",
+    "config:aws": "aws cloudformation create-stack --stack-name services-integrator-dev --template-body file://stack.yml",
+    "deploy": "env-cmd -f.env.development npm run build && aws s3 sync build s3://services-integrator-dev",
     "deploy:prod": "env-cmd -f.env.production npm run build && aws s3 sync build s3://services-integrator-prod && aws s3 sync build s3://vivino-integrator-prod"
   },
   "dependencies": {

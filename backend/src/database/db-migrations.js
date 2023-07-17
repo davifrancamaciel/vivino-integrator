@@ -1,12 +1,12 @@
 //configurações usadas atualmente somente para rodar as migrations
-const STAGE = false ? 'dev' : 'prd'
+const STAGE_IS_DEV = true ? 'dev' : 'prd'
 
-const secrets = require(`../../secrets-${STAGE}.json`);
+const secrets = require(`../../secrets-${STAGE_IS_DEV}.json`);
 
 module.exports = {
   dialect: 'mysql',
   host: secrets.DB_HOST,
-  database: `services_db${STAGE ? '_dev' : ''}`,
+  database: `services_db${STAGE_IS_DEV ? '_dev' : ''}`,
   // database: `services_db`,
   username: `root`,
   password: secrets.DB_PASSWORD,

@@ -18,10 +18,8 @@ export const formatName = (name: string) => {
     };
   if (name.includes('winesVivIntApiSalesEvent'))
     return {
-      name: 'Busca vendas do dia anterior na vivino',
-      route: `wines/run-sales?dateReference=${
-        new Date().toISOString().split('T')[0]
-      }`
+      name: 'Busca vendas do dia na vivino',
+      route: `wines/run-sales`
     };
   if (name.includes('backupEvent'))
     return {

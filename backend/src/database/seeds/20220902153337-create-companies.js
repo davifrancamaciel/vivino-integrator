@@ -22,7 +22,7 @@ function load() {
       name: 'Ary Delicatessen',
       groups: JSON.stringify([
         'Usuarios',
-        'Produtos',
+        'Vinhos',
         'Romaneios'
       ]),
       active: true,
@@ -34,6 +34,19 @@ function load() {
       groups: JSON.stringify([
         'Usuarios',
         'Vendas',
+        'Vendedor_vendas',
+        'Despesas',
+        'Produtos',
+      ]),
+      active: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }, {
+      id: 'b3d8cd02-0b84-45c9-af7f-154fa85bdb08',
+      name: 'DEMO VINHOS',
+      groups: JSON.stringify([
+        'Usuarios',
+        'Vinhos',
         'Vendedor_vendas',
         'Despesas',
       ]),
