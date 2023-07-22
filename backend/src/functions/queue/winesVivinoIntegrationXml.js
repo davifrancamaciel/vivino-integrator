@@ -14,10 +14,7 @@ module.exports.handler = async (event) => {
     try {
         const { pathParameters } = event
         let result = null;
-
-        if (process.env.IS_OFFLINE)
-            return handlerResponse(200, {}, 'Processo rodando local')
-
+        
         if (event.Records)
             result = await readMessageRecursive(event.Records, 0, createFileXml);
         else if (!event.Records && pathParameters)
