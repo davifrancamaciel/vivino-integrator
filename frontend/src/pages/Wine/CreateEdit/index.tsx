@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, notification } from 'antd';
+import { Col, notification, UploadFile } from 'antd';
 import { Input, Select, Switch, Textarea } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
@@ -8,12 +8,14 @@ import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
+import UploadImages from 'components/UploadImages';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
   const { state, dispatch } = useFormState(initialStateForm);
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState<Array<UploadFile>>([]);
 
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
@@ -25,6 +27,17 @@ const CreateEdit: React.FC = (props: any) => {
       setLoading(true);
       const resp = await api.get(`${apiRoutes.wines}/${id}`);
       dispatch({ ...resp.data });
+      if (resp.data && resp.data.image) {
+        const imageArr = resp.data.image.split('/');
+        setFileList([
+          {
+            uid: '-1',
+            name: imageArr[imageArr.length - 1],
+            status: 'done',
+            url: resp.data.image
+          }
+        ]);
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -41,7 +54,7 @@ const CreateEdit: React.FC = (props: any) => {
       }
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
-      const result = await api[method](apiRoutes.wines, state);     
+      const result = await api[method](apiRoutes.wines, { ...state, fileList });
 
       setLoading(false);
 
@@ -59,6 +72,15 @@ const CreateEdit: React.FC = (props: any) => {
       loadingBtnAction={false}
       loadingPanel={loading}
     >
+      <Col
+        lg={6}
+        md={12}
+        sm={24}
+        xs={24}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <UploadImages setFileList={setFileList} fileList={fileList} />
+      </Col>
       <ShowByRoule roule={roules.administrator}>
         <Col lg={6} md={12} sm={12} xs={24}>
           <Select
@@ -68,7 +90,7 @@ const CreateEdit: React.FC = (props: any) => {
             onChange={(companyId) => dispatch({ companyId })}
           />
         </Col>
-      </ShowByRoule>      
+      </ShowByRoule>
       <Col lg={12} md={12} sm={24} xs={24}>
         <Input
           label={'Nome do produto'}
@@ -201,23 +223,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ alcohol: e.target.value })}
         />
       </Col>
-      <Col lg={12} md={24} sm={24} xs={24}>
-        <Input
-          label={'Link do vinho no seu site'}
-          placeholder="http://www.wayback-wines.com/california/wine-12345.html"
-          value={state.link}
-          onChange={(e) => dispatch({ link: e.target.value })}
-        />
-      </Col>
-      <Col lg={12} md={24} sm={24} xs={24}>
-        <Input
-          label={'Link da imagem'}
-          placeholder="http://www.wayback-wines.com/wp-content/uploads/img/2535550.jpg"
-          value={state.image}
-          onChange={(e) => dispatch({ image: e.target.value })}
-        />
-      </Col>
-
+  
       <Col lg={24} md={24} sm={24} xs={24}>
         <Textarea
           label={'Descrição'}
@@ -226,8 +232,15 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ description: e.target.value })}
         />
       </Col>
-
-      <Col lg={12} md={12} sm={24} xs={24}>
+      <Col lg={12} md={24} sm={24} xs={24}>
+        <Input
+          label={'Link do vinho no seu site'}
+          placeholder="http://www.wayback-wines.com/california/wine-12345.html"
+          value={state.link}
+          onChange={(e) => dispatch({ link: e.target.value })}
+        />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
         <Input
           label={'Endereço do produtor'}
           maxLength={100}
@@ -236,7 +249,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ producerAddress: e.target.value })}
         />
       </Col>
-      <Col lg={12} md={12} sm={24} xs={24}>
+      <Col lg={6} md={12} sm={24} xs={24}>
         <Input
           label={'Endereço do importador'}
           maxLength={100}

@@ -7,6 +7,7 @@ const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { roules } = require("../../utils/defaultValues");
+const imageService = require("../../services/AddImageService");
 
 const RESOURCE_NAME = 'Empresa'
 
@@ -106,6 +107,7 @@ module.exports.create = async (event) => {
         }
 
         const result = await Company.create(objOnSave);
+        await imageService.addImage('companies', result.dataValues, body.fileList);
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, body)
@@ -137,6 +139,7 @@ module.exports.update = async (event) => {
         
         const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
+        await imageService.addImage('companies', result.dataValues, body.fileList);
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
     } catch (err) {

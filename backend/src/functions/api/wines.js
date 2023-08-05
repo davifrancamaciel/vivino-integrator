@@ -8,6 +8,9 @@ const { getUser, checkRouleProfileAccess } = require("../../services/UserService
 const { sendMessage } = require('../../services/AwsQueueService')
 const { roules } = require("../../utils/defaultValues");
 
+const { importImages } = require("./winesImport");
+const imageService = require("../../services/AddImageService");
+
 const RESOURCE_NAME = 'Vinho'
 
 module.exports.list = async (event, context) => {
@@ -15,6 +18,9 @@ module.exports.list = async (event, context) => {
         context.callbackWaitsForEmptyEventLoop = false;
 
         let whereStatement = {};
+
+        // if (process.env.IS_OFFLINE)
+        //     return handlerResponse(200, await importImages())
 
         const user = await getUser(event)
 
@@ -137,6 +143,8 @@ module.exports.create = async (event) => {
 
         const result = await Wine.create(objOnSave);
 
+        await imageService.addImage('wines', result.dataValues, body.fileList);
+
         await sendMessageWineFiles(user, result.dataValues, 'INSERT')
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
@@ -170,6 +178,8 @@ module.exports.update = async (event) => {
         const result = await item.update(body);
         console.log('PARA ', result.dataValues)
 
+        await imageService.addImage('wines', result.dataValues, body.fileList);
+
         await sendMessageWineFiles(user, result.dataValues, 'UPDATE')
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)
@@ -195,6 +205,9 @@ module.exports.delete = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
         await Wine.destroy({ where: { id } });
+
+        const { bucketName } = process.env
+        await s3.remove(item.image, bucketName)
 
         await sendMessageWineFiles(user, item, 'DELETE')
 

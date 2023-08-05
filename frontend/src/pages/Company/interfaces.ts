@@ -2,6 +2,7 @@ export interface Company {
   id?: string;
   name?: string;
   groups?: string;
+  image?: string;
   groupsFormatted: string[];
   createdAt?: string;
   updatedAt?: string;

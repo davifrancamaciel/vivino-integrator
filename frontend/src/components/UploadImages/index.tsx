@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
-// import { useReducers } from 'react-resaga';
-
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { PropTypes } from './interfaces';
-
-// import { initialStateResponse } from '../../utils/apiRequest';
 
 function getBase64(file: any) {
   return new Promise((resolve, reject) => {
@@ -21,26 +17,25 @@ const UploadImages: React.FC<PropTypes> = (props) => {
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [maxCount, setMaxCount] = useState(1);
-  const [fileList, setFileList] = useState<Array<any>>([]);
-  // const { createImagemResponse = initialStateResponse } = useReducers(
-  //   'createImagemResponse'
-  // );
 
-  useEffect(() => {
-    props.setFileList(fileList);
-  }, [fileList]);
+ 
+
   useEffect(() => {
     props.maxCount && setMaxCount(props.maxCount);
   }, [props.maxCount]);
 
-  // useEffect(() => {
-  //   if (createImagemResponse?.success) {
-  //     setFileList([]);
-  //   }
-  // }, [createImagemResponse]);
-
-  const handleChange = (file: any) => {
-    setFileList(file.fileList);
+  const handleChange = async (file: any) => {
+    var files = [];
+    if (file.file.status == 'done') {
+      for (let i = 0; i < file.fileList.length; i++) {
+        const element = file.fileList[i];
+        const preview = await getBase64(element.originFileObj);
+        files.push({ ...element, preview, thumbUrl: preview });
+      }
+      props.setFileList(files);
+    } else {
+      props.setFileList(file.fileList);
+    }    
   };
 
   const handlePreview = async (file: any) => {
@@ -73,7 +68,7 @@ const UploadImages: React.FC<PropTypes> = (props) => {
     <div>
       <Upload
         listType="picture-card"
-        fileList={fileList}
+        fileList={props.fileList}
         onPreview={handlePreview}
         onChange={handleChange}
         multiple={true}
@@ -81,7 +76,7 @@ const UploadImages: React.FC<PropTypes> = (props) => {
         maxCount={props.maxCount}
         customRequest={customRequest}
       >
-        {fileList.length < maxCount && uploadButton}
+        {props.fileList.length < maxCount && uploadButton}
       </Upload>
       <Modal
         visible={previewVisible}

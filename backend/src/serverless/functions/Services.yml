@@ -27,9 +27,7 @@ sendEmailQueue:
 backupEvent:
   handler: src/functions/events/backup.handler
   timeout: 600 
-  memorySize: 512
-  environment:
-    bucketName: ${self:custom.bucketPrivate}
+  memorySize: 512  
   events:    
     - eventBridge:
         name: "${self:service}-${opt:stage, self:provider.stage}-backup"

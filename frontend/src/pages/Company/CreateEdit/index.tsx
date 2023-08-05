@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, Divider, notification } from 'antd';
+import { Col, Divider, notification, UploadFile } from 'antd';
 import { Input, InputPassword, Switch } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes } from 'utils/defaultValues';
@@ -8,12 +8,14 @@ import useFormState from 'hooks/useFormState';
 import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import AccessType from 'pages/User/CreateEdit/AccessType';
+import UploadImages from 'components/UploadImages';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
   const { state, dispatch } = useFormState(initialStateForm);
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState<Array<UploadFile>>([]);
 
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
@@ -25,6 +27,17 @@ const CreateEdit: React.FC = (props: any) => {
       setLoading(true);
       const resp = await api.get(`${apiRoutes.companies}/${id}`);
       dispatch({ ...resp.data });
+      if (resp.data && resp.data.image) {
+        const imageArr = resp.data.image.split('/');
+        setFileList([
+          {
+            uid: '-1',
+            name: imageArr[imageArr.length - 1],
+            status: 'done',
+            url: resp.data.image
+          }
+        ]);
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -41,7 +54,10 @@ const CreateEdit: React.FC = (props: any) => {
       }
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
-      const result = await api[method](apiRoutes.companies, state);
+      const result = await api[method](apiRoutes.companies, {
+        ...state,
+        fileList
+      });
 
       setLoading(false);
 
@@ -84,6 +100,15 @@ const CreateEdit: React.FC = (props: any) => {
           value={state.phone}
           onChange={(e) => dispatch({ phone: e.target.value })}
         />
+      </Col>
+      <Col
+        lg={6}
+        md={12}
+        sm={24}
+        xs={24}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <UploadImages setFileList={setFileList} fileList={fileList} />
       </Col>
       <Col lg={3} md={4} sm={24} xs={24}>
         <Switch

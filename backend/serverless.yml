@@ -46,6 +46,8 @@ provider:
     DB_PASS: ${self:custom.DB_PASSWORD}
     DB_PORT: ${self:custom.DB_PORT}
     EMAIL_FROM_SENDER: ${self:custom.secrets.EMAIL_FROM_SENDER}
+    bucketPublicName: ${self:custom.bucketPublic} 
+    bucketPrivateName: ${self:custom.bucketPrivate} 
     
   package:
     excludeDevDependencies: true  

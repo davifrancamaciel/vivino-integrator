@@ -2,8 +2,6 @@ winesVivinoIntegrationXmlQueue:
   handler: src/functions/queue/winesVivinoIntegrationXml.handler
   timeout: 600 
   memorySize: 512
-  environment:
-    bucketName: ${self:custom.bucketPublic}
   events:    
     - sqs:       
         arn:
@@ -58,9 +56,7 @@ winesUpdateQueue:
         cors: true 
 winesWarningEvent:  
   handler: src/functions/events/winesWarning.handler
-  timeout: 300  
-  environment:
-    bucketName: ${self:custom.bucketPublic} 
+  timeout: 300   
   events:  
   - eventBridge:
       name: "${self:service}-${opt:stage, self:provider.stage}-wines-warning"

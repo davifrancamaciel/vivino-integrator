@@ -8,7 +8,7 @@ module.exports.handler = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const { bucketName, DB_NAME } = process.env;
+        const { bucketPrivateName, DB_NAME } = process.env;
         const query = `SELECT table_name FROM information_schema.tables WHERE table_schema = '${DB_NAME}';`;
         const tables = await executeSelect(query);
 
@@ -16,7 +16,7 @@ module.exports.handler = async (event, context) => {
             const table = tables[i];
             const data = await executeSelect(`SELECT * FROM ${table.TABLE_NAME}`);
 
-            const result = await s3.put(JSON.stringify(data), `backup/${table.TABLE_NAME}.json`, bucketName);
+            const result = await s3.put(JSON.stringify(data), `backup/${table.TABLE_NAME}.json`, bucketPrivateName);
             console.log(result);
         }
 

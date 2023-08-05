@@ -1,30 +1,11 @@
 "use strict";
 
-const { Op } = require('sequelize');
+
 const db = require('../../database');
 const Wine = require('../../models/Wine')(db.sequelize, db.Sequelize);
-const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
-const { getUser } = require("../../services/UserService");
-const seed = require('../../../../seeds.json')
 const { executeUpdate } = require("../../services/ExecuteQueryService");
-
-const RESOURCE_NAME = 'Vinho'
-
-module.exports.import = async (event) => {
-    try {
-      
-        if (!process.env.IS_OFFLINE)
-            return handlerResponse(200, {}, 'Ops isso só pode rodar local hahahahha')
-
-        // const result = await seeds();
-        const result = await updateAll();
-
-
-        return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
-    } catch (err) {
-        return await handlerErrResponse(err)
-    }
-}
+const axios = require('axios');
+const s3 = require("../../services/AwsS3Service");
 
 const formatDateCreatePtToEn = (value) => {
     const [date, hour] = value.split(' ')
@@ -90,26 +71,43 @@ const seeds = async () => {
     }
 }
 
-const updateAll = async () => {
+const importImages = async () => {
     const resp = await Wine.findAll({
-        attibutes: ['id', 'alcohol'],
+        attibutes: ['id', 'companyId', 'image'],
         order: [['id', 'DESC']],
-        limit: 2000,
     })
 
-
-    const arr = resp.filter(x => x.alcohol != null && !x.alcohol.includes('%'))
+    const arr = resp.filter(x => x.image != null)
+    let wineId = 0
 
     for (let i = 0; i < arr.length; i++) {
-        const element = arr[i];
-        const item = await Wine.findByPk(element.id);
+        try {
+            const item = arr[i];
+            if (!item.image.includes('services-integrator-api-prd-public')) {
 
-        const wine = {
-            ...item,
-            alcohol: `${item.alcohol}%`
+                wineId = item.id
+                const config = {
+                    method: 'GET',
+                    maxBodyLength: Infinity,
+                    url: item.image,
+                    responseType: 'stream'
+                };
+
+                const { data } = await axios(config);
+                const arrImageName = item.image.split('/')
+                const key = `${item.companyId}/wines/${item.id}/${arrImageName[arrImageName.length - 1]}`
+
+                const result = await s3.put(data, key, 'services-integrator-api-prd-public');
+                const query = ` UPDATE wines AS p SET p.image = '${result.Location}' WHERE p.id = ${item.id}`;
+                await executeUpdate(query);
+
+                console.log(item.id, i, arr.length)
+            }
+        } catch (error) {
+            console.error(wineId)
         }
-        await item.update(wine);
-
     }
     return arr
 }
+
+module.exports = { importImages }

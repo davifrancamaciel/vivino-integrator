@@ -34,7 +34,7 @@ module.exports = {
         color: { type: Sequelize.STRING(100), allowNull: true, },
         image: { type: Sequelize.STRING(500), allowNull: true, },
         ean: { type: Sequelize.STRING(100), allowNull: true, },
-        description: { type: Sequelize.STRING(500), allowNull: true, },
+        description: { type: Sequelize.STRING(1000), allowNull: true, },
         alcohol: { type: Sequelize.STRING(100), allowNull: true, },
         producerAddress: { type: Sequelize.STRING(100), allowNull: true, },
         importerAddress: { type: Sequelize.STRING(100), allowNull: true, },

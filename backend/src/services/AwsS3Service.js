@@ -17,7 +17,7 @@ const get = async (objectKey, bucket) => {
     return await s3.getObject(params).promise();
 }
 
-const put = async (object, objectKey, bucket) => {
+const put = async (object, objectKey, bucket, contentType, contentEncoding) => {
     const params = {
         Bucket: bucket,
         Key: objectKey,
@@ -25,7 +25,14 @@ const put = async (object, objectKey, bucket) => {
         //ContentType: mimeType//geralmente se acha sozinho
     };
 
-    return await s3.upload(params).promise();
+    if (contentType)
+        params.ContentType = contentType;
+    if (contentEncoding)
+        params.ContentEncoding = contentEncoding;
+
+    const result = await s3.upload(params).promise();
+    console.log(result);
+    return result;
 }
 
 const remove = async (objectKey, bucket) => {
@@ -34,8 +41,9 @@ const remove = async (objectKey, bucket) => {
 
     const key = decodeURIComponent(objectKey.replace(/\+/g, ' '));
     const params = { Bucket: bucket, Key: key };
-
-    return await s3.deleteObject(params).promise();
+    const result = await s3.deleteObject(params).promise();
+    console.log(result);
+    return result;
 }
 
 module.exports = { get, put, remove }

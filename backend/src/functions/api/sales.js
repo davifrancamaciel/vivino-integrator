@@ -11,7 +11,6 @@ const Product = require('../../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect, executeDelete, executeUpdate } = require("../../services/ExecuteQueryService");
-const { listProducts } = require("../../services/normalize");
 
 const { roules } = require("../../utils/defaultValues");
 
@@ -20,9 +19,6 @@ const RESOURCE_NAME = 'Venda'
 module.exports.list = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
-
-        // if (process.env.IS_OFFLINE) 
-        //     return handlerResponse(200, await listProducts())
 
         const whereStatement = {};
         const whereStatementUser = {};

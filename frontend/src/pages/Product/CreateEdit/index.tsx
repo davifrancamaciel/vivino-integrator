@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, notification } from 'antd';
+import { Col, notification, UploadFile } from 'antd';
 import { Input, Select, Switch, Textarea } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
@@ -19,10 +19,10 @@ const CreateEdit: React.FC = (props: any) => {
   const { state, dispatch } = useFormState(initialStateForm);
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
-  const [fileList, setFileList] = useState<Array<any>>([]);
+  const [fileList, setFileList] = useState<Array<UploadFile>>([]);
 
   useEffect(() => {
-    console.log(state)
+    console.log(state);
   }, [state]);
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
@@ -39,9 +39,20 @@ const CreateEdit: React.FC = (props: any) => {
           Number(resp.data?.price || 0)
         )
       });
+      if (resp.data && resp.data.image) {
+        const imageArr = resp.data.image.split('/');
+        setFileList([
+          {
+            uid: '-1',
+            name: imageArr[imageArr.length - 1],
+            status: 'done',
+            url: resp.data.image
+          }
+        ]);
+      }
       setLoading(false);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setLoading(false);
     }
   };
@@ -57,7 +68,8 @@ const CreateEdit: React.FC = (props: any) => {
       const method = type === 'update' ? 'put' : 'post';
       const result = await api[method](apiRoutes.products, {
         ...state,
-        price: priceToNumber(state.price)
+        price: priceToNumber(state.price),
+        fileList
       });
       setLoading(false);
 
@@ -92,7 +104,7 @@ const CreateEdit: React.FC = (props: any) => {
         xs={24}
         style={{ display: 'flex', justifyContent: 'center' }}
       >
-        <UploadImages setFileList={setFileList} />
+        <UploadImages setFileList={setFileList} fileList={fileList} />
       </Col>
       <Col lg={12} md={12} sm={24} xs={24}>
         <Input

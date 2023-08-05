@@ -91,9 +91,9 @@ const createFileXml = async ({ companyId }) => {
 
     const xml = root.end({ prettyPrint: true });
 
-    const { bucketName, STAGE } = process.env
-    await s3.remove(key, bucketName);
-    const result = await s3.put(xml, key, bucketName);
+    const { bucketPublicName, STAGE } = process.env
+    await s3.remove(key, bucketPublicName);
+    const result = await s3.put(xml, key, bucketPublicName);
 
     console.log(result)
 

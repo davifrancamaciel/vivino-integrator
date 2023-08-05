@@ -41,10 +41,10 @@ const create = async (companyId, data) => {
     }
     const buffer = await wb.writeToBuffer()
 
-    const { bucketName } = process.env
+    const { bucketPublicName } = process.env
 
     const key = `${companyId}/winesWarning.xls`
-    return await s3.put(buffer, key, bucketName);
+    return await s3.put(buffer, key, bucketPublicName);
 }
 
 module.exports = { create }

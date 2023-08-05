@@ -19,7 +19,8 @@ module.exports = function (sequelize, DataTypes) {
         vivinoClientUsername: { type: DataTypes.STRING(150) },
         vivinoPassword: { type: DataTypes.STRING(150) },
         vivinoAuthToken: { type: DataTypes.STRING(500) },
-        vivinoApiIntegrationActive: { type: DataTypes.BOOLEAN },        
+        vivinoApiIntegrationActive: { type: DataTypes.BOOLEAN },   
+        image: { type: DataTypes.STRING(500) },     
     });
     
     Company.beforeCreate(c => c.id = uuid.v4());

@@ -8,6 +8,7 @@ const { getUser, checkRouleProfileAccess } = require("../../services/UserService
 const { executeSelect } = require("../../services/ExecuteQueryService");
 const { roules } = require("../../utils/defaultValues");
 const formatPrice = require("../../utils/formatPrice");
+const imageService = require("../../services/AddImageService");
 
 const RESOURCE_NAME = 'Produto'
 
@@ -126,6 +127,8 @@ module.exports.create = async (event) => {
             objOnSave.companyId = user.companyId
 
         const result = await Product.create(objOnSave);
+        
+        await imageService.addImage('products', result.dataValues, body.fileList);
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
     } catch (err) {
@@ -157,6 +160,8 @@ module.exports.update = async (event) => {
 
         const result = await item.update(body);
         console.log('PARA ', result.dataValues)
+
+        await imageService.addImage('products', result.dataValues, body.fileList);
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)
     } catch (err) {

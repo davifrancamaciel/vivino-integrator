@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Tag } from 'antd';
+import { Col, Tag, Image } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
-import { Input} from 'components/_inputs';
+import { Input } from 'components/_inputs';
 import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
 import { initialStateFilter, Company } from '../interfaces';
 import useFormState from 'hooks/useFormState';
@@ -38,7 +38,12 @@ const List: React.FC = () => {
           active: <BooleanTag value={c.active} />,
           accessTypeText: accessTypeTags(c.groupsFormatted),
           createdAt: formatDateHour(c.createdAt),
-          updatedAt: formatDateHour(c.updatedAt)
+          updatedAt: formatDateHour(c.updatedAt),
+          image: (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Image style={{ height: '60px' }} src={c.image} />
+            </div>
+          )
         };
         return { ...item };
       });
@@ -55,7 +60,7 @@ const List: React.FC = () => {
       return (
         <Tag color={systemColors.ORANGE}>Nenhuma permissão foi concedida</Tag>
       );
-    if (accessType) {      
+    if (accessType) {
       return accessType.map((item: string) => (
         <Tag style={{ margin: '3px' }} color={systemColors.LIGHT_BLUE}>
           {item}
@@ -93,6 +98,7 @@ const List: React.FC = () => {
       <GridList
         scroll={{ x: 840 }}
         columns={[
+          { title: 'Logo', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'id' },
           { title: 'Empresa', dataIndex: 'name' },
           { title: 'Permissões', dataIndex: 'accessTypeText' },
