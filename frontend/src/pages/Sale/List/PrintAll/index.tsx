@@ -80,7 +80,10 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         ...s,
         userName: s.user!.name,
         products: s.productsSales.map(
-          (sp: SaleProduct) => `${sp.amount} ${sp.product.name} ${formatPrice(Number(sp.valueAmount! || 0))}, `
+          (sp: SaleProduct) =>
+            `${sp.amount} ${sp.product.name} ${formatPrice(
+              Number(sp.valueAmount! || 0)
+            )}, `
         ),
         value: formatPrice(Number(s.value!)),
         createdAt: formatDate(s.createdAt || '')
@@ -115,7 +118,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       </Button>
       <PrintContainer show={false} print={print}>
         <TableReport
-          isFlower={true}
+          image={items[0]?.company?.image || ''}
           title={`Relatorio de vendas ${filteredPeriod}`}
           // headerList={['Código', 'Data', 'Vendedor', 'Valor', 'Obs.']}
         >

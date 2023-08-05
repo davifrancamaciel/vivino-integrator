@@ -1,3 +1,4 @@
+import { Company } from './../Company/interfaces';
 export interface User {
   name: string;
 }
@@ -11,12 +12,13 @@ export interface SaleProduct {
   productId: number;
   value: number;
   valueStr?: string;
-  valueAmount: number;  
+  valueAmount: number;
   amount: number;
   amountStr?: string;
   product: Product;
 }
 export interface Sale {
+  company?: Company;
   id?: string;
   user?: User;
   products: Product[];

@@ -88,6 +88,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       </Button>
       <PrintContainer show={false} print={print}>
         <TableReport
+          image={items[0]?.company?.image || ''}
           title="Romaneio de entrega"
           headerList={[
             'DATA',

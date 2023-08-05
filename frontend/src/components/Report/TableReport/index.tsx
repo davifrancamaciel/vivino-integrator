@@ -1,20 +1,18 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import logo from 'assets/logo.jpg';
-import logo_flower from 'assets/logo_flower.jpg';
 import { Container } from './styles';
 
 interface PropTypes {
   title: string;
+  image: string;
   children: ReactNode;
   headerList?: string[];
-  isFlower?: boolean;
 }
 
 const TableReport: React.FC<PropTypes> = ({
   title,
   children,
   headerList,
-  isFlower
+  image
 }) => {
   const [headerListItens, setHeaderListItens] = useState<string[]>([]);
   useEffect(() => {
@@ -32,7 +30,7 @@ const TableReport: React.FC<PropTypes> = ({
                 colSpan={headerListItens?.length ? headerListItens.length : 5}
               >
                 <header>
-                  <img alt={''} src={isFlower ? logo_flower : logo} />
+                  <img alt={''} src={image} />
                   <h2>{title}</h2>
                 </header>
               </th>

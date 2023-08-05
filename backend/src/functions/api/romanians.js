@@ -82,7 +82,7 @@ module.exports.list = async (event, context) => {
                 {
                     model: Company,
                     as: 'company',
-                    attributes: ['name'],
+                    attributes: ['name', 'image'],
                     where: whereStatementCompany
                 },
                 {

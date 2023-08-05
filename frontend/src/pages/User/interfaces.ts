@@ -1,7 +1,4 @@
-export interface Company {
-  name: string;
-}
-
+import { Company } from './../Company/interfaces';
 export interface Users {
   company?: Company;
   id?: string;

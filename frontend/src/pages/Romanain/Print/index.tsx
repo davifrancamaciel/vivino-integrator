@@ -12,7 +12,10 @@ interface PropTypes {
 const Print: React.FC<PropTypes> = ({ romanian }) => {
   return (
     <PrintContainer show={true}>
-      <TableReport title="Romaneio de entrega">
+      <TableReport
+        image={romanian?.company?.image || ''}
+        title="Romaneio de entrega"
+      >
         <tr>
           <Td title="Empresa" value={romanian.company?.name} />
           <Td title="Empresa" value={romanian.company?.name} />

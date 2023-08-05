@@ -13,7 +13,7 @@ interface PropTypes {
 const Print: React.FC<PropTypes> = ({ sale }) => {
   return (
     <PrintContainer show={true}>
-      <TableReport title={`Venda ${sale.id}`} isFlower={true}>
+      <TableReport title={`Venda ${sale.id}`} image={sale?.company?.image || ''}>
         {/* <tr style={{ border: '0' }}>
           <td style={{ border: '0' }}> */}
         <table>

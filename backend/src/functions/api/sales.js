@@ -84,7 +84,7 @@ module.exports.list = async (event, context) => {
             include: [{
                 model: User, as: 'user', attributes: ['name'], where: whereStatementUser
             }, {
-                model: Company, as: 'company', attributes: ['name'],
+                model: Company, as: 'company', attributes: ['name', 'image'],
             }]
         })
         const salesIds = rows.map(x => x.id)
