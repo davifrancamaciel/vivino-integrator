@@ -13,7 +13,7 @@ custom:
   bucketPrivate: ${self:service}-${opt:stage, self:provider.stage}-private
   VIVINO_API_URL: ${self:custom.secrets.VIVINO_API_URL}
   DB_HOST: ${self:custom.secrets.DB_HOST}  
-  DB_NAME: services_db
+  DB_NAME: ${self:custom.secrets.DB_NAME}
   DB_USERNAME: root
   DB_PASSWORD: ${self:custom.secrets.DB_PASSWORD}    
   DB_PORT: 3306 
