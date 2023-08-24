@@ -33,7 +33,7 @@ module.exports.list = async (event, context) => {
         if (!isAdm)
             whereStatement.companyId = user.companyId
         if (event.queryStringParameters) {
-            const { id, product, userName, valueMin, valueMax, createdAtStart, createdAtEnd } = event.queryStringParameters
+            const { id, product, userName, valueMin, valueMax, createdAtStart, createdAtEnd, note } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
 
@@ -41,6 +41,8 @@ module.exports.list = async (event, context) => {
                 whereStatement.products = { [Op.like]: `%${product}%` }
             if (userName)
                 whereStatementUser.name = { [Op.like]: `%${userName}%` }
+            if (note)
+                whereStatement.note = { [Op.like]: `%${note}%` }
 
             if (valueMin)
                 whereStatement.value = {
@@ -91,7 +93,7 @@ module.exports.list = async (event, context) => {
         const salesProductsList = await SaleProduct.findAll({
             where: { saleId: { [Op.in]: salesIds } },
             attributes: ['amount', 'valueAmount', 'value', 'productId', 'saleId'],
-            include: [{ model: Product, as: 'product', attributes: ['name', 'price'] }],
+            include: [{ model: Product, as: 'product', attributes: ['name', 'price', 'size'] }],
         })
         const newRows = rows.map(s => {
             const productsSales = salesProductsList.filter(sp => sp.saleId === s.id)

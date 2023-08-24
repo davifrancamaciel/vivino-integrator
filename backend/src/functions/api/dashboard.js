@@ -3,9 +3,8 @@
 const { startOfMonth, endOfMonth, startOfDay, endOfDay, subDays } = require('date-fns');
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
-const { roules } = require("../../utils/defaultValues");
-
 const { executeSelect } = require("../../services/ExecuteQueryService");
+const { roules } = require("../../utils/defaultValues");
 
 module.exports.cards = async (event, context) => {
     try {
@@ -21,12 +20,7 @@ module.exports.cards = async (event, context) => {
             winesSalesDay: { count: 0, },
             winesSalesMonth: { count: 0, },
             winesSalesMonthValue: { total: 0, },
-            sales: {
-                count: 0,
-                commissionMonth: 0,
-                totalValueMonth: 0,
-                commissionUser: 0,
-            }
+            sales: { count: 0, commissionMonth: 0, totalValueMonth: 0, commissionUser: 0, }
         }
 
         let isAdm = checkRouleProfileAccess(user.groups, roules.administrator);
@@ -106,9 +100,9 @@ const winesActive = async (isAdm, user) => {
 
     const query = ` SELECT COUNT(id) count FROM wines 
                     WHERE  active = true AND 
-                        inventoryCount > 0 AND 
-                        bottleQuantity > 0 
-                        ${isAdm ? '' : `AND companyId = '${user.companyId}'`}`
+                           inventoryCount > 0 AND 
+                           bottleQuantity > 0 
+                           ${isAdm ? '' : `AND companyId = '${user.companyId}'`}`
     const [result] = await executeSelect(query);
     return result
 }

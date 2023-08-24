@@ -98,7 +98,7 @@ const importImages = async () => {
                 const key = `${item.companyId}/wines/${item.id}/${arrImageName[arrImageName.length - 1]}`
 
                 const result = await s3.put(data, key, 'services-integrator-api-prd-public');
-                const query = ` UPDATE wines AS p SET p.image = '${result.Location}' WHERE p.id = ${item.id}`;
+                const query = `UPDATE wines AS p SET p.image = '${result.Location}' WHERE p.id = ${item.id}`;
                 await executeUpdate(query);
 
                 console.log(item.id, i, arr.length)

@@ -5,6 +5,7 @@ export interface User {
 export interface Product {
   id?: number;
   name: string;
+  size: string;
   price: number;
 }
 export interface SaleProduct {
@@ -41,6 +42,7 @@ export const initialStateForm: Sale = {
 export interface Filter {
   id?: string;
   product?: string;
+  note?: string;
   valueMin?: string;
   valueMax?: string;
   createdAtStart?: string;

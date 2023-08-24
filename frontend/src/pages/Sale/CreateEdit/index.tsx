@@ -23,7 +23,7 @@ const CreateEdit: React.FC = (props: any) => {
   const [total, setTotal] = useState<string>();
 
   useEffect(() => {
-    !users.length && onLoadUsersSales();
+    onLoadUsersSales();
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const CreateEdit: React.FC = (props: any) => {
         ),
         productsSales
       };
-    
+
       if (!productsSales || !productsSales.length) {
         notification.warning({
           message: 'Não existe produtos validos'

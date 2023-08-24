@@ -26,7 +26,7 @@ const add = async (table, obj, fileList) => {
             var buf = Buffer.from(file.preview.replace(/^data:image\/\w+;base64,/, ""), 'base64')
             const result = await s3.put(buf, key, bucketPublicName, file.type, 'base64');
 
-            let query = ` UPDATE ${table} SET image = '${result.Location}' WHERE`;
+            let query = `UPDATE ${table} SET image = '${result.Location}', updatedAt = NOW() WHERE`;
             if (table === 'companies')
                 query = `${query} id = '${companyId}'`
             else

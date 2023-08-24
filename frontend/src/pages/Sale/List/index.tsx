@@ -99,7 +99,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ product: e.target.value })}
           />
         </Col>
-        <Col lg={10} md={12} sm={24} xs={24}>
+        <Col lg={5} md={6} sm={24} xs={24}>
           <Input
             label={'Vendedor'}
             placeholder="Ex.: Thamara"
@@ -107,7 +107,14 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ userName: e.target.value })}
           />
         </Col>
-
+        <Col lg={5} md={6} sm={24} xs={24}>
+          <Input
+            label={'Obs.'}
+            placeholder="Ex.: "
+            value={state.note}
+            onChange={(e) => dispatch({ note: e.target.value })}
+          />
+        </Col>
         <Col lg={14} md={16} sm={24} xs={24}>
           <RangePicker
             label="Data de venda"

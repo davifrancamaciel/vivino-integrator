@@ -27,6 +27,11 @@ const TableReport: React.FC<PropTypes> = ({
           <thead>
             <tr>
               <th
+                style={{
+                  border: 'none',
+                  paddingTop: '25px',
+                  paddingBottom: '25px'
+                }}
                 colSpan={headerListItens?.length ? headerListItens.length : 5}
               >
                 <header>

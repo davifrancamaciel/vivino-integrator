@@ -10,6 +10,7 @@ import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
 import UploadImages from 'components/UploadImages';
 import {
+  formatNumberWhithDecimalCaseOnChange,
   formatValueWhithDecimalCaseOnChange,
   priceToNumber
 } from 'utils/formatPrice';
@@ -35,7 +36,7 @@ const CreateEdit: React.FC = (props: any) => {
       const resp = await api.get(`${apiRoutes.products}/${id}`);
       dispatch({
         ...resp.data,
-        price: formatValueWhithDecimalCaseOnChange(
+        price: formatNumberWhithDecimalCaseOnChange(
           Number(resp.data?.price || 0)
         )
       });

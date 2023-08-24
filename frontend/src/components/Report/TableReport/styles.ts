@@ -36,10 +36,10 @@ export const Container = styled.div`
         padding: 5px 5px;
         text-align: initial;
       }
-      thead tr:first-child th {
+      /* thead tr:first-child th {
         border: none !important;
         padding: 25px 0px;
-      }
+      } */
       tbody tr {
         transition: background-color 0.2s;
       }

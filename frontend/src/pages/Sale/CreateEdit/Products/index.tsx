@@ -24,7 +24,7 @@ const Products: React.FC<PropTypes> = ({ products, setProducts }) => {
   useEffect(() => {
     !products.length && add();
   }, [products]);
-  
+
   const changeProduct = (sp: SaleProduct) => {
     const newProducts = products.map((product: SaleProduct) => {
       return product.id === sp.id ? newProduct(sp) : product;

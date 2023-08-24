@@ -102,12 +102,13 @@ module.exports.create = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
         const objOnSave = body
 
-        if (body.groupsFormatted) {
+        if (body.groupsFormatted) 
             objOnSave.groups = JSON.stringify(body.groupsFormatted)
-        }
-
+        
         const result = await Company.create(objOnSave);
+        
         await imageService.add('companies', result.dataValues, body.fileList);
+
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, body)
@@ -158,9 +159,10 @@ module.exports.delete = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const { id } = pathParameters
+        const { id } = pathParameters;
         
-        const item = await Company.findByPk(id)
+        const item = await Company.findByPk(id);
+
         await imageService.remove(item.image);
         
         await Company.destroy({ where: { id } });

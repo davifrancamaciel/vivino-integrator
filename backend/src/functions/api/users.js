@@ -317,7 +317,7 @@ module.exports.listAll = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
         if (!checkRouleProfileAccess(user.groups, roules.saleUserIdChange))
-            return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
+            return handlerResponse(200, {})
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             whereStatement.companyId = user.companyId
 

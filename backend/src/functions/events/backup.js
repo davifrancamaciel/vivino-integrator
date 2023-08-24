@@ -10,7 +10,7 @@ module.exports.handler = async (event, context) => {
         context.callbackWaitsForEmptyEventLoop = false;
 
         if (process.env.IS_OFFLINE) {
-            return handlerResponse(200, await importImages())
+            //return handlerResponse(200, await importImages())
         }
 
         const { bucketPrivateName, DB_NAME } = process.env;       
