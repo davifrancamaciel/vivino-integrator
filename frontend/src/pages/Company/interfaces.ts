@@ -6,6 +6,7 @@ export interface Company {
   groupsFormatted: string[];
   createdAt?: string;
   updatedAt?: string;
+  pixKey?: string;
   active: boolean;
   vivinoApiIntegrationActive: boolean;
 }
@@ -18,7 +19,7 @@ export const initialStateForm: Company = {
   createdAt: '',
   updatedAt: '',
   active: true,
-  vivinoApiIntegrationActive: false,
+  vivinoApiIntegrationActive: false
 };
 
 export interface Filter {

@@ -15,6 +15,9 @@ export interface Users {
   resetPassword?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  phone?: string;
+  type: 'USER' | 'CLIENT';
+  dayMaturityFavorite: number;
 }
 
 export const initialStateForm: Users = {
@@ -24,18 +27,22 @@ export const initialStateForm: Users = {
   email: '',
   accessType: [],
   status: true,
-  password: ''
+  password: '',
+  type: 'USER',
+  dayMaturityFavorite: 0
 };
 
 export interface Filter {
   name: string;
   companyName: string;
+  type: string;
   pageNumber: number;
   pageSize: number;
 }
 
 export const initialStateFilter: Filter = {
   name: '',
+  type: '',
   companyName: '',
   pageNumber: 1,
   pageSize: 10

@@ -14,7 +14,8 @@ import {
   appRoutes,
   enumStatusUserAws,
   roules,
-  systemColors
+  systemColors,
+  userType
 } from 'utils/defaultValues';
 
 const CreateEdit: React.FC = (props: any) => {
@@ -22,10 +23,16 @@ const CreateEdit: React.FC = (props: any) => {
   const { state, dispatch } = useFormState(initialStateForm);
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
+  const [path, setPath] = useState('');
 
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
     props.match.params.id ? setType('update') : setType('create');
+    setPath(
+      window.location.pathname.includes(appRoutes.clients)
+        ? userType.CLIENT
+        : userType.USER
+    );
   }, [props.match.params.id]); // eslint-disable-line
 
   const get = async (id: string) => {
@@ -34,22 +41,23 @@ const CreateEdit: React.FC = (props: any) => {
       const resp = await api.get(`${apiRoutes.users}/${id}`);
       const { UserAws } = resp.data;
 
-      const itemEdit = {
-        ...resp.data,
-        status: UserAws.Enabled,
-        accessType: UserAws.Groups,
-        resetPassword: false,
-        userStatusText: userStatusTag(UserAws.UserStatus),
-        statusText: (
+      const itemEdit = { ...resp.data };
+      if (path === userType.USER) {
+        itemEdit.status = UserAws.Enabled;
+        itemEdit.accessType = UserAws.Groups;
+        itemEdit.resetPassword = false;
+        itemEdit.userStatusText = userStatusTag(UserAws.UserStatus);
+        itemEdit.statusText = (
           <Tag color={UserAws.Enabled ? systemColors.GREEN : systemColors.RED}>
             {UserAws.Enabled ? 'Ativo' : 'Inativo'}
           </Tag>
-        )
-      };
+        );
+      }
       console.log(itemEdit);
       dispatch(itemEdit);
       setLoading(false);
     } catch (error) {
+      console.error(error);
       setLoading(false);
     }
   };
@@ -65,11 +73,14 @@ const CreateEdit: React.FC = (props: any) => {
 
       setLoading(true);
       const method = type === 'update' ? 'put' : 'post';
-      const result = await api[method](apiRoutes.users, state);
+      const result = await api[method](apiRoutes.users, {
+        ...state,
+        type: path
+      });
 
       setLoading(false);
 
-      result.success && history.push(`/${appRoutes.users}`);
+      result.success && history.push(`/${path.toLowerCase()}s`);
     } catch (error) {
       setLoading(false);
     }
@@ -100,13 +111,15 @@ const CreateEdit: React.FC = (props: any) => {
 
   return (
     <PanelCrud
-      title={`${type === 'update' ? 'Editar' : 'Novo'} usuário`}
+      title={`${type === 'update' ? 'Editar' : 'Novo'} ${
+        path === userType.USER ? 'usuário' : 'cliente'
+      }`}
       type={type}
       onClickActionButton={action}
       loadingBtnAction={loading}
       loadingPanel={false}
     >
-      {type === 'update' && (
+      {type === 'update' && path === userType.USER && (
         <Col lg={24} md={24} sm={24} xs={24}>
           <Row>
             <Col lg={5} md={8} sm={12} xs={24}>
@@ -129,6 +142,7 @@ const CreateEdit: React.FC = (props: any) => {
           />
         </Col>
       </ShowByRoule>
+
       <Col lg={8} md={8} sm={12} xs={24}>
         <Input
           label={'Nome completo'}
@@ -157,7 +171,7 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
 
-      <Col lg={8} md={12} sm={24} xs={24}>
+      <Col lg={8} md={8} sm={12} xs={24}>
         <Input
           label={'Comissão'}
           type={'number'}
@@ -167,41 +181,58 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
       <Col lg={8} md={8} sm={12} xs={24}>
-        <InputPassword
-          disabled={!(type === 'create' || state.resetPassword)}
-          label={'Senha'}
-          placeholder="Insira uma senha temporária para o usuário"
-          value={state.password}
-          onChange={(e) => dispatch({ password: e.target.value })}
+        <Input
+          label={'Melhor dia de vencimento em compras parceladas'}
+          type={'number'}
+          placeholder="Ex.: 5"
+          value={state.dayMaturityFavorite}
+          onChange={(e) => dispatch({ dayMaturityFavorite: e.target.value })}
         />
       </Col>
-      {type === 'update' && (
-        <Col lg={5} md={8} sm={12} xs={24}>
-          <Switch
-            label={'Resetar senha'}
-            title="Sim / Não"
-            checked={state.resetPassword}
-            checkedChildren="Sim"
-            unCheckedChildren="Não"
-            onChange={() => dispatch({ resetPassword: !state.resetPassword })}
-          />
-        </Col>
-      )}
-      <Col lg={3} md={8} sm={12} xs={24}>
-        <Switch
-          label={'Status'}
-          title="Inativo / Ativo"
-          checked={state.status}
-          checkedChildren="Ativo"
-          unCheckedChildren="Inativo"
-          onChange={() => dispatch({ status: !state.status })}
-        />
-      </Col>
+      {path === userType.USER && (
+        <>
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <InputPassword
+              disabled={!(type === 'create' || state.resetPassword)}
+              label={'Senha'}
+              placeholder="Insira uma senha temporária para o usuário"
+              value={state.password}
+              onChange={(e) => dispatch({ password: e.target.value })}
+            />
+          </Col>
+          {type === 'update' && (
+            <Col lg={5} md={8} sm={12} xs={24}>
+              <Switch
+                label={'Resetar senha'}
+                title="Sim / Não"
+                checked={state.resetPassword}
+                checkedChildren="Sim"
+                unCheckedChildren="Não"
+                onChange={() =>
+                  dispatch({ resetPassword: !state.resetPassword })
+                }
+              />
+            </Col>
+          )}
+          <Col lg={3} md={8} sm={12} xs={24}>
+            <Switch
+              label={'Status'}
+              title="Inativo / Ativo"
+              checked={state.status}
+              checkedChildren="Ativo"
+              unCheckedChildren="Inativo"
+              onChange={() => dispatch({ status: !state.status })}
+            />
+          </Col>
 
-      <AccessType
-        groupsSelecteds={state.accessType}
-        setGroupsSelecteds={(accessType: string[]) => dispatch({ accessType })}
-      />
+          <AccessType
+            groupsSelecteds={state.accessType}
+            setGroupsSelecteds={(accessType: string[]) =>
+              dispatch({ accessType })
+            }
+          />
+        </>
+      )}
     </PanelCrud>
   );
 };

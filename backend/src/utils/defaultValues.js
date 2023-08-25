@@ -27,4 +27,9 @@ const cognito = {
 
 const companyIdDefault = '723f5715-3d2e-4484-8eb1-d24927a78c55' // Ari delicatessen
 
-module.exports = { roules, cognito, companyIdDefault }
+const userType = {
+    USER: 'USER',
+    CLIENT: 'CLIENT',
+}
+
+module.exports = { roules, cognito, companyIdDefault, userType }

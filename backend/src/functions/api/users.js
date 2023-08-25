@@ -7,7 +7,7 @@ const generateHash = require("../../utils/generateHash");
 const { cognitoRequest } = require("../../services/AwsCognitoService");
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { findUserById, getUser, checkRouleProfileAccess, mapUser } = require('../../services/UserService')
-const { roules, cognito } = require("../../utils/defaultValues");
+const { roules, cognito, userType } = require("../../utils/defaultValues");
 const User = require('../../models/User')(db.sequelize, db.Sequelize);
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 
@@ -30,15 +30,16 @@ module.exports.list = async (event) => {
             whereStatement.companyId = user.companyId
 
         if (queryStringParameters) {
-            const { id, companyName, name, email, createdAtStart, createdAtEnd } = queryStringParameters
+            const { id, companyName, name, type, email, createdAtStart, createdAtEnd } = queryStringParameters
 
-            if (id) whereStatement.id = id;
-
+            if (id)
+                whereStatement.id = id;
+            if (type)
+                whereStatement.type = type;
             if (companyName)
                 whereStatementCompany.name = { [Op.like]: `%${companyName}%` }
             if (name)
                 whereStatement.name = { [Op.like]: `%${name}%` }
-
             if (email)
                 whereStatement.email = { [Op.like]: `%${email}%` }
 
@@ -106,15 +107,19 @@ module.exports.listById = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && userInDb.companyId !== user.companyId)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
-        const item = await findUserById(userInDb.userAWSId)
-        if (!item)
-            return handlerResponse(400, {}, `Lodin de ${RESOURCE_NAME} não encontrado`)
-        const { Username } = item
-        const resp = await cognitoRequest(cognito.adminListGroupsForUser, { Username })
-        const Groups = resp.Groups.map(g => (g.GroupName))
-
         const data = userInDb.dataValues;
-        data.UserAws = { ...item, Groups }
+
+        if (data.type === userType.USER) {
+
+            const item = await findUserById(userInDb.userAWSId)
+            if (!item)
+                return handlerResponse(400, {}, `Lodin de ${RESOURCE_NAME} não encontrado`)
+
+            const { Username } = item
+            const resp = await cognitoRequest(cognito.adminListGroupsForUser, { Username })
+            const Groups = resp.Groups.map(g => (g.GroupName))
+            data.UserAws = { ...item, Groups }
+        }
 
         return handlerResponse(200, data)
     } catch (err) {
@@ -125,7 +130,7 @@ module.exports.listById = async (event) => {
 module.exports.create = async (event) => {
     let userDbId = 0
     const body = JSON.parse(event.body)
-    let { password, email, name, status, accessType, companyId, commissionMonth } = body;
+    let { password, email, name, status, accessType, companyId, commissionMonth, phone, type, dayMaturityFavorite } = body;
     try {
         const user = await getUser(event)
 
@@ -146,38 +151,39 @@ module.exports.create = async (event) => {
             email,
             name,
             companyId,
-            commissionMonth: commissionMonth ? Number(commissionMonth) : 0
+            commissionMonth: commissionMonth ? Number(commissionMonth) : 0,
+            phone, type, dayMaturityFavorite
         }
 
-        const resultNewUser = await User.create(objOnSave);
+        let resultNewUser = await User.create(objOnSave);
         userDbId = resultNewUser.id
+        if (type === userType.USER) {
+            const request = {
+                Username: email,
+                TemporaryPassword: password ? password : generateHash(),
+                //MessageAction: 'SUPPRESS',//'RESEND',
+                UserAttributes: [
+                    { Name: 'email', Value: email },
+                    { Name: 'email_verified', Value: 'true' },
+                    { Name: 'name', Value: name ? name : email },
+                    { Name: 'custom:company_id', Value: companyId },
+                    { Name: 'custom:user_id', Value: `${userDbId}` },
+                ],
+            }
 
-        const request = {
-            Username: email,
-            TemporaryPassword: password ? password : generateHash(),
-            //MessageAction: 'SUPPRESS',//'RESEND',
-            UserAttributes: [
-                { Name: 'email', Value: email },
-                { Name: 'email_verified', Value: 'true' },
-                { Name: 'name', Value: name ? name : email },
-                { Name: 'custom:company_id', Value: companyId },
-                { Name: 'custom:user_id', Value: `${userDbId}` },
-            ],
+            const resultUserAws = await cognitoRequest(cognito.adminCreateUser, request);
+
+            if (!!accessType)
+                await addUserToGroup(email, accessType, 0)
+
+            if (!status)
+                await cognitoRequest(cognito.adminDisableUser, { Username: email });
+
+            const newUserAws = mapUser(resultUserAws.User)
+            const itemUpdate = await User.findByPk(Number(userDbId))
+            resultNewUser = await itemUpdate.update({ userAWSId: newUserAws.id });
         }
-
-        const resultUserAws = await cognitoRequest(cognito.adminCreateUser, request);
-
-        if (!!accessType)
-            await addUserToGroup(email, accessType, 0)
-
-        if (!status)
-            await cognitoRequest(cognito.adminDisableUser, { Username: email });
-
-        const newUserAws = mapUser(resultUserAws.User)
-        const itemUpdate = await User.findByPk(Number(userDbId))
-        const resultUserDb = await itemUpdate.update({ userAWSId: newUserAws.id });
-
-        return handlerResponse(201, resultUserDb, `${RESOURCE_NAME} ${name} criado com sucesso`)
+        return handlerResponse(201, resultNewUser, `${RESOURCE_NAME} ${name} criado com sucesso`)
     } catch (err) {
         await cognitoRequest(cognito.adminDeleteUser, { Username: email });
         await User.destroy({ where: { id: userDbId } });
@@ -187,7 +193,7 @@ module.exports.create = async (event) => {
 
 module.exports.update = async (event) => {
     const body = JSON.parse(event.body)
-    let { resetPassword, password, name, status, accessType, companyId } = body;
+    let { resetPassword, password, name, status, accessType, companyId, phone, type, dayMaturityFavorite } = body;
     try {
         const user = await getUser(event)
 
@@ -213,45 +219,45 @@ module.exports.update = async (event) => {
 
         const resultUserDb = await item.update(body);
         console.log('PARA ', resultUserDb.dataValues)
+        if (type === userType.USER) {
+            const groups = await cognitoRequest(cognito.adminListGroupsForUser, { Username: item.email })
+            if (groups.Groups.length) {
+                const groupsUser = groups.Groups.map((group) => (group.GroupName))
 
-        const groups = await cognitoRequest(cognito.adminListGroupsForUser, { Username: item.email })
-        if (groups.Groups.length) {
-            const groupsUser = groups.Groups.map((group) => (group.GroupName))
-
-            const groupsUserRemove = groupsUser.filter(element => {
-                if (!accessType.find(x => x === element)) return element
-            });
-            await removeUserToGroup(item.email, groupsUserRemove, 0)
-
-            if (!!accessType) {
-                const groupsUserAdd = accessType.filter(element => {
-                    if (!groupsUser.find(x => x === element)) return element
+                const groupsUserRemove = groupsUser.filter(element => {
+                    if (!accessType.find(x => x === element)) return element
                 });
-                await addUserToGroup(item.email, groupsUserAdd, 0)
+                await removeUserToGroup(item.email, groupsUserRemove, 0)
+
+                if (!!accessType) {
+                    const groupsUserAdd = accessType.filter(element => {
+                        if (!groupsUser.find(x => x === element)) return element
+                    });
+                    await addUserToGroup(item.email, groupsUserAdd, 0)
+                }
             }
+            else {
+                if (!!accessType) await addUserToGroup(item.email, accessType, 0)
+            }
+
+            const request = {
+                Username: item.email,
+                UserAttributes: [
+                    { Name: 'name', Value: name ? name : item.email },
+                    { Name: 'custom:company_id', Value: companyId },
+                    { Name: 'custom:user_id', Value: `${id}` },
+                ],
+            }
+
+            const result = await cognitoRequest(cognito.adminUpdateUserAttributes, request);
+
+            const methodStatus = status ? cognito.adminEnableUser : cognito.adminDisableUser
+            await cognitoRequest(methodStatus, { Username: item.email });
+
+            if (resetPassword && password)
+                await cognitoRequest(cognito.adminSetUserPassword, { Username: item.email, Password: password, Permanent: true });
         }
-        else {
-            if (!!accessType) await addUserToGroup(item.email, accessType, 0)
-        }
-
-        const request = {
-            Username: item.email,
-            UserAttributes: [
-                { Name: 'name', Value: name ? name : item.email },
-                { Name: 'custom:company_id', Value: companyId },
-                { Name: 'custom:user_id', Value: `${id}` },
-            ],
-        }
-
-        const result = await cognitoRequest(cognito.adminUpdateUserAttributes, request);
-
-        const methodStatus = status ? cognito.adminEnableUser : cognito.adminDisableUser
-        await cognitoRequest(methodStatus, { Username: item.email });
-
-        if (resetPassword && password)
-            await cognitoRequest(cognito.adminSetUserPassword, { Username: item.email, Password: password, Permanent: true });
-
-        return handlerResponse(200, result, `${RESOURCE_NAME} ${name} alterado com sucesso`)
+        return handlerResponse(200, resultUserDb, `${RESOURCE_NAME} ${name} alterado com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, body)
     }
@@ -261,7 +267,7 @@ module.exports.delete = async (event) => {
     const { pathParameters } = event
     try {
         const { id } = pathParameters
-        
+
         const user = await getUser(event)
 
         if (!user)
@@ -277,12 +283,15 @@ module.exports.delete = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && userInDb.companyId !== user.companyId)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
-        const item = await findUserById(userInDb.userAWSId)
-        if (item) {
-            const { Username } = item
-            await cognitoRequest(cognito.adminDeleteUser, { Username });
-        }
         await User.destroy({ where: { id } });
+        
+        if (userInDb.type === userType.USER) {
+            const item = await findUserById(userInDb.userAWSId)
+            if (item) {
+                const { Username } = item
+                await cognitoRequest(cognito.adminDeleteUser, { Username });
+            }
+        }
 
         return handlerResponse(200, {}, `${RESOURCE_NAME} ${userInDb.name} removido com sucesso`)
     } catch (err) {
@@ -316,14 +325,12 @@ module.exports.listAll = async (event) => {
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-        if (!checkRouleProfileAccess(user.groups, roules.saleUserIdChange))
-            return handlerResponse(200, {})
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             whereStatement.companyId = user.companyId
 
         const resp = await User.findAll({
             where: whereStatement,
-            attributes: ['id', 'name'],
+            attributes: ['id', 'name', 'type'],
             order: [['name', 'ASC']],
             // include: [
             //     {
@@ -336,6 +343,7 @@ module.exports.listAll = async (event) => {
         const respFormated = resp.map(item => ({
             value: item.id,
             label: item.name,
+            type: item.type
         }));
         return handlerResponse(200, respFormated)
     } catch (err) {

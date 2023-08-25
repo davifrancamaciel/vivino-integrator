@@ -10,6 +10,8 @@ export const mapUser = (user: UserCognito): Users => {
     // login: user.Username,
     status: user.Enabled,
     userStatusText: user.UserStatus,
+    type: 'USER',
+    dayMaturityFavorite: 0
   };
 };
 

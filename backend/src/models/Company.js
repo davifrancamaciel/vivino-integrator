@@ -13,6 +13,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         email: { type: DataTypes.STRING(150) },
         phone: { type: DataTypes.STRING(30) },
+        pixKey: { type: DataTypes.STRING(100) },
         vivinoId: { type: DataTypes.STRING(8) },
         vivinoClientId: { type: DataTypes.STRING(150) },
         vivinoClientSecret: { type: DataTypes.STRING(150) },

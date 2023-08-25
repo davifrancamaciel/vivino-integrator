@@ -15,12 +15,13 @@ export const systemColors = {
 
 export const appRoutes = {
   users: 'users',
+  clients: 'clients',
   products: 'products',
   wines: 'wines',
   romanians: 'romanians',
   sales: 'sales',
   expenses: 'expenses',
-  companies: 'companies',  
+  companies: 'companies',
   services: 'services'
 };
 
@@ -36,8 +37,7 @@ export const apiRoutes = {
   services: appRoutes.services,
   shippingCompanies: 'shipping-companies',
   expenses: 'expenses',
-  expenseTypes: 'expense-types',
-  
+  expenseTypes: 'expense-types'
 };
 
 export const apiRoutesArray = [
@@ -52,7 +52,7 @@ export const apiRoutesArray = [
   apiRoutes.shippingCompanies,
   apiRoutes.expenseTypes,
   apiRoutes.expenses,
-  apiRoutes.services,
+  apiRoutes.services
 ];
 
 export const roules = {
@@ -77,6 +77,11 @@ export const booleanFilter: IOptions[] = [
   { value: 'true', label: 'Sim' },
   { value: 'false', label: 'Não' }
 ];
+
+export const userType = {
+  USER: 'USER',
+  CLIENT: 'CLIENT'
+};
 
 export const pageItemsFilter: IOptions[] = [
   { value: '10', label: '10' },

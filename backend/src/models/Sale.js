@@ -13,6 +13,7 @@ module.exports = function (sequelize, DataTypes) {
             },
         },
         userId: { type: DataTypes.INTEGER },
+        clientId: { type: DataTypes.INTEGER },
         note: { type: DataTypes.STRING(500) },
         value: { type: DataTypes.DECIMAL },
         companyId: { type: DataTypes.UUID },
@@ -20,6 +21,7 @@ module.exports = function (sequelize, DataTypes) {
 
     Sale.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });
     Sale.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-    Sale.hasMany(SaleProduct, { foreignKey: 'saleId', as: 'productsSales' })    
+    Sale.belongsTo(User, { foreignKey: 'clientId', as: 'client' });
+    Sale.hasMany(SaleProduct, { foreignKey: 'saleId', as: 'productsSales' })
     return Sale;
 };

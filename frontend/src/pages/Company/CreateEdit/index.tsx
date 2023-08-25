@@ -75,15 +75,15 @@ const CreateEdit: React.FC = (props: any) => {
       loadingBtnAction={false}
       loadingPanel={loading}
     >
-      <Col lg={8} md={12} sm={24} xs={24}>
+      <Col lg={6} md={6} sm={12} xs={24}>
         <Input
-          label={'Nome da empresa'}
+          label={'Nome'}
           required={true}
           value={state.name}
           onChange={(e) => dispatch({ name: e.target.value })}
         />
       </Col>
-      <Col lg={8} md={8} sm={12} xs={24}>
+      <Col lg={6} md={6} sm={12} xs={24}>
         <Input
           label={'Email'}
           required={true}
@@ -92,13 +92,21 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ email: e.target.value })}
         />
       </Col>
-      <Col lg={8} md={8} sm={12} xs={24}>
+      <Col lg={6} md={6} sm={12} xs={24}>
         <Input
           label={'Telefone'}
           required={true}
           type={'tel'}
           value={state.phone}
           onChange={(e) => dispatch({ phone: e.target.value })}
+        />
+      </Col>
+      <Col lg={6} md={6} sm={12} xs={24}>
+        <Input
+          label={'Chave PIX'}
+          maxLength={100}
+          value={state.pixKey}
+          onChange={(e) => dispatch({ pixKey: e.target.value })}
         />
       </Col>
       <Col

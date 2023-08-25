@@ -22,12 +22,15 @@ export interface Sale {
   company?: Company;
   id?: string;
   user?: User;
+  client?: User;
   products: Product[];
   productsSales: SaleProduct[];
   value?: number;
   note?: string;
   userId?: string;
+  clientId?: string;
   userName?: string;
+  clientName?: string;
   createdAt?: string;
   updatedAt?: string;
   companyId?: string;

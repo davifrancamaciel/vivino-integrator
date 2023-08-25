@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Col, Divider, notification } from 'antd';
 import { Select, Textarea } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
-import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
+import { apiRoutes, appRoutes, roules, userType } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
 import { initialStateForm, SaleProduct } from '../interfaces';
 import api from 'services/api-aws-amplify';
@@ -122,12 +122,20 @@ const CreateEdit: React.FC = (props: any) => {
         <Col lg={12} md={12} sm={24} xs={24}>
           <Select
             label={'Vendedor'}
-            options={users}
+            options={users?.filter((u: any) => u.type === userType.USER)}
             value={state?.userId}
             onChange={(userId) => dispatch({ userId })}
           />
         </Col>
       </ShowByRoule>
+      <Col lg={12} md={12} sm={24} xs={24}>
+        <Select
+          label={'Cliente'}
+          options={users}
+          value={state?.clientId}
+          onChange={(clientId) => dispatch({ clientId })}
+        />
+      </Col>
       <ShowByRoule roule={roules.administrator}>
         <Col lg={12} md={12} sm={12} xs={24}>
           <Select

@@ -12,7 +12,7 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect, executeDelete, executeUpdate } = require("../../services/ExecuteQueryService");
 
-const { roules } = require("../../utils/defaultValues");
+const { roules, userType } = require("../../utils/defaultValues");
 
 const RESOURCE_NAME = 'Venda'
 
@@ -22,6 +22,7 @@ module.exports.list = async (event, context) => {
 
         const whereStatement = {};
         const whereStatementUser = {};
+        const whereStatementClient = {};
 
         const user = await getUser(event)
 
@@ -33,7 +34,7 @@ module.exports.list = async (event, context) => {
         if (!isAdm)
             whereStatement.companyId = user.companyId
         if (event.queryStringParameters) {
-            const { id, product, userName, valueMin, valueMax, createdAtStart, createdAtEnd, note } = event.queryStringParameters
+            const { id, product, userName, clientName, valueMin, valueMax, createdAtStart, createdAtEnd, note } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
 
@@ -41,6 +42,8 @@ module.exports.list = async (event, context) => {
                 whereStatement.products = { [Op.like]: `%${product}%` }
             if (userName)
                 whereStatementUser.name = { [Op.like]: `%${userName}%` }
+            if (clientName)
+                whereStatementClient.name = { [Op.like]: `%${clientName}%` }
             if (note)
                 whereStatement.note = { [Op.like]: `%${note}%` }
 
@@ -86,6 +89,11 @@ module.exports.list = async (event, context) => {
             include: [{
                 model: User, as: 'user', attributes: ['name'], where: whereStatementUser
             }, {
+                model: User, as: 'client',
+                attributes: ['name'],
+                where: whereStatementClient,
+                required: whereStatementClient.name ? true : false
+            }, {
                 model: Company, as: 'company', attributes: ['name', 'image'],
             }]
         })
@@ -122,6 +130,11 @@ module.exports.listById = async (event) => {
                 {
                     model: User,
                     as: 'user',
+                    attributes: ['name'],
+                },
+                {
+                    model: User,
+                    as: 'client',
                     attributes: ['name'],
                 },
                 {
@@ -260,7 +273,7 @@ module.exports.delete = async (event) => {
 const getCommision = async (pageSize, isAdm, companyId) => {
     let commission = 0;
     if (Number(pageSize) === 1000) {
-        const query = `SELECT SUM(u.commissionMonth) total FROM users u WHERE u.commissionMonth > 0 ${isAdm ? '' : `AND u.companyId = '${companyId}'`}`
+        const query = `SELECT SUM(u.commissionMonth) total FROM users u WHERE u.type =  '${userType.USER}' AND u.commissionMonth > 0 ${isAdm ? '' : `AND u.companyId = '${companyId}'`}`
         const [queryResult] = await executeSelect(query);
         commission = Number(queryResult.total)
     }

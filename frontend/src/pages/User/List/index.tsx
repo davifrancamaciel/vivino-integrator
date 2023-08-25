@@ -7,7 +7,8 @@ import {
   apiRoutes,
   appRoutes,
   roules,
-  systemColors
+  systemColors,
+  userType
 } from 'utils/defaultValues';
 import { initialStateFilter, Users } from '../interfaces';
 import useFormState from 'hooks/useFormState';
@@ -19,9 +20,15 @@ const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<Users[]>([]);
   const [loading, setLoading] = useState(false);
+  const [path, setPath] = useState(userType.USER);
   const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
+    setPath(
+      window.location.pathname.includes(appRoutes.clients)
+        ? userType.CLIENT
+        : userType.USER
+    );
     actionFilter();
   }, []);
 
@@ -30,7 +37,10 @@ const List: React.FC = () => {
     try {
       const resp = await api.get(apiRoutes.users, {
         ...state,
-        pageNumber
+        pageNumber,
+        type: window.location.pathname.includes(appRoutes.clients)
+          ? userType.CLIENT
+          : userType.USER
       });
       const { count, rows } = resp.data;
 
@@ -68,7 +78,9 @@ const List: React.FC = () => {
   return (
     <div>
       <PanelFilter
-        title="Usuários cadastrados"
+        title={`${
+          path === userType.USER ? 'Usuários' : 'Clientes'
+        }  cadastrados`}
         actionButton={() => actionFilter()}
         loading={loading}
       >
@@ -82,6 +94,7 @@ const List: React.FC = () => {
             />
           </Col>
         </ShowByRoule>
+
         <Col lg={8} md={12} sm={24} xs={24}>
           <Input
             label={'Nome'}
@@ -118,8 +131,8 @@ const List: React.FC = () => {
         // hidePagination={true}
         loading={loading}
         routes={{
-          routeCreate: `/${appRoutes.users}/create`,
-          routeUpdate: `/${appRoutes.users}/edit`,
+          routeCreate: `/${path.toLowerCase()}s/create`,
+          routeUpdate: `/${path.toLowerCase()}s/edit`,
           routeDelete: `/${appRoutes.users}`
         }}
       />

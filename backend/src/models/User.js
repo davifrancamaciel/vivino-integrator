@@ -5,10 +5,12 @@ module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define('users', {
         name: { type: DataTypes.STRING(255) },
         email: { type: DataTypes.STRING(255) },
-        phone: { type: DataTypes.STRING(30) },
         userAWSId: { type: DataTypes.STRING(50) },
         companyId: { type: DataTypes.UUID },  
         commissionMonth: { type: DataTypes.DECIMAL },      
+        phone: { type: DataTypes.STRING(30) },
+        type: { type: DataTypes.STRING(30) },
+        dayMaturityFavorite: { type: DataTypes.INTEGER },
     });
    
     User.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });    

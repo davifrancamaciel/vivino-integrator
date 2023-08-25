@@ -45,7 +45,8 @@ const Print: React.FC<PropTypes> = ({ sale }) => {
             ))}
             <tr>
               <Td title="Data" value={sale.createdAt} />
-              <Td colSpan={4} title="Vendedor" value={sale.userName} />
+              <Td colSpan={2} title="Vendedor" value={sale.userName} />
+              <Td colSpan={2} title="Cliente" value={sale.clientName} />
               <Td
                 title="Valor total"
                 value={formatPrice(Number(sale.value!))}

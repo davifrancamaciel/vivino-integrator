@@ -50,6 +50,7 @@ const List: React.FC = () => {
         const sale = {
           ...p,
           userName: p.user!.name,
+          clientName: p.client?.name,
           valueFormatted: formatPrice(Number(p.value!)),
           productsFormatted: formatProductName(p.productsSales),
           createdAt: formatDateHour(p.createdAt),
@@ -91,7 +92,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
-        <Col lg={10} md={12} sm={24} xs={24}>
+        <Col lg={5} md={12} sm={24} xs={24}>
           <Input
             label={'Produto'}
             placeholder="Ex.: Bola"
@@ -109,13 +110,21 @@ const List: React.FC = () => {
         </Col>
         <Col lg={5} md={6} sm={24} xs={24}>
           <Input
+            label={'Cliente'}
+            placeholder="Ex.: Thamara"
+            value={state.clientName}
+            onChange={(e) => dispatch({ clientName: e.target.value })}
+          />
+        </Col>
+        <Col lg={5} md={12} sm={24} xs={24}>
+          <Input
             label={'Obs.'}
             placeholder="Ex.: "
             value={state.note}
             onChange={(e) => dispatch({ note: e.target.value })}
           />
         </Col>
-        <Col lg={14} md={16} sm={24} xs={24}>
+        <Col lg={14} md={12} sm={24} xs={24}>
           <RangePicker
             label="Data de venda"
             value={[
@@ -158,6 +167,7 @@ const List: React.FC = () => {
           { title: 'Código', dataIndex: 'id' },
           { title: 'Produtos', dataIndex: 'productsFormatted' },
           { title: 'Valor', dataIndex: 'valueFormatted' },
+          { title: 'Cliente', dataIndex: 'clientName' },
           { title: 'Vendedor', dataIndex: 'userName' },
           { title: 'Criada em', dataIndex: 'createdAt' },
           { title: 'Alterada em', dataIndex: 'updatedAt' },

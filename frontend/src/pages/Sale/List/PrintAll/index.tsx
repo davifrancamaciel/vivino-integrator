@@ -79,6 +79,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       const itemsFormatted = rows.map((s: Sale) => ({
         ...s,
         userName: s.user!.name,
+        clientName: s.client?.name,
         products: s.productsSales.map(
           (sp: SaleProduct) =>
             `${sp.amount} ${sp.product.name} ${formatPrice(
@@ -126,9 +127,10 @@ const Print: React.FC<PropTypes> = ({ state }) => {
             <tr key={i} style={{ border: 'solid 1px #000' }}>
               <table>
                 <tr>
-                  <Td colSpan={2} title="Código" value={sale.id} />
-                  <Td colSpan={2} title="Data" value={sale.createdAt} />
+                  <Td colSpan={1} title="Código" value={sale.id} />
+                  <Td colSpan={1} title="Data" value={sale.createdAt} />
                   <Td colSpan={2} title="Vendedor" value={sale.userName} />
+                  <Td colSpan={2} title="Cliente" value={sale.clientName} />
                   <Td colSpan={2} title="Valor" value={sale.value} />
                 </tr>
                 <tr>
