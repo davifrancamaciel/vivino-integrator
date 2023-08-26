@@ -9,11 +9,7 @@ import { initialStateForm } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
 import UploadImages from 'components/UploadImages';
-import {
-  formatNumberWhithDecimalCaseOnChange,
-  formatValueWhithDecimalCaseOnChange,
-  priceToNumber
-} from 'utils/formatPrice';
+import { formatNumberWhithDecimalCaseOnChange } from 'utils/formatPrice';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
@@ -36,9 +32,7 @@ const CreateEdit: React.FC = (props: any) => {
       const resp = await api.get(`${apiRoutes.products}/${id}`);
       dispatch({
         ...resp.data,
-        price: formatNumberWhithDecimalCaseOnChange(
-          Number(resp.data?.price || 0)
-        )
+        price: formatNumberWhithDecimalCaseOnChange(resp.data?.price || 0)
       });
       if (resp.data && resp.data.image) {
         const imageArr = resp.data.image.split('/');
@@ -69,7 +63,6 @@ const CreateEdit: React.FC = (props: any) => {
       const method = type === 'update' ? 'put' : 'post';
       const result = await api[method](apiRoutes.products, {
         ...state,
-        price: priceToNumber(state.price),
         fileList
       });
       setLoading(false);
@@ -125,7 +118,7 @@ const CreateEdit: React.FC = (props: any) => {
           value={state.price}
           onChange={(e) =>
             dispatch({
-              price: formatValueWhithDecimalCaseOnChange(e.target.value)
+              price: formatNumberWhithDecimalCaseOnChange(e.target.value)
             })
           }
         />

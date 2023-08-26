@@ -42,7 +42,7 @@ const CreateEdit: React.FC = (props: any) => {
       const { UserAws } = resp.data;
 
       const itemEdit = { ...resp.data };
-      if (path === userType.USER) {
+      if (UserAws) {
         itemEdit.status = UserAws.Enabled;
         itemEdit.accessType = UserAws.Groups;
         itemEdit.resetPassword = false;
@@ -176,6 +176,8 @@ const CreateEdit: React.FC = (props: any) => {
           label={'Comissão'}
           type={'number'}
           placeholder="Ex.: 2,5"
+          max={100}
+          min={0}
           value={state.commissionMonth}
           onChange={(e) => dispatch({ commissionMonth: e.target.value })}
         />
@@ -185,6 +187,8 @@ const CreateEdit: React.FC = (props: any) => {
           label={'Melhor dia de vencimento em compras parceladas'}
           type={'number'}
           placeholder="Ex.: 5"
+          max={30}
+          min={0}
           value={state.dayMaturityFavorite}
           onChange={(e) => dispatch({ dayMaturityFavorite: e.target.value })}
         />

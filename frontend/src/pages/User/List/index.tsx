@@ -80,7 +80,7 @@ const List: React.FC = () => {
       <PanelFilter
         title={`${
           path === userType.USER ? 'Usuários' : 'Clientes'
-        }  cadastrados`}
+        } cadastrados`}
         actionButton={() => actionFilter()}
         loading={loading}
       >

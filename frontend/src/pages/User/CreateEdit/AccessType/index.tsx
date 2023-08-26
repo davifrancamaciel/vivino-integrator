@@ -30,7 +30,8 @@ const AccessType: React.FC<PropTypes> = ({
       groupSelectetd && indexArray.push(Number(groupSelectetd.key));
     });
     setSelectedRowKeysLoad(indexArray);
-  }, [groupsSelecteds]);
+    console.log(groupsSelecteds, groups)
+  }, [groupsSelecteds, groups]);
 
   const onLoad = async () => {
     try {
