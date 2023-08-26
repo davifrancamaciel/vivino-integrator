@@ -4,7 +4,7 @@ import { startOfMonth, endOfMonth } from 'date-fns';
 
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
-import { Input, RangePicker } from 'components/_inputs';
+import { Input, RangePicker, Switch } from 'components/_inputs';
 import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import { initialStateFilter, Sale, SaleProduct } from '../interfaces';
 import useFormState from 'hooks/useFormState';
@@ -124,7 +124,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ note: e.target.value })}
           />
         </Col>
-        <Col lg={14} md={12} sm={24} xs={24}>
+        <Col lg={9} md={12} sm={24} xs={24}>
           <RangePicker
             label="Data de venda"
             value={[
@@ -157,6 +157,16 @@ const List: React.FC = () => {
             type={'number'}
             value={state.valueMax}
             onChange={(e) => dispatch({ valueMax: e.target.value })}
+          />
+        </Col>
+        <Col lg={5} md={8} sm={12} xs={24}>
+          <Switch
+            label={'Exibir comissão'}
+            title="Sim / Não"
+            checked={state.showCommission}
+            checkedChildren="Sim"
+            unCheckedChildren="Não"
+            onChange={() => dispatch({ showCommission: !state.showCommission })}
           />
         </Col>
       </PanelFilter>

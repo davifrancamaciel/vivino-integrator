@@ -154,19 +154,23 @@ const Print: React.FC<PropTypes> = ({ state }) => {
             <span>
               Valor total de vendas no periodo {totalSummary.totalSales}
             </span>
-            <span>
-              Valor total de comissões dos vendedores sob as vendas em (
-              {totalCommission}%) {totalSummary.totalCommission}
-            </span>
+            {state.showCommission && (
+              <span>
+                Valor total de comissões dos vendedores sob as vendas em (
+                {totalCommission}%) {totalSummary.totalCommission}
+              </span>
+            )}
           </Summary>
         </Footer>
-        <Footer>
-          <p>
-            Obs a comissão a pagar individual de cada vendedor poderá ser vista
-            no menu de despesas a partir do dia 1º dia de cada mes referente ao
-            mes anterior
-          </p>
-        </Footer>
+        {state.showCommission && (
+          <Footer>
+            <p>
+              Obs a comissão a pagar individual de cada vendedor poderá ser
+              vista no menu de despesas a partir do dia 1º dia de cada mes
+              referente ao mes anterior
+            </p>
+          </Footer>
+        )}
       </PrintContainer>
     </>
   );

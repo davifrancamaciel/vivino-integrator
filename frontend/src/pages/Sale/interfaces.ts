@@ -52,11 +52,13 @@ export interface Filter {
   createdAtEnd?: string;
   pageNumber: number;
   pageSize: number;
+  showCommission: boolean;
 }
 
 export const initialStateFilter: Filter = {
   id: '',
   product: '',
   pageNumber: 1,
-  pageSize: 10
+  pageSize: 10,
+  showCommission: true
 };
