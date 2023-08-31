@@ -171,17 +171,19 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
 
-      <Col lg={8} md={8} sm={12} xs={24}>
-        <Input
-          label={'Comissão'}
-          type={'number'}
-          placeholder="Ex.: 2,5"
-          max={100}
-          min={0}
-          value={state.commissionMonth}
-          onChange={(e) => dispatch({ commissionMonth: e.target.value })}
-        />
-      </Col>
+      {path === userType.USER && (
+        <Col lg={8} md={8} sm={12} xs={24}>
+          <Input
+            label={'Comissão'}
+            type={'tel'}
+            placeholder="Ex.: 2,5"
+            max={100}
+            min={0}
+            value={state.commissionMonth}
+            onChange={(e) => dispatch({ commissionMonth: e.target.value })}
+          />
+        </Col>
+      )}
       <Col lg={8} md={8} sm={12} xs={24}>
         <Input
           label={'Melhor dia de vencimento em compras parceladas'}

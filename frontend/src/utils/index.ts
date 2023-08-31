@@ -33,3 +33,9 @@ export const numberWithDots = (value: number) => {
   while (pattern.test(text)) text = text.replace(pattern, '$1.$2');
   return text;
 };
+
+export const groupBy = (arr: any, prop: string) => {
+  const map = new Map(Array.from(arr, (obj: any) => [obj[prop], [] as any]));
+  arr.forEach((obj: any) => map.get(obj[prop]).push(obj));
+  return Array.from(map.values());
+};

@@ -11,6 +11,7 @@ module.exports = function (sequelize, DataTypes) {
         phone: { type: DataTypes.STRING(30) },
         type: { type: DataTypes.STRING(30) },
         dayMaturityFavorite: { type: DataTypes.INTEGER },
+        active: { type: DataTypes.BOOLEAN },
     });
    
     User.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });    

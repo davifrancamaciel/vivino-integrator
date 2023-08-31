@@ -12,8 +12,9 @@ import { Filter, Sale, SaleProduct } from '../../interfaces';
 import api from 'services/api-aws-amplify';
 import { formatDate } from 'utils/formatDate';
 import { formatPrice, priceToNumber } from 'utils/formatPrice';
-import { Footer, Summary } from './styles';
+import { Footer, Summary, UsersComission } from './styles';
 import Td from './Td';
+import { groupBy } from 'utils';
 interface PropTypes {
   state: Filter;
 }
@@ -23,15 +24,23 @@ interface ISummaryTotals {
   totalCommission: string;
 }
 
+interface ITotalsUsers {
+  name: string;
+  count: number;
+  totalValueMonth: number;
+  totalValueCommissionMonth: number;
+  commission: number;
+}
+
 const Print: React.FC<PropTypes> = ({ state }) => {
   const [filteredPeriod, setFilteredPeriod] = useState('');
   const [items, setItems] = useState<Sale[]>([]);
   const [loading, setLoading] = useState(false);
   const [print, setPrint] = useState(false);
-  const [totalCommission, setTotalCommission] = useState(0);
   const [totalSummary, setTotalSummary] = useState<ISummaryTotals>(
     {} as ISummaryTotals
   );
+  const [users, setUsers] = useState<Array<ITotalsUsers>>();
 
   useEffect(() => {
     if (state.createdAtStart && state.createdAtEnd) {
@@ -46,7 +55,8 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       (acc, r) => {
         acc.totalSales += Number(priceToNumber(r.value!.toString()));
         acc.totalCommission +=
-          Number(priceToNumber(r.value!.toString())) * (totalCommission / 100);
+          Number(priceToNumber(r.value!.toString())) *
+          (Number(r.commission) / 100);
 
         return acc;
       },
@@ -57,6 +67,37 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       totalSales: formatPrice(summary.totalSales),
       totalCommission: formatPrice(summary.totalCommission)
     });
+
+    const [fisrtSale] = items;
+    if (fisrtSale?.company?.individualCommission) {
+      const salesUser = groupBy(items, 'userId');
+      let array: Array<ITotalsUsers> = [];
+
+      salesUser.forEach((element: Array<Sale>) => {
+        const user = element.reduce(
+          (acc: ITotalsUsers, s: Sale) => {
+            acc.name = s.user?.name!;
+            acc.count = element.length;
+            acc.commission = s.commission!;
+            acc.totalValueMonth += Number(priceToNumber(s.value!.toString()));
+            acc.totalValueCommissionMonth +=
+              Number(priceToNumber(s.value!.toString())) *
+              (Number(s.commission) / 100);
+
+            return acc;
+          },
+          {
+            name: '',
+            count: 0,
+            commission: 0,
+            totalValueMonth: 0,
+            totalValueCommissionMonth: 0
+          } as ITotalsUsers
+        );
+        array.push(user);
+      });
+      setUsers(array);
+    }
   }, [items]);
 
   const actionFilter = async (
@@ -73,8 +114,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         pageSize: 1000
       });
 
-      const { count, rows, commission } = resp.data;
-      setTotalCommission(commission);
+      const { count, rows } = resp.data;
 
       const itemsFormatted = rows.map((s: Sale) => ({
         ...s,
@@ -121,7 +161,6 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         <TableReport
           image={items[0]?.company?.image || ''}
           title={`Relatorio de vendas ${filteredPeriod}`}
-          // headerList={['Código', 'Data', 'Vendedor', 'Valor', 'Obs.']}
         >
           {items.map((sale: Sale, i: number) => (
             <tr key={i} style={{ border: 'solid 1px #000' }}>
@@ -156,8 +195,8 @@ const Print: React.FC<PropTypes> = ({ state }) => {
             </span>
             {state.showCommission && (
               <span>
-                Valor total de comissões dos vendedores sob as vendas em (
-                {totalCommission}%) {totalSummary.totalCommission}
+                Valor total de comissões dos vendedores sob as vendas{' '}
+                {totalSummary.totalCommission}
               </span>
             )}
           </Summary>
@@ -171,6 +210,16 @@ const Print: React.FC<PropTypes> = ({ state }) => {
             </p>
           </Footer>
         )}
+        <UsersComission>
+          {users?.map((u: ITotalsUsers) => (
+            <p>
+              {u.name} realizou {u.count} vendas, valor total{' '}
+              {formatPrice(u.totalValueMonth)} gerando o valor de comissão{' '}
+              {formatPrice(u.totalValueCommissionMonth)} ({u.commission}%) sob o
+              valor total de vendas no mês.
+            </p>
+          ))}
+        </UsersComission>
       </PrintContainer>
     </>
   );

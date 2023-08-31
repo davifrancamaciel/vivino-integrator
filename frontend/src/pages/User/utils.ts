@@ -11,7 +11,8 @@ export const mapUser = (user: UserCognito): Users => {
     status: user.Enabled,
     userStatusText: user.UserStatus,
     type: 'USER',
-    dayMaturityFavorite: 0
+    dayMaturityFavorite: 0,
+    active: user.Enabled,
   };
 };
 

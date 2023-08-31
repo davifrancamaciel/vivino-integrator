@@ -1,15 +1,14 @@
 "use strict";
 
 const db = require('../../database');
-const { executeSelect } = require("../../services/ExecuteQueryService");
-const { format, subMonths, startOfMonth, endOfMonth } = require('date-fns');
+const { format, subMonths } = require('date-fns');
 const pt = require('date-fns/locale/pt');
 const Expense = require('../../models/Expense')(db.sequelize, db.Sequelize);
+const salesRepository = require('../../repositories/salesRepository');
 
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const formatPrice = require("../../utils/formatPrice");
 const { sendMessage } = require('../../services/AwsQueueService')
-
 
 module.exports.handler = async (event, context) => {
     try {
@@ -20,25 +19,27 @@ module.exports.handler = async (event, context) => {
 
         const { queryStringParameters } = event
         if (queryStringParameters)
-            date = new Date(queryStringParameters.dateReference)
+            date = new Date(queryStringParameters.dateReference);
 
-        const query = ` SELECT u.id, u.name, u.commissionMonth, u.companyId, u.email, c.name companyName, 
-                            (SELECT SUM(s.value) FROM sales s WHERE s.companyId = u.companyId AND s.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}') totalValueMonth,
-                            (SELECT COUNT(sc.id) FROM sales sc WHERE sc.companyId = u.companyId AND sc.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}') count
-                        FROM users u 
-                        INNER JOIN companies c ON c.id = u.companyId
-                        WHERE u.commissionMonth > 0 AND c.active = 1`;
-        const result = await executeSelect(query);
+        const result = await salesRepository.salesMonthExpenseCommission(date);
 
         let expenses = []
         result.forEach(element => {
+            let count = Number(element.count);
+            let totalValueMonth = Number(element.totalValueMonth);
+            let value = Number(element.totalValueCommissionMonth);
 
-            const value = Number(element.totalValueMonth) * (Number(element.commissionMonth) / 100);
+            if (!element.individualCommission) {
+                const sales = result.filter(x => x.companyId === element.companyId);
+                count = sum(sales, 'count');
+                value = sum(sales, 'totalValueCommissionMonth') / element.users;
+                totalValueMonth = sum(sales, 'totalValueMonth');
+            }
             const dateReference = format(date, "'mês' 'de' MMMM 'de' yyyy", {
                 locale: pt,
             });
             const title = `Comissão referente ao ${dateReference} de ${element.name}`
-            const description = `${title} sob a quantidade de ${element.count} vendas, valor total ${formatPrice(element.totalValueMonth)} gerando o valor de comissão R$ ${formatPrice(value)} (${element.commissionMonth}%) sob o valor total de vendas no mês.`;
+            const description = `${title} sob a quantidade de ${count} vendas, valor total ${formatPrice(totalValueMonth)} gerando o valor de comissão ${formatPrice(value)} (${element.commissionMonth}%) sob o valor total de vendas no mês.`;
 
             const item = {
                 expenseTypeId: 1,
@@ -77,4 +78,10 @@ module.exports.handler = async (event, context) => {
     } catch (err) {
         return await handlerErrResponse(err)
     }
+};
+
+const sum = function (items, prop) {
+    return items.reduce(function (a, b) {
+        return Number(a) + Number(b[prop]);
+    }, 0);
 };

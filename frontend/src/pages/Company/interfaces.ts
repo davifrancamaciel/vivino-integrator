@@ -8,6 +8,7 @@ export interface Company {
   updatedAt?: string;
   pixKey?: string;
   active: boolean;
+  individualCommission: boolean;
   vivinoApiIntegrationActive: boolean;
 }
 
@@ -19,6 +20,7 @@ export const initialStateForm: Company = {
   createdAt: '',
   updatedAt: '',
   active: true,
+  individualCommission: false,
   vivinoApiIntegrationActive: false
 };
 

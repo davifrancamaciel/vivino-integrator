@@ -19,3 +19,7 @@ export const Footer = styled.div`
 export const Summary = styled.div`
 	align-items: flex-end;
 `;
+
+export const UsersComission = styled.div`
+	padding: 20px 20px;
+`;

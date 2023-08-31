@@ -94,7 +94,7 @@ module.exports.list = async (event, context) => {
                 where: whereStatementClient,
                 required: whereStatementClient.name ? true : false
             }, {
-                model: Company, as: 'company', attributes: ['name', 'image'],
+                model: Company, as: 'company', attributes: ['name', 'image', 'individualCommission'],
             }]
         })
         const salesIds = rows.map(x => x.id)
@@ -106,10 +106,9 @@ module.exports.list = async (event, context) => {
         const newRows = rows.map(s => {
             const productsSales = salesProductsList.filter(sp => sp.saleId === s.id)
             return { ...s.dataValues, productsSales: productsSales.map(x => x.dataValues) }
-        })
-        const commission = await getCommision(pageSize, isAdm, user.companyId);
+        });
 
-        return handlerResponse(200, { count, rows: newRows, commission })
+        return handlerResponse(200, { count, rows: newRows })
 
     } catch (err) {
         return await handlerErrResponse(err)
@@ -187,6 +186,9 @@ module.exports.create = async (event) => {
 
         if (checkRouleProfileAccess(user.groups, roules.saleUserIdChange) && body.userId)
             objOnSave.userId = body.userId;
+
+        const [queryResult] = await executeSelect(`SELECT commissionMonth FROM users WHERE id = ${objOnSave.userId};`);
+        objOnSave.commission = queryResult.commissionMonth;
 
         const result = await Sale.create(objOnSave);
 
@@ -268,16 +270,6 @@ module.exports.delete = async (event) => {
     } catch (err) {
         return await handlerErrResponse(err, pathParameters)
     }
-}
-
-const getCommision = async (pageSize, isAdm, companyId) => {
-    let commission = 0;
-    if (Number(pageSize) === 1000) {
-        const query = `SELECT SUM(u.commissionMonth) total FROM users u WHERE u.type =  '${userType.USER}' AND u.commissionMonth > 0 ${isAdm ? '' : `AND u.companyId = '${companyId}'`}`
-        const [queryResult] = await executeSelect(query);
-        commission = Number(queryResult.total)
-    }
-    return commission
 }
 
 const createProductsSales = async (body, result, isDelete) => {

@@ -152,7 +152,8 @@ module.exports.create = async (event) => {
             name,
             companyId,
             commissionMonth: commissionMonth ? Number(commissionMonth) : 0,
-            phone, type, dayMaturityFavorite
+            phone, type, dayMaturityFavorite,
+            active: status
         }
 
         let resultNewUser = await User.create(objOnSave);
@@ -193,7 +194,7 @@ module.exports.create = async (event) => {
 
 module.exports.update = async (event) => {
     const body = JSON.parse(event.body)
-    let { resetPassword, password, name, status, accessType, companyId, phone, type, dayMaturityFavorite } = body;
+    let { resetPassword, password, name, status, accessType, companyId, type } = body;
     try {
         const user = await getUser(event)
 
@@ -217,7 +218,7 @@ module.exports.update = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
-        const resultUserDb = await item.update(body);
+        const resultUserDb = await item.update({ ...body, active: status });
         console.log('PARA ', resultUserDb.dataValues)
         if (type === userType.USER) {
             const groups = await cognitoRequest(cognito.adminListGroupsForUser, { Username: item.email })
@@ -284,7 +285,7 @@ module.exports.delete = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
         await User.destroy({ where: { id } });
-        
+
         if (userInDb.type === userType.USER) {
             const item = await findUserById(userInDb.userAWSId)
             if (item) {

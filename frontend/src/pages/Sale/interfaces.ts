@@ -26,6 +26,7 @@ export interface Sale {
   products: Product[];
   productsSales: SaleProduct[];
   value?: number;
+  commission?: number;
   note?: string;
   userId?: string;
   clientId?: string;

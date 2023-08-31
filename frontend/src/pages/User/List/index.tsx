@@ -15,6 +15,7 @@ import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import ShowByRoule from 'components/ShowByRoule';
+import BooleanTag from 'components/BooleanTag';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -46,6 +47,7 @@ const List: React.FC = () => {
 
       const dataItemsFormatted = rows.map((item: Users) => ({
         ...item,
+        active: <BooleanTag value={item.active} />,
         deleteName: `${item.name} da empresa ${item.company?.name}`,
         companyName: item.company?.name,
         createdAt: formatDateHour(item.createdAt),
@@ -119,6 +121,7 @@ const List: React.FC = () => {
           { title: 'Empresa', dataIndex: 'companyName' },
           { title: 'Nome', dataIndex: 'name' },
           { title: 'Email', dataIndex: 'email' },
+          { title: 'Ativo', dataIndex: 'active' },
           { title: 'Criado em', dataIndex: 'createdAt' },
           { title: 'Alterado em', dataIndex: 'updatedAt' }
         ]}

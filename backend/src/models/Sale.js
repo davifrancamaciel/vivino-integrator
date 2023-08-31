@@ -17,6 +17,7 @@ module.exports = function (sequelize, DataTypes) {
         note: { type: DataTypes.STRING(500) },
         value: { type: DataTypes.DECIMAL },
         companyId: { type: DataTypes.UUID },
+        commission: { type: DataTypes.DECIMAL },
     });
 
     Sale.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });

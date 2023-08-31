@@ -5,6 +5,8 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect } = require("../../services/ExecuteQueryService");
 const { roules } = require("../../utils/defaultValues");
+const salesRepository = require('../../repositories/salesRepository')
+
 
 module.exports.cards = async (event, context) => {
     try {
@@ -20,7 +22,8 @@ module.exports.cards = async (event, context) => {
             winesSalesDay: { count: 0, },
             winesSalesMonth: { count: 0, },
             winesSalesMonthValue: { total: 0, },
-            sales: { count: 0, commissionMonth: 0, totalValueMonth: 0, commissionUser: 0, }
+            sales: { count: 0, totalValueCommissionMonth: 0, totalValueMonth: 0, users: 0 },
+            user: { count: 0, totalValueCommissionMonth: 0, totalValueMonth: 0, users: 0 }
         }
 
         let isAdm = checkRouleProfileAccess(user.groups, roules.administrator);
@@ -37,8 +40,15 @@ module.exports.cards = async (event, context) => {
             data.winesSalesMonthValue = await winesSalesMonthValue(date, isAdm, user)
         }
 
-        if (checkRouleProfileAccess(user.groups, roules.sales))
-            data.sales = await salesMonth(date, isAdm, user)
+        if (checkRouleProfileAccess(user.groups, roules.sales)) {
+            data.sales = await salesRepository.salesMonthDashboard(date, isAdm, user, false)
+            const query = `SELECT id FROM companies WHERE id = '${user.companyId}' AND individualCommission = true`;
+            const [individualCommission] = await executeSelect(query);
+            if (individualCommission)
+                data.user = await salesRepository.salesMonthDashboard(date, isAdm, user, true);
+            else
+                data.user = data.sales;
+        }
 
         if (checkRouleProfileAccess(user.groups, roules.expenses))
             data.expenses = await expensesMonth(date, isAdm, user)
@@ -72,32 +82,15 @@ module.exports.productGraphBar = async (event, context) => {
     }
 };
 
-
-const salesMonth = async (date, isAdm, user) => {
-    const commission = `(SELECT SUM(u.commissionMonth) FROM users u WHERE u.commissionMonth > 0 ${isAdm ? '' : `AND u.companyId = '${user.companyId}'`})`
-    const commissionUser = `(SELECT c.commissionMonth FROM users c WHERE c.id = ${user.userId})`;
-    const query = ` SELECT 
-                        COUNT(s.id) count, 
-                        SUM(s.value) totalValueMonth, 
-                        ${commission} commissionMonth, 
-                        ${commissionUser} commissionUser 
-                    FROM sales s 
-                    WHERE s.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}' 
-                    ${isAdm ? '' : `AND s.companyId = '${user.companyId}'`}`
-    const [result] = await executeSelect(query);
-    return result
-}
-
 const expensesMonth = async (date, isAdm, user) => {
     const query = ` SELECT COUNT(e.id) count, SUM(e.value) totalValueMonth FROM expenses e 
                     WHERE e.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}' 
-                    ${isAdm ? '' : `AND e.companyId = '${user.companyId}'`}`
+                    AND e.saleId IS NULL ${isAdm ? '' : `AND e.companyId = '${user.companyId}'`}`
     const [result] = await executeSelect(query);
     return result
 }
 
 const winesActive = async (isAdm, user) => {
-
     const query = ` SELECT COUNT(id) count FROM wines 
                     WHERE  active = true AND 
                            inventoryCount > 0 AND 

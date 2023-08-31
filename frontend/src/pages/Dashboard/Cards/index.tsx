@@ -75,13 +75,14 @@ const Cards: React.FC = () => {
   };
 
   const handleCardSaleCommision = (cards: CardsReuslt) => {
-    const { totalValueMonth, commissionMonth, count } = cards?.sales;
+    const { totalValueMonth, totalValueCommissionMonth, count } = cards?.sales;
+    const commission = (totalValueCommissionMonth / totalValueMonth) * 100;
     return {
       loading,
-      value: formatPrice(totalValueMonth * (commissionMonth / 100)),
+      value: formatPrice(totalValueCommissionMonth),
       color: systemColors.YELLOW,
       text: `Commissão a pagar de ${
-        commissionMonth ?? 0
+        commission ? parseFloat(commission.toString()).toFixed(2) : 0
       }% sob ${count} vendas no mês seguinte`,
       icon: <ArrowDownOutlined />,
       url: `${appRoutes.sales}`
@@ -89,12 +90,16 @@ const Cards: React.FC = () => {
   };
 
   const handleCardSaleCommisionUser = (cards: CardsReuslt) => {
-    const { totalValueMonth, commissionUser } = cards?.sales;
+    const { totalValueMonth, totalValueCommissionMonth, count, users } =
+      cards?.user;
+    const commission = (totalValueCommissionMonth / totalValueMonth) * 100;
     return {
       loading,
-      value: formatPrice(totalValueMonth! * (commissionUser! / 100)),
+      value: formatPrice((totalValueCommissionMonth / users) | 0),
       color: systemColors.BLUE,
-      text: `Minha commissão a receber de ${commissionUser}% no mês seguinte`,
+      text: `Minha commissão sob ${count} vendas a receber de ${
+        commission ? parseFloat(commission.toString()).toFixed(2) : 0
+      }% no mês seguinte`,
       icon: <ArrowUpOutlined />,
       url: `${appRoutes.sales}/my-commisions`
     } as CardPropTypes;

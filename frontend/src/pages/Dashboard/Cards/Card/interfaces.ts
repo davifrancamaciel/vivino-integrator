@@ -4,7 +4,7 @@ export interface CardPropTypes {
   url: string;
   value: string;
   color?: string;
-  icon?: any;  
+  icon?: any;
 }
 export interface CardsReuslt {
   winesActive: { count: number };
@@ -14,9 +14,15 @@ export interface CardsReuslt {
   winesSalesMonthValue: { total: number };
   sales: {
     count: number;
-    commissionMonth: number;
+    totalValueCommissionMonth: number;
     totalValueMonth: number;
-    commissionUser: number;
+    users: number;
+  };
+  user: {
+    count: number;
+    totalValueCommissionMonth: number;
+    totalValueMonth: number;
+    users: number;
   };
   expenses: {
     count: number;
@@ -32,9 +38,15 @@ export const initialStateCards: CardsReuslt = {
   winesSalesMonthValue: { total: 0 },
   sales: {
     count: 0,
-    commissionMonth: 0,
+    totalValueCommissionMonth: 0,
     totalValueMonth: 0,
-    commissionUser: 0
+    users: 0
+  },
+  user: {
+    count: 0,
+    totalValueCommissionMonth: 0,
+    totalValueMonth: 0,
+    users: 0
   },
   expenses: {
     count: 0,

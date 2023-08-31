@@ -128,7 +128,17 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={() => dispatch({ active: !state.active })}
         />
       </Col>
-      <Col lg={12} md={8} sm={24} xs={24}>
+      <Col lg={4} md={8} sm={24} xs={24}>
+        <Switch
+          label={'Comissão individual'}
+          title="Não / Sim"
+          checked={state.individualCommission}
+          checkedChildren="Sim"
+          unCheckedChildren="Não"
+          onChange={() => dispatch({ individualCommission: !state.individualCommission })}
+        />
+      </Col>
+      <Col lg={8} md={8} sm={24} xs={24}>
         <Switch
           label={'Integação com API de vendas vivino'}
           title="Não / Sim"

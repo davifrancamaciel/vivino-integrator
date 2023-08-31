@@ -9,6 +9,7 @@ export interface Users {
   accessType?: string[];
   accessTypeText?: string;
   status: boolean;
+  active: boolean;
   password?: string;
   statusText?: any;
   userStatusText?: any;
@@ -27,6 +28,7 @@ export const initialStateForm: Users = {
   email: '',
   accessType: [],
   status: true,
+  active: true,
   password: '',
   type: 'USER',
   dayMaturityFavorite: 0
