@@ -44,7 +44,7 @@ module.exports.cards = async (event, context) => {
             data.sales = await salesRepository.salesMonthDashboard(date, isAdm, user, false)
             const query = `SELECT id FROM companies WHERE id = '${user.companyId}' AND individualCommission = true`;
             const [individualCommission] = await executeSelect(query);
-            if (individualCommission)
+            if (individualCommission || isAdm)
                 data.user = await salesRepository.salesMonthDashboard(date, isAdm, user, true);
             else
                 data.user = data.sales;

@@ -79,8 +79,6 @@ const List: React.FC = () => {
         <Col lg={12} md={12} sm={24} xs={24}>
           <Input
             label={'Código'}
-            type={'number'}
-            placeholder="Ex.: 100"
             value={state.id}
             onChange={(e) => dispatch({ id: e.target.value })}
           />

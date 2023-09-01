@@ -16,7 +16,7 @@ const readMessageRecursive = async (messages, position, callback) => {
 
         return result;
     } catch (error) {
-        console.log('error ', error);
+        console.error(error);
         throw new Error('readMessageRecursive Não foi possível executar este item da fila');
     }
 }

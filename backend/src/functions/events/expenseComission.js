@@ -15,7 +15,6 @@ module.exports.handler = async (event, context) => {
         context.callbackWaitsForEmptyEventLoop = false;
 
         let date = subMonths(new Date(), 1);
-        const link = 'http://services-integrator-prod.s3-website-us-east-1.amazonaws.com'
 
         const { queryStringParameters } = event
         if (queryStringParameters)
@@ -25,9 +24,10 @@ module.exports.handler = async (event, context) => {
 
         let expenses = []
         result.forEach(element => {
+
             let count = Number(element.count);
-            let totalValueMonth = Number(element.totalValueMonth);
             let value = Number(element.totalValueCommissionMonth);
+            let totalValueMonth = Number(element.totalValueMonth);
 
             if (!element.individualCommission) {
                 const sales = result.filter(x => x.companyId === element.companyId);
@@ -35,9 +35,8 @@ module.exports.handler = async (event, context) => {
                 value = sum(sales, 'totalValueCommissionMonth') / element.users;
                 totalValueMonth = sum(sales, 'totalValueMonth');
             }
-            const dateReference = format(date, "'mês' 'de' MMMM 'de' yyyy", {
-                locale: pt,
-            });
+
+            const dateReference = format(date, "'mês' 'de' MMMM 'de' yyyy", { locale: pt });
             const title = `Comissão referente ao ${dateReference} de ${element.name}`
             const description = `${title} sob a quantidade de ${count} vendas, valor total ${formatPrice(totalValueMonth)} gerando o valor de comissão ${formatPrice(value)} (${element.commissionMonth}%) sob o valor total de vendas no mês.`;
 
@@ -55,30 +54,40 @@ module.exports.handler = async (event, context) => {
                 email: element.email,
                 companyName: element.companyName
             }
+
             if (value)
                 expenses.push(item)
         });
+
         await Expense.bulkCreate(expenses);
 
-        for (let i = 0; i < expenses.length; i++) {
-            const element = expenses[i];
-
-            const companyName = element.companyName;
-            const to = ['davifrancamaciel@gmail.com', element.email]
-            const subject = element.title.replace(` de ${element.name}`, '')
-            const body = `  <div style='padding:50px'>
-                                <p>Olá, ${element.name}</p>
-                                <p>${element.description.replace(` de ${element.name}`, '')}</p> 
-                                <p>Clique <a href="${link}/sales/my-commisions" target="_blank">aqui</a> e veja todas as comissões</p>                               
-                            </div>`
-            await sendMessage('send-email-queue', { to, subject, body, companyName });
-        }
+        await sendEmails(expenses);
 
         return handlerResponse(200, { expenses, result }, 'Comissões geradas com sucesso')
     } catch (err) {
         return await handlerErrResponse(err)
     }
 };
+
+const sendEmails = async (expenses) => {
+    const { STAGE } = process.env;
+    const link = 'http://services-integrator-prod.s3-website-us-east-1.amazonaws.com';
+    const emailAdm = 'davifrancamaciel@gmail.com';
+
+    for (let i = 0; i < expenses.length; i++) {
+        const element = expenses[i];
+
+        const companyName = element.companyName;
+        const to = STAGE === 'dev' ? [emailAdm] : [emailAdm, element.email]
+        const subject = element.title.replace(` de ${element.name}`, '')
+        const body = `  <div style='padding:50px'>
+                            <p>Olá, ${element.name}</p>
+                            <p>${element.description.replace(` de ${element.name}`, '')}</p> 
+                            <p>Clique <a href="${link}/sales/my-commisions" target="_blank">aqui</a> e veja todas as comissões</p>                               
+                        </div>`
+        await sendMessage('send-email-queue', { to, subject, body, companyName });
+    }
+}
 
 const sum = function (items, prop) {
     return items.reduce(function (a, b) {
