@@ -90,10 +90,9 @@ module.exports.sales = async (event, context) => {
                 headers: { 'Authorization': `Bearer ${element.vivinoAuthToken}` }
             };
 
+            let itemsProducts = [], sales = [];
             const { data } = await axios(config);
             response = data;
-            let itemsProducts = [], sales = [];
-
 
             if (data) {
 
@@ -108,22 +107,24 @@ module.exports.sales = async (event, context) => {
                         const saleDate = new Date(created_at)
                         console.log(`${id} DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
 
-                        sales.push({
-                            companyId,
-                            code: id,
-                            value: element.items_total_sum,
-                            sale: JSON.stringify(element),
-                            saleDate
-                        });
+                        const sale = {
+                            id: element.id,                            
+                            user: element.user,
+                            source: element.source,
+                            billing: element.billing,
+                            shipping: element.shipping,
+                            created_at: element.created_at,
+                            confirmed_at: element.confirmed_at,
+                            authorized_at: element.authorized_at,
+                            items_total_sum: element.items_total_sum,
+                            items_units_sum: element.items_units_sum,
+                            items: element.items.map(prod => ({ ...prod, "price-listing": null })),
+                        };
+
+                        sales.push({ companyId, code: id, value: element.items_total_sum, sale: JSON.stringify(sale), saleDate });
 
                         items && items.forEach(elementItem => itemsProducts.push({
-                            sale: {
-                                id,
-                                created_at,
-                                unit_count: elementItem.unit_count,
-                                user
-                            },
-                            ...elementItem
+                            sale: { id, created_at, unit_count: elementItem.unit_count, user }, ...elementItem
                         }));
                     } else {
                         console.warn(`${id} JÁ FOI IMPORTADA created_at ${created_at} confirmed_at ${confirmed_at}`)
@@ -135,16 +136,12 @@ module.exports.sales = async (event, context) => {
             const productsSales = itemsProductsGroupBySku.map(list => {
                 const [product] = list
                 const sales = list.map(x => x.sale)
-                return {
-                    id: product.sku,
-                    total: sum(list, 'unit_count'),
-                    sales
-                }
+                return { id: product.sku, total: sum(list, 'unit_count'), sales }
             });
-            console.log(data);
 
-            console.log(`${data?.length} VENDAS ENCONTRADAS`)
-            console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS`)
+            console.log(data);
+            console.log(`${data?.length} VENDAS ENCONTRADAS`);
+            console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS`);
 
             queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales };
             if (productsSales.length)
