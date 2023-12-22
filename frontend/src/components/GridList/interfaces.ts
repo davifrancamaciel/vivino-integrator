@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 import { TableProps, TableColumnType } from 'antd';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
 export interface Routes {
   routeCreate?: string;
   routeUpdate?: any;
   routeView?: string;
-  routeDelete?: string;  
+  routeDelete?: string;
 }
 
 export interface PropTypes extends TableProps<any> {
@@ -21,5 +22,7 @@ export interface PropTypes extends TableProps<any> {
   textBtnCreate?: string;
   propTexObjOndelete?: string;
   hidePagination?: boolean;
+  hidetotalRecords?: boolean;
   headerChildren?: ReactNode;
+  size?: SizeType;
 }

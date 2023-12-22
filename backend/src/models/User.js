@@ -1,5 +1,6 @@
 const db = require('../database');
 const Company = require('./Company')(db.sequelize, db.Sequelize);
+// const WineSaleUser = require('./WineSaleUser')(db.sequelize, db.Sequelize);
 
 module.exports = function (sequelize, DataTypes) {
     const User = sequelize.define('users', {
@@ -15,6 +16,6 @@ module.exports = function (sequelize, DataTypes) {
     });
    
     User.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });    
-    
+    // User.hasMany(WineSaleUser, { foreignKey: 'userId', as: 'wineSaleUsers' })
     return User;
 };

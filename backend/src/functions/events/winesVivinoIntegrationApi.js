@@ -7,7 +7,7 @@ const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
 const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
-
+const UserClientWineService = require('../../services/UserClientWineService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 
 module.exports.auth = async (event, context) => {
@@ -63,7 +63,7 @@ module.exports.sales = async (event, context) => {
 
     try {
         context.callbackWaitsForEmptyEventLoop = false;
-
+      
         const status = 'Confirmed', limit = 2000;
 
         const { queryStringParameters } = event
@@ -108,7 +108,7 @@ module.exports.sales = async (event, context) => {
                         console.log(`${id} DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
 
                         const sale = {
-                            id: element.id,                            
+                            id: element.id,
                             user: element.user,
                             source: element.source,
                             billing: element.billing,
@@ -147,8 +147,10 @@ module.exports.sales = async (event, context) => {
             if (productsSales.length)
                 await sendMessage('wines-sales-update-queue', queueObj);
 
-            if (sales.length)
+            if (sales.length) {
                 await WineSale.bulkCreate(sales)
+                await UserClientWineService.addClientBySale(sales)
+            }
         }
 
         return handlerResponse(200, { queueObj, response }, 'Vendas obtidas com sucesso')

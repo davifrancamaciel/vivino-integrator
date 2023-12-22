@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Col, Tag } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
@@ -10,35 +11,50 @@ import {
   systemColors,
   userType
 } from 'utils/defaultValues';
-import { initialStateFilter, Users } from '../interfaces';
+import { initialStateFilter, Users, WineSaleUser } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
 import ShowByRoule from 'components/ShowByRoule';
 import BooleanTag from 'components/BooleanTag';
+import { useAppContext } from 'hooks/contextLib';
+import { checkRouleProfileAccess } from 'utils/checkRouleProfileAccess';
+import ExportCSV from './Export';
+import { useQuery } from 'hooks/queryString';
+import WhatsApp from 'components/WhatsApp';
 
 const List: React.FC = () => {
+  const query = useQuery();
+  const { userAuthenticated } = useAppContext();
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<Users[]>([]);
   const [loading, setLoading] = useState(false);
   const [path, setPath] = useState(userType.USER);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [groups, setGroups] = useState<string[]>([]);
 
   useEffect(() => {
+    const { signInUserSession } = userAuthenticated;
+    setGroups(signInUserSession.accessToken.payload['cognito:groups']);
     setPath(
       window.location.pathname.includes(appRoutes.clients)
         ? userType.CLIENT
         : userType.USER
     );
-    actionFilter();
+    actionFilter(1, query.get('email') || undefined);
   }, []);
 
-  const actionFilter = async (pageNumber: number = 1) => {
+  const actionFilter = async (
+    pageNumber: number = 1,
+    email: string = state.email
+  ) => {
     setLoading(true);
+    dispatch({ pageNumber, email });
     try {
       const resp = await api.get(apiRoutes.users, {
         ...state,
         pageNumber,
+        email,
         type: window.location.pathname.includes(appRoutes.clients)
           ? userType.CLIENT
           : userType.USER
@@ -47,12 +63,28 @@ const List: React.FC = () => {
 
       const dataItemsFormatted = rows.map((item: Users) => ({
         ...item,
+        email: item.wineSaleUsers?.length ? (
+          <Link to={`/wines/sales?sale=${item.email}`}>{item.email}</Link>
+        ) : (
+          item.email
+        ),
+        name: item.wineSaleUsers?.length ? (
+          <Link to={`/wines/sales?sale=${item.name}`}>{item.name}</Link>
+        ) : (
+          item.name
+        ),
+        phone: <WhatsApp phone={item.phone} />,
         active: <BooleanTag value={item.active} />,
         deleteName: `${item.name} da empresa ${item.company?.name}`,
         companyName: item.company?.name,
         createdAt: formatDateHour(item.createdAt),
         updatedAt: formatDateHour(item.updatedAt),
-        accessTypeText: accessTypeTags(item.accessTypeText)
+        expandable: item.wineSaleUsers?.length ? (
+          <div>
+            <p>Clique no código para ver a venda</p>
+            {salesTags(item.wineSaleUsers)}
+          </div>
+        ) : undefined
       }));
       dispatch({ pageNumber });
       setItems(dataItemsFormatted);
@@ -63,20 +95,18 @@ const List: React.FC = () => {
     }
   };
 
-  const accessTypeTags = (accessType?: string) => {
-    if (!accessType)
-      return (
-        <Tag color={systemColors.ORANGE}>Nenhuma permissão foi concedida</Tag>
-      );
-    if (accessType.includes(',')) {
-      const array = accessType.split(',');
-      return array.map((item: string) => (
-        <Tag style={{ margin: '3px' }} color={systemColors.LIGHT_BLUE}>
-          {item}
-        </Tag>
+  const salesTags = (wineSaleUsers?: WineSaleUser[]) => {
+    if (wineSaleUsers) {
+      return wineSaleUsers.map((item: WineSaleUser) => (
+        <Link to={`/wines/sales?code=${item.code}`} target={'_blank'}>
+          <Tag style={{ margin: '3px' }} color={systemColors.LIGHT_BLUE}>
+            {item.code}
+          </Tag>
+        </Link>
       ));
-    } else return <Tag color={systemColors.LIGHT_BLUE}>{accessType}</Tag>;
+    }
   };
+
   return (
     <div>
       <PanelFilter
@@ -116,11 +146,19 @@ const List: React.FC = () => {
       </PanelFilter>
       <GridList
         scroll={{ x: 600 }}
+        headerChildren={<ExportCSV {...state} />}
         columns={[
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Empresa', dataIndex: 'companyName' },
           { title: 'Nome', dataIndex: 'name' },
           { title: 'Email', dataIndex: 'email' },
+          {
+            title: checkRouleProfileAccess(groups, roules.administrator)
+              ? 'Empresa'
+              : 'Telefone',
+            dataIndex: checkRouleProfileAccess(groups, roules.administrator)
+              ? 'companyName'
+              : 'phone'
+          },
           { title: 'Ativo', dataIndex: 'active' },
           { title: 'Criado em', dataIndex: 'createdAt' },
           { title: 'Alterado em', dataIndex: 'updatedAt' }

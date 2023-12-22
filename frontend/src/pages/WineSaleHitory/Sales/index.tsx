@@ -21,8 +21,16 @@ const Sales: React.FC<PropTypes> = (props) => {
   useEffect(() => {
     const itemsFormatted = props.sales.map((histo: WineSale) => ({
       ...histo,
-      userName: histo.user.alias,
-      email: histo.user.email,
+      userName: (
+        <Link to={`/clients?email=${histo.user.email}`}>
+          {histo.user.alias}
+        </Link>
+      ),
+      email: (
+        <Link to={`/clients?email=${histo.user.email}`}>
+          {histo.user.email}
+        </Link>
+      ),
       code: <Link to={`/wines/sales?code=${histo.id}`}>{histo.id}</Link>,
       image: (
         <div style={{ display: 'flex', justifyContent: 'center' }}>

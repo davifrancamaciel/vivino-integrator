@@ -1,6 +1,11 @@
 import { Company } from './../Company/interfaces';
+
+export interface WineSaleUser {
+  code: string;
+}
 export interface Users {
   company?: Company;
+  wineSaleUsers?: WineSaleUser[];
   id?: string;
   companyId?: string;
   name: string;

@@ -10,6 +10,7 @@ const { findUserById, getUser, checkRouleProfileAccess, mapUser } = require('../
 const { roules, cognito, userType } = require("../../utils/defaultValues");
 const User = require('../../models/User')(db.sequelize, db.Sequelize);
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
+const WineSaleUser = require('../../models/WineSaleUser')(db.sequelize, db.Sequelize);
 
 const RESOURCE_NAME = 'Usuário'
 
@@ -66,7 +67,7 @@ module.exports.list = async (event) => {
             where: whereStatement,
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * Number(pageSize),
-            order: [['id', 'DESC']],
+            order: Number(pageSize) === 500 ? [['name', 'ASC']] : [['id', 'DESC']],
             include: [
                 {
                     model: Company,
@@ -76,6 +77,18 @@ module.exports.list = async (event) => {
                 }]
         })
 
+        if (checkRouleProfileAccess(user.groups, roules.wines)) {
+            const usersIds = rows.map(x => x.id)
+            const wineSaleUsersList = await WineSaleUser.findAll({
+                where: { userId: { [Op.in]: usersIds } },
+                attributes: ['code', 'userId'],
+            })
+            const newRows = rows.map(s => {
+                const wineSaleUsers = wineSaleUsersList.filter(sp => sp.userId === s.id)
+                return { ...s.dataValues, wineSaleUsers: wineSaleUsers.map(x => x.dataValues) }
+            });
+            return handlerResponse(200, { count, rows: newRows })
+        }
         return handlerResponse(200, { count, rows })
     } catch (err) {
         return await handlerErrResponse(err, queryStringParameters)

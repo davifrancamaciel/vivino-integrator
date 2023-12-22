@@ -170,31 +170,32 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ phone: e.target.value })}
         />
       </Col>
-
-      {path === userType.USER && (
+      <ShowByRoule roule={roules.sales}>
+        {path === userType.USER && (
+          <Col lg={8} md={8} sm={12} xs={24}>
+            <Input
+              label={'Comissão'}
+              type={'tel'}
+              placeholder="Ex.: 2,5"
+              max={100}
+              min={0}
+              value={state.commissionMonth}
+              onChange={(e) => dispatch({ commissionMonth: e.target.value })}
+            />
+          </Col>
+        )}
         <Col lg={8} md={8} sm={12} xs={24}>
           <Input
-            label={'Comissão'}
-            type={'tel'}
-            placeholder="Ex.: 2,5"
-            max={100}
+            label={'Melhor dia de vencimento em compras parceladas'}
+            type={'number'}
+            placeholder="Ex.: 5"
+            max={30}
             min={0}
-            value={state.commissionMonth}
-            onChange={(e) => dispatch({ commissionMonth: e.target.value })}
+            value={state.dayMaturityFavorite}
+            onChange={(e) => dispatch({ dayMaturityFavorite: e.target.value })}
           />
         </Col>
-      )}
-      <Col lg={8} md={8} sm={12} xs={24}>
-        <Input
-          label={'Melhor dia de vencimento em compras parceladas'}
-          type={'number'}
-          placeholder="Ex.: 5"
-          max={30}
-          min={0}
-          value={state.dayMaturityFavorite}
-          onChange={(e) => dispatch({ dayMaturityFavorite: e.target.value })}
-        />
-      </Col>
+      </ShowByRoule>
       {path === userType.USER && (
         <>
           <Col lg={8} md={8} sm={12} xs={24}>

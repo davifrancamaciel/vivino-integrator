@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Col, Divider, Image, Modal, Row } from 'antd';
 import { EditOutlined, CloseSquareOutlined } from '@ant-design/icons';
 
@@ -8,6 +9,7 @@ import GridList from 'components/GridList';
 import { formatDateHour } from 'utils/formatDate';
 import ViewData from 'components/ViewData';
 import { formatPrice } from 'utils/formatPrice';
+import WhatsApp from 'components/WhatsApp';
 
 interface PropTypes {
   sale?: SaleVivino;
@@ -40,7 +42,9 @@ const Sales: React.FC<PropTypes> = (props) => {
     if (props.sale?.items?.length) {
       const itemsFormmated = props.sale?.items.map((x: any) => ({
         ...x,
-        sku: (
+        sku: x.sku.includes('VD') ? (
+          x.sku
+        ) : (
           <a
             target={'_blank'}
             href={`${window.location.origin}/wines/details/${x.sku}`}
@@ -50,7 +54,7 @@ const Sales: React.FC<PropTypes> = (props) => {
         ),
         image: (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Image style={{ height: '60px' }} src={x?.image?.location} />
+            <Image style={{ height: '30px' }} src={x?.image?.location} />
           </div>
         ),
         unit_price: formatPrice(x.unit_price),
@@ -95,7 +99,14 @@ const Sales: React.FC<PropTypes> = (props) => {
         </Col>
 
         <Col lg={5} md={12} sm={24} xs={24}>
-          <ViewData label="Cliente" value={props.sale?.user?.alias} />
+          <ViewData
+            label="Cliente"
+            value={
+              <Link to={`/clients?email=${props.sale?.user?.email}`}>
+                {props.sale?.user?.alias}
+              </Link>
+            }
+          />
         </Col>
         <Col lg={5} md={12} sm={24} xs={24}>
           <ViewData label="Origem da venda" value={props.sale?.source} />
@@ -126,14 +137,12 @@ const Sales: React.FC<PropTypes> = (props) => {
           />
         </Col>
         <Col lg={6} md={12} sm={24} xs={24}>
-          <ViewData
-            label="Data da importação"
-            value={sale?.createdAt}
-          />
+          <ViewData label="Data da importação" value={sale?.createdAt} />
         </Col>
       </Row>
       <GridList
         scroll={{ x: 840 }}
+        size="small"
         columns={[
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'sku' },
@@ -156,7 +165,7 @@ const Sales: React.FC<PropTypes> = (props) => {
         <Col lg={4} md={12} sm={24} xs={24}>
           <ViewData
             label="Telefone"
-            value={props.sale?.shipping?.address?.phone}
+            value={<WhatsApp phone={props.sale?.shipping?.address?.phone} />}
           />
         </Col>
         <Col lg={4} md={12} sm={24} xs={24}>
@@ -215,7 +224,9 @@ const Sales: React.FC<PropTypes> = (props) => {
         <Col lg={4} md={12} sm={24} xs={24}>
           <ViewData
             label="Telefone"
-            value={props.sale?.shipping?.full_address?.phone}
+            value={
+              <WhatsApp phone={props.sale?.shipping?.full_address?.phone} />
+            }
           />
         </Col>
         <Col lg={4} md={12} sm={24} xs={24}>
@@ -274,7 +285,7 @@ const Sales: React.FC<PropTypes> = (props) => {
         <Col lg={4} md={12} sm={24} xs={24}>
           <ViewData
             label="Telefone"
-            value={props.sale?.billing?.address?.phone}
+            value={<WhatsApp phone={props.sale?.billing?.address?.phone} />}
           />
         </Col>
         <Col lg={4} md={12} sm={24} xs={24}>
@@ -330,7 +341,9 @@ const Sales: React.FC<PropTypes> = (props) => {
         <Col lg={4} md={12} sm={24} xs={24}>
           <ViewData
             label="Telefone"
-            value={props.sale?.billing?.full_address?.phone}
+            value={
+              <WhatsApp phone={props.sale?.billing?.full_address?.phone} />
+            }
           />
         </Col>
         <Col lg={4} md={12} sm={24} xs={24}>

@@ -36,7 +36,7 @@ const UrlFeed: React.FC = () => {
     );
   };
   return (
-    <Row>
+    <Row style={{ marginBottom: '15px' }}>
       <Col lg={24} md={24} sm={24} xs={24}>
         <Input.Group compact>
           <Input

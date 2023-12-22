@@ -13,6 +13,7 @@ import moment from 'moment';
 import Sales from '../Sales';
 import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
+import { Link } from 'react-router-dom';
 
 const List: React.FC = () => {
   const query = useQuery();
@@ -24,28 +25,38 @@ const List: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    actionFilter(1, query.get('code') || undefined);
+    actionFilter(
+      1,
+      query.get('code') || undefined,
+      query.get('sale') || undefined
+    );
   }, []);
 
   const actionFilter = async (
     pageNumber: number = 1,
-    code: string = state.code
+    code: string = state.code,
+    sale: string = state.sale
   ) => {
     try {
-      dispatch({ pageNumber, code });
+      dispatch({ pageNumber, code, sale });
 
       setLoading(true);
       const resp = await api.get(`${apiRoutes.wines}/sales`, {
         ...state,
         pageNumber,
-        code
+        code,
+        sale
       });
       setLoading(false);
 
       const { count, rows } = resp.data;
       const itemsFormatted = rows.map((sale: any) => ({
         ...sale,
-        user: sale.saleFormatted.user.alias,
+        user: (
+          <Link to={`/clients?email=${sale.saleFormatted?.user?.email}`}>
+            {sale.saleFormatted?.user?.alias}
+          </Link>
+        ),
         image: (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Image
@@ -77,7 +88,8 @@ const List: React.FC = () => {
               />
             </Tooltip>
           </div>
-        )
+        ),
+        expandable: handleExpandable(sale)
       }));
       setItems(itemsFormatted);
       console.log(itemsFormatted);
@@ -91,6 +103,43 @@ const List: React.FC = () => {
   const handleView = (sale: SaleVivino) => {
     setVisible(true);
     setSale(sale);
+  };
+
+  const handleExpandable = (sale: any) => {
+    return (
+      <GridList
+        scroll={{ x: 840 }}
+        size="small"
+        columns={[
+          { title: 'Imagem', dataIndex: 'image' },
+          { title: 'Código', dataIndex: 'sku' },
+          { title: 'Vinho', dataIndex: 'description' },
+          { title: 'Preço unitário', dataIndex: 'unit_price' },
+          { title: 'Quantidade', dataIndex: 'unit_count' },
+          { title: 'Preço total', dataIndex: 'total_amount' }
+        ]}
+        dataSource={sale.saleFormatted.items.map((x: any) => ({
+          ...x,
+          sku: x.sku.includes('VD') ? (
+            x.sku
+          ) : (
+            <Link to={`/wines/details/${x.sku}`}>{x.sku}</Link>
+          ),
+          image: (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Image style={{ height: '30px' }} src={x?.image?.location} />
+            </div>
+          ),
+          unit_price: formatPrice(x.unit_price),
+          total_amount: formatPrice(x.total_amount)
+        }))}
+        totalRecords={sale.saleFormatted.items.length}
+        hidetotalRecords={true}
+        pageSize={sale.saleFormatted.items.length}
+        loading={false}
+        routes={{}}
+      />
+    );
   };
 
   return (

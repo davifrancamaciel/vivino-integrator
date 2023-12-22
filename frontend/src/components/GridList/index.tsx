@@ -24,7 +24,9 @@ const Index: React.FC<PropTypes> = (props) => {
 
   const header = (
     <Header>
-      <span>Total {numberWithDots(props.totalRecords || 0)}</span>
+      {!props.hidetotalRecords && (
+        <span>Total {numberWithDots(props.totalRecords || 0)}</span>
+      )}
       {!props.routes.routeCreate ? null : (
         <HeaderButtom>
           {props.headerChildren}
@@ -45,7 +47,7 @@ const Index: React.FC<PropTypes> = (props) => {
     <Container>
       <Table
         {...props}
-        // loading={tableLoading}
+        // loading={tableLoading}       
         columns={[
           ...props.columns,
           props.routes.routeView ||
@@ -103,6 +105,15 @@ const Index: React.FC<PropTypes> = (props) => {
           };
         })}
         title={() => header}
+        expandable={{
+          expandedRowRender: (record) => (
+            <p style={{ margin: 0 }}>{record.expandable}</p>
+          ),
+          rowExpandable: (record) => {
+            // console.log(record.expandable);
+            return record.expandable;
+          }
+        }}
         footer={() => (
           <Footer>
             {!props.hidePagination && (
