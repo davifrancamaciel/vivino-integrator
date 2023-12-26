@@ -1,6 +1,6 @@
 "use strict";
 
-const { startOfMonth, endOfMonth, startOfDay, endOfDay, subDays } = require('date-fns');
+const { startOfMonth, endOfMonth, startOfDay, endOfDay, subDays, parseISO, addYears } = require('date-fns');
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect } = require("../../services/ExecuteQueryService");
@@ -73,8 +73,17 @@ module.exports.productGraphBar = async (event, context) => {
         if (pathParameters.type === 'products')
             data = await productsSalesTotal(isAdm, user);
 
-        if (pathParameters.type === 'wines')
-            data = await winesSalesTotal(isAdm, user);
+        // if (pathParameters.type === 'wines')
+        //     data = await winesSalesTotal(isAdm, user);
+        if (pathParameters.type === 'wines') {
+            if (event.queryStringParameters) {
+                const { createdAtStart, createdAtEnd, pageSize } = event.queryStringParameters
+                const date = new Date();
+                const dateStart = createdAtStart ? startOfDay(parseISO(createdAtStart)) : startOfDay(addYears(date, -1));
+                const dateEnd = createdAtEnd ? endOfDay(parseISO(createdAtEnd)) : endOfDay(date);
+                data = await winesSalesTotalByDate(dateStart, dateEnd, isAdm, user, pageSize);
+            }
+        }
 
         return handlerResponse(200, data)
     } catch (err) {
@@ -84,7 +93,7 @@ module.exports.productGraphBar = async (event, context) => {
 
 const expensesMonth = async (date, isAdm, user) => {
     const query = ` SELECT COUNT(e.id) count, SUM(e.value) totalValueMonth FROM expenses e 
-                    WHERE e.createdAt BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}' 
+                    WHERE e.paymentDate BETWEEN '${startOfMonth(date).toISOString()}' AND '${endOfMonth(date).toISOString()}' 
                     AND e.saleId IS NULL ${isAdm ? '' : `AND e.companyId = '${user.companyId}'`}`
     const [result] = await executeSelect(query);
     return result
@@ -148,5 +157,15 @@ const winesSalesTotal = async (isAdm, user) => {
                     INNER JOIN wineSaleHistories wsh on w.id = wsh .wineId 
                     ${isAdm ? '' : `WHERE wsh.companyId = '${user.companyId}'`}
                     GROUP BY w.id  ORDER BY SUM(wsh.total) DESC LIMIT 100`;
+    return await executeSelect(query);
+}
+
+const winesSalesTotalByDate = async (dateStart, dateEnd, isAdm, user, limit = 100) => {
+    const query = ` SELECT w.id, productName label, SUM(wsh.total) value, w.active, w.inventoryCount, w.price
+                    FROM wines w
+                    INNER JOIN wineSaleHistories wsh on w.id = wsh .wineId 
+                    WHERE ${isAdm ? '' : ` wsh.companyId = '${user.companyId}' AND `}
+                    dateReference BETWEEN '${startOfDay(dateStart).toISOString()}' AND '${endOfDay(dateEnd).toISOString()}'
+                    GROUP BY w.id  ORDER BY SUM(wsh.total) DESC LIMIT ${limit}`;
     return await executeSelect(query);
 }

@@ -7,4 +7,5 @@ export interface PropTypes {
   disableButton?: boolean;
   footerChildren?: ReactNode;
   htmlTypeButton?: 'submit' | 'button';
+  isBtnInLine?: boolean;
 }

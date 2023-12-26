@@ -35,41 +35,53 @@ const Index: React.FC<PropTypes> = (props) => {
     [props]
   );
 
+  const handleBtnSearch = () => (
+    <Col lg={4} md={6} sm={24} xs={24}>
+      {footerChildren}
+      {props.actionButton && (
+        <>
+          {props.isBtnInLine && (
+            <Typography.Title level={5} style={{ marginBottom: 0 }}>
+              &nbsp;
+            </Typography.Title>
+          )}
+          <Button
+            loading={props.loading}
+            htmlType={props.htmlTypeButton ? props.htmlTypeButton : 'submit'}
+            onClick={
+              props.htmlTypeButton === 'button' ? actionButton : undefined
+            }
+            block
+            disabled={props.disableButton}
+            icon={<SearchOutlined />}
+            style={{
+              color: props.disableButton ? '#00000040' : '#fff',
+              background: props.disableButton ? '#f5f5f5' : systemColors.BLUE,
+              borderColor: props.disableButton ? '#d9d9d9' : ''
+            }}
+          >
+            Buscar
+          </Button>
+        </>
+      )}
+    </Col>
+  );
+
   return (
     <Collapse defaultActiveKey={['1']}>
       <Panel showArrow={false} header={header} key="1">
         <form onSubmit={actionButton}>
-          <Row gutter={[16, 24]}>{props.children}</Row>
-
-          <Row style={{ marginTop: '16px' }}>
-            <Col lg={20} md={18} sm={0} xs={0}></Col>
-            <Col lg={4} md={6} sm={24} xs={24}>
-              {footerChildren}
-              {props.actionButton && (
-                <Button
-                  loading={props.loading}
-                  htmlType={
-                    props.htmlTypeButton ? props.htmlTypeButton : 'submit'
-                  }
-                  onClick={
-                    props.htmlTypeButton === 'button' ? actionButton : undefined
-                  }
-                  block
-                  disabled={props.disableButton}
-                  icon={<SearchOutlined />}
-                  style={{
-                    color: props.disableButton ? '#00000040' : '#fff',
-                    background: props.disableButton
-                      ? '#f5f5f5'
-                      : systemColors.BLUE,
-                    borderColor: props.disableButton ? '#d9d9d9' : ''
-                  }}
-                >
-                  Buscar
-                </Button>
-              )}
-            </Col>
+          <Row gutter={[16, 24]}>
+            {props.children}
+            {props.isBtnInLine && handleBtnSearch()}
           </Row>
+
+          {!props.isBtnInLine && (
+            <Row style={{ marginTop: '16px' }}>
+              <Col lg={20} md={18} sm={0} xs={0}></Col>
+              {handleBtnSearch()}
+            </Row>
+          )}
         </form>
       </Panel>
     </Collapse>
