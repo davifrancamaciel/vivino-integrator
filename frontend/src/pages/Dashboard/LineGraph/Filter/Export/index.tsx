@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DownloadOutlined } from '@ant-design/icons';
 
 import ExportCSV from 'components/ExportCSV';
@@ -10,16 +10,24 @@ import { Button } from 'antd';
 import { apiRoutes, systemColors } from 'utils/defaultValues';
 import { Products } from '../../interfaces';
 import { Filter } from '../interfaces';
+import { formatDateEn } from 'utils/formatDate';
 
 const Export: React.FC<Filter> = (props) => {
   const [loading, setLoading] = useState(false);
   const [nameReport, setNameReport] = useState('');
   const [formattedData, setFormattedData] = useState<Array<any>>([]);
 
+  useEffect(() => {
+    setNameReport(
+      `report-${props.type}-${formatDateEn(
+        props.createdAtStart
+      )}-to-${formatDateEn(props.createdAtEnd)}.csv`
+    );
+  }, [props.createdAtStart, props.createdAtEnd]);
+
   const actionFilter = async (itemsArray: Products[] = []) => {
     try {
       setLoading(true);
-      setNameReport(`relatorio-${props.type}-${new Date().getTime()}.csv`);
       const resp = await api.get(
         `${apiRoutes.dashboard}/graph-bar/${props.type}`,
         {

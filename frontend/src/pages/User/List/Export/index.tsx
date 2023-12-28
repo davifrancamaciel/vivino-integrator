@@ -30,7 +30,7 @@ const Export: React.FC<Filter> = (props) => {
         ? userType.CLIENT
         : userType.USER;
       setNameReport(
-        `relatorio-${type.toLocaleLowerCase()}-${new Date().getTime()}.csv`
+        `report-${type.toLocaleLowerCase()}-${new Date().getTime()}.csv`
       );
       const resp = await api.get(apiRoutes.users, {
         ...props,
@@ -54,7 +54,7 @@ const Export: React.FC<Filter> = (props) => {
           createdAt: formatDateHour(item.createdAt),
           updatedAt: formatDateHour(item.updatedAt),
           sales: item.wineSaleUsers?.length,
-          salesCodes: item.wineSaleUsers?.map((x) => x.code).join(' ')
+          salesCodes: item.wineSaleUsers?.map((x) => x.code).join(' - ')
         }));
         setFormattedData(newData);
         setLoading(false);

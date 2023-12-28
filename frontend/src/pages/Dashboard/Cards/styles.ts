@@ -23,6 +23,7 @@ export const Container = styled.div`
   font-size: 15px;
   strong {
     margin: 0 8px;
+    text-transform: uppercase;
   }
   span {
     cursor: pointer;

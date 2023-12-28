@@ -50,7 +50,7 @@ module.exports.update = async (event) => {
 
         const params = { Name, State, ScheduleExpression }
         const { STAGE } = process.env
-        if (STAGE === 'dev' && user.sub !== '4468f448-0091-705a-4937-10766c95df3a')
+        if (STAGE === 'dev' && user.sub !== 'f0fbce39-8f59-4c4c-a9b1-a4fc50e114a6')
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade');
 
         const result = await eventbridge.putRule(params).promise()

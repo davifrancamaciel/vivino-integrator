@@ -72,9 +72,7 @@ module.exports.productGraphBar = async (event, context) => {
 
         if (pathParameters.type === 'products')
             data = await productsSalesTotal(isAdm, user);
-
-        // if (pathParameters.type === 'wines')
-        //     data = await winesSalesTotal(isAdm, user);
+      
         if (pathParameters.type === 'wines') {
             if (event.queryStringParameters) {
                 const { createdAtStart, createdAtEnd, pageSize } = event.queryStringParameters
@@ -148,15 +146,6 @@ const productsSalesTotal = async (isAdm, user) => {
                     ${isAdm ? '' : `WHERE sp.companyId = '${user.companyId}'`}
                     GROUP BY sp.productId
                     ORDER BY SUM(sp.amount) DESC LIMIT 100`;
-    return await executeSelect(query);
-}
-
-const winesSalesTotal = async (isAdm, user) => {
-    const query = ` SELECT w.id, productName label, SUM(wsh.total) value
-                    FROM wines w
-                    INNER JOIN wineSaleHistories wsh on w.id = wsh .wineId 
-                    ${isAdm ? '' : `WHERE wsh.companyId = '${user.companyId}'`}
-                    GROUP BY w.id  ORDER BY SUM(wsh.total) DESC LIMIT 100`;
     return await executeSelect(query);
 }
 

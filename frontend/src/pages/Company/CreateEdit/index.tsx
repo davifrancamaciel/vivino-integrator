@@ -159,6 +159,7 @@ const CreateEdit: React.FC = (props: any) => {
             <Input
               label={'Código'}
               type={'tel'}
+              placeholder={'12345'}
               value={state.vivinoId}
               onChange={(e) => dispatch({ vivinoId: e.target.value })}
             />
@@ -166,6 +167,7 @@ const CreateEdit: React.FC = (props: any) => {
           <Col lg={8} md={8} sm={12} xs={24}>
             <Input
               label={'Client Id'}
+              placeholder={'fkdsjfkjaglrpgpear040prkgl'}
               value={state.vivinoClientId}
               onChange={(e) => dispatch({ vivinoClientId: e.target.value })}
             />
@@ -173,6 +175,7 @@ const CreateEdit: React.FC = (props: any) => {
           <Col lg={8} md={8} sm={12} xs={24}>
             <Input
               label={'Client secret'}
+              placeholder={'LDJASJDWFMGJSSDAklfklmdkajoecnvdw'}
               value={state.vivinoClientSecret}
               onChange={(e) => dispatch({ vivinoClientSecret: e.target.value })}
             />
@@ -181,6 +184,7 @@ const CreateEdit: React.FC = (props: any) => {
             <Input
               label={'Username'}
               type={'email'}
+              placeholder={'email@email.com'}
               value={state.vivinoClientUsername}
               onChange={(e) =>
                 dispatch({ vivinoClientUsername: e.target.value })

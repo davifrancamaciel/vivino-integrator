@@ -3,15 +3,10 @@
 const { executeSelect } = require("../../services/ExecuteQueryService");
 const s3 = require("../../services/AwsS3Service");
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
-const { importImages } = require("../api/winesImport");
 
 module.exports.handler = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
-
-        if (process.env.IS_OFFLINE) {
-            //return handlerResponse(200, await importImages())
-        }
+        context.callbackWaitsForEmptyEventLoop = false;        
 
         const { bucketPrivateName, DB_NAME } = process.env;       
         const query = `SELECT table_name FROM information_schema.tables WHERE table_schema = '${DB_NAME}';`;

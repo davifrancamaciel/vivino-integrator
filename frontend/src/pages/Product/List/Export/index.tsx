@@ -59,7 +59,7 @@ const Export: React.FC<Filter> = (props) => {
       <ExportCSV
         id="export-csv"
         data={formattedData}
-        documentTitle={`relatorio-de-produtos-${new Date().getTime()}.csv`}
+        documentTitle={`report-products-${new Date().getTime()}.csv`}
         headers={[
           { label: 'Código do produto', key: 'id' },
           { label: 'Nome do produto', key: 'name' },

@@ -35,7 +35,7 @@ winesVivIntApiSalesEvent:
   - eventBridge:
       name: "${self:service}-${opt:stage, self:provider.stage}-viv-sales"
       description: Servico que busca vendas do dia na vivino
-      schedule: cron(0/60 10-17 * * ? *) # a cada 1h entre 7 e 14 de todos dias hora BR
+      schedule: cron(0/60 10-18 * * ? *) # a cada 1h entre 7 e 15 de todos dias hora BR
   - http:
         path: wines/run-sales
         method: get        
@@ -61,7 +61,7 @@ winesWarningEvent:
   - eventBridge:
       name: "${self:service}-${opt:stage, self:provider.stage}-wines-warning"
       description: Servico que busca vinhos com estoque baixo
-      schedule: cron(0 11 * * ? *) # 1h00 de todos dias hora BR
+      schedule: cron(10 18 * * ? *) # 15h10 de todos dias hora BR
   - http:
         path: wines/run-wines-warning
         method: get        

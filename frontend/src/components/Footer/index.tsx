@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   return (
     <Container>
       <WhatsApp
-        phone="5524993954479"
+        phone="24993954479"
         text={`Davi Maciel © ${year} versão ${version}`}
       />
     </Container>
