@@ -87,7 +87,7 @@ const List: React.FC = () => {
         <Col lg={12} md={12} sm={24} xs={24}>
           <Input
             label={'Empresa'}
-            placeholder="Ary Delicatessen"
+            placeholder="Vinho Delicatessen"
             value={state.name}
             onChange={(e) => dispatch({ name: e.target.value })}
           />

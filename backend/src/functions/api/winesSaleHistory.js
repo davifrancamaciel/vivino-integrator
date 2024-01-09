@@ -15,7 +15,7 @@ module.exports.list = async (event, context) => {
 
         let whereStatement = {}, whereStatementWine = {};
 
-        const { pageSize, pageNumber, wineId, companyId,
+        const { pageSize, pageNumber, wineId, companyId, skuVivino,
             dateReferenceStart, dateReferenceEnd, createdAtStart, createdAtEnd, productName } = event.queryStringParameters
 
         if (companyId) whereStatement.companyId = companyId;
@@ -68,15 +68,18 @@ module.exports.list = async (event, context) => {
         if (productName)
             whereStatementWine.productName = { [Op.like]: `%${productName}%` }
 
+        if (skuVivino)
+            whereStatementWine.skuVivino = skuVivino
+
         const { count, rows } = await WineSaleHistory.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * pageSize,
-            order: [['id', 'DESC']],
+            order: [['createdAt', 'DESC']],
             include: [{
                 model: Wine,
                 as: 'wine',
-                attributes: ['productName', 'image', 'inventoryCount'],
+                attributes: ['productName', 'image', 'inventoryCount', 'skuVivino'],
                 where: whereStatementWine
             }]
         })

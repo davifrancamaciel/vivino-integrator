@@ -314,7 +314,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ residualSugar: e.target.value })}
         />
       </Col>
-      <Col lg={6} md={12} sm={24} xs={24}>
+      <Col lg={3} md={6} sm={24} xs={24}>
         <Input
           label={'Acidez'}
           maxLength={100}
@@ -324,7 +324,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ acidity: e.target.value })}
         />
       </Col>
-      <Col lg={6} md={12} sm={24} xs={24}>
+      <Col lg={3} md={6} sm={24} xs={24}>
         <Input
           label={'PH'}
           maxLength={100}
@@ -332,6 +332,15 @@ const CreateEdit: React.FC = (props: any) => {
           placeholder="3.5"
           value={state.ph}
           onChange={(e) => dispatch({ ph: e.target.value })}
+        />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <Input
+          label={'SKU Vivino'}
+          maxLength={100}
+          placeholder="VD-XXXXXXXXX"
+          value={state.skuVivino}
+          onChange={(e) => dispatch({ skuVivino: e.target.value })}
         />
       </Col>
 

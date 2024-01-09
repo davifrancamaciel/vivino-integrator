@@ -86,10 +86,13 @@ const Details: React.FC = (props: any) => {
       </Col>
       <Col lg={18} md={24} sm={24} xs={24}>
         <Row gutter={[16, 24]}>
-          <Col lg={8} md={12} sm={24} xs={24}>
+          <Col lg={5} md={12} sm={24} xs={24}>
             <ViewData label="Código do produto" value={props.match.params.id} />
           </Col>
-          <Col lg={16} md={12} sm={24} xs={24}>
+          <Col lg={5} md={12} sm={24} xs={24}>
+            <ViewData label="SKU Vivino" value={state.skuVivino} />
+          </Col>
+          <Col lg={14} md={12} sm={24} xs={24}>
             <ViewData label="Nome do produto" value={state.productName} />
           </Col>
           <Col lg={8} md={12} sm={24} xs={24}>

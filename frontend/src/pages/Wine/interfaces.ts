@@ -34,6 +34,7 @@ export interface Wine {
   createdAt?: string;
   updatedAt?: string;
   companyId?: string;
+  skuVivino?: string;
 }
 
 export const initialStateForm: Wine = {
@@ -52,11 +53,12 @@ export const initialStateForm: Wine = {
 
 export interface Filter {
   id?: string;
+  skuVivino?: string;
   productName: string;
   producer: string;
   wineName: string;
-  priceMin?:string;
-  priceMax?:string;
+  priceMin?: string;
+  priceMax?: string;
   pageNumber: number;
   pageSize: number;
 }

@@ -27,7 +27,7 @@ module.exports.handler = async (event) => {
 }
 
 const updateWine = async (body) => {
-    const { companyId, dateReference, productsSales } = body
+    let { companyId, dateReference, productsSales } = body
     try {
         if (!productsSales.length)
             return 'Não ha produtos nesta fila';
@@ -37,7 +37,20 @@ const updateWine = async (body) => {
         let list = [];
 
         const ids = productsSales.map(x => Number(x.id || 0)).filter(x => x).join(',')
-        const inventoryCountBeforeList = await executeSelect(`SELECT id, inventoryCount FROM wines WHERE companyId = '${companyId}' AND id IN (${ids})`)
+        const inventoryCountBeforeList = await executeSelect(`SELECT id, inventoryCount FROM wines WHERE companyId = '${companyId}' AND id IN (${ids ? ids : 0})`)
+
+        let inventoryCountBeforeSkuList = [];
+        const skus = productsSales.map(x => x.id).filter(x => x.includes('-')).join("','");
+        if (skus) {
+            inventoryCountBeforeSkuList = await executeSelect(`SELECT id, skuVivino, inventoryCount FROM wines WHERE companyId = '${companyId}' AND skuVivino IN ('${skus}')`)
+
+            if (inventoryCountBeforeSkuList.length) {
+                productsSales = productsSales.map(wine => {
+                    const wineBySku = inventoryCountBeforeSkuList.find(x => x.skuVivino === wine.id)
+                    return wineBySku ? { ...wine, id: wineBySku.id } : wine
+                })
+            }
+        }
 
         for (let i = 0; i < productsSales.length; i++) {
             const element = productsSales[i];
@@ -49,7 +62,15 @@ const updateWine = async (body) => {
                                 WHERE companyId = '${companyId}' AND id =  ${id}`;
                 await executeUpdate(query);
 
-                const { inventoryCount } = inventoryCountBeforeList.find(x => x.id == id)
+                let inventoryCount = 0
+                const inventoryCountById = inventoryCountBeforeList.find(x => x.id == id);
+                if (inventoryCountById)
+                    inventoryCount = inventoryCountById.inventoryCount;
+                else {
+                    const inventoryCountBySku = inventoryCountBeforeSkuList.find(x => x.id == id);
+                    if (inventoryCountBySku)
+                        inventoryCount = inventoryCountBySku.inventoryCount;
+                }
 
                 const itemHistory = {
                     wineId: id,
@@ -72,9 +93,30 @@ const updateWine = async (body) => {
             type: 'UPDATE_BY_SALES_VIVINO'
         });
 
+        await sendWarningSkuNotFound(productsSales, companyId);
+
         return list;
     } catch (error) {
         console.log('error ', error);
-        throw new Error(`Não foi possível executar este item da fila ${companyId}, ${dateReference}`);
+        throw new Error(`[Não foi possível executar este item da fila ${companyId}], [${dateReference}] [${error.message}] [${error.stack}]`);
+    }
+}
+
+const sendWarningSkuNotFound = async (productsSales, companyId) => {
+
+    const skusNotFound = productsSales.map(x => `${x.id}`).filter(x => x.includes('-'))?.join("', '");
+
+    if (skusNotFound) {
+        const [company] = await executeSelect(`SELECT name, email FROM companies WHERE id = '${companyId}'`)
+        const subject = `ATENÇÃO! ${company.name}, os seguintes SKUs não foram encontrados`
+        const to = ['davifrancamaciel@gmail.com', company.email];
+        const body = `<div style='padding:50px'>
+                        <p>Integrador Vivino informa</p>                        
+                        <p>ATENÇÃO! Os seguintes SKUs abaixo não foram encontrados</p>                        
+                        <p><b>'${skusNotFound}'</b></p>                        
+                        <p>Faça a associação no cadastro do vinho correspondente pois a falta deste mapeamento resulta na NÂO baixa no controle de estoque e contabilização dos vinhos vendidos</p>                        
+                      </div>`;
+
+        await sendMessage('send-email-queue', { to, subject, body, companyName: company.name });
     }
 }

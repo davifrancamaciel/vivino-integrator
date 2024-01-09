@@ -19,7 +19,7 @@ function load() {
   const list = [
     {
       id: companyIdDefault,
-      name: 'Ary Delicatessen',
+      name: 'Vinho Delicatessen',
       groups: JSON.stringify([
         'Usuarios',
         'Vinhos',

@@ -35,6 +35,7 @@ module.exports = function (sequelize, DataTypes) {
         nonAlcoholic: { type: DataTypes.BOOLEAN },
         active: { type: DataTypes.BOOLEAN },        
         companyId: { type: DataTypes.UUID }, 
+        skuVivino: { type: DataTypes.STRING(100) },
     });
     
     Wine.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });  

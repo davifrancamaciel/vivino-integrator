@@ -130,7 +130,7 @@ const List: React.FC = () => {
         actionButton={() => actionFilter()}
         loading={loading}
       >
-        <Col lg={3} md={5} sm={24} xs={24}>
+        <Col lg={3} md={6} sm={24} xs={24}>
           <Input
             label={'Código'}
             type={'number'}
@@ -139,7 +139,15 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ wineId: e.target.value })}
           />
         </Col>
-        <Col lg={4} md={7} sm={24} xs={24}>
+        <Col lg={3} md={6} sm={24} xs={24}>
+          <Input
+            label={'SKU Vivino'}
+            placeholder="VD-XXXXXXXXX"
+            value={state.skuVivino}
+            onChange={(e) => dispatch({ skuVivino: e.target.value })}
+          />
+        </Col>
+        <Col lg={5} md={12} sm={24} xs={24}>
           <Input
             label={'Nome do produto'}
             placeholder="Ex.: Famille Perrin Réserve Côtes-du-Rhône 2019 Rouge"
@@ -147,7 +155,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ productName: e.target.value })}
           />
         </Col>
-        <Col lg={7} md={12} sm={24} xs={24}>
+        <Col lg={5} md={12} sm={24} xs={24}>
           <RangePicker
             label="Data de confirmação"
             value={[
@@ -169,7 +177,7 @@ const List: React.FC = () => {
             }}
           />
         </Col>
-        <Col lg={7} md={12} sm={24} xs={24}>
+        <Col lg={5} md={12} sm={24} xs={24}>
           <RangePicker
             label="Data de importação"
             value={[
@@ -201,7 +209,10 @@ const List: React.FC = () => {
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'wineId' },
           { title: 'Nome do produto', dataIndex: 'productName' },
-          { title: 'Data da confirmação na Vivino', dataIndex: 'dateReference' },
+          {
+            title: 'Data da confirmação na Vivino',
+            dataIndex: 'dateReference'
+          },
           { title: 'Estoque anterior', dataIndex: 'inventoryCountBefore' },
           { title: 'Total vendido', dataIndex: 'total' },
           {

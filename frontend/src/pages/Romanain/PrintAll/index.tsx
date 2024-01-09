@@ -50,7 +50,10 @@ const Print: React.FC<PropTypes> = ({ state }) => {
     });
   }, [items]);
 
-  const actionFilter = async (pageNumber: number = 1) => {
+  const actionFilter = async (
+    pageNumber: number = 1,
+    itemsArray: Romanian[] = []
+  ) => {
     try {
       setPrint(false);
       setLoading(true);
@@ -58,17 +61,25 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         ...state,
         pageNumber,
         pageSize: 100
-      });
-      setLoading(false);
+      });      
 
       const { count, rows } = resp.data;
       const itemsFormatted = rows.map((r: Romanian) => ({
         ...r,
         noteValue: formatPrice(Number(r.noteValue) || 0),
         saleDateAt: formatDate(r.saleDateAt || '')
-      }));
-      setItems(itemsFormatted);
-      setPrint(true);
+      }));      
+
+      itemsArray = [...itemsArray, ...itemsFormatted];
+
+      if (count > itemsArray.length) {
+        const nextPage = pageNumber + 1;
+        await actionFilter(nextPage, itemsArray);
+      } else {
+        setItems(itemsArray);
+        setLoading(false);
+        setPrint(true);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);

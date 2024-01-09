@@ -17,6 +17,7 @@ export interface WineSaleHistory {
 export interface Filter {
   id?: string;
   wineId?: string;
+  skuVivino?: string;
   companyId?: string;
   productName?: string;
   dateReferenceStart?: string;
@@ -29,7 +30,7 @@ export interface Filter {
 
 export const initialStateFilter: Filter = {
   pageNumber: 1,
-  pageSize: 10
+  pageSize: 10,
 };
 
 export interface WineSale {

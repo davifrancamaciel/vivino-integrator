@@ -26,21 +26,27 @@ const List: React.FC = () => {
   const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
-    actionFilter(1, query.get('active') || undefined);
+    actionFilter(
+      1,
+      query.get('active') || undefined,
+      query.get('skuVivino') || undefined
+    );
   }, []);
 
   const actionFilter = async (
     pageNumber: number = 1,
-    active: string = state.active
+    active: string = state.active,
+    skuVivino: string = state.skuVivino
   ) => {
     try {
-      dispatch({ pageNumber, active });
+      dispatch({ pageNumber, active, skuVivino });
 
       setLoading(true);
       const resp = await api.get(apiRoutes.wines, {
         ...state,
         pageNumber,
-        active
+        active,
+        skuVivino
       });
       setLoading(false);
 
@@ -86,7 +92,15 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
-        <Col lg={6} md={7} sm={24} xs={24}>
+        <Col lg={4} md={5} sm={24} xs={24}>
+          <Input
+            label={'SKU Vivino'}
+            placeholder="VD-XXXXXXXXX"
+            value={state.skuVivino}
+            onChange={(e) => dispatch({ skuVivino: e.target.value })}
+          />
+        </Col>
+        <Col lg={6} md={8} sm={24} xs={24}>
           <Input
             label={'Nome do produto'}
             placeholder="Ex.: Famille Perrin Réserve Côtes-du-Rhône 2019 Rouge"
@@ -110,15 +124,8 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ wineName: e.target.value })}
           />
         </Col>
-        <Col lg={4} md={12} sm={24} xs={24}>
-          <Select
-            label={'Ativos'}
-            options={booleanFilter}
-            value={state?.active}
-            onChange={(active) => dispatch({ active })}
-          />
-        </Col>
-        <Col lg={5} md={6} sm={12} xs={24}>
+
+        <Col lg={4} md={6} sm={12} xs={24}>
           <Input
             label={'Preco de'}
             placeholder="Ex.: 1"
@@ -127,7 +134,7 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ priceMin: e.target.value })}
           />
         </Col>
-        <Col lg={5} md={6} sm={12} xs={24}>
+        <Col lg={4} md={6} sm={12} xs={24}>
           <Input
             label={'Preco até'}
             placeholder="Ex.: 1000"
@@ -154,7 +161,15 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ inventoryCountMax: e.target.value })}
           />
         </Col>
-        <Col lg={4} md={12} sm={24} xs={24}>
+        <Col lg={3} md={6} sm={12} xs={24}>
+          <Select
+            label={'Ativos'}
+            options={booleanFilter}
+            value={state?.active}
+            onChange={(active) => dispatch({ active })}
+          />
+        </Col>
+        <Col lg={3} md={12} sm={12} xs={24}>
           <Select
             label={'Itens por página'}
             options={pageItemsFilter}
