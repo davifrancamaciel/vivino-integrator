@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Tag, Image } from 'antd';
+import { Col, Image } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input, Select } from 'components/_inputs';
@@ -7,7 +7,6 @@ import {
   apiRoutes,
   appRoutes,
   booleanFilter,
-  systemColors,
   pageItemsFilter
 } from 'utils/defaultValues';
 import { initialStateFilter, Wine } from '../interfaces';
@@ -17,6 +16,7 @@ import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
 import ExportCSV from './Export';
+import BooleanTag from 'components/BooleanTag';
 
 const List: React.FC = () => {
   const query = useQuery();
@@ -61,11 +61,7 @@ const List: React.FC = () => {
         price: formatPrice(Number(p.price) || 0),
         createdAt: formatDateHour(p.createdAt),
         updatedAt: formatDateHour(p.updatedAt),
-        active: (
-          <Tag color={p.active ? systemColors.GREEN : systemColors.RED}>
-            {p.active ? 'Ativo' : 'Inativo'}
-          </Tag>
-        )
+        active: <BooleanTag value={p.active} yes={'Ativo'} no={'Inativo'} />
       }));
       setItems(itemsFormatted);
       console.log(itemsFormatted);

@@ -268,6 +268,10 @@ const arrayskus = [
 
     { sku: "VD-30983803", id: 1413 },
     { sku: "VD-160083866", id: 1413 },
+    
+    { sku: "VD-168166007", id: 2004 },
+    { sku: "VD-167821060", id: 1793 },
+    { sku: "VD-167448996", id: 1533 },//20 e 22 01/2024
 ];
 
 // await updateSkus('services_db_dev')
@@ -280,15 +284,13 @@ const updateSkus = async (schema) => {
     }
 }
 
-// const list = await createHistory();
+// const list = await createHistory('VD-');
 // return handlerResponse(200, list, 'Vendas obtidas com sucesso')
-const createHistory = async () => {
+const createHistory = async (skuContains) => {
     try {
-
-
         const { count, rows } = await WineSale.findAndCountAll({
             where: {
-                sale: { [Op.like]: `%VD-%` }
+                sale: { [Op.like]: `%${skuContains}%` }
             },
             limit: 1000,
             order: [['id', 'ASC']],
@@ -302,10 +304,12 @@ const createHistory = async () => {
             const { items, user, created_at, id } = saleFormatted
             for (let j = 0; j < items.length; j++) {
                 const item = items[j];
-                if (item.sku.includes('VD-')) {
+                if (item.sku.includes(skuContains)) {
                     const wineSku = arrayskus.find(x => x.sku === item.sku)
                     if (!wineSku) {
-                        console.log(`${item.sku} NÃO ENCONTRADO`)
+                        const message = `${item.sku} NÃO ENCONTRADO`
+                        console.error(message)
+                        throw new Error(message);
                     }
                     const itemHistory = {
                         wineId: wineSku.id,

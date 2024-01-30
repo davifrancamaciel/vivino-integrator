@@ -14,6 +14,7 @@ import Sales from '../Sales';
 import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
 import { Link } from 'react-router-dom';
+import WineGrid from '../WineGrid';
 
 const List: React.FC = () => {
   const query = useQuery();
@@ -89,7 +90,9 @@ const List: React.FC = () => {
             </Tooltip>
           </div>
         ),
-        expandable: handleExpandable(sale)
+        expandable: (
+          <WineGrid sale={sale.saleFormatted as SaleVivino} hidetotalRecords />
+        )
       }));
       setItems(itemsFormatted);
       console.log(itemsFormatted);
@@ -103,43 +106,6 @@ const List: React.FC = () => {
   const handleView = (sale: SaleVivino) => {
     setVisible(true);
     setSale(sale);
-  };
-
-  const handleExpandable = (sale: any) => {
-    return (
-      <GridList
-        scroll={{ x: 840 }}
-        size="small"
-        columns={[
-          { title: 'Imagem', dataIndex: 'image' },
-          { title: 'Código', dataIndex: 'sku' },
-          { title: 'Vinho', dataIndex: 'description' },
-          { title: 'Preço unitário', dataIndex: 'unit_price' },
-          { title: 'Quantidade', dataIndex: 'unit_count' },
-          { title: 'Preço total', dataIndex: 'total_amount' }
-        ]}
-        dataSource={sale.saleFormatted.items.map((x: any) => ({
-          ...x,
-          sku: x.sku.includes('VD') ? (
-            x.sku
-          ) : (
-            <Link to={`/wines/details/${x.sku}`}>{x.sku}</Link>
-          ),
-          image: (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Image style={{ height: '30px' }} src={x?.image?.location} />
-            </div>
-          ),
-          unit_price: formatPrice(x.unit_price),
-          total_amount: formatPrice(x.total_amount)
-        }))}
-        totalRecords={sale.saleFormatted.items.length}
-        hidetotalRecords={true}
-        pageSize={sale.saleFormatted.items.length}
-        loading={false}
-        routes={{}}
-      />
-    );
   };
 
   return (

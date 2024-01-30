@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Divider, Col, Tag, Image, Row } from 'antd';
+import { Divider, Col, Image, Row } from 'antd';
 
 import useFormState from 'hooks/useFormState';
 import PanelCrud from 'components/PanelCrud';
@@ -11,6 +11,7 @@ import api from 'services/api-aws-amplify';
 import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
+import BooleanTag from 'components/BooleanTag';
 
 const Details: React.FC = (props: any) => {
   const history = useHistory();
@@ -33,11 +34,7 @@ const Details: React.FC = (props: any) => {
         image: <Image style={{ height: '200px' }} src={data.image} />,
         createdAt: formatDateHour(data.createdAt),
         updatedAt: formatDateHour(data.updatedAt),
-        activeTag: (
-          <Tag color={data.active ? systemColors.GREEN : systemColors.RED}>
-            {data.active ? 'Ativo' : 'Inativo'}
-          </Tag>
-        )
+        activeTag: <BooleanTag value={data.active} />
       };
       dispatch(item);
       console.log(item);

@@ -17,6 +17,7 @@ import {
   systemColors,
   userType
 } from 'utils/defaultValues';
+import BooleanTag from 'components/BooleanTag';
 
 const CreateEdit: React.FC = (props: any) => {
   const history = useHistory();
@@ -48,10 +49,8 @@ const CreateEdit: React.FC = (props: any) => {
         itemEdit.resetPassword = false;
         itemEdit.userStatusText = userStatusTag(UserAws.UserStatus);
         itemEdit.statusText = (
-          <Tag color={UserAws.Enabled ? systemColors.GREEN : systemColors.RED}>
-            {UserAws.Enabled ? 'Ativo' : 'Inativo'}
-          </Tag>
-        );
+          <BooleanTag value={UserAws.Enabled} yes={'Ativo'} no={'Inativo'} />
+        );        
       }
       console.log(itemEdit);
       dispatch(itemEdit);

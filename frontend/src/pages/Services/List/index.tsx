@@ -8,6 +8,7 @@ import { formatName } from '../utils';
 import CreateEdit from '../CreateEdit';
 import GoBack from 'components/GoBack';
 import { Header } from 'components/PanelCrud/styles';
+import BooleanTag from 'components/BooleanTag';
 
 const { Title } = Typography;
 
@@ -64,15 +65,11 @@ const List: React.FC = () => {
     setItems(list);
   };
   const itemTag = (item: Services) => (
-    <Tag
-      color={item.State === 'ENABLED' ? systemColors.GREEN : systemColors.RED}
-    >
-      {item.State === 'ENABLED' ? 'Ativo' : 'Inativo'}
-    </Tag>
+    <BooleanTag value={item.State === 'ENABLED'} yes={'Ativo'} no={'Inativo'} />
   );
 
   const handleRun = async (item: any) => {
-    setLoading(true);    
+    setLoading(true);
     await api.get(item.route, null, true);
     setLoading(false);
   };

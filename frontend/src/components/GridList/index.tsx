@@ -107,7 +107,7 @@ const Index: React.FC<PropTypes> = (props) => {
         title={() => header}
         expandable={{
           expandedRowRender: (record) => (
-            <p style={{ margin: 0 }}>{record.expandable}</p>
+            <span style={{ margin: 0 }}>{record.expandable}</span>
           ),
           rowExpandable: (record) => {
             // console.log(record.expandable);

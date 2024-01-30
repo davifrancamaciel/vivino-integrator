@@ -72,7 +72,7 @@ module.exports.handler = async (event, context) => {
 const sendEmails = async (expenses) => {
     const { STAGE } = process.env;
     const link = 'http://services-integrator-prod.s3-website-us-east-1.amazonaws.com';
-    const emailAdm = 'davifrancamaciel@gmail.com';
+    const emailAdm = process.env.EMAIL_FROM_SENDER;
 
     for (let i = 0; i < expenses.length; i++) {
         const element = expenses[i];

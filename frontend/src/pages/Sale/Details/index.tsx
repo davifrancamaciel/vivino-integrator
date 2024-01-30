@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
-import { Divider, Col, Tag, Image, Row } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Divider, Col, Image, Row } from 'antd';
 
 import useFormState from 'hooks/useFormState';
 import PanelCrud from 'components/PanelCrud';
@@ -46,9 +46,7 @@ const Details: React.FC = (props: any) => {
         containsEggAllergens: <BooleanTag value={data.containsEggAllergens} />,
         nonAlcoholic: <BooleanTag value={data.nonAlcoholic} />,
         activeTag: (
-          <Tag color={data.active ? systemColors.GREEN : systemColors.RED}>
-            {data.active ? 'Ativo' : 'Inativo'}
-          </Tag>
+          <BooleanTag value={data.active} yes={'Ativo'} no={'Inativo'} />
         )
       };
       dispatch(item);
@@ -145,7 +143,7 @@ const Details: React.FC = (props: any) => {
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Álcool" value={state.alcohol} />
       </Col>
-     
+
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Endereço do produtor" value={state.producerAddress} />
       </Col>

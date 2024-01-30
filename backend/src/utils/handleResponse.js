@@ -39,7 +39,7 @@ const handlerErrResponse = async (err, obj, msg) => {
 
 const sendMailError = async (err, message) => {
     const subject = message
-    const to = ['davifrancamaciel@gmail.com'];
+    const to = [process.env.EMAIL_FROM_SENDER];
     const body = `<div style='padding:50px'>
                     <p>${message}</p>
                     <p>${err?.name}</p>

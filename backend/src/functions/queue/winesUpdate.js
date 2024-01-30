@@ -109,7 +109,7 @@ const sendWarningSkuNotFound = async (productsSales, companyId) => {
     if (skusNotFound) {
         const [company] = await executeSelect(`SELECT name, email FROM companies WHERE id = '${companyId}'`)
         const subject = `ATENÇÃO! ${company.name}, os seguintes SKUs não foram encontrados`
-        const to = ['davifrancamaciel@gmail.com', company.email];
+        const to = [process.env.EMAIL_FROM_SENDER, company.email];
         const body = `<div style='padding:50px'>
                         <p>Integrador Vivino informa</p>                        
                         <p>ATENÇÃO! Os seguintes SKUs abaixo não foram encontrados</p>                        

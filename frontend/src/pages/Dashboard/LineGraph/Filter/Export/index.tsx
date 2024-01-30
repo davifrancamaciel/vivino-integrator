@@ -43,7 +43,8 @@ const Export: React.FC<Filter> = (props) => {
       const newData = itemsArray.map((item: Products) => ({
         ...item,
         active: item.active ? 'SIM' : 'NÃO',
-        price: formatPrice(Number(item.price))
+        price: formatPrice(Number(item.price)),
+        valueTotal: formatPrice(Number(item.price) * item.value)
       }));
       setFormattedData(newData);
       setLoading(false);
@@ -69,6 +70,7 @@ const Export: React.FC<Filter> = (props) => {
           { label: 'Nome', key: 'label' },
           { label: 'Ativo', key: 'active' },
           { label: 'Preço atual', key: 'price' },
+          { label: 'Quatidade vendida * Preço atual', key: 'valueTotal' },
           { label: 'Estoque atual', key: 'inventoryCount' }
         ]}
       >
