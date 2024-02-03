@@ -11,6 +11,7 @@ const { roules, cognito, userType } = require("../../utils/defaultValues");
 const User = require('../../models/User')(db.sequelize, db.Sequelize);
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSaleUser = require('../../models/WineSaleUser')(db.sequelize, db.Sequelize);
+const imageService = require("../../services/ImageService");
 
 const RESOURCE_NAME = 'Usuário'
 
@@ -197,6 +198,9 @@ module.exports.create = async (event) => {
             const itemUpdate = await User.findByPk(Number(userDbId))
             resultNewUser = await itemUpdate.update({ userAWSId: newUserAws.id });
         }
+
+        await imageService.add('users', resultNewUser.dataValues, body.fileList);
+
         return handlerResponse(201, resultNewUser, `${RESOURCE_NAME} ${name} criado com sucesso`)
     } catch (err) {
         await cognitoRequest(cognito.adminDeleteUser, { Username: email });
@@ -271,6 +275,9 @@ module.exports.update = async (event) => {
             if (resetPassword && password)
                 await cognitoRequest(cognito.adminSetUserPassword, { Username: item.email, Password: password, Permanent: true });
         }
+
+        await imageService.add('users', resultUserDb.dataValues, body.fileList);
+
         return handlerResponse(200, resultUserDb, `${RESOURCE_NAME} ${name} alterado com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, body)
@@ -306,7 +313,9 @@ module.exports.delete = async (event) => {
                 await cognitoRequest(cognito.adminDeleteUser, { Username });
             }
         }
-
+        
+        await imageService.remove(userInDb.image);
+        
         return handlerResponse(200, {}, `${RESOURCE_NAME} ${userInDb.name} removido com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, pathParameters)

@@ -16,6 +16,7 @@ export interface Users {
   status: boolean;
   active: boolean;
   password?: string;
+  image?: string;
   statusText?: any;
   userStatusText?: any;
   resetPassword?: boolean;

@@ -16,6 +16,7 @@ const addClientBySale = async (sales) => {
             const user = {
                 companyId: element.companyId,
                 name: sale?.user?.alias,
+                image: sale?.user?.image?.location,
                 email: sale?.user?.email,
                 phone: sale?.shipping?.address?.phone,
                 type: userType.CLIENT,

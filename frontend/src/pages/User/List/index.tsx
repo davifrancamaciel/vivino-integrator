@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Tag } from 'antd';
+import { Col, Tag, Image } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input } from 'components/_inputs';
@@ -63,6 +63,11 @@ const List: React.FC = () => {
 
       const dataItemsFormatted = rows.map((item: Users) => ({
         ...item,
+        image: (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Image style={{ height: '60px' }} src={item.image} />
+          </div>
+        ),
         email: item.wineSaleUsers?.length ? (
           <Link to={`/wines/sales?sale=${item.email}`}>{item.email}</Link>
         ) : (
@@ -148,6 +153,7 @@ const List: React.FC = () => {
         scroll={{ x: 600 }}
         headerChildren={<ExportCSV {...state} />}
         columns={[
+          { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'id' },
           { title: 'Nome', dataIndex: 'name' },
           { title: 'Email', dataIndex: 'email' },

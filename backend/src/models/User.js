@@ -7,6 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         name: { type: DataTypes.STRING(255) },
         email: { type: DataTypes.STRING(255) },
         userAWSId: { type: DataTypes.STRING(50) },
+        image: { type: DataTypes.STRING(500) },
         companyId: { type: DataTypes.UUID },  
         commissionMonth: { type: DataTypes.DECIMAL },      
         phone: { type: DataTypes.STRING(30) },

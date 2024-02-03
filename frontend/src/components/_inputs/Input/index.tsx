@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Typography, InputProps } from 'antd';
+import { Input, Typography, InputProps, Tooltip } from 'antd';
 import CharLimit from '../CharLimit';
 import Required from '../Required';
 interface PropTypes extends InputProps {
   label?: string;
+  tooltip?: string;
 }
 
 const InputCustom: React.FC<PropTypes> = (props) => {
@@ -19,7 +20,7 @@ const InputCustom: React.FC<PropTypes> = (props) => {
   }, [props.value]);
 
   return (
-    <>
+    <Tooltip title={props.tooltip}>
       {props.label && (
         <Typography.Title level={5} style={{ marginBottom: 0 }}>
           {props.label}
@@ -33,7 +34,7 @@ const InputCustom: React.FC<PropTypes> = (props) => {
         </Typography.Title>
       )}
       <Input allowClear value={value} {...props} />
-    </>
+    </Tooltip>
   );
 };
 

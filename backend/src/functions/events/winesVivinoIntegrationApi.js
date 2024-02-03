@@ -6,7 +6,6 @@ const FormData = require('form-data');
 const db = require('../../database');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
-// const WineSaleHistory = require('../../models/WineSaleHistory')(db.sequelize, db.Sequelize);
 const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
 const UserClientWineService = require('../../services/UserClientWineService')
@@ -134,25 +133,53 @@ module.exports.sales = async (event, context) => {
                 });
             }
 
+            let idsBySkus = [], skusNotFoundArray = []
             const itemsProductsGroupBySku = groupBy(itemsProducts, 'sku')
+            const skus = itemsProductsGroupBySku.map(list => {
+                const [product] = list
+                return product.sku;
+            }).filter(x => x.includes('-')).join("','");
+            if (skus)
+                idsBySkus = await executeSelect(`SELECT id, skuVivino FROM wines WHERE companyId = '${companyId}' AND skuVivino IN ('${skus}')`)
+
             const productsSales = itemsProductsGroupBySku.map(list => {
                 const [product] = list
                 const sales = list.map(x => x.sale)
-                return { id: product.sku, total: sum(list, 'unit_count'), sales }
+                let wineId = 0;
+                if (!product.sku.includes('-'))
+                    wineId = Number(product.sku)
+                else {
+                    const wineIdFound = idsBySkus.find(x => x.skuVivino === product.sku)
+                    if (wineIdFound)
+                        wineId = wineIdFound.id;
+                    else
+                        skusNotFoundArray.push(product.sku);
+                }
+                return { id: wineId, total: sum(list, 'unit_count'), sales }
+            });
+            
+            const itemsProductsGroupById = groupBy(productsSales, 'id')
+            const productsSalesGrouped = itemsProductsGroupById.map(list => {
+                const [wine] = list;
+                let sales = [];
+                list.forEach(elementList => elementList.sales.forEach(elementSales => sales.push(elementSales)));
+                return { id: wine.id, total: sum(list, 'total'), sales }
             });
 
             console.log(data);
             console.log(`${data?.length} VENDAS ENCONTRADAS`);
             console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS`);
 
-            queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales };
-            if (productsSales.length)
+            queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales: productsSalesGrouped };
+            if (productsSalesGrouped.length)
                 await sendMessage('wines-sales-update-queue', queueObj);
 
             if (sales.length) {
                 await WineSale.bulkCreate(sales)
                 await UserClientWineService.addClientBySale(sales)
             }
+            if (skusNotFoundArray.length)
+                await sendWarningSkuNotFound(skusNotFoundArray, companyId);
         }
 
         return handlerResponse(200, { queueObj, response }, 'Vendas obtidas com sucesso')
@@ -179,6 +206,24 @@ const getVivinoUrl = (vivinoClientId) => {
     return !vivinoClientId.includes('TESTING') ? VIVINO_API_URL.replace('testing.', '') : VIVINO_API_URL
 }
 
+const sendWarningSkuNotFound = async (skusNotFoundArray, companyId) => {
+
+    const skusNotFound = skusNotFoundArray?.join("', '");
+
+    if (skusNotFound) {
+        const [company] = await executeSelect(`SELECT name, email FROM companies WHERE id = '${companyId}'`)
+        const subject = `ATENÇÃO! ${company.name}, os seguintes SKUs não foram encontrados`
+        const to = [process.env.EMAIL_FROM_SENDER, company.email];
+        const body = `<div style='padding:50px'>
+                        <p>Integrador Vivino informa</p>                        
+                        <p>ATENÇÃO! Os seguintes SKUs abaixo não foram encontrados</p>                        
+                        <p><b>'${skusNotFound}'</b></p>                        
+                        <p>Faça a associação no cadastro do vinho correspondente pois a falta deste mapeamento resulta na NÂO baixa no controle de estoque e contabilização dos vinhos vendidos</p>                        
+                      </div>`;
+
+        await sendMessage('send-email-queue', { to, subject, body, companyName: company.name });
+    }
+}
 
 //#region processamento de vendas antigas com sku vivino
 const arrayskus = [
@@ -268,7 +313,7 @@ const arrayskus = [
 
     { sku: "VD-30983803", id: 1413 },
     { sku: "VD-160083866", id: 1413 },
-    
+
     { sku: "VD-168166007", id: 2004 },
     { sku: "VD-167821060", id: 1793 },
     { sku: "VD-167448996", id: 1533 },//20 e 22 01/2024

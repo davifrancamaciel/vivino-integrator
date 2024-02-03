@@ -25,6 +25,7 @@ module.exports = {
         allowNull: false,
       },
       userAWSId: { type: Sequelize.STRING(50) },
+      image: { type: Sequelize.STRING(500), allowNull: true, },
       commissionMonth: { type: Sequelize.DECIMAL(10, 2), defaultValue: 0, },
       createdAt: {
         type: Sequelize.DATE,

@@ -45,6 +45,7 @@ const sendMailError = async (err, message) => {
                     <p>${err?.name}</p>
                     <p>${err?.table}</p>
                     <p>${err?.message}</p>
+                    <p>${err?.parent}</p>
                   </div>`;
 
     await sendMessage('send-email-queue', { to, subject, body });
