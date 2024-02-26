@@ -46,7 +46,13 @@ const CreateEdit: React.FC = (props: any) => {
 
   const action = async () => {
     try {
-      if (!state.productName || !state.price || !state.bottleSize) {
+      if (
+        !state.productName ||
+        !state.price ||
+        !state.bottleSize ||
+        !state.bottleQuantity ||
+        !state.inventoryCount
+      ) {
         notification.warning({
           message: 'Existem campos obrigatórios não preenchidos'
         });
@@ -122,6 +128,7 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
+          required={true}
           label={'Quantidade de garrafas'}
           type={'number'}
           placeholder="1"
@@ -143,6 +150,7 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
+          required={true}
           label={'Contagem de inventário'}
           type={'number'}
           placeholder="1"
@@ -223,7 +231,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ alcohol: e.target.value })}
         />
       </Col>
-  
+
       <Col lg={24} md={24} sm={24} xs={24}>
         <Textarea
           label={'Descrição'}

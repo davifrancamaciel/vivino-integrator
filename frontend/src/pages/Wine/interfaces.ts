@@ -42,6 +42,7 @@ export const initialStateForm: Wine = {
   productName: '',
   price: '',
   bottleSize: '',
+  bottleQuantity: 1,
   quantityIsMinimum: false,
   active: true,
   containsMilkAllergens: false,

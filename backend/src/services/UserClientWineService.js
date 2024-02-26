@@ -13,8 +13,9 @@ const addClientBySale = async (sales) => {
         const element = sales[i];
         try {
             const sale = JSON.parse(element.sale);
+            const { companyId } = element
             const user = {
-                companyId: element.companyId,
+                companyId,
                 name: sale?.user?.alias,
                 image: sale?.user?.image?.location,
                 email: sale?.user?.email,
@@ -23,7 +24,7 @@ const addClientBySale = async (sales) => {
                 active: true
             }
 
-            const item = await User.findOne({ where: { email: user.email } })
+            const item = await User.findOne({ where: { email: user.email, companyId } })
             let userId = null;
             if (item != null) {
                 userId = item.id;
@@ -33,9 +34,9 @@ const addClientBySale = async (sales) => {
                 const result = await User.create(user)
                 userId = result.id;
             }
-           
+
             wineSaleUserList.push({
-                companyId: element.companyId,
+                companyId,
                 userId,
                 code: element.code
             })

@@ -10,8 +10,15 @@ const { executeUpdate, executeSelect } = require("../../services/ExecuteQuerySer
 const { sendMessage } = require('../../services/AwsQueueService')
 const UserClientWineService = require('../../services/UserClientWineService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
+const { seeds } = require('../../services/WinesImport');
 
 module.exports.auth = async (event, context) => {
+
+    if (process.env.IS_OFFLINE) {
+        const importacao = await seeds();
+        return handlerResponse(200, importacao);
+    }
+
     let companyId = '';
     try {
         context.callbackWaitsForEmptyEventLoop = false;
@@ -157,7 +164,7 @@ module.exports.sales = async (event, context) => {
                 }
                 return { id: wineId, total: sum(list, 'unit_count'), sales }
             });
-            
+
             const itemsProductsGroupById = groupBy(productsSales, 'id')
             const productsSalesGrouped = itemsProductsGroupById.map(list => {
                 const [wine] = list;

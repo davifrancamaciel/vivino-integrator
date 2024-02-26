@@ -156,10 +156,13 @@ module.exports.create = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             companyId = user.companyId
 
-        const item = await User.findOne({ where: { email } })
-
-        if (item)
-            return handlerResponse(400, {}, `${RESOURCE_NAME} já existe`)
+        if (type === userType.USER) {
+            if (password.length < 8)
+                return handlerResponse(400, {}, `A senha precisa ter ao menos 8 caracteres`)
+            const item = await User.findOne({ where: { email } })
+            if (item)
+                return handlerResponse(400, {}, `${RESOURCE_NAME} já existe`)
+        }
 
         const objOnSave = {
             email,
@@ -313,9 +316,9 @@ module.exports.delete = async (event) => {
                 await cognitoRequest(cognito.adminDeleteUser, { Username });
             }
         }
-        
+
         await imageService.remove(userInDb.image);
-        
+
         return handlerResponse(200, {}, `${RESOURCE_NAME} ${userInDb.name} removido com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, pathParameters)
