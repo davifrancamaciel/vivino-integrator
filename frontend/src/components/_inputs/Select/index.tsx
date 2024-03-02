@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Select, Typography, SelectProps } from 'antd';
 import { IOptions } from 'utils/commonInterfaces';
 import api from 'services/api-aws-amplify';
+import Required from '../Required';
 
 const { Option } = Select;
 
@@ -21,6 +22,7 @@ interface PropTypes extends SelectProps<any> {
   label?: string;
   url?: string;
   data?: any;
+  required?: boolean;
   setcallback?: (options: IOptions[]) => void;
 }
 
@@ -59,7 +61,7 @@ const SelectCustom: React.FC<PropTypes> = (props) => {
     <>
       {props.label && (
         <Typography.Title level={5} style={{ marginBottom: 0 }}>
-          {props.label}
+          {props.label} {props.required ? <Required /> : ' '}
         </Typography.Title>
       )}
       <Select loading={loading} {...PropsSelect} {...props}>

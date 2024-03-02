@@ -1,3 +1,5 @@
+import { IOptions } from 'utils/commonInterfaces';
+
 export interface Wine {
   id?: string;
   productName?: string;
@@ -41,7 +43,7 @@ export const initialStateForm: Wine = {
   id: undefined,
   productName: '',
   price: '',
-  bottleSize: '',
+  // bottleSize: '',
   bottleQuantity: 1,
   quantityIsMinimum: false,
   active: true,
@@ -72,3 +74,28 @@ export const initialStateFilter: Filter = {
   pageNumber: 1,
   pageSize: 10
 };
+
+export const booleanFilter: IOptions[] = [
+  { value: '', label: 'Todos' },
+  { value: 'true', label: 'Sim' },
+  { value: 'false', label: 'Não' }
+];
+
+const arrBottleSize = ['375 ml', '500 ml', '750 ml', '1000 ml', '1500 ml'];
+export const bottleSizes: IOptions[] = arrBottleSize.map((x: string) => ({
+  value: x,
+  label: x
+}));
+
+const arrVintages = (): number[] => {
+  const year = new Date().getFullYear();
+  let array: number[] = [];
+  for (let i = year; i > year - 200; i--) {
+    array.push(i);
+  }
+  return array;
+};
+export const vintages: IOptions[] = arrVintages().map((x: number) => ({
+  value: `${x}`,
+  label: `${x}`
+}));

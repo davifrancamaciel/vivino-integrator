@@ -5,7 +5,7 @@ import { Input, Select, Switch, Textarea } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
-import { initialStateForm } from '../interfaces';
+import { initialStateForm, vintages, bottleSizes } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
 import UploadImages from 'components/UploadImages';
@@ -118,12 +118,12 @@ const CreateEdit: React.FC = (props: any) => {
       </Col>
 
       <Col lg={6} md={12} sm={24} xs={24}>
-        <Input
+        <Select
           required={true}
           label={'Tamanho da garrafa'}
-          placeholder="750 ml"
+          options={bottleSizes}
           value={state.bottleSize}
-          onChange={(e) => dispatch({ bottleSize: e.target.value })}
+          onChange={(bottleSize) => dispatch({ bottleSize })}
         />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
@@ -186,12 +186,11 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <Input
-          label={'Vintage'}
-          type={'number'}
-          placeholder="2019"
+        <Select
+          label={'Safra'}
+          options={vintages}
           value={state.vintage}
-          onChange={(e) => dispatch({ vintage: e.target.value })}
+          onChange={(vintage) => dispatch({ vintage })}
         />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>

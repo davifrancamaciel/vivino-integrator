@@ -131,7 +131,7 @@ const Details: React.FC = (props: any) => {
         <ViewData label="Denominação" value={state.appellation} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Vintage" value={state.vintage} />
+        <ViewData label="Safra" value={state.vintage} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="País" value={state.country} />
