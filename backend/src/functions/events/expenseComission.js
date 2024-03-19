@@ -9,6 +9,7 @@ const salesRepository = require('../../repositories/salesRepository');
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const formatPrice = require("../../utils/formatPrice");
 const { sendMessage } = require('../../services/AwsQueueService')
+const { linkServices } = require("../../utils/defaultValues");
 
 module.exports.handler = async (event, context) => {
     try {
@@ -71,7 +72,7 @@ module.exports.handler = async (event, context) => {
 
 const sendEmails = async (expenses) => {
     const { STAGE } = process.env;
-    const link = 'http://services-integrator-prod.s3-website-us-east-1.amazonaws.com';
+    const link = linkServices;
     const emailAdm = process.env.EMAIL_FROM_SENDER;
 
     for (let i = 0; i < expenses.length; i++) {

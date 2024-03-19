@@ -15,7 +15,7 @@ const seeds = async () => {
             productName,
             price: Number(element.preco.toString().replace(',', '.')),
             quantityIsMinimum: false,
-            bottleSize: '750ML',
+            bottleSize: '750 ml',
             bottleQuantity: 1,
             // link: `${element.link}/${element.nome.replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').toLowerCase()}`,
             inventoryCount: element.Estoque,

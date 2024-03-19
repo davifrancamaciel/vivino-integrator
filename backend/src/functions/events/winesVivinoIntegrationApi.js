@@ -11,6 +11,7 @@ const { sendMessage } = require('../../services/AwsQueueService')
 const UserClientWineService = require('../../services/UserClientWineService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { seeds } = require('../../services/WinesImport');
+const { linkServices, linkVivino, companyIdDefault } = require("../../utils/defaultValues");
 
 module.exports.auth = async (event, context) => {
 
@@ -159,8 +160,12 @@ module.exports.sales = async (event, context) => {
                     const wineIdFound = idsBySkus.find(x => x.skuVivino === product.sku)
                     if (wineIdFound)
                         wineId = wineIdFound.id;
-                    else
-                        skusNotFoundArray.push(product.sku);
+                    else {
+                        const { STAGE } = process.env
+                        const link = companyId === companyIdDefault && STAGE === 'prd' ? linkVivino : linkServices;
+                        const skuLink = `<a href="${link}/wines/sales?sale=${product.sku}" target="_blank"><b>${product.sku} -> ${product.description}</b></a>`
+                        skusNotFoundArray.push(`<p>${skuLink}</p>`);
+                    }
                 }
                 return { id: wineId, total: sum(list, 'unit_count'), sales }
             });
@@ -215,7 +220,7 @@ const getVivinoUrl = (vivinoClientId) => {
 
 const sendWarningSkuNotFound = async (skusNotFoundArray, companyId) => {
 
-    const skusNotFound = skusNotFoundArray?.join("', '");
+    const skusNotFound = skusNotFoundArray?.join(' ');
 
     if (skusNotFound) {
         const [company] = await executeSelect(`SELECT name, email FROM companies WHERE id = '${companyId}'`)
@@ -224,7 +229,7 @@ const sendWarningSkuNotFound = async (skusNotFoundArray, companyId) => {
         const body = `<div style='padding:50px'>
                         <p>Integrador Vivino informa</p>                        
                         <p>ATENÇÃO! Os seguintes SKUs abaixo não foram encontrados</p>                        
-                        <p><b>'${skusNotFound}'</b></p>                        
+                        ${skusNotFound}                        
                         <p>Faça a associação no cadastro do vinho correspondente pois a falta deste mapeamento resulta na NÂO baixa no controle de estoque e contabilização dos vinhos vendidos</p>                        
                       </div>`;
 
@@ -331,7 +336,7 @@ const arrayskus = [
 const updateSkus = async (schema) => {
     for (let i = 0; i < arrayskus.length; i++) {
         const element = arrayskus[i];
-        const query = `UPDATE ${schema}.wines SET skuVivino = '${element.sku}' WHERE id =  ${element.id}`;
+        const query = `UPDATE ${schema}.wines SET skuVivino = '${element.sku}' WHERE id = ${element.id}`;
         await executeUpdate(query);
     }
 }
@@ -342,7 +347,7 @@ const createHistory = async (skuContains) => {
     try {
         const { count, rows } = await WineSale.findAndCountAll({
             where: {
-                sale: { [Op.like]: `%${skuContains}%` }
+                sale: { [Op.like]: `% ${skuContains}% ` }
             },
             limit: 1000,
             order: [['id', 'ASC']],

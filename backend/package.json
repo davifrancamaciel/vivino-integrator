@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "sls offline start",
     "debug": "sls offline -s dev",
-    "deploy": "sls deploy",
-    "deploy:prod": "sls deploy --stage prd",
+    "deploy": "sls deploy --aws-profile services_integrator",
+    "deploy:prod": "sls deploy --stage prd --aws-profile services_integrator",
     "create_domain": "sls create_domain",
     "info": "sls info",
     "migrate": "sequelize db:migrate",
