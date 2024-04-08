@@ -30,6 +30,7 @@ provider:
   stage: dev
   region: us-east-1
   memorySize: 256
+  profile: services_integrator
 
   apiGateway:
     shouldStartNameWithService: true

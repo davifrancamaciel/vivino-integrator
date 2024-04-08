@@ -1,6 +1,6 @@
+
 "use strict";
 
-const { Op } = require('sequelize');
 const axios = require('axios');
 const FormData = require('form-data');
 const db = require('../../database');
@@ -10,15 +10,17 @@ const { executeUpdate, executeSelect } = require("../../services/ExecuteQuerySer
 const { sendMessage } = require('../../services/AwsQueueService')
 const UserClientWineService = require('../../services/UserClientWineService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
-const { seeds } = require('../../services/WinesImport');
 const { linkServices, linkVivino, companyIdDefault } = require("../../utils/defaultValues");
+// const { seeds } = require('../../services/WinesImport');
+// const { handler } = require('../queue/sendWhatsapp')
 
 module.exports.auth = async (event, context) => {
 
-    if (process.env.IS_OFFLINE) {
-        const importacao = await seeds();
-        return handlerResponse(200, importacao);
-    }
+    // if (process.env.IS_OFFLINE) {
+    //     // const importacao = await seeds();
+    //     // return handlerResponse(200, importacao);
+    //     return handlerResponse(200, await handler(event));
+    // }
 
     let companyId = '';
     try {
@@ -141,34 +143,7 @@ module.exports.sales = async (event, context) => {
                 });
             }
 
-            let idsBySkus = [], skusNotFoundArray = []
-            const itemsProductsGroupBySku = groupBy(itemsProducts, 'sku')
-            const skus = itemsProductsGroupBySku.map(list => {
-                const [product] = list
-                return product.sku;
-            }).filter(x => x.includes('-')).join("','");
-            if (skus)
-                idsBySkus = await executeSelect(`SELECT id, skuVivino FROM wines WHERE companyId = '${companyId}' AND skuVivino IN ('${skus}')`)
-
-            const productsSales = itemsProductsGroupBySku.map(list => {
-                const [product] = list
-                const sales = list.map(x => x.sale)
-                let wineId = 0;
-                if (!product.sku.includes('-'))
-                    wineId = Number(product.sku)
-                else {
-                    const wineIdFound = idsBySkus.find(x => x.skuVivino === product.sku)
-                    if (wineIdFound)
-                        wineId = wineIdFound.id;
-                    else {
-                        const { STAGE } = process.env
-                        const link = companyId === companyIdDefault && STAGE === 'prd' ? linkVivino : linkServices;
-                        const skuLink = `<a href="${link}/wines/sales?sale=${product.sku}" target="_blank"><b>${product.sku} -> ${product.description}</b></a>`
-                        skusNotFoundArray.push(`<p>${skuLink}</p>`);
-                    }
-                }
-                return { id: wineId, total: sum(list, 'unit_count'), sales }
-            });
+            const { productsSales, skusNotFoundArray } = await identifyWinesBySkuOrNameAndVintage(companyId, itemsProducts);
 
             const itemsProductsGroupById = groupBy(productsSales, 'id')
             const productsSalesGrouped = itemsProductsGroupById.map(list => {
@@ -218,6 +193,67 @@ const getVivinoUrl = (vivinoClientId) => {
     return !vivinoClientId.includes('TESTING') ? VIVINO_API_URL.replace('testing.', '') : VIVINO_API_URL
 }
 
+const identifyWinesBySkuOrNameAndVintage = async (companyId, itemsProducts) => {
+
+    let idsBySkus = [];
+    const itemsProductsGroupBySku = groupBy(itemsProducts, 'sku')
+    const skus = itemsProductsGroupBySku.map(list => {
+        const [product] = list
+        return product.sku;
+    }).filter(x => x.includes('-')).join("','");
+    if (skus)
+        idsBySkus = await executeSelect(`SELECT id, skuVivino FROM wines WHERE companyId = '${companyId}' AND skuVivino IN ('${skus}')`)
+
+    let productsSales = [], skusNotFoundArray = []
+    for (let i = 0; i < itemsProductsGroupBySku.length; i++) {
+        const list = itemsProductsGroupBySku[i];
+        const [product] = list
+        const sales = list.map(x => x.sale)
+        let wineId = 0;
+        if (!product.sku.includes('-'))
+            wineId = Number(product.sku)
+        else {
+            const wineIdFound = await getIdWine(companyId, product, idsBySkus)
+            if (wineIdFound)
+                wineId = wineIdFound;
+            else
+                skusNotFoundArray.push(createLink(companyId, product));
+        }
+        productsSales.push({ id: wineId, total: sum(list, 'unit_count'), sales })
+    }
+    return { productsSales, skusNotFoundArray };
+}
+
+const getIdWine = async (companyId, product, idsBySkus) => {
+
+    const wineIdFound = idsBySkus.find(x => x.skuVivino === product.sku);
+    if (wineIdFound)
+        return wineIdFound.id;
+
+    let arrayName = product.description.split(' ');
+    const vintage = arrayName.pop();
+    const productName = arrayName.join(' ');
+    const query = ` SELECT id 
+                    FROM wines 
+                    WHERE companyId = '${companyId}' AND productName = '${productName}' AND vintage = '${vintage}'
+                    LIMIT 1`;
+    const [wine] = await executeSelect(query);
+    if (wine) {
+        const queryUpdate = ` UPDATE wines SET skuVivino = '${product.sku}' 
+                              WHERE companyId = '${companyId}' AND id = ${wine.id}`;
+        await executeUpdate(queryUpdate);
+        return wine.id
+    }
+    return 0;
+}
+
+const createLink = (companyId, product) => {
+    const { STAGE } = process.env
+    const link = companyId === companyIdDefault && STAGE === 'prd' ? linkVivino : linkServices;
+    const skuLink = `<a href="${link}/wines/sales?sale=${product.sku}" target="_blank"><b>${product.sku} -> ${product.description}</b></a>`
+    return `<p>${skuLink}</p>`;
+}
+
 const sendWarningSkuNotFound = async (skusNotFoundArray, companyId) => {
 
     const skusNotFound = skusNotFoundArray?.join(' ');
@@ -236,171 +272,3 @@ const sendWarningSkuNotFound = async (skusNotFoundArray, companyId) => {
         await sendMessage('send-email-queue', { to, subject, body, companyName: company.name });
     }
 }
-
-//#region processamento de vendas antigas com sku vivino
-const arrayskus = [
-    { sku: "VD-173266983", id: 10054 },
-    { sku: "VD-174777880", id: 965 },
-    { sku: "VD-169937700", id: 1621 },
-    { sku: "VD-172695864", id: 10067 },
-    { sku: "VD-171424406", id: 10069 },
-    { sku: "VD-174777903", id: 1257 },
-    { sku: "VD-168922651", id: 853 },
-    { sku: "VD-169815663", id: 10068 },
-    { sku: "VD-172635828", id: 1749 },
-    { sku: "VD-170293076", id: 2110 },
-    { sku: "VD-167819007", id: 957 },
-    { sku: "VD-163290517", id: 1237 },
-    { sku: "VD-162984306", id: 241 },
-    { sku: "VD-166303609", id: 1753 },
-    { sku: "VD-168635862", id: 1557 },
-    { sku: "VD-165845189", id: 1273 },
-    { sku: "VD-161025900", id: 1677 },
-    { sku: "VD-164172029", id: 31 },
-    { sku: "VD-170126070", id: 1777 },
-    { sku: "VD-173074288", id: 2107 },
-    { sku: "VD-142275746", id: 327 },
-    { sku: "VD-169651950", id: 1625 },
-    { sku: "VD-170126053", id: 1935 },
-    { sku: "VD-168997679", id: 843 },
-    { sku: "VD-166581839", id: 573 },
-    { sku: "VD-170816215", id: 2103 },
-    { sku: "VD-159726488", id: 7 },
-    { sku: "VD-156341136", id: 1263 },
-    { sku: "VD-164163495", id: 567 },
-    { sku: "VD-172887376", id: 1946 },
-    { sku: "VD-169882120", id: 1295 },
-    { sku: "VD-170244898", id: 1741 },
-    { sku: "VD-169879699", id: 1629 },
-    { sku: "VD-172772271", id: 1948 },
-    { sku: "VD-172613467", id: 1707 },
-    { sku: "VD-171927307", id: 10066 },
-    { sku: "VD-171684313", id: 79 },
-    { sku: "VD-156135924", id: 1569 },
-    { sku: "VD-167857723", id: 169 },
-    { sku: "VD-164206547", id: 2100 },
-    { sku: "VD-159459321", id: 1199 },
-    { sku: "VD-169192805", id: 1931 },
-    { sku: "AD-158923974", id: 409 },
-    { sku: "AD-157871018", id: 403 },
-    { sku: "AD-2730644", id: 805 },
-    { sku: "AD-2769950", id: 2057 },
-    { sku: "AD-1568747", id: 2056 },
-    { sku: "AD-3682737", id: 239 },
-    { sku: "AD-3476934", id: 799 },
-    { sku: "AD-164942577", id: 2081 },
-    { sku: "AD-157149419", id: 2063 },
-    { sku: "AD-1480778", id: 2051 },
-    { sku: "AD-1563658", id: 407 },
-    { sku: "AD-153303193", id: 2083 },
-    { sku: "AD-152327639", id: 2082 },
-    { sku: "AD-4072643", id: 2064 },
-    { sku: "AD-1930578", id: 2089 },
-    { sku: "AD-1659821", id: 1589 },
-    { sku: "AD-5725941", id: 1585 },
-    { sku: "AD-164942645", id: 411 },
-    { sku: "AD-164942636", id: 397 },
-    { sku: "AD-164942648", id: 421 },
-    { sku: "VD-159421168", id: 1951 },
-    { sku: "VD-172887382", id: 1949 },
-    { sku: "VD-156103106", id: 1953 },
-    { sku: "VD-159328631", id: 1229 },
-    { sku: "VD-159439897", id: 1393 },
-    { sku: "VD-156284322", id: 521 },
-    { sku: "VD-167450665", id: 1817 },
-    { sku: "VD-171628988", id: 10001 },
-    { sku: "VD-172225527", id: 1916 },
-
-    { sku: "VD-169395951", id: 10045 },
-    { sku: "VD-169525337", id: 10045 },
-
-    { sku: "VD-172887378", id: 1950 },
-    { sku: "VD-173508339", id: 1950 },
-
-    { sku: "VD-159954172", id: 1405 },
-    { sku: "VD-163010188", id: 1405 },
-
-    { sku: "VD-159559869", id: 10031 },
-    { sku: "VD-163118318", id: 10031 },
-
-    { sku: "VD-30983803", id: 1413 },
-    { sku: "VD-160083866", id: 1413 },
-
-    { sku: "VD-168166007", id: 2004 },
-    { sku: "VD-167821060", id: 1793 },
-    { sku: "VD-167448996", id: 1533 },//20 e 22 01/2024
-];
-
-// await updateSkus('services_db_dev')
-// await updateSkus('services_db')
-const updateSkus = async (schema) => {
-    for (let i = 0; i < arrayskus.length; i++) {
-        const element = arrayskus[i];
-        const query = `UPDATE ${schema}.wines SET skuVivino = '${element.sku}' WHERE id = ${element.id}`;
-        await executeUpdate(query);
-    }
-}
-
-// const list = await createHistory('VD-');
-// return handlerResponse(200, list, 'Vendas obtidas com sucesso')
-const createHistory = async (skuContains) => {
-    try {
-        const { count, rows } = await WineSale.findAndCountAll({
-            where: {
-                sale: { [Op.like]: `% ${skuContains}% ` }
-            },
-            limit: 1000,
-            order: [['id', 'ASC']],
-        })
-
-        let list = [];
-
-        for (let i = 0; i < rows.length; i++) {
-            const element = rows[i];
-            const { saleFormatted, createdAt, updatedAt, companyId, saleDate } = element
-            const { items, user, created_at, id } = saleFormatted
-            for (let j = 0; j < items.length; j++) {
-                const item = items[j];
-                if (item.sku.includes(skuContains)) {
-                    const wineSku = arrayskus.find(x => x.sku === item.sku)
-                    if (!wineSku) {
-                        const message = `${item.sku} NÃO ENCONTRADO`
-                        console.error(message)
-                        throw new Error(message);
-                    }
-                    const itemHistory = {
-                        wineId: wineSku.id,
-                        companyId,
-                        dateReference: saleDate,
-                        total: item.unit_count,
-                        inventoryCountBefore: 0,
-                        createdAt,
-                        updatedAt,
-                        sale: { wineId: wineSku.id, wineSku: item.sku, id, created_at, unit_count: item.unit_count, user },
-                        dateReferenceGroup: new Date(saleDate).toISOString().split('T')[0],
-                    }
-                    list.push(itemHistory)
-                }
-            }
-        }
-
-        const itemsProductsGroupBySku = groupBy(list, 'dateReferenceGroup')
-        var historyArr = []
-        for (let i = 0; i < itemsProductsGroupBySku.length; i++) {
-            const arrayGrouped = itemsProductsGroupBySku[i];
-            const saleGroupBySku = groupBy(arrayGrouped, 'wineId')
-            const productsSales = saleGroupBySku.map(list => {
-                const [product] = list
-                const sales = list.map(x => x.sale)
-                return { ...product, total: sum(list, 'total'), sales: JSON.stringify(sales) }
-            });
-            productsSales.map(x => historyArr.push(x))
-        }
-        // await WineSaleHistory.bulkCreate(historyArr);
-
-        return { count, historyArr };
-    } catch (error) {
-        return error
-    }
-}
-//#endregion
