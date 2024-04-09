@@ -6,6 +6,7 @@ const FormData = require('form-data');
 const db = require('../../database');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
+const Wine = require('../../models/Wine')(db.sequelize, db.Sequelize);
 const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
 const UserClientWineService = require('../../services/UserClientWineService')
@@ -75,8 +76,6 @@ module.exports.sales = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const status = 'Confirmed', limit = 2000;
-
         const { queryStringParameters } = event
         if (queryStringParameters)
             dateReference = queryStringParameters.dateReference
@@ -89,62 +88,42 @@ module.exports.sales = async (event, context) => {
         let response = null, queueObj = null;
 
         for (let i = 0; i < resp.length; i++) {
+            let itemsProducts = [], sales = [];
             const element = resp[i];
             companyId = element.id;
 
-            console.log(`BUSCANDO VENDAS DA EMPRESA ${element.name} COD ${companyId} NA API VIVINO DATA ${dateReference}`)
+            const data = await getVivinoSales(companyId, dateReference, element);
+            if (!data)
+                return handlerResponse(200, { queueObj, response }, 'Não foi encontrada nenhuma venda')
 
-            const config = {
-                method: 'GET',
-                maxBodyLength: Infinity,
-                url: `${getVivinoUrl(element.vivinoClientId)}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=8.19&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
-                headers: { 'Authorization': `Bearer ${element.vivinoAuthToken}` }
-            };
-
-            let itemsProducts = [], sales = [];
-            const { data } = await axios(config);
             response = data;
+            const codes = data.map(x => x.id).join(`','`)
+            const query = `SELECT code FROM wineSales WHERE companyId = '${companyId}' AND code IN ('${codes}')`
+            const salesIsExist = await executeSelect(query);
 
-            if (data) {
+            data.forEach(element => {
+                const { items, id, created_at, user, confirmed_at } = element;
 
-                const codes = data.map(x => x.id).join(`','`)
-                const query = `SELECT code FROM wineSales WHERE companyId = '${companyId}' AND code IN ('${codes}')`
-                const salesIsExist = await executeSelect(query);
+                if (!salesIsExist.find(x => x.code === id)) {
 
-                data.forEach(element => {
-                    const { items, id, created_at, user, confirmed_at } = element;
+                    console.log(`${id} DATA created_at ${created_at} confirmed_at ${confirmed_at}`);
 
-                    if (!salesIsExist.find(x => x.code === id)) {
-                        const saleDate = new Date(created_at)
-                        console.log(`${id} DATA created_at ${created_at} confirmed_at ${confirmed_at}`)
+                    sales.push({
+                        companyId,
+                        code: id,
+                        value: element.items_total_sum,
+                        sale: JSON.stringify(createSale(element)),
+                        saleDate: new Date(created_at)
+                    });
 
-                        const sale = {
-                            id: element.id,
-                            user: element.user,
-                            source: element.source,
-                            billing: element.billing,
-                            shipping: element.shipping,
-                            created_at: element.created_at,
-                            confirmed_at: element.confirmed_at,
-                            authorized_at: element.authorized_at,
-                            items_total_sum: element.items_total_sum,
-                            items_units_sum: element.items_units_sum,
-                            items: element.items.map(prod => ({ ...prod, "price-listing": null })),
-                        };
-
-                        sales.push({ companyId, code: id, value: element.items_total_sum, sale: JSON.stringify(sale), saleDate });
-
-                        items && items.forEach(elementItem => itemsProducts.push({
-                            sale: { id, created_at, unit_count: elementItem.unit_count, user }, ...elementItem
-                        }));
-                    } else {
-                        console.warn(`${id} JÁ FOI IMPORTADA created_at ${created_at} confirmed_at ${confirmed_at}`)
-                    }
-                });
-            }
+                    items && items.forEach(elementItem => itemsProducts.push({
+                        sale: { id, created_at, unit_count: elementItem.unit_count, user }, ...elementItem
+                    }));
+                } else
+                    console.warn(`${id} JÁ FOI IMPORTADA created_at ${created_at} confirmed_at ${confirmed_at}`);
+            });
 
             const { productsSales, skusNotFoundArray } = await identifyWinesBySkuOrNameAndVintage(companyId, itemsProducts);
-
             const itemsProductsGroupById = groupBy(productsSales, 'id')
             const productsSalesGrouped = itemsProductsGroupById.map(list => {
                 const [wine] = list;
@@ -176,21 +155,41 @@ module.exports.sales = async (event, context) => {
     }
 };
 
-const groupBy = (arr, prop) => {
-    const map = new Map(Array.from(arr, obj => [obj[prop], []]));
-    arr.forEach(obj => map.get(obj[prop]).push(obj));
-    return Array.from(map.values());
-}
+const getVivinoSales = async (companyId, dateReference, element) => {
+    const status = 'Confirmed', limit = 2000;
+    console.log(`BUSCANDO VENDAS DA EMPRESA ${element.name} COD ${companyId} NA API VIVINO DATA ${dateReference}`)
 
-const sum = function (items, prop) {
-    return items.reduce(function (a, b) {
-        return a + b[prop];
-    }, 0);
-};
+    const config = {
+        method: 'GET',
+        maxBodyLength: Infinity,
+        url: `${getVivinoUrl(element.vivinoClientId)}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=8.19&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
+        headers: { 'Authorization': `Bearer ${element.vivinoAuthToken}` }
+    };
+
+    const { data } = await axios(config);
+    return data;
+}
 
 const getVivinoUrl = (vivinoClientId) => {
     const { VIVINO_API_URL } = process.env
     return !vivinoClientId.includes('TESTING') ? VIVINO_API_URL.replace('testing.', '') : VIVINO_API_URL
+}
+
+const createSale = (element) => {
+    const sale = {
+        id: element.id,
+        user: element.user,
+        source: element.source,
+        billing: element.billing,
+        shipping: element.shipping,
+        created_at: element.created_at,
+        confirmed_at: element.confirmed_at,
+        authorized_at: element.authorized_at,
+        items_total_sum: element.items_total_sum,
+        items_units_sum: element.items_units_sum,
+        items: element.items.map(prod => ({ ...prod, "price-listing": null })),
+    };
+    return sale;
 }
 
 const identifyWinesBySkuOrNameAndVintage = async (companyId, itemsProducts) => {
@@ -233,17 +232,17 @@ const getIdWine = async (companyId, product, idsBySkus) => {
     let arrayName = product.description.split(' ');
     const vintage = arrayName.pop();
     const productName = arrayName.join(' ');
-    const query = ` SELECT id 
-                    FROM wines 
-                    WHERE companyId = '${companyId}' AND productName = '${productName}' AND vintage = '${vintage}'
-                    LIMIT 1`;
-    const [wine] = await executeSelect(query);
+
+    const wine = await Wine.findOne({
+        where: { companyId, productName, vintage },
+        attibutes: ['id'],
+    })
+
     if (wine) {
-        const queryUpdate = ` UPDATE wines SET skuVivino = '${product.sku}' 
-                              WHERE companyId = '${companyId}' AND id = ${wine.id}`;
-        await executeUpdate(queryUpdate);
+        await wine.update({ skuVivino: product.sku })
         return wine.id
     }
+
     return 0;
 }
 
@@ -272,3 +271,15 @@ const sendWarningSkuNotFound = async (skusNotFoundArray, companyId) => {
         await sendMessage('send-email-queue', { to, subject, body, companyName: company.name });
     }
 }
+
+const groupBy = (arr, prop) => {
+    const map = new Map(Array.from(arr, obj => [obj[prop], []]));
+    arr.forEach(obj => map.get(obj[prop]).push(obj));
+    return Array.from(map.values());
+}
+
+const sum = function (items, prop) {
+    return items.reduce(function (a, b) {
+        return a + b[prop];
+    }, 0);
+};
