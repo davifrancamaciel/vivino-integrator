@@ -66,3 +66,17 @@ winesWarningEvent:
         path: wines/run-wines-warning
         method: get        
         cors: true 
+winesVivIntApiSalesShipEvent:  
+  handler: src/functions/events/winesVivinoIntegrationApiShipments.handler
+  timeout: 300 
+  environment:
+    VIVINO_API_URL: ${self:custom.VIVINO_API_URL}  
+  events:  
+  - eventBridge:
+      name: "${self:service}-${opt:stage, self:provider.stage}-viv-shipments"
+      description: Servico que busca links de rastreio
+      schedule: cron(10 18 * * ? *) # a cada 1h entre 7 e 15 de todos dias hora BR
+  - http:
+        path: wines/run-shipments
+        method: get        
+        cors: true 

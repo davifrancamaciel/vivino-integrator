@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Button, Col, Image, Tooltip } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
@@ -71,24 +71,48 @@ const List: React.FC = () => {
         createdAt: formatDateHour(sale.createdAt),
         updatedAt: formatDateHour(sale.updatedAt),
         custonActions: (
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Tooltip placement="top" title={`Visualizar venda`}>
-              <Button
-                icon={<EyeOutlined />}
-                onClick={() =>
-                  handleView({
-                    createdAt: formatDateHour(sale.createdAt),
-                    ...sale.saleFormatted
-                  })
+          <>
+            <div style={{ display: 'flex' }}>
+              <Tooltip placement="top" title={`Visualizar venda`}>
+                <Button
+                  icon={<EyeOutlined />}
+                  onClick={() =>
+                    handleView({
+                      createdAt: formatDateHour(sale.createdAt),
+                      ...sale.saleFormatted
+                    })
+                  }
+                  style={{
+                    backgroundColor: systemColors.GREY,
+                    color: '#fff',
+                    marginRight: 4
+                  }}
+                />
+              </Tooltip>
+              <Tooltip
+                placement="top"
+                title={
+                  sale.trackingUrl
+                    ? `Clique aqui para ver o rastreio da entrega`
+                    : 'Ainda não possui link de rastreio'
                 }
-                style={{
-                  backgroundColor: systemColors.GREY,
-                  color: '#fff',
-                  marginRight: 4
-                }}
-              />
-            </Tooltip>
-          </div>
+              >
+                <Button
+                  icon={<ShoppingCartOutlined />}
+                  onClick={() =>
+                    sale.trackingUrl && window.open(sale.trackingUrl, '_blank')
+                  }
+                  style={{
+                    backgroundColor: sale.trackingUrl
+                      ? systemColors.GREEN
+                      : systemColors.YELLOW,
+                    color: '#fff',
+                    marginRight: 4
+                  }}
+                />
+              </Tooltip>
+            </div>
+          </>
         ),
         expandable: (
           <WineGrid sale={sale.saleFormatted as SaleVivino} hidetotalRecords />

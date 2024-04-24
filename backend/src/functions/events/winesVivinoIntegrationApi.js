@@ -12,6 +12,7 @@ const { sendMessage } = require('../../services/AwsQueueService')
 const UserClientWineService = require('../../services/UserClientWineService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { linkServices, linkVivino, companyIdDefault } = require("../../utils/defaultValues");
+const { getVivinoUrl } = require("../../utils");
 // const { seeds } = require('../../services/WinesImport');
 // const { handler } = require('../queue/sendWhatsapp')
 
@@ -85,7 +86,7 @@ module.exports.sales = async (event, context) => {
             where: { vivinoApiIntegrationActive: true, active: true },
         })
 
-        let response = null, queueObj = null;
+        let response = null, queueObj = null, salesBeforeImported = [], salesImportedNow = [];
 
         for (let i = 0; i < resp.length; i++) {
             let itemsProducts = [], sales = [];
@@ -94,7 +95,7 @@ module.exports.sales = async (event, context) => {
 
             const data = await getVivinoSales(companyId, dateReference, element);
             if (!data)
-                return handlerResponse(200, { queueObj, response }, 'Não foi encontrada nenhuma venda')
+                continue;
 
             response = data;
             const codes = data.map(x => x.id).join(`','`)
@@ -105,8 +106,7 @@ module.exports.sales = async (event, context) => {
                 const { items, id, created_at, user, confirmed_at } = element;
 
                 if (!salesIsExist.find(x => x.code === id)) {
-
-                    console.log(`${id} DATA created_at ${created_at} confirmed_at ${confirmed_at}`);
+                    salesImportedNow.push(`${id}`);
 
                     sales.push({
                         companyId,
@@ -120,7 +120,7 @@ module.exports.sales = async (event, context) => {
                         sale: { id, created_at, unit_count: elementItem.unit_count, user }, ...elementItem
                     }));
                 } else
-                    console.warn(`${id} JÁ FOI IMPORTADA created_at ${created_at} confirmed_at ${confirmed_at}`);
+                    salesBeforeImported.push(`${id}`);
             });
 
             const { productsSales, skusNotFoundArray } = await identifyWinesBySkuOrNameAndVintage(companyId, itemsProducts);
@@ -134,8 +134,9 @@ module.exports.sales = async (event, context) => {
 
             console.log(data);
             console.log(`${data?.length} VENDAS ENCONTRADAS`);
-            console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS`);
-
+            console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS -> ${salesImportedNow.join(`','`)}`)
+            console.warn(`VENDAS IMPORTADAS ANTERIORMENTE ${salesBeforeImported.join(`','`)}`)
+            
             queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales: productsSalesGrouped };
             if (productsSalesGrouped.length)
                 await sendMessage('wines-sales-update-queue', queueObj);
@@ -168,11 +169,6 @@ const getVivinoSales = async (companyId, dateReference, element) => {
 
     const { data } = await axios(config);
     return data;
-}
-
-const getVivinoUrl = (vivinoClientId) => {
-    const { VIVINO_API_URL } = process.env
-    return !vivinoClientId.includes('TESTING') ? VIVINO_API_URL.replace('testing.', '') : VIVINO_API_URL
 }
 
 const createSale = (element) => {
@@ -232,12 +228,10 @@ const getIdWine = async (companyId, product, idsBySkus) => {
     let arrayName = product.description.split(' ');
     const vintage = arrayName.pop();
     const productName = arrayName.join(' ');
-
     const wine = await Wine.findOne({
         where: { companyId, productName, vintage },
         attibutes: ['id'],
     })
-
     if (wine) {
         await wine.update({ skuVivino: product.sku })
         return wine.id

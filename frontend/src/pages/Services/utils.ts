@@ -27,5 +27,11 @@ export const formatName = (name: string) => {
       route: 'services/run-backup'
     };
 
+  if (name.includes('ShipEvent'))
+    return {
+      name: 'Busca links de rastreio de vendas vivino da ultima semana',
+      route: 'wines/run-shipments'
+    };
+
   return { name, route: '' };
 };

@@ -9,13 +9,14 @@ module.exports = function (sequelize, DataTypes) {
             get() {
                 return JSON.parse(this.sale);
             },
-        },      
+        },
         code: { type: DataTypes.STRING(20) },
         value: { type: DataTypes.DECIMAL },
         companyId: { type: DataTypes.UUID },
-        saleDate: { type: DataTypes.DATE },   
+        saleDate: { type: DataTypes.DATE },
+        trackingUrl: { type: DataTypes.STRING(300) },
     });
 
-    WineSale.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });       
+    WineSale.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });
     return WineSale;
 };
