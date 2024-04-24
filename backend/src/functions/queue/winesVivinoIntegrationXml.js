@@ -95,13 +95,10 @@ const createFileXml = async ({ companyId }) => {
     await s3.remove(key, bucketPublicName);
     const result = await s3.put(xml, key, bucketPublicName);
 
-    console.log(result)
-
     if (companyId == companyIdDefault && STAGE === 'prd') {
         const bucket = 'vivino-integrator-api-prod-feeds';
         await s3.remove(fileName, bucket);
-        const resultAry = await s3.put(xml, fileName, bucket);
-        console.log(resultAry)
+        await s3.put(xml, fileName, bucket);        
     }
 
     return { result }

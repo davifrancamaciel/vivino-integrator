@@ -8,6 +8,8 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { roules } = require("../../utils/defaultValues");
 const imageService = require("../../services/ImageService");
+const s3 = require("../../services/AwsS3Service");
+
 
 const RESOURCE_NAME = 'Empresa'
 
@@ -102,12 +104,13 @@ module.exports.create = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
         const objOnSave = body
 
-        if (body.groupsFormatted) 
+        if (body.groupsFormatted)
             objOnSave.groups = JSON.stringify(body.groupsFormatted)
-        
+
         const result = await Company.create(objOnSave);
-        
+
         await imageService.add('companies', result.dataValues, body.fileList);
+        await createFile(result.dataValues);
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
@@ -137,10 +140,11 @@ module.exports.update = async (event) => {
         const objOnSave = body
         if (body.groupsFormatted)
             objOnSave.groups = JSON.stringify(body.groupsFormatted)
-        
+
         const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
         await imageService.add('companies', result.dataValues, body.fileList);
+        await createFile(result.dataValues);
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
     } catch (err) {
@@ -160,11 +164,11 @@ module.exports.delete = async (event) => {
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = pathParameters;
-        
+
         const item = await Company.findByPk(id);
 
         await imageService.remove(item.image);
-        
+
         await Company.destroy({ where: { id } });
 
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removida com sucesso`)
@@ -185,7 +189,7 @@ module.exports.listAll = async (event, context) => {
 
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const resp = await Company.findAll({            
+        const resp = await Company.findAll({
             order: [['name', 'ASC']],
         })
 
@@ -199,3 +203,9 @@ module.exports.listAll = async (event, context) => {
         return await handlerErrResponse(err)
     }
 };
+
+const createFile = async (company) => {
+    const key = `${company.id}/_company_${company.name}.json`;
+    const { bucketPublicName } = process.env
+    await s3.put(JSON.stringify({ id: company.id, name: company.name }), key, bucketPublicName);
+}
