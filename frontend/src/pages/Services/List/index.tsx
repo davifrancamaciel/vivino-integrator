@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Tag, Typography } from 'antd';
+import { Card, Typography } from 'antd';
 import GridList from 'components/GridList';
 import api from 'services/api-aws-amplify';
-import { apiRoutes, systemColors } from 'utils/defaultValues';
+import { apiRoutes } from 'utils/defaultValues';
 import { Services, ServicesFormatted } from '../interfaces';
 import { formatName } from '../utils';
 import CreateEdit from '../CreateEdit';
@@ -64,6 +64,7 @@ const List: React.FC = () => {
     );
     setItems(list);
   };
+  
   const itemTag = (item: Services) => (
     <BooleanTag value={item.State === 'ENABLED'} yes={'Ativo'} no={'Inativo'} />
   );
@@ -103,6 +104,7 @@ const List: React.FC = () => {
       >
         <GridList
           scroll={{ x: 600 }}
+          size="small"
           columns={[
             { title: 'Nome', dataIndex: 'nameFormatted' },
             { title: 'Expressão', dataIndex: 'ScheduleExpression' },

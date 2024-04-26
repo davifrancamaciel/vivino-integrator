@@ -51,8 +51,9 @@ module.exports.handler = async (event, context) => {
             }
 
         }
-
-        return handlerResponse(200, { sales }, `${sales} vendas pesquisadas, ${salesUpdated} alteradas com sucesso`)
+        const message = `${sales} vendas pesquisadas, ${salesUpdated} alteradas com sucesso`;
+        console.log(message);
+        return handlerResponse(200, { sales }, message);
     } catch (err) {
         const message = `ERRO AO BUSCAR LINK DE RASTREIO EMPRESA COD ${companyId} NA API VIVINO DATA ${dateReference}`
         return await handlerErrResponse(err, null, message)

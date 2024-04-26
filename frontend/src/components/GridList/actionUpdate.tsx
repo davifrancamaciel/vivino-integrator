@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { EditOutlined } from '@ant-design/icons';
-import { Tooltip, Button } from 'antd';
 import { systemColors } from 'utils/defaultValues';
+import { ActionButton } from '../_inputs';
 
 interface PropTypes {
   router: any;
@@ -18,19 +18,12 @@ const ActionUpdate: React.FC<PropTypes> = (props) => {
   };
 
   return (
-    <Tooltip placement="top" title={'Alterar'}>
-      {/* <Link to={`${props.router}/${props.id}`}> */}
-      <Button
-        onClick={onClick}
-        style={{
-          backgroundColor: systemColors.YELLOW,
-          color: '#fff',
-          marginRight: 4
-        }}
-        icon={<EditOutlined />}
-      />
-      {/* </Link> */}
-    </Tooltip>
+    <ActionButton
+      title={'Alterar'}
+      backgroundColor={systemColors.YELLOW}
+      icon={<EditOutlined />}
+      onClick={onClick}
+    />
   );
 };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Button, Col, Image, Tooltip } from 'antd';
+import { Col, Image } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
-import { Input, Select, RangePicker } from 'components/_inputs';
+import { Input, Select, RangePicker, ActionButton } from 'components/_inputs';
 import { apiRoutes, pageItemsFilter, systemColors } from 'utils/defaultValues';
 import { initialStateFilter, SaleVivino } from '../interfaces';
 import useFormState from 'hooks/useFormState';
@@ -73,44 +73,31 @@ const List: React.FC = () => {
         custonActions: (
           <>
             <div style={{ display: 'flex' }}>
-              <Tooltip placement="top" title={`Visualizar venda`}>
-                <Button
-                  icon={<EyeOutlined />}
-                  onClick={() =>
-                    handleView({
-                      createdAt: formatDateHour(sale.createdAt),
-                      ...sale.saleFormatted
-                    })
-                  }
-                  style={{
-                    backgroundColor: systemColors.GREY,
-                    color: '#fff',
-                    marginRight: 4
-                  }}
-                />
-              </Tooltip>
-              <Tooltip
-                placement="top"
+              <ActionButton
+                title={`Visualizar venda`}
+                backgroundColor={systemColors.GREY}
+                icon={<EyeOutlined />}
+                onClick={() =>
+                  handleView({
+                    createdAt: formatDateHour(sale.createdAt),
+                    ...sale.saleFormatted
+                  })
+                }
+              />
+              <ActionButton
                 title={
                   sale.trackingUrl
                     ? `Clique aqui para ver o rastreio da entrega`
                     : 'Ainda não possui link de rastreio'
                 }
-              >
-                <Button
-                  icon={<ShoppingCartOutlined />}
-                  onClick={() =>
-                    sale.trackingUrl && window.open(sale.trackingUrl, '_blank')
-                  }
-                  style={{
-                    backgroundColor: sale.trackingUrl
-                      ? systemColors.GREEN
-                      : systemColors.YELLOW,
-                    color: '#fff',
-                    marginRight: 4
-                  }}
-                />
-              </Tooltip>
+                backgroundColor={
+                  sale.trackingUrl ? systemColors.GREEN : systemColors.YELLOW
+                }
+                icon={<ShoppingCartOutlined />}
+                onClick={() =>
+                  sale.trackingUrl && window.open(sale.trackingUrl, '_blank')
+                }
+              />
             </div>
           </>
         ),

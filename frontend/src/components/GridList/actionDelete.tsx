@@ -1,9 +1,9 @@
 import { CloseSquareOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Modal, Tooltip } from 'antd';
+import { Modal } from 'antd';
 import React, { useState } from 'react';
 import { systemColors } from 'utils/defaultValues';
 import api from 'services/api-aws-amplify';
-
+import { ActionButton } from 'components/_inputs';
 interface PropTypes {
   router: string;
   id: string | number;
@@ -43,20 +43,13 @@ const ActionDelete: React.FC<PropTypes> = (props) => {
 
   return (
     <>
-      <Tooltip placement="top" title={'Apagar'}>
-        <Button
-          style={{
-            color: '#fff',
-            backgroundColor: systemColors.RED,
-            marginRight: 4
-          }}
-          icon={<DeleteOutlined />}
-          loading={loading}
-          disabled={loading}
-          onClick={showHideModal}
-        />
-      </Tooltip>
-
+      <ActionButton
+        title={'Apagar'}
+        backgroundColor={systemColors.RED}
+        icon={<DeleteOutlined />}
+        onClick={showHideModal}
+        loading={loading}
+      />
       <Modal
         title="Confirmação"
         visible={visible}
