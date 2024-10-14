@@ -6,7 +6,7 @@ const readMessageRecursive = async (messages, position, callback) => {
         const body = JSON.parse(message.body);
 
         console.log(`readMessageRecursive PROCESSANDO MENSAGEM ${position + 1} de ${messages.length}`);
-        console.log(`MENSAGEM`, body);
+        console.log(`readMessageRecursive MENSAGEM`, body);
 
         const result = await callback(body);
 

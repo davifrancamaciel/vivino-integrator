@@ -25,9 +25,11 @@ const sendEmailMessage = async ({ to, subject, body, companyName }) => {
     try {
         if (!to.length)
             return null
+        var background = process.env.STAGE === 'dev' ? '#ffa940' : '#850534';
+        subject = process.env.STAGE === 'dev' ? `[dev] ${subject}` : subject;
 
         const objSend = {
-            subject, to, body: createBodyMessage(body, companyName), companyName
+            subject, to, body: createBodyMessage(body, companyName, background), companyName
         }
         return await sendMailSES(objSend);
     } catch (error) {
@@ -35,16 +37,16 @@ const sendEmailMessage = async ({ to, subject, body, companyName }) => {
     }
 }
 
-const createBodyMessage = (body, companyName) => {
+const createBodyMessage = (body, companyName, background) => {
     return `
         <div width="100%" style="margin:0;background-color:#f0f2f3">
             <div style="margin:auto;max-width:600px;padding-top:50px" class="m_-3166743653847993863email-container">
                 <table role="presentation" cellspacing="0" cellpadding="0" width="100%" align="center"
                     id="m_-3166743653847993863logoContainer"
-                    style="background:#850534;border-radius:3px 3px 0 0;max-width:600px">
+                    style="background:${background};border-radius:3px 3px 0 0;max-width:600px">
                     <tbody>
                         <tr>
-                            <td style="background:#850534;border-radius:3px 3px 0 0;text-align:center">
+                            <td style="background:${background};border-radius:3px 3px 0 0;text-align:center">
                                 <p
                                     style="font-size: 25px; color: #fff; font-weight: bold; padding-top: 25px; padding-bottom: 25px;">
                                     ${companyName ? companyName : 'Integrador de serviços'}</p>

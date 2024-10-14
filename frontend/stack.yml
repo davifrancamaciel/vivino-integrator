@@ -1,9 +1,18 @@
 AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Stack de criação de frontend
+Parameters:
+  BucketPrefix:
+    Type: String
+    Default: services-integrator-dev
+    Description: A prefix for S3 bucket name, account id will be added to ensure global uniqueness
+  
 Resources:         
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: services-integrator-dev
+      BucketName: !Sub "${BucketPrefix}"
+      # BucketName: services-integrator-dev
       # AccessControl: PublicRead 
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false

@@ -3,6 +3,7 @@
 const { Op } = require('sequelize');
 const db = require('../../database');
 const Wine = require('../../models/Wine')(db.sequelize, db.Sequelize);
+const WineSaleHistory = require('../../models/WineSaleHistory')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { sendMessage } = require('../../services/AwsQueueService')
@@ -200,6 +201,9 @@ module.exports.delete = async (event) => {
         const item = await Wine.findByPk(id)
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
+
+        if (checkRouleProfileAccess(user.groups, roules.administrator))
+            await WineSaleHistory.destroy({ where: { wineId: id } });
 
         await Wine.destroy({ where: { id } });
 

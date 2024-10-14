@@ -136,7 +136,7 @@ module.exports.sales = async (event, context) => {
             console.log(`${data?.length} VENDAS ENCONTRADAS`);
             console.log(`${sales?.length} VENDAS SERÃO CADASTRADAS -> ${salesImportedNow.join(`','`)}`)
             console.warn(`VENDAS IMPORTADAS ANTERIORMENTE ${salesBeforeImported.join(`','`)}`)
-            
+
             queueObj = { companyId, dateReference: `${dateReference}T${hour}`, productsSales: productsSalesGrouped };
             if (productsSalesGrouped.length)
                 await sendMessage('wines-sales-update-queue', queueObj);
@@ -149,7 +149,7 @@ module.exports.sales = async (event, context) => {
                 await sendWarningSkuNotFound(skusNotFoundArray, companyId);
         }
 
-        return handlerResponse(200, { queueObj, response }, 'Vendas obtidas com sucesso')
+        return handlerResponse(200, { queueObj, response }, `${response.length} vendas obtidas com sucesso, ${queueObj.productsSales.length} cadastradas`)
     } catch (err) {
         const message = `ERRO AO BUSCAR VENDAS EMPRESA COD ${companyId} NA API VIVINO DATA ${dateReference}`
         return await handlerErrResponse(err, null, message)
