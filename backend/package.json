@@ -14,7 +14,7 @@
     "info": "sls info",
     "migrate": "sequelize db:migrate",
     "seeds": "sequelize db:seed:all",
-    "prune": "sls prune -n 3"
+    "prune": "sls prune -n 3 --stage prd"
   },
   "keywords": [],
   "dependencies": {

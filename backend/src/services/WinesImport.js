@@ -2,38 +2,48 @@
 
 const { Op } = require('sequelize');
 const db = require('../database');
+const { executeUpdate } = require("../services/ExecuteQueryService");
+const axios = require('axios');
 const Wine = require('../models/Wine')(db.sequelize, db.Sequelize);
 const seed = require('../database/seeds/wines.json')
+const seed2 = require('../database/seeds/wines2.json')
 
 const seeds = async () => {
     let array = []
     for (let i = 0; i < seed.length; i++) {
         const element = seed[i];
+        const mame = element.title?.__cdata
+        const wine2 = seed2.find(x => x.Nome === mame);
 
-        var productName = element.nome.replace(' 750ML', '')
         const wine = {
-            // id: Number(element.ID),
-            productName,
-            price: Number(element.preco.toString().replace(',', '.')),
-            quantityIsMinimum: false,
+            wine2,
+            companyId: '6a9088cc-faec-481c-b5ed-18516cafc890',
+            productName: mame,
+            wineName: mame,
+            price: element.sale_price?.__text,
+            ean: element.gtin?.__cdata,
+            link: element.link?.__cdata,
+            image: element.image_link?.__cdata,
+            active: element.availability.__text && element.availability.__text.toLowerCase() === 'in stock' ? true : false,
+            quantityIsMinimum: true,
             bottleSize: '750 ml',
+
+
             bottleQuantity: 1,
-            // link: `${element.link}/${element.nome.replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').replace(' ', '-').toLowerCase()}`,
-            inventoryCount: element.Estoque,
-            producer: element.Marca,
-            wineName: productName,
+            inventoryCount: 1,
+
+            producer: wine2 && wine2['Vinícola'] ? wine2['Vinícola'] : null,
+            vintage: wine2 && wine2['Safra'] ? wine2['Safra'] : null,
+            // country: element.PAIS_CUSTOM,
+            color: wine2 && wine2['Tipo do vinho'] ? wine2['Tipo do vinho'] : null,
+            // description: element.CARACTERISTICAS,
+            description: wine2 && wine2['Harmonização'] ? wine2['Harmonização'] : null,
+            alcohol: wine2 && wine2['Teor alcoólico'] ? wine2['Teor alcoólico'] : null,
+            producerAddress: wine2 && wine2['Região'] ? wine2['Região'] : null,
+            ageing: wine2 && wine2['Tempo de Guarda'] ? wine2['Tempo de Guarda'] : null, //ENVELHECIMENTO
             appellation: null,
-            vintage: null,
-            country: null,
-            color: null,
-            // image: null,
-            ean: null,
-            description: element.DescricaoFornecedor,
-            alcohol: null,
-            producerAddress: null,
             importerAddress: null,
-            varietal: null,
-            ageing: null,
+            varietal: wine2 && wine2['Uva'] ? wine2['Uva'] : null,
             closure: null,
             winemaker: null,
             productionSize: null,
@@ -43,14 +53,12 @@ const seeds = async () => {
             containsMilkAllergens: false,
             containsEggAllergens: false,
             nonAlcoholic: false,
-            active: true,
-            companyId: 'f3dd3202-4ce6-4303-9a92-1c99e1b5a7e6'
         };
         array.push(wine)
 
-        const item = await Wine.findOne({ where: { productName, companyId: wine.companyId } })
-        if (item) 
-            await item.update(wine);        
+        const item = await Wine.findOne({ where: { productName: mame, companyId: wine.companyId } })
+        if (item)
+            await item.update(wine);
         else
             await Wine.create(wine);
     }
@@ -274,4 +282,45 @@ const remove = async () => {
 }
 
 //#endregion
-module.exports = { seeds }
+
+const importImages = async () => {
+    const resp = await Wine.findAll({
+        attibutes: ['id', 'companyId', 'image'],
+        order: [['id', 'DESC']],
+        where: { companyId: '6a9088cc-faec-481c-b5ed-18516cafc890' }
+    })
+
+    const arr = resp.filter(x => x.image != null)
+    let wineId = 0
+
+    for (let i = 0; i < arr.length; i++) {
+        try {
+            const item = arr[i];
+            if (!item.image.includes('services-integrator-api-prd-public')) {
+
+                wineId = item.id
+                const config = {
+                    method: 'GET',
+                    maxBodyLength: Infinity,
+                    url: item.image,
+                    responseType: 'stream'
+                };
+
+                const { data } = await axios(config);
+                const arrImageName = item.image.split('/')
+                const key = `${item.companyId}/wines/${item.id}/${arrImageName[arrImageName.length - 1]}`
+
+                const result = await s3.put(data, key, 'services-integrator-api-prd-public');
+                const query = `UPDATE wines AS p SET p.image = '${result.Location}' WHERE p.id = ${item.id}`;
+                await executeUpdate(query);
+
+                console.log(item.id, i, arr.length)
+            }
+        } catch (error) {
+            console.error(wineId)
+        }
+    }
+    return arr
+}
+
+module.exports = { seeds, importImages }

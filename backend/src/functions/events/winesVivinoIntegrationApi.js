@@ -13,15 +13,15 @@ const UserClientWineService = require('../../services/UserClientWineService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { linkServices, linkVivino, companyIdDefault } = require("../../utils/defaultValues");
 const { getVivinoUrl } = require("../../utils");
-// const { seeds } = require('../../services/WinesImport');
+// const { seeds, importImages } = require('../../services/WinesImport');
 // const { handler } = require('../queue/sendWhatsapp')
 
 module.exports.auth = async (event, context) => {
 
     // if (process.env.IS_OFFLINE) {
-    //     // const importacao = await seeds();
-    //     // return handlerResponse(200, importacao);
-    //     return handlerResponse(200, await handler(event));
+    //     const importacao = await importImages();
+    //     return handlerResponse(200, importacao);
+    //     // return handlerResponse(200, await handler(event));
     // }
 
     let companyId = '';

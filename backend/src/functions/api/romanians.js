@@ -8,6 +8,7 @@ const ShippingCompany = require('../../models/ShippingCompany')(db.sequelize, db
 const Romanian = require('../../models/Romanian')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
+const romanianService = require("../../services/RomanianService");
 const { roules } = require("../../utils/defaultValues");
 
 const RESOURCE_NAME = 'Romaneio'
@@ -32,7 +33,7 @@ module.exports.list = async (event, context) => {
         if (event.queryStringParameters) {
             const {
                 id, companyName, noteNumber, clientName, shippingCompanyName, trackingCode,
-                saleDateAtStart, saleDateAtEnd, originSale, delivered
+                saleDateAtStart, saleDateAtEnd, originSale, delivered, sended
             } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
@@ -48,6 +49,8 @@ module.exports.list = async (event, context) => {
 
             if (delivered !== undefined && delivered !== '')
                 whereStatement.delivered = delivered === 'true';
+            if (sended !== undefined && sended !== '')
+                whereStatement.sended = sended === 'true';
             if (originSale)
                 whereStatement.originSale = { [Op.like]: `%${originSale}%` }
 
@@ -107,7 +110,7 @@ module.exports.listById = async (event) => {
         return handlerResponse(400, {}, 'Usuário não encontrado')
     if (!checkRouleProfileAccess(user.groups, roules.romanians))
         return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
-        
+
     const { pathParameters } = event
     try {
         const result = await Romanian.findByPk(pathParameters.id, {
@@ -147,10 +150,17 @@ module.exports.create = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.romanians))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
         const objOnSave = body
-        if (!objOnSave.saleDateAt)
-            objOnSave.saleDateAt = new Date()
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             objOnSave.companyId = user.companyId
+
+        const isExist = await romanianService.findOne(objOnSave);
+        if (isExist)
+            return handlerResponse(403, {}, 'Já existe um romaneio para esta nota');
+
+        if (objOnSave.delivered)
+            objOnSave.sended = true;
+        if (!objOnSave.saleDateAt && objOnSave.sended)
+            objOnSave.saleDateAt = new Date()
 
         const result = await Romanian.create(objOnSave);
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
@@ -181,7 +191,20 @@ module.exports.update = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
-        const result = await item.update(body);
+        const objOnSave = body
+        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+            objOnSave.companyId = user.companyId
+
+        const isExist = await romanianService.findOne(objOnSave);
+        if (isExist && isExist.id != item.id)
+            return handlerResponse(403, {}, 'Já existe um romaneio para esta nota');
+
+        if (objOnSave.delivered)
+            objOnSave.sended = true;
+        if (!objOnSave.saleDateAt && objOnSave.sended)
+            objOnSave.saleDateAt = new Date()
+
+        const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterado com sucesso`)

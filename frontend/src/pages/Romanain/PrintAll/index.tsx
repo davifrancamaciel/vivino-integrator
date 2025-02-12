@@ -102,9 +102,9 @@ const Print: React.FC<PropTypes> = ({ state }) => {
           image={items[0]?.company?.image || ''}
           title="Romaneio de entrega"
           headerList={[
-            'DATA',
-            'CLIENTE',
             'NOTA',
+            'CLIENTE',
+            'DATA',
             'VALOR',
             'ORIGEM DA VENDA',
             'F.PAG.',
@@ -113,9 +113,9 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         >
           {items.map((romanian: Romanian, i: number) => (
             <tr key={i}>
-              <td>{romanian.saleDateAt}</td>
-              <td>{romanian.clientName}</td>
               <td>{romanian.noteNumber}</td>
+              <td>{romanian.clientName}</td>
+              <td>{romanian.saleDateAt}</td>
               <td>{romanian.noteValue}</td>
               <td>{romanian.originSale}</td>
               <td>{romanian.formOfPayment}</td>

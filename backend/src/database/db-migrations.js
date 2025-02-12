@@ -4,7 +4,7 @@ const STAGE = STAGE_IS_DEV ? 'dev' : 'prd'
 const secrets = require(`../../secrets-${STAGE}.json`);
 
 const database = `services_db${STAGE_IS_DEV ? '_dev' : ''}`;
-console.log(database)
+console.log(`database selected -> ${database}`)
 module.exports = {
   dialect: 'mysql',
   host: secrets.DB_HOST,
