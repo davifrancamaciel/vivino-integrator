@@ -149,7 +149,7 @@ module.exports.create = async (event) => {
 
         if (!checkRouleProfileAccess(user.groups, roules.romanians))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
-        const objOnSave = body
+        let objOnSave = body
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             objOnSave.companyId = user.companyId
 
@@ -157,11 +157,7 @@ module.exports.create = async (event) => {
         if (isExist)
             return handlerResponse(403, {}, 'Já existe um romaneio para esta nota');
 
-        if (objOnSave.delivered)
-            objOnSave.sended = true;
-        if (!objOnSave.saleDateAt && objOnSave.sended)
-            objOnSave.saleDateAt = new Date()
-
+        objOnSave = validateObjOnSave(objOnSave);
         const result = await Romanian.create(objOnSave);
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
     } catch (err) {
@@ -191,7 +187,7 @@ module.exports.update = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
-        const objOnSave = body
+        let objOnSave = body
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             objOnSave.companyId = user.companyId
 
@@ -199,11 +195,7 @@ module.exports.update = async (event) => {
         if (isExist && isExist.id != item.id)
             return handlerResponse(403, {}, 'Já existe um romaneio para esta nota');
 
-        if (objOnSave.delivered)
-            objOnSave.sended = true;
-        if (!objOnSave.saleDateAt && objOnSave.sended)
-            objOnSave.saleDateAt = new Date()
-
+        objOnSave = validateObjOnSave(objOnSave);
         const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
 
@@ -234,4 +226,27 @@ module.exports.delete = async (event) => {
     } catch (err) {
         return await handlerErrResponse(err, pathParameters)
     }
+}
+
+const validateObjOnSave = (objOnSave) => {
+    if (objOnSave.delivered && !objOnSave.sended && !objOnSave.saleDateAt) {
+        objOnSave.sended = true;
+        objOnSave.saleDateAt = new Date();
+        return objOnSave;
+    }
+    if (!objOnSave.delivered && objOnSave.sended && !objOnSave.saleDateAt) {
+        objOnSave.saleDateAt = new Date();
+        return objOnSave;
+    }
+    if (!objOnSave.delivered && !objOnSave.sended && objOnSave.saleDateAt) {
+        objOnSave.saleDateAt = null;
+        return objOnSave;
+    }
+
+    if (objOnSave.delivered && !objOnSave.sended && objOnSave.saleDateAt) {
+        objOnSave.saleDateAt = null;
+        objOnSave.delivered = false
+        return objOnSave;
+    }
+    return objOnSave;
 }

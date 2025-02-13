@@ -13,6 +13,7 @@
     "create_domain": "sls create_domain",
     "info": "sls info",
     "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo",
     "seeds": "sequelize db:seed:all",
     "prune": "sls prune -n 3 --stage prd"
   },

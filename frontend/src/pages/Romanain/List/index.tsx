@@ -20,6 +20,7 @@ const List: React.FC = () => {
   const [items, setItems] = useState<Romanian[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [update, setUpdate] = useState<Romanian>();
 
   useEffect(() => {
     const date = new Date();
@@ -28,7 +29,26 @@ const List: React.FC = () => {
     // actionFilter(1, saleDateAtStart, saleDateAtEnd);
     actionFilter(1, 'false');
   }, []);
- 
+
+  useEffect(() => {
+    const newItems = items.map((x: any) => {
+      return x.id === update!.id
+        ? {
+            ...x,
+            noteValue: formatPrice(Number(update!.noteValue) || 0),
+            saleDateAt: formatDate(update!.saleDateAt),
+            print: <Print romanian={update!} />,
+            sended: (
+              <Action item={update!} setUpdate={setUpdate} type="sended" />
+            ),
+            delivered: (
+              <Action item={update!} setUpdate={setUpdate} type="delivered" />
+            )
+          }
+        : x;
+    });
+    setItems(newItems);
+  }, [update]);
 
   const actionFilter = async (
     pageNumber: number = 1,
@@ -71,8 +91,8 @@ const List: React.FC = () => {
         return {
           ...item,
           print: <Print romanian={item} />,
-          sended: <Action item={r} items={items} setItems={setItems} type="sended" />,
-          delivered: <Action item={r}  items={items} setItems={setItems} type="delivered" />
+          sended: <Action item={r} setUpdate={setUpdate} type="sended" />,
+          delivered: <Action item={r} setUpdate={setUpdate} type="delivered" />
         };
       });
       setItems(itemsFormatted);

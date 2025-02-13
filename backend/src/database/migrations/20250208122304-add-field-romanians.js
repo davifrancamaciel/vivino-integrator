@@ -15,6 +15,7 @@ module.exports = {
           type: Sequelize.INTEGER, allowNull: false, defaultValue: 1,
         }, { transaction }),
         await queryInterface.addIndex(TABLE_NAME, ['noteNumber'], { transaction });
+        await queryInterface.addIndex(TABLE_NAME, ['originCompanyId'], { transaction });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
