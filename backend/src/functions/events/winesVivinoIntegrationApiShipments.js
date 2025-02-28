@@ -45,7 +45,11 @@ module.exports.handler = async (event, context) => {
                 if (!data || !data.shipments.length)
                     continue;
                 const [tracking] = data.shipments
-                const queryUpdate = `UPDATE wineSales SET trackingUrl = '${tracking.tracking_url}', updatedAt = NOW() WHERE companyId = '${companyId}' AND code = '${code}'`;
+                const queryUpdate = `UPDATE wineSales SET 
+                                        trackingUrl = '${tracking.tracking_url}', 
+                                        noteNumber = '${tracking.tracking_number}', 
+                                        updatedAt = NOW() 
+                                        WHERE companyId = '${companyId}' AND code = '${code}'`;
                 await executeUpdate(queryUpdate);
                 salesUpdated++;
             }
