@@ -62,12 +62,11 @@ export const initialStateFilter: Filter = {
 };
 
 export const originCompanys: IOptions[] = [
-  { value: '1', label: 'Ventura Vinhos' },
   { value: '2', label: 'AML Reis' },
-  { value: '3', label: 'Rose Market' },
-  { value: '4', label: 'Wine Brothers' },
-  { value: '5', label: 'Videiras e Oliveiras ' },
+  { value: '8', label: 'Loja Itaipava' },
   { value: '6', label: 'Millesime' },
-  { value: '7', label: 'Ely' },
-  { value: '8', label: 'Loja Itaipava' }
+  { value: '3', label: 'Rose Market' },
+  { value: '1', label: 'Ventura Vinhos' },
+  { value: '5', label: 'Videiras e Oliveiras' },
+  { value: '4', label: 'Wine Brothers' }
 ];

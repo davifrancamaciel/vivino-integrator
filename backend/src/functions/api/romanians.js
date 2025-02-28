@@ -153,11 +153,11 @@ module.exports.create = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             objOnSave.companyId = user.companyId
 
+        objOnSave = validateObjOnSave(objOnSave);
         const isExist = await romanianService.findOne(objOnSave);
         if (isExist)
-            return handlerResponse(403, {}, 'Já existe um romaneio para esta nota');
+            return handlerResponse(403, {}, `Já existe um romaneio para esta nota ${objOnSave.noteNumber}`);
 
-        objOnSave = validateObjOnSave(objOnSave);
         const result = await Romanian.create(objOnSave);
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
     } catch (err) {
@@ -191,11 +191,11 @@ module.exports.update = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             objOnSave.companyId = user.companyId
 
+        objOnSave = validateObjOnSave(objOnSave);
         const isExist = await romanianService.findOne(objOnSave);
         if (isExist && isExist.id != item.id)
-            return handlerResponse(403, {}, 'Já existe um romaneio para esta nota');
+            return handlerResponse(403, {}, `Já existe um romaneio para esta nota ${objOnSave.noteNumber}`);
 
-        objOnSave = validateObjOnSave(objOnSave);
         const result = await item.update(objOnSave);
         console.log('PARA ', result.dataValues)
 
@@ -229,6 +229,9 @@ module.exports.delete = async (event) => {
 }
 
 const validateObjOnSave = (objOnSave) => {
+
+    objOnSave.noteNumber = `${Number(objOnSave.noteNumber || 0)}`;
+
     if (objOnSave.delivered && !objOnSave.sended && !objOnSave.saleDateAt) {
         objOnSave.sended = true;
         objOnSave.saleDateAt = new Date();

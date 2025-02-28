@@ -6,7 +6,7 @@ import PrintContainer from 'components/Report/PrintContainer';
 import TableReport from 'components/Report/TableReport';
 
 import { apiRoutes, systemColors } from 'utils/defaultValues';
-import { Filter, Romanian } from '../interfaces';
+import { Filter, originCompanys, Romanian } from '../interfaces';
 
 import api from 'services/api-aws-amplify';
 import { formatDate } from 'utils/formatDate';
@@ -67,7 +67,10 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       const itemsFormatted = rows.map((r: Romanian) => ({
         ...r,
         noteValue: formatPrice(Number(r.noteValue) || 0),
-        saleDateAt: formatDate(r.saleDateAt || '')
+        saleDateAt: formatDate(r.saleDateAt || ''),
+        originCompanyId: originCompanys.find(
+          (x) => x.value === `${r.originCompanyId}`
+        )?.label
       }));      
 
       itemsArray = [...itemsArray, ...itemsFormatted];
@@ -102,20 +105,20 @@ const Print: React.FC<PropTypes> = ({ state }) => {
           image={items[0]?.company?.image || ''}
           title="Romaneio de entrega"
           headerList={[
-            'NOTA',
+            'EMPRESA',
             'CLIENTE',
-            'DATA',
+            'NOTA',
             'VALOR',
-            'ORIGEM DA VENDA',
+            'ORIGEM DA VENDA',            
             'F.PAG.',
             'TRANSP/ENTRE'
           ]}
         >
           {items.map((romanian: Romanian, i: number) => (
             <tr key={i}>
-              <td>{romanian.noteNumber}</td>
+              <td>{romanian.originCompanyId}</td>
               <td>{romanian.clientName}</td>
-              <td>{romanian.saleDateAt}</td>
+              <td>{romanian.noteNumber}</td>
               <td>{romanian.noteValue}</td>
               <td>{romanian.originSale}</td>
               <td>{romanian.formOfPayment}</td>
