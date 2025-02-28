@@ -6,12 +6,13 @@ import useFormState from 'hooks/useFormState';
 import PanelCrud from 'components/PanelCrud';
 import ViewData from 'components/ViewData';
 
-import { initialStateForm, Romanian } from '../interfaces';
+import { initialStateForm, originCompanys, Romanian } from '../interfaces';
 import api from 'services/api-aws-amplify';
-import { apiRoutes, appRoutes } from 'utils/defaultValues';
+import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import BooleanTag from 'components/BooleanTag';
+import ShowByRoule from 'components/ShowByRoule';
 
 const Details: React.FC = (props: any) => {
   const history = useHistory();
@@ -35,7 +36,11 @@ const Details: React.FC = (props: any) => {
         saleDateAt: formatDateHour(data.saleDateAt),
         createdAt: formatDateHour(data.createdAt),
         updatedAt: formatDateHour(data.updatedAt),
-        delivered: <BooleanTag value={data.delivered} />
+        sended: <BooleanTag value={data.sended} />,
+        delivered: <BooleanTag value={data.delivered} />,
+        originCompanyId: originCompanys.find(
+          (x) => x.value === `${data.originCompanyId}`
+        )?.label
       };
       dispatch(item);
       console.log(item);
@@ -56,8 +61,14 @@ const Details: React.FC = (props: any) => {
       onClickActionButton={action}
       title={`Detalhes do romaneio código (${props.match.params.id})`}
     >
+      <ShowByRoule roule={roules.administrator}>
+        <Col lg={6} md={12} sm={24} xs={24}>
+          <ViewData label="Empresa" value={state.company?.name} />
+        </Col>
+      </ShowByRoule>
+
       <Col lg={6} md={12} sm={24} xs={24}>
-        <ViewData label="Empresa" value={state.company?.name} />
+        <ViewData label="Empresa" value={state.originCompanyId} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Nome do cliente" value={state.clientName} />
@@ -91,6 +102,9 @@ const Details: React.FC = (props: any) => {
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Forma de pagamento" value={state.formOfPayment} />
+      </Col>
+      <Col lg={6} md={12} sm={24} xs={24}>
+        <ViewData label="Enviado" value={state.sended} />
       </Col>
       <Col lg={6} md={12} sm={24} xs={24}>
         <ViewData label="Entregue" value={state.delivered} />

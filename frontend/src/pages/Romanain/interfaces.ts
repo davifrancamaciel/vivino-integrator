@@ -1,3 +1,4 @@
+import { IOptions } from 'utils/commonInterfaces';
 import { Company } from './../Company/interfaces';
 export interface ShippingCompany {
   name: string;
@@ -19,7 +20,9 @@ export interface Romanian {
   createdAt?: string;
   updatedAt?: string;
   delivered: boolean;
+  sended: boolean;
   companyId?: string;
+  originCompanyId: string;
 }
 
 export const initialStateForm: Romanian = {
@@ -29,7 +32,9 @@ export const initialStateForm: Romanian = {
   clientName: '',
   createdAt: '',
   updatedAt: '',
-  delivered: false
+  delivered: false,
+  sended: false,
+  originCompanyId: '1'
 };
 
 export interface Filter {
@@ -55,3 +60,13 @@ export const initialStateFilter: Filter = {
   pageNumber: 1,
   pageSize: 10
 };
+
+export const originCompanys: IOptions[] = [
+  { value: '2', label: 'AML Reis' },
+  { value: '8', label: 'Loja Itaipava' },
+  { value: '6', label: 'Millesime' },
+  { value: '3', label: 'Rose Market' },
+  { value: '1', label: 'Ventura Vinhos' },
+  { value: '5', label: 'Videiras e Oliveiras' },
+  { value: '4', label: 'Wine Brothers' }
+];

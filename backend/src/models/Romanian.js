@@ -15,6 +15,8 @@ module.exports = function (sequelize, DataTypes) {
         formOfPayment: { type: DataTypes.STRING(255) },
         saleDateAt: { type: DataTypes.DATE },
         delivered: { type: DataTypes.BOOLEAN },
+        sended: { type: DataTypes.BOOLEAN },
+        originCompanyId: { type: DataTypes.INTEGER },
     });
     
     Romanian.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });

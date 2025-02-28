@@ -30,7 +30,7 @@ module.exports = {
       shippingValue: { type: Sequelize.STRING(50), allowNull: true },
       trackingCode: { type: Sequelize.STRING(255), allowNull: true, },
       originSale: { type: Sequelize.STRING(255), allowNull: true, },
-      saleDateAt: { type: Sequelize.DATE, allowNull: false, },
+      saleDateAt: { type: Sequelize.DATE, allowNull: true, },
       volume: { type: Sequelize.STRING(255), allowNull: true, },
       formOfPayment: { type: Sequelize.STRING(255), allowNull: true, },
       delivered: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false, },

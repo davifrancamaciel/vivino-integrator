@@ -5,7 +5,7 @@ import { DatePicker, Input, Select, Switch } from 'components/_inputs';
 import PanelCrud from 'components/PanelCrud';
 import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
 import useFormState from 'hooks/useFormState';
-import { initialStateForm } from '../interfaces';
+import { initialStateForm, originCompanys } from '../interfaces';
 import api from 'services/api-aws-amplify';
 import ShowByRoule from 'components/ShowByRoule';
 
@@ -69,6 +69,15 @@ const CreateEdit: React.FC = (props: any) => {
           />
         </Col>
       </ShowByRoule>
+      <Col lg={6} md={8} sm={12} xs={24}>
+        <Select
+          label={'Empresa'}
+          options={originCompanys}
+          value={`${state.originCompanyId}`}
+          onChange={(originCompanyId) => dispatch({ originCompanyId })}
+        />
+      </Col>
+
       <Col lg={6} md={12} sm={24} xs={24}>
         <Input
           label={'Nome do cliente'}
@@ -99,6 +108,7 @@ const CreateEdit: React.FC = (props: any) => {
 
       <Col lg={6} md={12} sm={24} xs={24}>
         <Select
+          required={true}
           label={'Transporadora/Entregador'}
           url={`${apiRoutes.shippingCompanies}`}
           value={state.shippingCompanyId}
@@ -152,6 +162,16 @@ const CreateEdit: React.FC = (props: any) => {
           label={'Data da expedição'}
           value={state.saleDateAt}
           onChange={(saleDateAt) => dispatch({ saleDateAt })}
+        />
+      </Col>
+      <Col lg={6} md={8} sm={24} xs={24}>
+        <Switch
+          label={'Enviado'}
+          title="Não / Sim"
+          checked={state.sended}
+          checkedChildren="Sim"
+          unCheckedChildren="Não"
+          onChange={() => dispatch({ sended: !state.sended })}
         />
       </Col>
       <Col lg={6} md={8} sm={24} xs={24}>

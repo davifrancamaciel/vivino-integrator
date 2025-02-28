@@ -1,386 +1,4752 @@
 [
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "APALTAGUA RESERVA ESPECIAL PINOT NOIR 750ML",
-    "preco": "59,5",
-    "Estoque": 708,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, APALTAGUA RESERVA ESPECIAL PINOT NOIR, VALLE DE CASABLANCA, LOTE: L2308504, ACONDICIONADO EM CAIX",
-    "Marca": ""
+    "id": {
+      "__text": "237"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Gran Famiglia Bianchi Corte"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "248.35"
+    },
+    "sale_price": {
+      "__text": "173.84"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703198809"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA237"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/gran-familia-bianchi-corte"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/1adc3d8d6beb486c1c7b5e8fdc8c86aa.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "APALTAGUA RESERVA ESPECIAL CABERNET SAUVIGNON 750ML",
-    "preco": "59,5",
-    "Estoque": 747,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, APALTAGUA RESERVA ESPECIAL CABERNET SAUVIGNON, VALLE CENTRAL, LOTE: L2308505, ACONDICIONADO EM CA",
-    "Marca": ""
+    "id": {
+      "__text": "238"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE Odile Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "114.15"
+    },
+    "sale_price": {
+      "__text": "114.15"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798187447888"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA238"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/odile-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/58b1a9ed1823577f3fda60dfe7f0f27e.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "APALTAGUA SELECION CARMENERE 750ML",
-    "preco": "33,9",
-    "Estoque": 772,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, APALTAGUA ESTATE SELECTION CARMENERE, VALLE CENTRAL, LOTE: L2308502, ACONDICIONADO EM CAIXAS COM",
-    "Marca": ""
+    "id": {
+      "__text": "239"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Clos de Chacras Cavas de Crianza Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "136.00"
+    },
+    "sale_price": {
+      "__text": "136.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798138410626"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA239"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/cavas-de-crianza-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/5f41d0848cd1a37495f5ca0ccbb94462.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "APALTAGUA SELECION CABERNET SAUVIGNON 750ML",
-    "preco": "33,9",
-    "Estoque": 766,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, APALTAGUA ESTATE SELECTION CABERNET SAUVIGNON, VALLE CENTRAL, LOTE: L2308501, ACONDICIONADO EM CA",
-    "Marca": ""
+    "id": {
+      "__text": "240"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Chileno Apaltagua Selection Sauvignon Blanc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "58.70"
+    },
+    "sale_price": {
+      "__text": "58.70"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804606602001"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA240"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/apaltagua-selection-sauvignon-blanc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d46c985f2c5ef21b12d313ff1a77e3b9.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "APALTAGUA SELECION SAUVIGNON BLANC 750ML",
-    "preco": "33,9",
-    "Estoque": 728,
-    "DescricaoFornecedor": "VINHO FINO BRANCO SECO, APALTAGUA ESTATE SELECTION SAUVIGNON BLANC, VALLE CENTRAL, LOTE: L2308503, ACONDICIONADO EM CAIX",
-    "Marca": ""
+    "id": {
+      "__text": "241"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Clos de Chacras Cavas de Crianza Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "136.00"
+    },
+    "sale_price": {
+      "__text": "136.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798138412040"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA241"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/cavas-de-crianza-cabernet-sauvgion"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c9a6cae40a7607cd578d5b9aca4e82b0.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA ESPECIAL SAUVIGNON BLANC 750ML",
-    "preco": "56,4",
-    "Estoque": 42,
-    "DescricaoFornecedor": "VINHO FINO BRANCO SECO, LA LLAVERIA RESERVA ESPECIAL SAUVIGNON BLANC, D.O. VALLE CENTRAL, LOTE: L356-22, ACONDICIONADO E",
-    "Marca": ""
+    "id": {
+      "__text": "242"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Apaltagua Reserva Especial Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "99.80"
+    },
+    "sale_price": {
+      "__text": "69.86"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804606602421"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA242"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/apaltagua-reserva-especial-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/0b578a4bb811c4a9fd42c1d56a7df9ff.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA ESPECIAL MERLOT 750ML",
-    "preco": "56,4",
-    "Estoque": 267,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA RESERVA ESPECIAL MERLOT, D.O. VALLE CENTRAL, LOTE: L316-21, ACONDICIONADO EM CAIXAS C",
-    "Marca": ""
+    "id": {
+      "__text": "243"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Argentino Bodegas Bianchi Los Primos Chardonnay"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "74.50"
+    },
+    "sale_price": {
+      "__text": "52.15"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703007606"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA243"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/los-primos-chardonnay"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/664457343398a9c042184a0c06c7fee0.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA ESPECIAL CABERNET SAUVIGNON 750ML",
-    "preco": "56,4",
-    "Estoque": 280,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA RESERVA ESPECIAL CABERNET SAUVIGNON, D.O. VALLE CENTRAL, LOTE: L310-23, ACONDICIONADO",
-    "Marca": ""
+    "id": {
+      "__text": "244"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Gran Reserva Carmenere Blend"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "124.90"
+    },
+    "sale_price": {
+      "__text": "124.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721800052"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA244"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-gran-reserva-carmenere"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/7a858f543bbde36f82d4c73e46278063.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA CABERNET SAUVIGNON 750ML",
-    "preco": "44,6",
-    "Estoque": 633,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA RESERVA CABERNET SAUVIGNON, D.O. VALLE CENTRAL, LOTE: L349-22, ACONDICIONADO EM CAIXA",
-    "Marca": ""
+    "id": {
+      "__text": "245"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Folatre La Llaveria Reserva Carmenere"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "85.50"
+    },
+    "sale_price": {
+      "__text": "51.30"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804629970958"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA245"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/la-llaveria-reserva-carmenere"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/329c1df7eda29aa8fe036aa9318de13f.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA CHARDONNAY 750ML",
-    "preco": "44,6",
-    "Estoque": 148,
-    "DescricaoFornecedor": "VINHO FINO BRANCO SECO, LA LLAVERIA RESERVA CHARDONNAY, D.O. VALLE CENTRAL, LOTE: L357-22, ACONDICIONADO EM CAIXAS COM 0",
-    "Marca": ""
+    "id": {
+      "__text": "246"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bianchi Organic Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "96.00"
+    },
+    "sale_price": {
+      "__text": "96.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703204593"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA246"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/bianchi-organic-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/04afebb39f6e2093834291fe582ef46b.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA MERLOT 750ML",
-    "preco": "44,6",
-    "Estoque": 532,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA RESERVA MERLOT, D.O. VALLE CENTRAL, LOTE: L229-22, ACONDICIONADO EM CAIXAS COM 06 X 7",
-    "Marca": ""
+    "id": {
+      "__text": "247"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Apaltagua Estate Selection Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "58.70"
+    },
+    "sale_price": {
+      "__text": "58.70"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804606601905"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA247"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/apaltagua-selection-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d4fafdf33bc1b8ae48c3a2166b21f936.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA RESERVA CARMENERE 750ML",
-    "preco": "44,6",
-    "Estoque": 261,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA RESERVA CARMENERE, D.O. VALLE CENTRAL, LOTE: L350-22, ACONDICIONADO EM CAIXAS COM 06",
-    "Marca": ""
+    "id": {
+      "__text": "248"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bodegas Bianchi Los Primos Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "74.50"
+    },
+    "sale_price": {
+      "__text": "52.15"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703167195"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA248"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/los-primos-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6caa917f2a81c6715a682c5666f2ccf8.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA SELECCION CARMENERE 750ML",
-    "preco": "27,5",
-    "Estoque": 478,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA SELECCION CARMENERE, D.O. VALLE CENTRAL, LOTE: L278-23, ACONDICIONADO EM CAIXAS COM 0",
-    "Marca": ""
+    "id": {
+      "__text": "249"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bianchi Famiglia Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "118.00"
+    },
+    "sale_price": {
+      "__text": "118.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703167645"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA249"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/bianchi-famiglia-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/45a29b0332693cfb480ac8a4aa80f8da.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LA LLAVERIA SELECCION CABERNET SAUVIGNON 750ML",
-    "preco": "27,5",
-    "Estoque": 1150,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, LA LLAVERIA SELECCION CABERNET SAUVIGNON, D.O. VALLE CENTRAL, LOTE: L180-23, ACONDICIONADO EM CAI",
-    "Marca": ""
+    "id": {
+      "__text": "250"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bodegas Bianchi Los Primos Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "74.50"
+    },
+    "sale_price": {
+      "__text": "52.15"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703185779"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA250"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/los-primos-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/1fe4d29f16c48bf58c3875693d7bd3a7.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA RESERVA CABERNET SAUVIGNON 750ML",
-    "preco": "49,9",
-    "Estoque": 1165,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA RESERVA CABERNET SAUVIGNON PETIT VERDOT, VALLE COLCHAGUA, LOTE: L22206, ACONDICIONADO EM",
-    "Marca": ""
+    "id": {
+      "__text": "251"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Chileno Estampa Reserva Sauvignon Blanc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "89.90"
+    },
+    "sale_price": {
+      "__text": "89.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721801738"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA251"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-reserva-sauvignon-blanc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/69a3241ef3ec94ef641879f035ef62e4.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA RESERVA CARMENERE 750ML",
-    "preco": "49,9",
-    "Estoque": 859,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA RESERVA CARMENERE MALBEC, VALLE COLCHAGUA, LOTE: L22181, ACONDICIONADO EM CAIXAS COM 12 X",
-    "Marca": ""
+    "id": {
+      "__text": "252"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bianchi Particular Cabernet Franc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "299.00"
+    },
+    "sale_price": {
+      "__text": "209.30"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703002632"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA252"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/bianchi-particular-cabernet-franc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/0100596d0f03042c8a261fc0457a52ca.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA RESERVA SAUVIGNON BLANC 750ML",
-    "preco": "49,9",
-    "Estoque": 314,
-    "DescricaoFornecedor": "VINHO FINO BRANCO SECO, ESTAMPA RESERVA SAUVIGNON BLANC CHARDONNAY, VALLE COLCHAGUA, LOTE: L23193, ACONDICIONADO EM CAIX",
-    "Marca": ""
+    "id": {
+      "__text": "253"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Reserva Carmenere /  Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "89.90"
+    },
+    "sale_price": {
+      "__text": "89.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721800663"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA253"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-reserva-carmenere"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/34e661ee231258f1312f0712619675b4.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA GOLD CABERNET SAUVIGNON 750ML",
-    "preco": 149,
-    "Estoque": 99,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA GOLD CABERNET SAUVIGNON SYRAH CARMENERE PETIT VERDOT, MARCHIGUE, LOTE: L21232, ACONDICION",
-    "Marca": ""
+    "id": {
+      "__text": "254"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Gran Reserva Cabernet Sauvignon Blend"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "124.90"
+    },
+    "sale_price": {
+      "__text": "124.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721800137"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA254"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-gran-reserva-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/90dbfdb523224fd33211adf4f249efc3.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA GRAN RESERVA CARBERNET SAUVIGNON 750ML",
-    "preco": "74,65",
-    "Estoque": 631,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA GRAN RESERVA CABERNET SAUVIGNON SYRAH MALBEC, MARCHIGUE, LOTE: L22208, ACONDICIONADO EM C",
-    "Marca": ""
+    "id": {
+      "__text": "255"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Inspiración Sangiovese"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "229.00"
+    },
+    "sale_price": {
+      "__text": "229.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721801523"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA255"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-inspiracion-sangiovese"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/fa6172912401f956f71899e0a0844a5f.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA GRAN RESERVA CARMENERE 750ML",
-    "preco": "74,65",
-    "Estoque": 454,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA GRAN RESERVA CARMENERE CABERNET SAUVIGNON SYRAH, MARCHIGUE, LOTE: L23194, ACONDICIONADO E",
-    "Marca": ""
+    "id": {
+      "__text": "256"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Chileno Estampa Inspiración Greco Fiano e Vermentino"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "199.00"
+    },
+    "sale_price": {
+      "__text": "199.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721801554"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA256"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-inspiracion-greco-fiano-e-vermentino"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/53df6f6defe1b4c4beb3a2388dd40793.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA GOLD CARMENERE 750ML",
-    "preco": 149,
-    "Estoque": 99,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA GOLD CARMENERE, CABERNET FRANC, CABERNET SAUVIGNON, PETIT VERDOT, MARCHIGUE, LOTE: L22089",
-    "Marca": ""
+    "id": {
+      "__text": "257"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bianchi Famiglia Cabernet Franc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "118.00"
+    },
+    "sale_price": {
+      "__text": "118.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703204852"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA257"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/bianchi-famiglia-cabernet-franc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/1f0001bed1a7fb9d01de9d80372ee163.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA INSPIRACION SANGIOVESE 750ML",
-    "preco": "139,9",
-    "Estoque": 225,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA INSPIRACION SANGIOVESE, VALLE COLCHAGUA, LOTE: L21174, ACONDICIONADO EM CAIXAS COM 06 X 7",
-    "Marca": ""
+    "id": {
+      "__text": "258"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Folatre La Llaveria Reserva Especial Merlot"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "107.90"
+    },
+    "sale_price": {
+      "__text": "64.74"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804629970903"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA258"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/la-llaveria-especial-reserva-merlot"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/dec94500778c98b66b7c5ebc7d5d8faa.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA INSPIRACION NEBBIOLO 750ML",
-    "preco": "139,9",
-    "Estoque": 225,
-    "DescricaoFornecedor": "VINHO FINO TINTO SECO, ESTAMPA INSPIRACION NEBBIOLO, MARCHIGUE, LOTE: L22048, ACONDICIONADO EM CAIXAS COM 06 X 750ML.",
-    "Marca": ""
+    "id": {
+      "__text": "260"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Gran Famiglia Bianchi Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "248.35"
+    },
+    "sale_price": {
+      "__text": "248.35"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703198779"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA260"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/gran-famiglia-bianchi-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/047e397d835c62aa7c85bb69ac613deb.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ESTAMPA INSPIRACION FIANO GRECO 750ML",
-    "preco": "116,14",
-    "Estoque": 105,
-    "DescricaoFornecedor": "VINHO FINO BRANCO SECO, ESTAMPA INSPIRACION FIANO VERMENTINO GRECO, LOTE: L21222, ACONDICIONADO EM CAIXAS COM 06 X 750ML",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "261"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Inspiración Nebbiolo"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "229.00"
+    },
+    "sale_price": {
+      "__text": "229.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721801929"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA261"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-inspiracion-nebbiolo"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/819295dac537824a4e9239ca0dc29ffe.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CAVAS DE CRIANZA BLEND 750ML",
-    "preco": "74,9",
-    "Estoque": 90,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "262"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bianchi Particular Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "299.00"
+    },
+    "sale_price": {
+      "__text": "299.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703167744"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA262"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/bianchi-particular-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/2ec632febadcd454480e9fcc9f261ed9.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CAVAS DE CRIANZA CHARDONAY 750ML",
-    "preco": "74,9",
-    "Estoque": 26,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "263"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE 225E Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "114.90"
+    },
+    "sale_price": {
+      "__text": "114.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798187447901"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA263"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/225e-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c3de184cbb8c647d3dc602d92b675572.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CAVAS DE CRIANZA MALBEC 750ML",
-    "preco": "74,9",
-    "Estoque": 621,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "264"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE Kanobos Blend"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "342.50"
+    },
+    "sale_price": {
+      "__text": "342.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798187447994"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA264"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kanobos"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/1919cb517d9598f525325c48e159870f.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CAVAS DE CRIANZA CABERNET SAUVGION 750ML",
-    "preco": "74,9",
-    "Estoque": 411,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "266"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Folatre La Llaveria Reserva Especial Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "107.90"
+    },
+    "sale_price": {
+      "__text": "64.74"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804629970897"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA266"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/la-llaveria-especial-reserva-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/2c111227f97fe2ee46de4882a3043f3e.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CLOS DE CHACRAS EREDITÁ MALBEC 750ML",
-    "preco": "129,4",
-    "Estoque": 98,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "267"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Folatre La Llaveria Reserva Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "85.50"
+    },
+    "sale_price": {
+      "__text": "51.30"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804629970415"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA267"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/la-llaveria-reserva-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/12c81cfb73c4832b7da9c47378e10930.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CLOS DE CHACRAS EREDITÁ CABERNET SAUVIGNON 750ML",
-    "preco": "129,4",
-    "Estoque": 50,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "268"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Folatre La Llaveria Reserva Merlot "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "85.50"
+    },
+    "sale_price": {
+      "__text": "51.30"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804629970934"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA268"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/la-llaveria-reserva-merlot-"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/588d1975898f5543ff34319af502a621.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "CLOS DE CHACRAS GRAN ESTIRPE MALBEC 750ML",
-    "preco": "344,5",
-    "Estoque": 6,
-    "DescricaoFornecedor": "",
-    "Marca": "CLOS DE CHACRAS"
+    "id": {
+      "__text": "269"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Clos de Chacras Ereditá Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "229.00"
+    },
+    "sale_price": {
+      "__text": "229.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798138410640"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA269"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/eredita-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/9ebdc22d1ccdfa28588db280a56ac892.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LOS PRIMOS MALBEC 750ML",
-    "preco": "45,48",
-    "Estoque": 507,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "270"
+    },
+    "title": {
+      "__cdata": "Espumante Nacional Rio Sol Brut Rose"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "34.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898921126205"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA270"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/espumante-rio-sol-brut-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/75d635c2e579a751bb9865d77ccf87a6.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LOS PRIMOS CHARDONNAY 750ML",
-    "preco": "45,48",
-    "Estoque": 501,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "271"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Reserva Cabernet Sauvignon / Petit Verdot"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "89.90"
+    },
+    "sale_price": {
+      "__text": "89.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721800656"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA271"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-reserva-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/b926fdc97b55d160e7e999e293e9005b.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "LOS PRIMOS CABERNET SAUVIGNON 750ML",
-    "preco": "45,48",
-    "Estoque": 569,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "272"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Gold Cabernet Sauvignon Blend"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "249.00"
+    },
+    "sale_price": {
+      "__text": "249.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721801509"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA272"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-gold-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/cbd3b84a93d7d97444870fd4cc7e9ee7.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "BIANCHI ORGANIC MALBEC 750ML",
-    "preco": "59,9",
-    "Estoque": 585,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "273"
+    },
+    "title": {
+      "__cdata": "Espumante Nacional Rio Sol Moscatel Rose"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "34.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898921127257"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA273"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/espumante-rio-sol-moscatel-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/54537949e65a268a190a26efc785dc07.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "BIANCHI FAMILIA CABERNET FRANC 750ML",
-    "preco": "74,9",
-    "Estoque": 592,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "274"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE Odile Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "114.15"
+    },
+    "sale_price": {
+      "__text": "79.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798187447871"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA274"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/carinae-odile-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/38e934f5cebb3c7665ebae4d62e1fa30.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "BIANCHI FAMILIA MALBEC 750ML",
-    "preco": "74,9",
-    "Estoque": 574,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "275"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE Años Luz Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "197.00"
+    },
+    "sale_price": {
+      "__text": "197.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798187447925"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA275"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/anos-luz-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c00b4bb01a95932d30c9b797b1deb631.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "GRAN FAMILIA BIANCHI MALBEC 750ML",
-    "preco": "104,9",
-    "Estoque": 127,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "276"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Clos de Chacras Cavas de Crianza Blend"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "136.00"
+    },
+    "sale_price": {
+      "__text": "136.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798138410619"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA276"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/cavas-de-crianza-blend"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/85696aff1aea1dbf311949aa4448e566.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "GRAN FAMILIA BIANCHI CORTE 750ML",
-    "preco": "104,9",
-    "Estoque": 126,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "277"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Argentino Clos de Chacras Cavas de Crianza Chardonnay"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "136.00"
+    },
+    "sale_price": {
+      "__text": "136.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798138410176"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA277"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/cavas-de-crianza-chardonay"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d6299b20b5f4387290d704ff4e27e7d1.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "BIANCHI PARTICULAR MALBEC 750ML",
-    "preco": 155,
-    "Estoque": 57,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "278"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Clos de Chacras Ereditá Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "229.00"
+    },
+    "sale_price": {
+      "__text": "229.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA278"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/eredita-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/db8ec1d10aee9e29640236b59a967b30.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "BIANCHI PARTICULAR CABERNET FRANC 750ML",
-    "preco": 155,
-    "Estoque": 57,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "279"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Clos de Chacras Gran Estirpe Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "389.00"
+    },
+    "sale_price": {
+      "__text": "389.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798138410671"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA279"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/gran-estirpe-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/7e4c70f22b4c0e041fcdac5c2ab1ad94.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ODILE MALBEC 750ML",
-    "preco": "42,3",
-    "Estoque": 1178,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "281"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino Bodegas Bianchi IV Generacion Gran Malbec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "390.00"
+    },
+    "sale_price": {
+      "__text": "390.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7790703200915"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA281"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/iv-generacion-gran-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/988cf2c3c201b190b229dc28f412692d.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ODILE CABERNET SAUVIGNON 750ML",
-    "preco": "42,3",
-    "Estoque": 478,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "282"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Apaltagua Reserva Especial Pinot Noir"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "99.80"
+    },
+    "sale_price": {
+      "__text": "99.80"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804606602469"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA282"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/apaltagua-reserva-especial-pinot-noir"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6415fc035c675b9be7e101bcd85e5a38.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "225E MERLOT 750ML",
-    "preco": "59,9",
-    "Estoque": 451,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "283"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Apaltagua Selection Carmenere"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "58.70"
+    },
+    "sale_price": {
+      "__text": "58.70"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7804606601981"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA283"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/apaltagua-selection-carmenere"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/964b883953400d874579209aa6adca4b.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "225E MALBEC 750ML",
-    "preco": "59,9",
-    "Estoque": 793,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "284"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE 225E Merlot"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "114.90"
+    },
+    "sale_price": {
+      "__text": "114.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7798187447918"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA284"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/225e-merlot"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/4ff70f498c335b6ab69647c1ec314053.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "ANOS LUZ MALBEC 750ML",
-    "preco": "104,9",
-    "Estoque": 86,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "285"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Gold Carmenere Blend"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "319.00"
+    },
+    "sale_price": {
+      "__text": "223.30"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7808721800076"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA285"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/estampa-gold-carmenere"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/3ee7dbae7c3cc933873e50eb507f461f.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "KANOBOS 750ML",
-    "preco": 255,
-    "Estoque": 12,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "287"
+    },
+    "title": {
+      "__cdata": "Espumante Nacional Rio Sol Brut Branco"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "34.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "\t7898921126212"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA287"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/espumante-rio-sol-brut-branco"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/b73e9efd5e40bb32fe7e34b145973e72.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   },
   {
-    "link": "https://www.bordeauxvinhos.com.br/collections/tinto-1/products",
-    "nome": "IV GENERACION GRAN MALBEC 750ML",
-    "preco": 229,
-    "Estoque": 57,
-    "DescricaoFornecedor": "",
-    "Marca": "Estampa"
+    "id": {
+      "__text": "288"
+    },
+    "title": {
+      "__cdata": "Espumante Nacional Rio Sol Demi Sec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "34.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898921126229"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA288"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/espumante-rio-sol-demi-sec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/29eba3b7fb27de0d5fd7aad8a3c2246c.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "290"
+    },
+    "title": {
+      "__cdata": "Box Medoc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "237.50"
+    },
+    "sale_price": {
+      "__text": "237.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA290"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/box-medoc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/f767aaea40b995920279e97febdfb259.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "298"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Linhas Tortas Superior"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "119.00"
+    },
+    "sale_price": {
+      "__text": "119.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "0000000000"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA298"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/linhas-tortas-superior"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/9dd5a0689f2fa49964648582231b3182.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "300"
+    },
+    "title": {
+      "__cdata": "Vinho Rosé Português Synfonia Doc Beira Interior"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "79.90"
+    },
+    "sale_price": {
+      "__text": "79.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA300"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/synfonia-doc-beira-interior-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/ba59f5ca58fbc5b4e5bc9e87d9bc6551.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "301"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Castelo De Azurara DOC Dão Reserva"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "89.90"
+    },
+    "sale_price": {
+      "__text": "89.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA301"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/castelo-de-azurara-doc-dao-reserva"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/e4caba8b07cd7694c0c12db2bfea3646.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "303"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Linhas Tortas DOC Douro"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "79.90"
+    },
+    "sale_price": {
+      "__text": "79.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA303"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/linhas-tortas-doc-douro-tinto"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/fb644db514a6675111a702ea8720e10c.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "306"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Francês J. Lebegue Saint-Emilion "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "228.00"
+    },
+    "sale_price": {
+      "__text": "228.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "3326262250562"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA306"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/j-lebegue-saint-emilion"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c7e3053028db36e6ae37953d691c39ac.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "308"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Francês J. Lebegue Médoc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "129.90"
+    },
+    "sale_price": {
+      "__text": "129.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "3326262256700"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA308"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/j-lebegue-medoc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/4c569528d8fcc0328fd584bd211ae39f.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "309"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Francês Château Cramillan Bordeaux "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "129.90"
+    },
+    "sale_price": {
+      "__text": "129.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "3326262251866"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA309"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/chateau-cramillan"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6cf46424ed27f79f6458e08f083d89a4.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "310"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Linhas Tortas Reserva Single Vineyards Tinto"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "109.90"
+    },
+    "sale_price": {
+      "__text": "109.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA310"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/linhas-tortas-reserva-single-vineyards-tinto"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/09ec3aa92c3cf46987fff86b67e955e7.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "311"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Encosta Das Perdizes "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "49.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "5602445000536"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA311"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/encosta-das-perdizes"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/ee0b0e92e211d60e47aa92fb42d3d163.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "313"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Encosta Das Perdizes Superior"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "99.90"
+    },
+    "sale_price": {
+      "__text": "99.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "5602445000543"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA313"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/encosta-das-perdizes-superior"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/8469ba0a5e259fa59b6ba68d7a65a8cb.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "315"
+    },
+    "title": {
+      "__cdata": "Vinho Verde Português Mesa do Presidente Grande Escolha"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "69.90"
+    },
+    "sale_price": {
+      "__text": "69.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA315"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-verde-mesa-do-presidente-garande-escolha"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/65a88f66b5ffc8227fc0c32707ec516f.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "316"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Nacional Lidio Carraro Faces do Brasil Chardonnay"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "69.90"
+    },
+    "sale_price": {
+      "__text": "69.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360636"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA316"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/faces-do-brasil-chardonnay"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/f0d134a16946ea494b0edfce978c9da5.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "318"
+    },
+    "title": {
+      "__cdata": "Vinho Rosé Nacional Lidio Carraro Faces do Brasil Pinot Noir"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "69.90"
+    },
+    "sale_price": {
+      "__text": "69.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360612"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA318"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/faces-do-brasil-rose-pinot-noir"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/36d076700cf9a63226076dfaea1db10a.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "319"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lidio Carraro Faces do Brasil Merlot"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "69.90"
+    },
+    "sale_price": {
+      "__text": "69.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360629"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA319"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/faces-do-brasil-merlot"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/4a38140d9baa0c3729dd64102ac2a128.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "320"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lidio Carraro Agnus Merlot"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "149.90"
+    },
+    "sale_price": {
+      "__text": "104.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360049"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA320"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/agnus-merlot"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c213a5d1deebebe1f2b8a6bbe41cd586.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "321"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lidio Carraro Agnus Tannat"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "149.90"
+    },
+    "sale_price": {
+      "__text": "104.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413361114"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA321"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/agnus-tannat"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/1068deb7354a4fa2e8984c21a10d72c2.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "322"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Nacional Lidio Carraro Dádivas Chardonnay 750ml"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "119.90"
+    },
+    "sale_price": {
+      "__text": "119.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360162"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA322"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/dadivas-chardonnay"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/191d012cdff755ca73436bab9e30ffd0.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "323"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Nacional Lidio Carraro Dádivas Chardonnay 375ml"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "69.90"
+    },
+    "sale_price": {
+      "__text": "69.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA323"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/dadivas-chardonnay-12"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/25a916c4c3a02a3bccfbe83c440c303d.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "324"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lidio Carraro Dádivas Pinot Noir "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "119.90"
+    },
+    "sale_price": {
+      "__text": "119.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360414"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA324"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/dadivas-pinot-noir"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/840a7e73b72e7b81bf717aaa9f19f331.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "325"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lídio Carraro Dádivas Merlot/Cabernet"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "119.90"
+    },
+    "sale_price": {
+      "__text": "119.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360117"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA325"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/dadivas-merlot-cabernet"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/52afd50a61764413ab5ff14c38c06ab5.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "327"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lídio Carraro Dádivas Merlot/Cabernet 375ml"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "69.90"
+    },
+    "sale_price": {
+      "__text": "69.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360124"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA327"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/dadivas-merlot-cabernet-375ml"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/e9bb0c8ce160d090a5bff1b9d0591a28.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "328"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Nacional Lidio Carraro Grande Vindima Merlot"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "329.00"
+    },
+    "sale_price": {
+      "__text": "329.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360025"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA328"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/grande-vindima-merlot"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d4889c0e5e4fa77669a24e7e4fe7de7d.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "329"
+    },
+    "title": {
+      "__cdata": "Espumante Nacional Lídio Carraro Faces do Brasil Brut"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "83.95"
+    },
+    "sale_price": {
+      "__text": "83.95"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "798413361984"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA329"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/faces-do-brasil-espumante-brut"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/b822b9f8ea802091d2a92db903a23827.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "330"
+    },
+    "title": {
+      "__cdata": "Espumante Nacional Lidio Carraro Dádivas Brut Blanc de Blanc"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "135.00"
+    },
+    "sale_price": {
+      "__text": "135.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "7898413360094"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA330"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/dadivas-extra-brut-blanc-de-blanc"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6fbde1c485032e1353792981f177a9d4.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "331"
+    },
+    "title": {
+      "__cdata": "Vinho Rosé Argentino Clos de Chacras Cavas de Crianza"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "136.00"
+    },
+    "sale_price": {
+      "__text": "136.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA331"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/cavas-de-crianza-malbec-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6c811ab0c762b60f7616f2f01df01841.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "332"
+    },
+    "title": {
+      "__cdata": "Vinho Rosé Argentino CarinaE Odile Rosado"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "79.90"
+    },
+    "sale_price": {
+      "__text": "79.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA332"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/carinae-odile-rosado"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/ce96de3bd13548ff506d7367bf30536c.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "333"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Argentino CarinaE Anos Luz Syrah"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "197.00"
+    },
+    "sale_price": {
+      "__text": "197.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA333"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-argentino-carinae-anos-luz-syrah"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/5745e3a00f55ca600c7562b5ad675c2b.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "334"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa Estación Carmenere"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "81.60"
+    },
+    "sale_price": {
+      "__text": "81.60"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA334"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-chileno-estacion-carmenere"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6b518ddbc52fb7cedc3a3254dd2af3e6.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "341"
+    },
+    "title": {
+      "__cdata": "Kit Vinhos Brancos de Verão 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "349.00"
+    },
+    "sale_price": {
+      "__text": "349.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA341"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-vinhos-brancos"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/43ccaaa178d3506642b1de9d15d5dad8.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "342"
+    },
+    "title": {
+      "__cdata": "Kit Malbec Premium 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "889.00"
+    },
+    "sale_price": {
+      "__text": "622.30"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA342"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-malbec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/7f7f182a6e8ba3829a9a5b24b4c9e142.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "343"
+    },
+    "title": {
+      "__cdata": "Kit Brancos & Rosés 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "354.90"
+    },
+    "sale_price": {
+      "__text": "354.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA343"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-vinho-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/73aebd742e6d2e732f543f6c39d015df.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "345"
+    },
+    "title": {
+      "__cdata": "Kit Cabernet Sauvignon 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "499.50"
+    },
+    "sale_price": {
+      "__text": "349.65"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA345"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/bd9e515341278ac6aca31618c074ecea.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "346"
+    },
+    "title": {
+      "__cdata": "Kit Novo Mundo 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "359.80"
+    },
+    "sale_price": {
+      "__text": "359.80"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA346"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-novo-mundo-6-garrafas"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/3fe1ad54f0e07fb9c46bc136edf7d38c.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "348"
+    },
+    "title": {
+      "__cdata": "Kit Vina Estampa 6 Garrafas "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "397.00"
+    },
+    "sale_price": {
+      "__text": "397.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA348"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-vina-estampa-6-garrafas"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d555d479652b1dcf64fb4546246c16e0.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "350"
+    },
+    "title": {
+      "__cdata": "Kit Famiglia Bianchi 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "584.60"
+    },
+    "sale_price": {
+      "__text": "584.60"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA350"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-bodegas-bianchi-6-garrafas"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/a53dc80ed62398ad5692a8d26b4e97e8.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "351"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno  Estampa Estación Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA351"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-chileno-estampa-estacion-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/af5d366e8b3d7146921d7b3a7ec1d41d.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "352"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa SSA Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA352"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-chileno-estampa-ssa-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/0d9608deee2010d13ae11d06df9da136.jpg"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "353"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Estampa La Cruz Icone"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA353"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-chileno-estampa-la-cruz-icone"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/0952269541c1e4431cf0a96ba6ae95dd.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "354"
+    },
+    "title": {
+      "__cdata": "Vinho Chileno Apaltagua Selection Rosé"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "58.70"
+    },
+    "sale_price": {
+      "__text": "58.70"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA354"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-chileno-apaltagua-selection-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/adee48f9b627c2912536b25e19f10fe2.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "355"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Apaltagua Gran Reserva Envero Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA355"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-chileno-apaltagua-gran-reserva-envero-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/54ec18d823cf8368de704d5ff9953e9f.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "356"
+    },
+    "title": {
+      "__cdata": "Vinho Chileno Apaltagua Gran Reserva Envero Parcelas Blend Tinto"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA356"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-chileno-apaltagua-gran-reserva-envero-parcelas-blend-tinto"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d4132d95b3719c891c36c072426c60b4.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "357"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Chileno Apaltagua Signature Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA357"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-chileno-apaltagua-signature-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/8b30a427787d98abb751888e66fca987.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "358"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Synfonia "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA358"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-portugues-synfonia"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/41bfeebb0b8ae484ecf7a6c545aff3a5.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "359"
+    },
+    "title": {
+      "__cdata": "Vinho Branco Português Synfonia"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA359"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-branco-portugues-synfonia"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6b443e971703fe55769c66c7216e2f8b.jpg"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "360"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Português Encosta das Perdizes Vinhas Velhas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "100.00"
+    },
+    "sale_price": {
+      "__text": "100.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA360"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-portugues-encosta-das-perdizes-vinhas-velhas"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/01083b6d948939f21b6d9613f6497e89.png"
+    },
+    "availability": {
+      "__text": "out of stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "361"
+    },
+    "title": {
+      "__cdata": "Kit Los Primos Bianchi 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "384.90"
+    },
+    "sale_price": {
+      "__text": "384.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA361"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-los-primos-bianchi-6-garrafas"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/8335011a9fda43d320cf29555fa0abd8.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "362"
+    },
+    "title": {
+      "__cdata": "Kit Premium Bodegas Bianchi 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "1480.00"
+    },
+    "sale_price": {
+      "__text": "1480.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA362"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-premium-bodegas-bianchi"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/a7bd14db9787cce44a7b22d89f527bdd.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "363"
+    },
+    "title": {
+      "__cdata": "Kit Nacional Lidio Carraro 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "903.50"
+    },
+    "sale_price": {
+      "__text": "632.45"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA363"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-nacional-premium"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/1c0f827fdaeb39c948b1b32a81aad14a.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "364"
+    },
+    "title": {
+      "__cdata": "Kit Apaltagua Selection Cabernet Sauvignon 6 Garrafas"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "289.90"
+    },
+    "sale_price": {
+      "__text": "289.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "gtin": {
+      "__cdata": "78965258124155"
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA364"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-apaltagua-selection-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/bc5a7d96407fb86a24e548983a19b823.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "367"
+    },
+    "title": {
+      "__cdata": "Espumante Espanhol Cava Freixenet Cordon Negro Brut"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "79.00"
+    },
+    "sale_price": {
+      "__text": "63.20"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA367"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-espanhol-freixenet-cordon-negro-brut"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/00c1360ac093093f9f7479b33b31b00c.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "369"
+    },
+    "title": {
+      "__cdata": "Espumante Espanhol Cava Freixenet Cordon Negro Brut 200ml"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "37.50"
+    },
+    "sale_price": {
+      "__text": "37.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA369"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-espanhol-freixenet-cordon-negro-brut-200ml"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/5839daff0a482124e6c4b653180e13c3.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "371"
+    },
+    "title": {
+      "__cdata": "Espumante Branco Espanhol Cava Demi-Sec Freixenet  Carta Nevada "
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "83.50"
+    },
+    "sale_price": {
+      "__text": "66.80"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA371"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/espumante-espanhol-cava-demi-sec-freixenet-carta-nevada"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/a3e208f4504e6cfa22088cf28355be10.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "372"
+    },
+    "title": {
+      "__cdata": "Espumante Rosé Espanhol Cava Freixenet Rosado Brut"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "83.50"
+    },
+    "sale_price": {
+      "__text": "66.80"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA372"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-espanhol-cava-freixe-rosado-brutnet"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/e124aff8a328a796758eacaee347f2c2.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "373"
+    },
+    "title": {
+      "__cdata": "Espumante Rosé Espanhol Cava Freixe Rosado Brut 200ml"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "37.00"
+    },
+    "sale_price": {
+      "__text": "37.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA373"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-espanhol-cava-freixe-rosado-brut-200ml"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/aa3002f933ada994af660b8467fde67d.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "374"
+    },
+    "title": {
+      "__cdata": "Espumante Espanhol Cava Freixenet Ice Demi-Sec"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "92.50"
+    },
+    "sale_price": {
+      "__text": "92.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA374"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-espanhol-cava-freixenet-ice-demi-sec"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/cb371782d4c315cdd1ac28867823d9c8.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "375"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Tinto Italiano Seco Freixenet Chianti D.O.C.G."
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "96.90"
+    },
+    "sale_price": {
+      "__text": "96.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA375"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-tinto-italiano-seco-freixenet-chianti-do"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/505bbcd1b7233853e5b5f6444578ea4f.jpeg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "376"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Tinto Italiano Seco Freixenet Primitivo"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "96.90"
+    },
+    "sale_price": {
+      "__text": "96.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA376"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-tinto-italiano-seco-freixenet-primitivo"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/09825574381acaeae5b8ecda3f88f53f.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "377"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Branco Italiano  Seco Freixenet Pinot Grigio"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "86.50"
+    },
+    "sale_price": {
+      "__text": "86.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA377"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-branco-italiano-seco-freixenet-pinot-grigio"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/6e97b8602d297d307cf783ba353a6159.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "378"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Rosé Seco Freixenet Italian Rosé"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "86.50"
+    },
+    "sale_price": {
+      "__text": "86.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA378"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-rose-seco-freixenet-italian-rosed"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/2b11c205c58b541e06bf731323c1261c.jpeg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "379"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Tinto Seco Freixenet D.O. Rioja"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "86.50"
+    },
+    "sale_price": {
+      "__text": "86.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA379"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-tinto-seco-freixenet-do-rioja"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/13b5d582272cb9d6d43ee004d38d93b7.jpeg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "381"
+    },
+    "title": {
+      "__cdata": "Espumante Espanhol Freixenet Henkell Brut"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "70.90"
+    },
+    "sale_price": {
+      "__text": "70.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA381"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/espumante-espanhol-freixenet-henkell-brut"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/77ec86601cc2ce0d0f189de95e777aec.jpeg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "382"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Tinto Espanhol Freixenet Demi-Sec Mia Red"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "49.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA382"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-tinto-espanhol-freixenet-demi-sec-mia-red"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c35370a75e112beeb0545b808660b6f0.jpeg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "384"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Tinto Seco Espanhol Freixenet Orube Crianza"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "133.90"
+    },
+    "sale_price": {
+      "__text": "133.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA384"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-tinto-seco-espanhol-freixenet-orube-crianza"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/c9309ef117340c49b40689f9441dd5fb.jpeg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "385"
+    },
+    "title": {
+      "__cdata": "Vinho Fino Tinto Seco Espanhol Freixenet Valdubon Tempranillo"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "107.90"
+    },
+    "sale_price": {
+      "__text": "107.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA385"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-fino-tinto-seco-espanhol-freixenet-valdubon-tempranillo"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/d2a2868e4a88976e6ae5e10afd1167e1.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "386"
+    },
+    "title": {
+      "__cdata": "Vinho Rosé Francês Freixenet Domaine De La Gypiere Les Armoises"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "182.90"
+    },
+    "sale_price": {
+      "__text": "182.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA386"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-rose-domaine-de-la-gypiere-les-armoises"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/fd577fa1d7e31e0c5560d93e4b0befc8.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "387"
+    },
+    "title": {
+      "__cdata": "Vinho Rosé Francês Freixenet Jolie Terre VDP De Mediterranne"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "101.90"
+    },
+    "sale_price": {
+      "__text": "101.90"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA387"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-rose-frances-freixenetjolie-terre-vdp-de-mediterranne"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/dcfef420a6cc5f3543d532a95a2578d3.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "388"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Francês Freixenet Premius La Reserve"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "113.00"
+    },
+    "sale_price": {
+      "__text": "113.00"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA388"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-frances-freixenet-premius-la-reserve"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/7ab0a76166b9896e0cfa97f116ab623a.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "389"
+    },
+    "title": {
+      "__cdata": "Kit Freixenet Collection 6+1 1.5L Prosecco"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "930.50"
+    },
+    "sale_price": {
+      "__text": "930.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA389"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-freixenet-collection-61-15l-prosecco"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/337558e5379c7c1f3f324889aced3f0f.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "390"
+    },
+    "title": {
+      "__cdata": "Kit Freixenet Collection 6+1 1.5L Italian Rosé"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "930.50"
+    },
+    "sale_price": {
+      "__text": "930.50"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA390"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/kit-freixenet-collection-61-15l-italian-rose"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/873cb17ee0975864755b3ca4d0176921.png"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
+  },
+  {
+    "id": {
+      "__text": "391"
+    },
+    "title": {
+      "__cdata": "Vinho Tinto Suave Nacional Rio Sol Cabernet Sauvignon"
+    },
+    "description": {
+      "__cdata": ""
+    },
+    "price": {
+      "__text": "49.90"
+    },
+    "sale_price": {
+      "__text": "34.93"
+    },
+    "brand": {
+      "__cdata": ""
+    },
+    "mpn": {
+      "__cdata": "IMPLEMENTACAOASSINATURA391"
+    },
+    "link": {
+      "__cdata": "https://www.medoc.com.br/vinho-tinto-suave-nacional-rio-sol-cabernet-sauvignon"
+    },
+    "image_link": {
+      "__cdata": "https://assets.betalabs.net/production/implementacaoassinatura/item-images/08f4a85fc91cf1456be2d5b8ea1cb120.jpg"
+    },
+    "availability": {
+      "__text": "in stock"
+    },
+    "condition": {
+      "__cdata": "new"
+    },
+    "identifier_exists": {
+      "__text": "TRUE"
+    }
   }
 ]

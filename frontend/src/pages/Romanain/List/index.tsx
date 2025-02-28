@@ -4,32 +4,74 @@ import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input, RangePicker, Select } from 'components/_inputs';
 import { apiRoutes, appRoutes, booleanFilter } from 'utils/defaultValues';
-import { initialStateFilter, Romanian } from '../interfaces';
+import { initialStateFilter, Romanian, originCompanys } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDate, formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import Print from '../Print';
 import PrintAll from '../PrintAll';
+import Action from './Action';
+import { endOfMonth, startOfMonth } from 'date-fns';
+import moment from 'moment';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<Romanian[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [update, setUpdate] = useState<Romanian>();
 
   useEffect(() => {
-    actionFilter();
+    const date = new Date();
+    const saleDateAtStart = startOfMonth(date).toISOString();
+    const saleDateAtEnd = endOfMonth(date).toISOString();
+    // actionFilter(1, saleDateAtStart, saleDateAtEnd);
+    actionFilter(1, 'false');
   }, []);
 
-  const actionFilter = async (pageNumber: number = 1) => {
+  useEffect(() => {
+    const newItems = items.map((x: any) => {
+      return x.id === update!.id
+        ? {
+            ...x,
+            noteValue: formatPrice(Number(update!.noteValue) || 0),
+            saleDateAt: formatDate(update!.saleDateAt),
+            print: <Print romanian={update!} />,
+            sended: (
+              <Action item={update!} setUpdate={setUpdate} type="sended" />
+            ),
+            delivered: (
+              <Action item={update!} setUpdate={setUpdate} type="delivered" />
+            )
+          }
+        : x;
+    });
+    setItems(newItems);
+  }, [update]);
+
+  const actionFilter = async (
+    pageNumber: number = 1,
+    // saleDateAtStart = state.saleDateAtStart,
+    // saleDateAtEnd = state.saleDateAtEnd,
+    delivered = state.delivered
+  ) => {
     try {
-      dispatch({ pageNumber });
+      dispatch({
+        ...state,
+        pageNumber,
+        // saleDateAtStart,
+        // saleDateAtEnd,
+        delivered
+      });
 
       setLoading(true);
       const resp = await api.get(apiRoutes.romanians, {
         ...state,
-        pageNumber
+        pageNumber,
+        // saleDateAtStart,
+        // saleDateAtEnd,
+        delivered
       });
       setLoading(false);
 
@@ -46,7 +88,12 @@ const List: React.FC = () => {
           createdAt: formatDateHour(r.createdAt),
           updatedAt: formatDateHour(r.updatedAt)
         };
-        return { ...item, print: <Print romanian={item} /> };
+        return {
+          ...item,
+          print: <Print romanian={item} />,
+          sended: <Action item={r} setUpdate={setUpdate} type="sended" />,
+          delivered: <Action item={r} setUpdate={setUpdate} type="delivered" />
+        };
       });
       setItems(itemsFormatted);
       console.log(itemsFormatted);
@@ -73,6 +120,14 @@ const List: React.FC = () => {
             onChange={(e) => dispatch({ id: e.target.value })}
           />
         </Col>
+        <Col lg={4} md={12} sm={24} xs={24}>
+          <Select
+            label={'Enviados'}
+            options={booleanFilter}
+            value={state?.sended}
+            onChange={(sended) => dispatch({ sended })}
+          />
+        </Col>
         <Col lg={3} md={12} sm={24} xs={24}>
           <Select
             label={'Entregues'}
@@ -81,15 +136,6 @@ const List: React.FC = () => {
             onChange={(delivered) => dispatch({ delivered })}
           />
         </Col>
-        <Col lg={4} md={12} sm={24} xs={24}>
-          <Input
-            label={'Empresa'}
-            placeholder="Vinho Delicatessen"
-            value={state.companyName}
-            onChange={(e) => dispatch({ companyName: e.target.value })}
-          />
-        </Col>
-
         <Col lg={7} md={12} sm={24} xs={24}>
           <Input
             label={'Cliente'}
@@ -133,6 +179,10 @@ const List: React.FC = () => {
         <Col lg={7} md={24} sm={24} xs={24}>
           <RangePicker
             label="Data da expedição"
+            value={[
+              state.saleDateAtStart ? moment(state.saleDateAtStart) : null,
+              state.saleDateAtEnd ? moment(state.saleDateAtEnd) : null
+            ]}
             onChange={(value: any, dateString: any) => {
               dispatch({
                 saleDateAtStart: dateString[0]?.split('/').reverse().join('-')
@@ -143,7 +193,6 @@ const List: React.FC = () => {
             }}
           />
         </Col>
-       
       </PanelFilter>
       <GridList
         headerChildren={<PrintAll state={state} />}
@@ -151,16 +200,16 @@ const List: React.FC = () => {
         columns={[
           { title: 'Código', dataIndex: 'id' },
           { title: 'Nota', dataIndex: 'noteNumber' },
-          { title: 'Empresa', dataIndex: 'companyName' },
           { title: 'Cliente', dataIndex: 'clientName' },
           {
             title: 'Transportadora/Entregador',
             dataIndex: 'shippingCompanyName'
           },
           { title: 'Valor', dataIndex: 'noteValue' },
-          { title: 'Código/link de rastreio', dataIndex: 'trackingCode' },
-          { title: 'Origem da venda', dataIndex: 'originSale' },
+          // { title: 'Código/link de rastreio', dataIndex: 'trackingCode' },
           { title: 'Data da expedição', dataIndex: 'saleDateAt' },
+          { title: 'Enviado', dataIndex: 'sended' },
+          { title: 'Entregue', dataIndex: 'delivered' },
           { title: '', dataIndex: 'print' }
         ]}
         dataSource={items}

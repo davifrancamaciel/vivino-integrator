@@ -18,28 +18,28 @@ const Print: React.FC<PropTypes> = ({ romanian }) => {
       >
         <tr>
           <Td title="Empresa" value={romanian.company?.name} />
-          <Td title="Empresa" value={romanian.company?.name} />
           <Td title="Nome do cliente" value={romanian.clientName} />
+          <Td title="Numero da nota" value={romanian.noteNumber} />
         </tr>
         <tr>
-          <Td title="Numero da nota" value={romanian.noteNumber} />
           <Td title="Valor da nota" value={romanian.noteValue} />
           <Td
             title="Transporadora/Entregador"
             value={romanian.shippingCompany?.name}
           />
+          <Td title="Valor do frete" value={romanian.shippingValue} />
         </tr>
         <tr>
-          <Td title="Valor do frete" value={romanian.shippingValue} />
           <Td
             title="Código/link de rastreamento"
             value={romanian.trackingCode}
           />
           <Td title="Origem da venda" value={romanian.originSale} />
+          <Td title="Volumes" value={romanian.volume} />
         </tr>
         <tr>
-          <Td title="Volumes" value={romanian.volume} />
           <Td title="Forma de pagamento" value={romanian.formOfPayment} />
+          <Td title="Enviado" value={romanian.sended ? 'SIM' : 'NÂO'} />
           <Td title="Entregue" value={romanian.delivered ? 'SIM' : 'NÂO'} />
         </tr>
         <tr>
