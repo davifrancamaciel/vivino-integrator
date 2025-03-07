@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
         companyId: { type: DataTypes.UUID },
         saleDate: { type: DataTypes.DATE },
         trackingUrl: { type: DataTypes.STRING(300) },
+        noteNumber: { type: DataTypes.STRING(50) },
     });
 
     WineSale.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });

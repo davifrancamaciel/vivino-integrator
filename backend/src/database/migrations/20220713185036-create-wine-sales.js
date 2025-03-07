@@ -31,6 +31,7 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: false,
         },
+        noteNumber: { type: Sequelize.STRING(50), allowNull: true },
         createdAt: {
           type: Sequelize.DATE,
           allowNull: false,
@@ -40,10 +41,10 @@ module.exports = {
           allowNull: false,
         },
       }, { transaction });
-      await queryInterface.addIndex(TABLE_NAME, ['saleDate'], { transaction }); 
+      await queryInterface.addIndex(TABLE_NAME, ['saleDate'], { transaction });
       await queryInterface.addIndex(TABLE_NAME, ['code'], { transaction });
       await queryInterface.addIndex(TABLE_NAME, ['companyId'], { transaction });
-      await queryInterface.addIndex(TABLE_NAME, ['createdAt'], { transaction });      
+      await queryInterface.addIndex(TABLE_NAME, ['createdAt'], { transaction });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();

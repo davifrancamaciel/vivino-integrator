@@ -194,6 +194,7 @@ const List: React.FC = () => {
           { title: 'Cliente', dataIndex: 'user' },
           { title: 'Data da venda na Vivino', dataIndex: 'saleDate' },
           { title: 'Valor', dataIndex: 'value' },
+          { title: 'Nota', dataIndex: 'noteNumber' },
           { title: 'Importada em', dataIndex: 'createdAt' },
           { title: 'Ações', dataIndex: 'custonActions' }
         ]}

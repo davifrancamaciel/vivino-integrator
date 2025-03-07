@@ -96,6 +96,8 @@ module.exports.list = async (event, context) => {
                 }]
         })
 
+        if (Number(pageSize) === 100)
+            console.log('IMPRESSÃO DE ROMANEIO', event.queryStringParameters, rows)
         return handlerResponse(200, { count, rows })
 
     } catch (err) {
