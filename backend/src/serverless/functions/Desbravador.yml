@@ -1,0 +1,7 @@
+desbravador:
+  handler: src/functions/api/desbravador/search.handler
+  events:
+    - http:
+        path: desbravador
+        method: get       
+        cors: true

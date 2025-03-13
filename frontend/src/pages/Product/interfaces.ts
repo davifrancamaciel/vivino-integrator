@@ -1,23 +1,25 @@
+import { Category } from '../Category/interfaces';
 export interface Product {
   id?: string;
   name?: string;
-  price?: string; 
-  size?: string; 
-  inventoryCount?: number; 
+  price?: string;
+  size?: string;
+  inventoryCount?: number;
   color?: string;
   image?: string;
   ean?: string;
-  description?: string;  
+  description?: string;
   active: boolean;
   createdAt?: string;
   updatedAt?: string;
+  category?: Category;
 }
 
 export const initialStateForm: Product = {
   id: undefined,
   name: '',
   price: '',
-  size: '',  
+  size: '',
   active: true,
   createdAt: '',
   updatedAt: ''
@@ -25,16 +27,16 @@ export const initialStateForm: Product = {
 
 export interface Filter {
   id?: string;
-  name: string;  
-  priceMin?:string;
-  priceMax?:string;
+  name: string;
+  priceMin?: string;
+  priceMax?: string;
   pageNumber: number;
   pageSize: number;
 }
 
 export const initialStateFilter: Filter = {
   id: '',
-  name: '',  
+  name: '',
   pageNumber: 1,
   pageSize: 10
 };

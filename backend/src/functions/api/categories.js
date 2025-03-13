@@ -1,39 +1,39 @@
 "use strict";
 
 const { Op } = require('sequelize');
-const { startOfDay, endOfDay, parseISO } = require('date-fns');
+const { startOfDay, endOfDay, parseISO, addMonths } = require('date-fns');
 const db = require('../../database');
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
+const Category = require('../../models/Category')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { roules } = require("../../utils/defaultValues");
-const imageService = require("../../services/ImageService");
-const s3 = require("../../services/AwsS3Service");
-const { executeSelect } = require("../../services/ExecuteQueryService");
 
-
-const RESOURCE_NAME = 'Empresa'
+const RESOURCE_NAME = 'Categoria'
 
 module.exports.list = async (event, context) => {
     try {
-
         const user = await getUser(event)
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
-            return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
-
         context.callbackWaitsForEmptyEventLoop = false;
 
         const whereStatement = {};
+        const whereCompanys = {};
 
         if (event.queryStringParameters) {
             const {
-                id, name, createdAtStart, createdAtEnd } = event.queryStringParameters
+                id, companyName, name, active, createdAtStart, createdAtEnd
+            } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
+
+            if (companyName)
+                whereCompanys.name = { [Op.like]: `%${companyName}%` }
+
+            if (active !== undefined && active !== '')
+                whereStatement.active = active === 'true';
 
             if (name)
                 whereStatement.name = { [Op.like]: `%${name}%` }
@@ -54,14 +54,26 @@ module.exports.list = async (event, context) => {
                         endOfDay(parseISO(createdAtEnd)),
                     ],
                 };
+
         }
 
+        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+            whereStatement.companyId = user.companyId;
+
         const { pageSize, pageNumber } = event.queryStringParameters
-        const { count, rows } = await Company.findAndCountAll({
+        const { count, rows } = await Category.findAndCountAll({
             where: whereStatement,
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * Number(pageSize),
-            order: [['createdAt', 'DESC']],
+            order: [['id', 'DESC']],
+            include: [
+                {
+                    model: Company,
+                    as: 'company',
+                    attributes: ['name'],
+                    where: whereCompanys
+                }
+            ]
         })
 
         return handlerResponse(200, { count, rows })
@@ -78,13 +90,22 @@ module.exports.listById = async (event) => {
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const result = await Company.findByPk(pathParameters.id)
+        const result = await Category.findByPk(pathParameters.id, {
+            include: [
+                {
+                    model: Company,
+                    as: 'company',
+                    attributes: ['name'],
+                }]
+        })
         if (!result)
-            return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrado`)
+            return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrada`)
+
+        if (!checkRouleProfileAccess(user.groups, roules.administrator) && result.companyId !== user.companyId)
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
         return handlerResponse(200, result)
     } catch (err) {
@@ -101,18 +122,16 @@ module.exports.create = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
-        const objOnSave = body
 
-        if (body.groupsFormatted)
-            objOnSave.groups = JSON.stringify(body.groupsFormatted)
+        let objOnSave = body
+        objOnSave.dividedIn = Number(body.dividedIn || 1);
 
-        const result = await Company.create(objOnSave);
+        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+            objOnSave.companyId = user.companyId
 
-        await imageService.add('companies', result.dataValues, body.fileList);
-        await imageService.add('companies', result.dataValues, body.bannerList, 'banner');
-        await createFile(result.dataValues);
+        const result = await Category.create(objOnSave);
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
@@ -128,26 +147,21 @@ module.exports.update = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = body
-        const item = await Company.findByPk(id)
+        const item = await Category.findByPk(Number(id))
 
         console.log('BODY ', body)
-        console.log('ALTERADO DE ', item.dataValues)
         if (!item)
-            return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrado`)
+            return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrada`)
 
-        const objOnSave = body
-        if (body.groupsFormatted)
-            objOnSave.groups = JSON.stringify(body.groupsFormatted)
+        if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
 
-        const result = await item.update(objOnSave);
+        const result = await item.update(body);
         console.log('PARA ', result.dataValues)
-        await imageService.add('companies', result.dataValues, body.fileList);
-        await imageService.add('companies', result.dataValues, body.bannerList, 'banner');
-        await createFile(result.dataValues);
 
         return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
     } catch (err) {
@@ -163,18 +177,17 @@ module.exports.delete = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const { id } = pathParameters;
+        const { id } = pathParameters
+        const item = await Category.findByPk(id)
+        if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
+        if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.CompanyId === 1)
+            return handlerResponse(403, {}, 'Usuário não tem permissão apagar este tipo de despesa')
 
-        const item = await Company.findByPk(id);
-
-        await imageService.remove(item.image);
-        await imageService.remove(item.banner);
-
-        await Company.destroy({ where: { id } });
-
+        await Category.destroy({ where: { id } });
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removida com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err, pathParameters)
@@ -188,12 +201,12 @@ module.exports.listAll = async (event, context) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.users))
+        if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const resp = await Company.findAll({
+        const resp = await Category.findAll({
             order: [['name', 'ASC']],
         })
 
@@ -207,24 +220,3 @@ module.exports.listAll = async (event, context) => {
         return await handlerErrResponse(err)
     }
 };
-
-module.exports.listByName = async (event) => {
-    const { pathParameters } = event
-    try {
-
-        const query = `SELECT name, id, image, phone, pixKey, open, banner FROM companies WHERE active = true AND REPLACE(LOWER(name), ' ','') = '${pathParameters.name}';`
-        const [result] = await executeSelect(query)
-        if (!result)
-            return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrada`)
-
-        return handlerResponse(200, result)
-    } catch (err) {
-        return await handlerErrResponse(err, pathParameters)
-    }
-}
-
-const createFile = async (company) => {
-    const key = `${company.id}/_company_${company.name}.json`;
-    const { bucketPublicName } = process.env
-    await s3.put(JSON.stringify({ id: company.id, name: company.name }), key, bucketPublicName);
-}

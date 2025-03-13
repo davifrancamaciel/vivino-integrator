@@ -1,5 +1,6 @@
 const db = require('../database');
 const Company = require('./Company')(db.sequelize, db.Sequelize);
+const Category = require('./Category')(db.sequelize, db.Sequelize);
 
 module.exports = function (sequelize, DataTypes) {
     const Product = sequelize.define('products', {
@@ -13,9 +14,11 @@ module.exports = function (sequelize, DataTypes) {
         color: { type: DataTypes.STRING(100) },
         ean: { type: DataTypes.STRING(100) },
         active: { type: DataTypes.BOOLEAN },
+        categoryId: { type: DataTypes.INTEGER },
     });
 
     Product.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });
+    Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' });
 
     return Product;
 };

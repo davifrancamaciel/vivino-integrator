@@ -3,4 +3,9 @@ const getVivinoUrl = (vivinoClientId) => {
     return !vivinoClientId.includes('TESTING') ? VIVINO_API_URL.replace('testing.', '') : VIVINO_API_URL
 }
 
-module.exports = { getVivinoUrl };
+const sum = function (items, prop) {
+    return items.reduce(function (a, b) {
+        return a + b[prop];
+    }, 0);
+};
+module.exports = { getVivinoUrl, sum };

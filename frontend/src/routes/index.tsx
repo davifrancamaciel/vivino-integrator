@@ -39,6 +39,8 @@ const ExpenseCreateEdit = lazy(() => import('pages/Expense/CreateEdit'));
 const ExpenseDetails = lazy(() => import('pages/Expense/Details'));
 const CompanyList = lazy(() => import('pages/Company/List'));
 const CompanyCreateEdit = lazy(() => import('pages/Company/CreateEdit'));
+const CategoryList = lazy(() => import('pages/Category/List'));
+const CategoryCreateEdit = lazy(() => import('pages/Category/CreateEdit'));
 const ServicesList = lazy(() => import('pages/Services/List'));
 
 const routesArray: IRouteProps[] = [
@@ -177,6 +179,21 @@ const routesArray: IRouteProps[] = [
     path: `/${appRoutes.expenses}/details/:id`,
     component: ExpenseDetails,
     roule: roules.expenses
+  },
+  {
+    path: `/${appRoutes.categories}`,
+    component: CategoryList,
+    roule: roules.products
+  },
+  {
+    path: `/${appRoutes.categories}/create`,
+    component: CategoryCreateEdit,
+    roule: roules.products
+  },
+  {
+    path: `/${appRoutes.categories}/edit/:id`,
+    component: CategoryCreateEdit,
+    roule: roules.products
   },
   {
     path: `/${appRoutes.companies}`,

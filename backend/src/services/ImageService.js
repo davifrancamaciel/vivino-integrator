@@ -4,10 +4,10 @@ const uuid = require('uuid');
 const s3 = require("./AwsS3Service");
 const { executeUpdate } = require("./ExecuteQueryService");
 
-const add = async (table, obj, fileList) => {
+const add = async (table, obj, fileList, coll = 'image') => {
     if (fileList && fileList.length) {
 
-        let { companyId, id, image } = obj;
+        let { companyId, id } = obj;
         if (table === 'companies')
             companyId = id
 
@@ -21,12 +21,12 @@ const add = async (table, obj, fileList) => {
             let key = `${companyId}/${table}/${id}/${filename}`;
 
             if (table === 'companies')
-                key = `${companyId}/logo-${filename}`;
+                key = `${companyId}/${coll}-${filename}`;
 
             var buf = Buffer.from(file.preview.replace(/^data:image\/\w+;base64,/, ""), 'base64')
             const result = await s3.put(buf, key, bucketPublicName, file.type, 'base64');
 
-            let query = `UPDATE ${table} SET image = '${result.Location}', updatedAt = NOW() WHERE`;
+            let query = `UPDATE ${table} SET ${coll} = '${result.Location}', updatedAt = NOW() WHERE`;
             if (table === 'companies')
                 query = `${query} id = '${companyId}'`
             else
@@ -34,7 +34,7 @@ const add = async (table, obj, fileList) => {
 
             await executeUpdate(query);
 
-            await remove(image);
+            await remove(obj[coll]);
         }
     }
 }

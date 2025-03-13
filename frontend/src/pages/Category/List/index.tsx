@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Tag, Image } from 'antd';
+import { Col } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
 import { Input } from 'components/_inputs';
-import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
-import { initialStateFilter, Company } from '../interfaces';
+import { apiRoutes, appRoutes, roules } from 'utils/defaultValues';
+import { initialStateFilter, Category } from '../interfaces';
 import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDateHour } from 'utils/formatDate';
+import ShowByRoule from 'components/ShowByRoule';
 import Action from 'components/Action';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
-  const [items, setItems] = useState<Company[]>([]);
+  const [items, setItems] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
 
@@ -25,35 +26,25 @@ const List: React.FC = () => {
       dispatch({ pageNumber });
 
       setLoading(true);
-      const resp = await api.get(apiRoutes.companies, {
+      const resp = await api.get(apiRoutes.categories, {
         ...state,
         pageNumber
       });
       setLoading(false);
 
       const { count, rows } = resp.data;
-      const itemsFormatted = rows.map((c: Company) => {
+      const itemsFormatted = rows.map((c: Category) => {
         const item = {
           ...c,
+          companyName: c.company?.name,
+          createdAt: formatDateHour(c.createdAt),
+          updatedAt: formatDateHour(c.updatedAt),
           active: (
             <Action
               item={c}
               setUpdate={() => {}}
-              apiRoutes={apiRoutes.companies}
+              apiRoutes={apiRoutes.categories}
             />
-          ),
-          accessTypeText: accessTypeTags(c.groupsFormatted),
-          createdAt: formatDateHour(c.createdAt),
-          updatedAt: formatDateHour(c.updatedAt),
-          image: (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Image style={{ height: '60px' }} src={c.image} />
-            </div>
-          ),
-          banner: (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Image style={{ height: '60px' }} src={c.banner} />
-            </div>
           )
         };
         return { ...item };
@@ -66,28 +57,14 @@ const List: React.FC = () => {
     }
   };
 
-  const accessTypeTags = (accessType?: string[]) => {
-    if (!accessType?.length)
-      return (
-        <Tag color={systemColors.ORANGE}>Nenhuma permissão foi concedida</Tag>
-      );
-    if (accessType) {
-      return accessType.map((item: string) => (
-        <Tag style={{ margin: '3px' }} color={systemColors.LIGHT_BLUE}>
-          {item}
-        </Tag>
-      ));
-    } else return <Tag color={systemColors.LIGHT_BLUE}>{accessType}</Tag>;
-  };
-
   return (
     <div>
       <PanelFilter
-        title="Empresas cadastradas"
+        title="Categorias cadastradas"
         actionButton={() => actionFilter()}
         loading={loading}
       >
-        <Col lg={12} md={12} sm={24} xs={24}>
+        <Col lg={3} md={12} sm={24} xs={24}>
           <Input
             label={'Código'}
             value={state.id}
@@ -95,23 +72,32 @@ const List: React.FC = () => {
           />
         </Col>
 
-        <Col lg={12} md={12} sm={24} xs={24}>
+        <Col lg={8} md={12} sm={24} xs={24}>
           <Input
-            label={'Empresa'}
-            placeholder="Vinho Delicatessen"
+            label={'Categoria'}
+            placeholder="Lanches"
             value={state.name}
             onChange={(e) => dispatch({ name: e.target.value })}
           />
         </Col>
+
+        <ShowByRoule roule={roules.administrator}>
+          <Col lg={8} md={12} sm={24} xs={24}>
+            <Input
+              label={'Empresa'}
+              placeholder="Ex.: Loja"
+              value={state.companyName}
+              onChange={(e) => dispatch({ companyName: e.target.value })}
+            />
+          </Col>
+        </ShowByRoule>
       </PanelFilter>
       <GridList
         scroll={{ x: 840 }}
         columns={[
-          { title: 'Logo', dataIndex: 'image' },
-          { title: 'Banner', dataIndex: 'banner' },
           { title: 'Código', dataIndex: 'id' },
-          { title: 'Empresa', dataIndex: 'name' },
-          { title: 'Permissões', dataIndex: 'accessTypeText' },
+          { title: 'Empresa', dataIndex: 'companyName' },
+          { title: 'Categoria', dataIndex: 'name' },
           { title: 'Criada em', dataIndex: 'createdAt' },
           { title: 'Alterada em', dataIndex: 'updatedAt' },
           { title: 'Ativa', dataIndex: 'active' }
@@ -126,9 +112,9 @@ const List: React.FC = () => {
         pageSize={state.pageSize}
         loading={loading}
         routes={{
-          routeCreate: `/${appRoutes.companies}/create`,
-          routeUpdate: `/${appRoutes.companies}/edit`,
-          routeDelete: `/${appRoutes.companies}`
+          routeCreate: `/${appRoutes.categories}/create`,
+          routeUpdate: `/${appRoutes.categories}/edit`,
+          routeDelete: `/${appRoutes.categories}`
         }}
       />
     </div>

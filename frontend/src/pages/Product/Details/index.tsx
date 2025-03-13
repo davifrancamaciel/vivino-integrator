@@ -8,7 +8,7 @@ import ViewData from 'components/ViewData';
 
 import { initialStateForm, Product } from 'pages/Product/interfaces';
 import api from 'services/api-aws-amplify';
-import { apiRoutes, appRoutes, systemColors } from 'utils/defaultValues';
+import { apiRoutes, appRoutes } from 'utils/defaultValues';
 import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import BooleanTag from 'components/BooleanTag';
@@ -34,7 +34,8 @@ const Details: React.FC = (props: any) => {
         image: <Image style={{ height: '200px' }} src={data.image} />,
         createdAt: formatDateHour(data.createdAt),
         updatedAt: formatDateHour(data.updatedAt),
-        activeTag: <BooleanTag value={data.active} />
+        activeTag: <BooleanTag value={data.active} />,
+        categoryName: data.category?.name
       };
       dispatch(item);
       console.log(item);
@@ -80,6 +81,10 @@ const Details: React.FC = (props: any) => {
             <ViewData label="Preço" value={state.price} />
           </Col>
 
+          <Col lg={8} md={12} sm={24} xs={24}>
+            <ViewData label="Categoria" value={state.categoryName} />
+          </Col>
+          
           <Col lg={8} md={12} sm={24} xs={24}>
             <ViewData label="Tamanho" value={state.size} />
           </Col>

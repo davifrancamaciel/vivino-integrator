@@ -16,7 +16,7 @@ import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
 import ExportCSV from './Export';
-import BooleanTag from 'components/BooleanTag';
+import Action from 'components/Action';
 
 const List: React.FC = () => {
   const query = useQuery();
@@ -52,10 +52,17 @@ const List: React.FC = () => {
             <Image style={{ height: '60px' }} src={p.image} />
           </div>
         ),
+        categoryName: p.category?.name,
         price: formatPrice(Number(p.price) || 0),
         createdAt: formatDateHour(p.createdAt),
         updatedAt: formatDateHour(p.updatedAt),
-        active: <BooleanTag value={p.active} yes={'Ativo'} no={'Inativo'} />
+        active: (
+          <Action
+            item={p}
+            setUpdate={() => {}}
+            apiRoutes={apiRoutes.products}
+          />
+        )
       }));
       setItems(itemsFormatted);
       console.log(itemsFormatted);
@@ -151,15 +158,14 @@ const List: React.FC = () => {
           { title: 'Código', dataIndex: 'id' },
           { title: 'Nome do produto', dataIndex: 'name' },
           { title: 'Preço', dataIndex: 'price' },
-          { title: 'Tamanho', dataIndex: 'size' },
-          { title: 'Cor', dataIndex: 'color' },
+          { title: 'Categoria', dataIndex: 'categoryName' },
           {
             title: 'Estoque',
             dataIndex: 'inventoryCount'
           },
-          { title: 'Ativo', dataIndex: 'active' },
           { title: 'Criado em', dataIndex: 'createdAt' },
-          { title: 'Alterado em', dataIndex: 'updatedAt' }
+          { title: 'Alterado em', dataIndex: 'updatedAt' },
+          { title: 'Ativo', dataIndex: 'active' },
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}

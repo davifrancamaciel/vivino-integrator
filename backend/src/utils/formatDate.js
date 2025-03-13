@@ -2,7 +2,7 @@ const { format, parseISO } = require('date-fns');
 const pt = require('date-fns/locale/pt');
 
 const formatDate = (value) =>
-  !value ? '' : format(parseISO(value), 'dd/MM/yyyy', { locale: pt });
+!value ? '' : format(parseISO(value), 'dd/MM/yyyy', { locale: pt });
 
 const formatDateHour = (value) =>
   !value ? '' : format(parseISO(value), 'dd/MM/yyyy HH:mm', { locale: pt });

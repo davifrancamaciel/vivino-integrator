@@ -3,6 +3,7 @@ export interface Company {
   name?: string;
   groups?: string;
   image?: string;
+  banner?: string;
   groupsFormatted: string[];
   createdAt?: string;
   updatedAt?: string;
@@ -10,6 +11,7 @@ export interface Company {
   active: boolean;
   individualCommission: boolean;
   vivinoApiIntegrationActive: boolean;
+  open: boolean;
 }
 
 export const initialStateForm: Company = {
@@ -20,6 +22,7 @@ export const initialStateForm: Company = {
   createdAt: '',
   updatedAt: '',
   active: true,
+  open: true,
   individualCommission: false,
   vivinoApiIntegrationActive: false
 };

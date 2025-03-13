@@ -112,6 +112,8 @@ functions:
   - ${file(src/serverless/functions/Expenses.yml)}  
   - ${file(src/serverless/functions/Services.yml)}
   - ${file(src/serverless/functions/Products.yml)}
+  - ${file(src/serverless/functions/Categories.yml)}
+  - ${file(src/serverless/functions/Desbravador.yml)}
     
 # você pode adicionar modelos de recursos do CloudFormation aqui
 resources:

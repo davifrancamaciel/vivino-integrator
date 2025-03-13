@@ -1,0 +1,48 @@
+categories:
+  handler: src/functions/api/categories.list
+  events:
+    - http:
+        path: categories
+        method: get
+        authorizer: verifyToken
+        cors: true 
+categoriesById:
+  handler: src/functions/api/categories.listById
+  events:
+    - http:
+        path: categories/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true 
+categoriesCreate:
+  handler: src/functions/api/categories.create
+  events:
+    - http:
+        path: categories
+        method: post
+        authorizer: verifyToken
+        cors: true  
+categoriesUpdate:
+  handler: src/functions/api/categories.update
+  events:
+    - http:
+        path: categories
+        method: put
+        authorizer: verifyToken
+        cors: true 
+categoriesDelete:
+  handler: src/functions/api/categories.delete
+  events:
+    - http:
+        path: categories/{id}
+        method: delete
+        authorizer: verifyToken
+        cors: true
+categoriesAll:
+  handler: src/functions/api/categories.listAll
+  events:
+    - http:
+        path: categories/all
+        method: get
+        authorizer: verifyToken
+        cors: true 

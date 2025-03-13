@@ -3,6 +3,7 @@
 const { Op } = require('sequelize');
 const db = require('../../database');
 const Product = require('../../models/Product')(db.sequelize, db.Sequelize);
+const Category = require('../../models/Category')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect } = require("../../services/ExecuteQueryService");
@@ -75,6 +76,12 @@ module.exports.list = async (event, context) => {
             limit: Number(pageSize) || 10,
             offset: (Number(pageNumber) - 1) * pageSize,
             order: [['id', 'DESC']],
+            include: [
+                {
+                    model: Category,
+                    as: 'category',
+                    attributes: ['name'],
+                }]
         })
 
         return handlerResponse(200, { count, rows })
@@ -94,7 +101,14 @@ module.exports.listById = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const result = await Product.findByPk(pathParameters.id)
+        const result = await Product.findByPk(pathParameters.id, {
+            include: [
+                {
+                    model: Category,
+                    as: 'category',
+                    attributes: ['name'],
+                }]
+        })
         if (!result)
             return handlerResponse(400, {}, `${RESOURCE_NAME} não encontrado`)
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && result.companyId !== user.companyId)
@@ -127,7 +141,7 @@ module.exports.create = async (event) => {
             objOnSave.companyId = user.companyId
 
         const result = await Product.create(objOnSave);
-        
+
         await imageService.add('products', result.dataValues, body.fileList);
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criado com sucesso`)
@@ -227,6 +241,45 @@ module.exports.listAll = async (event, context) => {
             label: `${item.name} ${item.size || ''} ${item.color || ''} ${formatPrice(item.price)} COD (${item.id})`,
         }));
         return handlerResponse(200, respFormated)
+    } catch (err) {
+        return await handlerErrResponse(err)
+    }
+};
+
+module.exports.listByCompanyId = async (event, context) => {
+    try {
+        context.callbackWaitsForEmptyEventLoop = false;
+        const { pathParameters } = event
+        let whereStatement = { active: true };
+
+        whereStatement.companyId = pathParameters.companyId
+        const resp = await Product.findAll({
+            order: [['name', 'ASC']],
+            where: whereStatement,
+        })
+
+        const query = ` SELECT * FROM categories WHERE active = true AND id IN(${resp.map(x => x.categoryId).join()});`
+        const categoriesData = await executeSelect(query);
+        const categories = categoriesData.map(x => ({ ...x, products: resp.filter(p => p.categoryId === x.id) }))
+
+        return handlerResponse(200, categories)
+
+    } catch (err) {
+        return await handlerErrResponse(err)
+    }
+};
+
+module.exports.getByCompanyId = async (event, context) => {
+    try {
+        context.callbackWaitsForEmptyEventLoop = false;
+        const { pathParameters } = event
+
+        const result = await Product.findByPk(pathParameters.id)
+        if (result.companyId !== pathParameters.companyId || !result.active)
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
+
+        return handlerResponse(200, result)
+
     } catch (err) {
         return await handlerErrResponse(err)
     }

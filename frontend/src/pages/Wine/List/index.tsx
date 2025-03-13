@@ -16,7 +16,7 @@ import { formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
 import ExportCSV from './Export';
-import BooleanTag from 'components/BooleanTag';
+import Action from 'components/Action';
 
 const List: React.FC = () => {
   const query = useQuery();
@@ -61,7 +61,13 @@ const List: React.FC = () => {
         price: formatPrice(Number(p.price) || 0),
         createdAt: formatDateHour(p.createdAt),
         updatedAt: formatDateHour(p.updatedAt),
-        active: <BooleanTag value={p.active} yes={'Ativo'} no={'Inativo'} />
+        active: (
+          <Action
+            item={p}
+            setUpdate={() => {}}
+            apiRoutes={apiRoutes.wines}
+          />
+        )
       }));
       setItems(itemsFormatted);
       console.log(itemsFormatted);
@@ -188,9 +194,9 @@ const List: React.FC = () => {
             title: 'Contagem de inventário (estoque)',
             dataIndex: 'inventoryCount'
           },
-          { title: 'Ativo', dataIndex: 'active' },
           { title: 'Criado em', dataIndex: 'createdAt' },
-          { title: 'Alterado em', dataIndex: 'updatedAt' }
+          { title: 'Alterado em', dataIndex: 'updatedAt' },
+          { title: 'Ativo', dataIndex: 'active' },
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}

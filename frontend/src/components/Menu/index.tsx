@@ -100,6 +100,20 @@ const SliderMenu: React.FC = (props: any) => {
         )}
         {checkRouleProfileAccess(groupsUser, roules.products) && (
           <SubMenu
+            key={`sub-/${appRoutes.categories}`}
+            title={'Categorias'}
+            icon={<BarcodeOutlined />}
+          >
+            <Menu.Item key={`/${appRoutes.categories}`}>
+              <Link to={`/${appRoutes.categories}`}>Lista</Link>
+            </Menu.Item>
+            <Menu.Item key={`/${appRoutes.categories}/create`}>
+              <Link to={`/${appRoutes.categories}/create`}>Nova</Link>
+            </Menu.Item>
+          </SubMenu>
+        )}
+        {checkRouleProfileAccess(groupsUser, roules.products) && (
+          <SubMenu
             key={`sub-/${appRoutes.products}`}
             title={'Produtos'}
             icon={<BarcodeOutlined />}

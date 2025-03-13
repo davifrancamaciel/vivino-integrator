@@ -16,6 +16,7 @@ const CreateEdit: React.FC = (props: any) => {
   const [type, setType] = useState<'create' | 'update'>('create');
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState<Array<UploadFile>>([]);
+  const [bannerList, setBannerList] = useState<Array<UploadFile>>([]);
 
   useEffect(() => {
     props.match.params.id && get(props.match.params.id);
@@ -38,6 +39,17 @@ const CreateEdit: React.FC = (props: any) => {
           }
         ]);
       }
+      if (resp.data && resp.data.banner) {
+        const imageArr = resp.data.banner.split('/');
+        setBannerList([
+          {
+            uid: '-1',
+            name: imageArr[imageArr.length - 1],
+            status: 'done',
+            url: resp.data.banner
+          }
+        ]);
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -56,7 +68,8 @@ const CreateEdit: React.FC = (props: any) => {
       const method = type === 'update' ? 'put' : 'post';
       const result = await api[method](apiRoutes.companies, {
         ...state,
-        fileList
+        fileList,
+        bannerList,
       });
 
       setLoading(false);
@@ -110,13 +123,22 @@ const CreateEdit: React.FC = (props: any) => {
         />
       </Col>
       <Col
-        lg={6}
-        md={12}
-        sm={24}
-        xs={24}
+        lg={3}
+        md={6}
+        sm={12}
+        xs={12}
         style={{ display: 'flex', justifyContent: 'center' }}
       >
         <UploadImages setFileList={setFileList} fileList={fileList} />
+      </Col>
+      <Col
+        lg={3}
+        md={6}
+        sm={12}
+        xs={12}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <UploadImages setFileList={setBannerList} fileList={bannerList} />
       </Col>
       <Col lg={3} md={4} sm={24} xs={24}>
         <Switch
@@ -126,6 +148,16 @@ const CreateEdit: React.FC = (props: any) => {
           checkedChildren="Sim"
           unCheckedChildren="Não"
           onChange={() => dispatch({ active: !state.active })}
+        />
+      </Col>
+      <Col lg={4} md={4} sm={24} xs={24}>
+        <Switch
+          label={'Em funcionamento'}
+          title="Não / Sim"
+          checked={state.open}
+          checkedChildren="Sim"
+          unCheckedChildren="Não"
+          onChange={() => dispatch({ open: !state.open })}
         />
       </Col>
       <Col lg={4} md={8} sm={24} xs={24}>
@@ -138,7 +170,7 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={() => dispatch({ individualCommission: !state.individualCommission })}
         />
       </Col>
-      <Col lg={8} md={8} sm={24} xs={24}>
+      <Col lg={6} md={8} sm={24} xs={24}>
         <Switch
           label={'Integação com API de vendas vivino'}
           title="Não / Sim"
