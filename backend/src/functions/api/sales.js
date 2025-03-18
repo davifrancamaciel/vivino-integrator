@@ -11,6 +11,7 @@ const Product = require('../../models/Product')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect, executeDelete, executeUpdate } = require("../../services/ExecuteQueryService");
+const UserClientService = require('../../services/UserClientService')
 
 const { roules, userType } = require("../../utils/defaultValues");
 
@@ -172,12 +173,11 @@ module.exports.create = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.sales))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        const value = body.productsSales.reduce(function (acc, p) { return acc + Number(p.valueAmount); }, 0);
         const objOnSave = {
             ...body,
-            userId: user.userId,
-            value,
+            userId: user.userId
         }
+
         if (!objOnSave.companyId)
             objOnSave.companyId = user.companyId
 
@@ -187,12 +187,7 @@ module.exports.create = async (event) => {
         if (checkRouleProfileAccess(user.groups, roules.saleUserIdChange) && body.userId)
             objOnSave.userId = body.userId;
 
-        const [queryResult] = await executeSelect(`SELECT commissionMonth FROM users WHERE id = ${objOnSave.userId};`);
-        objOnSave.commission = queryResult.commissionMonth;
-
-        const result = await Sale.create(objOnSave);
-
-        await createProductsSales(body, result, false);
+        const result = await createSale(objOnSave, body);
 
         return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
     } catch (err) {
@@ -295,5 +290,52 @@ const createProductsSales = async (body, result, isDelete) => {
                             WHERE companyId = '${companyId}' AND id =  ${element.productId}`;
             await executeUpdate(query);
         }
+    }
+}
+
+const createSale = async (objOnSave, body) => {
+
+    const [queryResult] = await executeSelect(`SELECT commissionMonth FROM users WHERE id = ${objOnSave.userId};`);
+    objOnSave.commission = queryResult.commissionMonth;
+
+    objOnSave.value = body.productsSales.reduce(function (acc, p) { return acc + Number(p.valueAmount); }, 0);
+
+    const result = await Sale.create(objOnSave);
+
+    await createProductsSales(body, result);
+
+    return result;
+}
+
+module.exports.createPublic = async (event) => {
+    let body = JSON.parse(event.body)
+    try {
+        const clientId = await UserClientService.addClientBySale(body);
+        const [user] = await executeSelect(`SELECT id FROM users WHERE companyId = '${body.companyId}' AND active = true AND type = 'USER' ORDER BY id ASC LIMIT 1;`);
+
+        const productIds = body.productsSales.map(x => x.productId).join();
+        const query = `SELECT id, name, price FROM products WHERE id IN(${productIds});`
+        const products = await executeSelect(query);
+
+        body.userId = user.id;
+        body.clientId = clientId;
+        body.productsSales = body.productsSales.map(x => {
+            const product = products.find(p => p.id === x.productId);
+            return {
+                ...x,
+                value: product.price,
+                valueAmount: product.price * x.amount
+            }
+        })
+
+        const objOnSave = { ...body }
+
+        objOnSave.products = JSON.stringify(products.map(x => x.name));
+
+        const result = await createSale(objOnSave, body);
+
+        return handlerResponse(201, result, `${RESOURCE_NAME} criada com sucesso`)
+    } catch (err) {
+        return await handlerErrResponse(err, body)
     }
 }

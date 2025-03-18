@@ -9,7 +9,7 @@ const WineSale = require('../../models/WineSale')(db.sequelize, db.Sequelize);
 const Wine = require('../../models/Wine')(db.sequelize, db.Sequelize);
 const { executeUpdate, executeSelect } = require("../../services/ExecuteQueryService");
 const { sendMessage } = require('../../services/AwsQueueService')
-const UserClientWineService = require('../../services/UserClientWineService')
+const UserClientService = require('../../services/UserClientService')
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { linkServices, linkVivino, companyIdDefault } = require("../../utils/defaultValues");
 const { getVivinoUrl } = require("../../utils");
@@ -143,7 +143,7 @@ module.exports.sales = async (event, context) => {
 
             if (sales.length) {
                 await WineSale.bulkCreate(sales)
-                await UserClientWineService.addClientBySale(sales)
+                await UserClientService.addClientsByWinesSales(sales)
             }
             if (skusNotFoundArray.length)
                 await sendWarningSkuNotFound(skusNotFoundArray, companyId);

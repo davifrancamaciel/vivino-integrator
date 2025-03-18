@@ -13,7 +13,7 @@
     "eject": "react-scripts eject",
     "config:aws-validate": "aws cloudformation validate-template --template-body file://stack.yml --parameters ParameterKey=BucketPrefix,ParameterValue=services-integrator-dev --profile services_integrator",
     "config:aws": "aws cloudformation create-stack --stack-name services-integrator-dev --template-body file://stack.yml --parameters ParameterKey=BucketPrefix,ParameterValue=services-integrator-dev --profile services_integrator",
-    "deploy": "env-cmd -f.env.development npm run build && aws s3 sync build s3://services-integrator-dev --profile services_integrator",
+    "deploy:dev": "env-cmd -f.env.development npm run build && aws s3 sync build s3://services-integrator-dev --profile services_integrator",
     "deploy:prod": "env-cmd -f.env.production npm run build && aws s3 sync build s3://services-integrator-prod && aws s3 sync build s3://vivino-integrator-prod --profile services_integrator"
   },
   "dependencies": {

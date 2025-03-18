@@ -46,7 +46,7 @@ productsAll:
         method: get
         authorizer: verifyToken
         cors: true 
-productsPublicByCompanyId:
+productsByCompanyIdPublic:
   handler: src/functions/api/products.listByCompanyId
   events:
     - http:
@@ -54,7 +54,7 @@ productsPublicByCompanyId:
         method: get       
         cors: true 
 
-productsPublicByCompanyIdAndId:
+productsByCompanyIdAndIdPublic:
   handler: src/functions/api/products.getByCompanyId
   events:
     - http:

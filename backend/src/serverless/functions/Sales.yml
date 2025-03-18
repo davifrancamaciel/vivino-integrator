@@ -38,3 +38,10 @@ salesDelete:
         method: delete
         authorizer: verifyToken
         cors: true
+salesCreatePublic:
+  handler: src/functions/api/sales.createPublic
+  events:
+    - http:
+        path: sales/public
+        method: post       
+        cors: true 

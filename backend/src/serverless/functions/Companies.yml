@@ -46,7 +46,7 @@ companiesAll:
         method: get
         authorizer: verifyToken
         cors: true 
-companiesPublicByName:
+companiesByNamePublic:
   handler: src/functions/api/companies.listByName
   events:
     - http:
