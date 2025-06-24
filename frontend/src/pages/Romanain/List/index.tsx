@@ -195,6 +195,7 @@ const List: React.FC = () => {
         </Col>
       </PanelFilter>
       <GridList
+        size="small"
         headerChildren={<PrintAll state={state} />}
         scroll={{ x: 840 }}
         columns={[

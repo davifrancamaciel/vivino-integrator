@@ -47,7 +47,7 @@ const Index: React.FC<PropTypes> = (props) => {
     <Container>
       <Table
         {...props}
-        // loading={tableLoading}       
+        // loading={tableLoading}
         columns={[
           ...props.columns,
           props.routes.routeView ||

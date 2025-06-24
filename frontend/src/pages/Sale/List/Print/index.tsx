@@ -14,7 +14,7 @@ const Print: React.FC<PropTypes> = ({ sale }) => {
   return (
     <PrintContainer show={true}>
       <TableReport
-        title={`Venda ${sale.id}`}
+        title={`Venda/Serviço ${sale.id}`}
         image={sale?.company?.image || ''}
       >
         <table>

@@ -55,4 +55,19 @@ Resources:
         Description: "Permissão para usuário gerenciar Vinhos"
         GroupName: "Vinhos"
         UserPoolId:
-          Ref: UserPool #Refere-se ao grupo de usuários criado acima
+          Ref: UserPool
+    CognitoUserPoolGroupClients:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário gerenciar Clientes"
+        GroupName: "Clientes"
+        UserPoolId:
+          Ref: UserPool
+    CognitoUserPoolGroupCatecories:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: "Permissão para usuário gerenciar Categorias"
+        GroupName: "Categorias"
+        UserPoolId:
+          Ref: UserPool
+                    

@@ -58,7 +58,7 @@ export const initialStateFilter: Filter = {
   noteNumber: '',
   clientName: '',
   pageNumber: 1,
-  pageSize: 10
+  pageSize: 20
 };
 
 export const originCompanys: IOptions[] = [
@@ -66,6 +66,7 @@ export const originCompanys: IOptions[] = [
   { value: '8', label: 'Loja Itaipava' },
   { value: '6', label: 'Millesime' },
   { value: '3', label: 'Rose Market' },
+  { value: '9', label: 'Total Wine' },
   { value: '1', label: 'Ventura Vinhos' },
   { value: '5', label: 'Videiras e Oliveiras' },
   { value: '4', label: 'Wine Brothers' }

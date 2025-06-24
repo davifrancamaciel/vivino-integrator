@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col } from 'antd';
-import { startOfMonth, endOfMonth } from 'date-fns';
+import { startOfMonth, endOfMonth , startOfWeek, endOfWeek} from 'date-fns';
 
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
@@ -23,8 +23,8 @@ const List: React.FC = () => {
 
   useEffect(() => {
     const date = new Date();
-    const createdAtStart = startOfMonth(date).toISOString();
-    const createdAtEnd = endOfMonth(date).toISOString();
+    const createdAtStart = startOfWeek(date).toISOString();
+    const createdAtEnd = endOfWeek(date).toISOString();
     actionFilter(1, createdAtStart, createdAtEnd);
   }, []);
 

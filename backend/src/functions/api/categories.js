@@ -203,10 +203,14 @@ module.exports.listAll = async (event, context) => {
 
         if (!checkRouleProfileAccess(user.groups, roules.products))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
+        const whereStatement = { };
+        if (!checkRouleProfileAccess(user.groups, roules.administrator))
+            whereStatement.companyId = user.companyId
 
         context.callbackWaitsForEmptyEventLoop = false;
 
         const resp = await Category.findAll({
+            where: whereStatement,
             order: [['name', 'ASC']],
         })
 

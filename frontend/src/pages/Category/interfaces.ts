@@ -28,5 +28,5 @@ export const initialStateFilter: Filter = {
   id: '',
   name: '',
   pageNumber: 1,
-  pageSize: 10
+  pageSize: 20
 };

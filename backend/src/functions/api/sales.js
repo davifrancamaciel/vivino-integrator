@@ -232,6 +232,7 @@ module.exports.update = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.saleUserIdChange))
             objOnSave.userId = body.userId;
 
+        objOnSave.commission = await getCommission(objOnSave.userId);
         const result = await item.update(objOnSave);
 
         await createProductsSales(body, result, true);
@@ -258,7 +259,10 @@ module.exports.delete = async (event) => {
         const { id } = pathParameters
         const item = await Sale.findByPk(id)
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.companyId !== user.companyId)
-            return handlerResponse(403, {}, 'Usuário não tem permissão acessar este cadastro');
+            return handlerResponse(403, {}, 'Usuário não tem permissão remover este cadastro');
+
+        if (!checkRouleProfileAccess(user.groups, roules.saleUserIdChange) && item.userId !== user.userId)
+            return handlerResponse(403, {}, 'Usuário não tem permissão remover este cadastro');
 
         await Sale.destroy({ where: { id } });
         return handlerResponse(200, {}, `${RESOURCE_NAME} código (${id}) removido com sucesso`)
@@ -293,11 +297,14 @@ const createProductsSales = async (body, result, isDelete) => {
     }
 }
 
+const getCommission = async (userId) => {
+    const [queryResult] = await executeSelect(`SELECT commissionMonth FROM users WHERE id = ${userId};`);
+    return queryResult.commissionMonth;
+}
+
 const createSale = async (objOnSave, body) => {
 
-    const [queryResult] = await executeSelect(`SELECT commissionMonth FROM users WHERE id = ${objOnSave.userId};`);
-    objOnSave.commission = queryResult.commissionMonth;
-
+    objOnSave.commission = await getCommission(objOnSave.userId);
     objOnSave.value = body.productsSales.reduce(function (acc, p) { return acc + Number(p.valueAmount); }, 0);
 
     const result = await Sale.create(objOnSave);
@@ -311,7 +318,7 @@ module.exports.createPublic = async (event) => {
     let body = JSON.parse(event.body)
     try {
         const clientId = await UserClientService.addClientBySale(body);
-        const [user] = await executeSelect(`SELECT id FROM users WHERE companyId = '${body.companyId}' AND active = true AND type = 'USER' ORDER BY id ASC LIMIT 1;`);
+        const [user] = await executeSelect(`SELECT id FROM users WHERE companyId = '${body.companyId}' AND active = true AND type = '${userType.USER}' ORDER BY id ASC LIMIT 1;`);
 
         const productIds = body.productsSales.map(x => x.productId).join();
         const query = `SELECT id, name, price FROM products WHERE id IN(${productIds});`

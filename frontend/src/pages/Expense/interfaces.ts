@@ -45,5 +45,5 @@ export const initialStateFilter: Filter = {
   title: '',
   description: '',
   pageNumber: 1,
-  pageSize: 10
+  pageSize: 20
 };

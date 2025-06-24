@@ -9,7 +9,7 @@ import useFormState from 'hooks/useFormState';
 import api from 'services/api-aws-amplify';
 import { formatDate, formatDateHour } from 'utils/formatDate';
 import { formatPrice } from 'utils/formatPrice';
-import BooleanTag from 'components/BooleanTag';
+import Action from 'components/Action';
 
 const List: React.FC = () => {
   const { state, dispatch } = useFormState(initialStateFilter);
@@ -42,7 +42,14 @@ const List: React.FC = () => {
           paymentDate: formatDate(e.paymentDate),
           createdAt: formatDateHour(e.createdAt),
           updatedAt: formatDateHour(e.updatedAt),
-          paidOut: <BooleanTag value={e.paidOut} />
+          paidOut: (
+            <Action
+              item={e}
+              setUpdate={() => {}}
+              apiRoutes={apiRoutes.expenses}
+              propName="paidOut"
+            />
+          )
         };
         return expense;
       });
@@ -131,19 +138,20 @@ const List: React.FC = () => {
         </Col>
       </PanelFilter>
       <GridList
+        size="small"
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },
           { title: 'Tipo', dataIndex: 'expenseTypeName' },
           { title: 'Titulo', dataIndex: 'title' },
           { title: 'Valor', dataIndex: 'value' },
-          { title: 'Paga', dataIndex: 'paidOut' },
           {
             title: 'Vencimento',
             dataIndex: 'paymentDate'
           },
           { title: 'Criada em', dataIndex: 'createdAt' },
-          { title: 'Alterada em', dataIndex: 'updatedAt' }
+          { title: 'Alterada em', dataIndex: 'updatedAt' },
+          { title: 'Paga', dataIndex: 'paidOut' }
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}

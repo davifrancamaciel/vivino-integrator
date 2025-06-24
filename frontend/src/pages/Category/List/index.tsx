@@ -93,6 +93,7 @@ const List: React.FC = () => {
         </ShowByRoule>
       </PanelFilter>
       <GridList
+        size="small"
         scroll={{ x: 840 }}
         columns={[
           { title: 'Código', dataIndex: 'id' },

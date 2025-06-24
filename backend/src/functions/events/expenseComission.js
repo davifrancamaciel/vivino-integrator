@@ -1,7 +1,7 @@
 "use strict";
 
 const db = require('../../database');
-const { format, subMonths } = require('date-fns');
+const { format, subMonths, startOfWeek, endOfWeek } = require('date-fns');
 const pt = require('date-fns/locale/pt');
 const Expense = require('../../models/Expense')(db.sequelize, db.Sequelize);
 const salesRepository = require('../../repositories/salesRepository');

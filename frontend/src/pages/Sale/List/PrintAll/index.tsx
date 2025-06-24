@@ -160,7 +160,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
       <PrintContainer show={false} print={print}>
         <TableReport
           image={items[0]?.company?.image || ''}
-          title={`Relatorio de vendas ${filteredPeriod}`}
+          title={`Relatorio de vendas/serviços ${filteredPeriod}`}
         >
           {items.map((sale: Sale, i: number) => (
             <tr key={i} style={{ border: 'solid 1px #000' }}>
@@ -186,7 +186,7 @@ const Print: React.FC<PropTypes> = ({ state }) => {
         </TableReport>
         <Footer>
           <div>
-            <span>Quantidade total de vendas {items.length}</span>
+            <span>Quantidade total de vendas/serviços {items.length}</span>
             <span>{filteredPeriod}</span>
           </div>
           <Summary>
@@ -195,31 +195,33 @@ const Print: React.FC<PropTypes> = ({ state }) => {
             </span>
             {state.showCommission && (
               <span>
-                Valor total de comissões dos vendedores sob as vendas{' '}
+                Valor total de comissões dos vendedores sob as vendas/serviços{' '}
                 {totalSummary.totalCommission}
               </span>
             )}
           </Summary>
         </Footer>
         {state.showCommission && (
-          <Footer>
-            <p>
-              Obs a comissão a pagar individual de cada vendedor poderá ser
-              vista no menu de despesas a partir do dia 1º dia de cada mes
-              referente ao mes anterior
-            </p>
-          </Footer>
+          <>
+            <Footer>
+              <p>
+                Obs a comissão a pagar individual de cada vendedor poderá ser
+                vista no menu de despesas a partir do dia 1º dia de cada mes
+                referente ao mes anterior
+              </p>
+            </Footer>
+            <UsersComission>
+              {users?.map((u: ITotalsUsers) => (
+                <p>
+                  {u.name} realizou {u.count} vendas/serviços, valor total{' '}
+                  {formatPrice(u.totalValueMonth)} gerando o valor de comissão{' '}
+                  {formatPrice(u.totalValueCommissionMonth)} ({u.commission}%)
+                  sob o valor total de vendas no mês.
+                </p>
+              ))}
+            </UsersComission>
+          </>
         )}
-        <UsersComission>
-          {users?.map((u: ITotalsUsers) => (
-            <p>
-              {u.name} realizou {u.count} vendas, valor total{' '}
-              {formatPrice(u.totalValueMonth)} gerando o valor de comissão{' '}
-              {formatPrice(u.totalValueCommissionMonth)} ({u.commission}%) sob o
-              valor total de vendas no mês.
-            </p>
-          ))}
-        </UsersComission>
       </PrintContainer>
     </>
   );
