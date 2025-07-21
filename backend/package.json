@@ -27,14 +27,14 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.1",
     "uuid": "^9.0.0",
+    "aws-sdk": "^2.1692.0",
     "xmlbuilder2": "^3.0.2"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1065.0",
     "sequelize-cli": "^6.5.2",
-    "serverless": "^3.19.0",
+    "serverless": "^4.17.1",
     "serverless-dynamodb-local": "^0.2.40",
-    "serverless-offline": "^8.3.1",
-    "serverless-prune-plugin": "^2.0.1"
+    "serverless-offline": "^14.4.0",
+    "serverless-prune-plugin": "^2.1.0"
   }
 }

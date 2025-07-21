@@ -24,13 +24,14 @@ custom:
   
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs22.x
   lambdaHashingVersion: 20201221
   logRetentionInDays: 7
   stage: dev
   region: us-east-1
   memorySize: 256
   profile: services_integrator
+  timeout: 28
 
   apiGateway:
     shouldStartNameWithService: true
