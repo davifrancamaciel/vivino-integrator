@@ -46,9 +46,9 @@ module.exports.update = async (event) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade');
 
-        const { Name, State, ScheduleExpression } = body;
+        const { Name, State, ScheduleExpression, Description } = body;
 
-        const params = { Name, State, ScheduleExpression }
+        const params = { Name, State, ScheduleExpression, Description }
         const { STAGE } = process.env
         if (STAGE === 'dev' && user.sub !== 'f0fbce39-8f59-4c4c-a9b1-a4fc50e114a6')
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade');

@@ -1,5 +1,6 @@
 export interface Services {
   Name: string;
+  Description: string;
   Arn: string;
   State: string;
   ScheduleExpression: string;

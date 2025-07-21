@@ -198,12 +198,13 @@ module.exports.update = async (event) => {
 
         const { id } = body
         const item = await Expense.findByPk(Number(id))
-
+        let message = ''
         if (!checkRouleProfileAccess(user.groups, roules.administrator) && item.expenseTypeId === 1) {
             body.expenseTypeId = item.expenseTypeId;
             body.value = item.value;
             body.title = item.title;
             body.description = item.description;
+            message = 'Usuario não tem permissão de alterar tipo, valor, titulo e descrição de despesa entre em contato com o administrador.'
         }
 
         console.log('BODY ', body)
@@ -217,7 +218,7 @@ module.exports.update = async (event) => {
         const result = await item.update(body);
         console.log('PARA ', result.dataValues)
 
-        return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso`)
+        return handlerResponse(200, result, `${RESOURCE_NAME} alterada com sucesso. ${message}`)
     } catch (err) {
         return await handlerErrResponse(err, body)
     }

@@ -1,37 +1,15 @@
 export const formatName = (name: string) => {
-  if (name.includes('expenseComissionEvent'))
-    return {
-      name: 'Gera despesas de pagamento de comissão',
-      route: 'expenses/run-comission'
-    };
+  if (name.includes('comission')) return { route: 'expenses/run-comission' };
 
-  if (name.includes('winesVivIntApiAuthEvent'))
-    return {
-      name: 'Autentica loja na vivino e obtem token para requisições de api',
-      route: 'wines/run-auth'
-    };
+  if (name.includes('viv-auth')) return { route: 'wines/run-auth' };
 
-  if (name.includes('winesWarningEvent'))
-    return {
-      name: 'Busca vinhos com estoque baixo',
-      route: 'wines/run-wines-warning'
-    };
-  if (name.includes('winesVivIntApiSalesEvent'))
-    return {
-      name: 'Busca vendas do dia na vivino',
-      route: `wines/run-sales`
-    };
-  if (name.includes('backupEvent'))
-    return {
-      name: 'Backup do banco de dados',
-      route: 'services/run-backup'
-    };
+  if (name.includes('warning')) return { route: 'wines/run-wines-warning' };
 
-  if (name.includes('ShipEvent'))
-    return {
-      name: 'Busca links de rastreio de vendas vivino da ultima semana',
-      route: 'wines/run-shipments'
-    };
+  if (name.includes('viv-sales')) return { route: `wines/run-sales` };
+  
+  if (name.includes('backup')) return { route: 'services/run-backup' };
+
+  if (name.includes('shipments')) return { route: 'wines/run-shipments' };
 
   return { name, route: '' };
 };

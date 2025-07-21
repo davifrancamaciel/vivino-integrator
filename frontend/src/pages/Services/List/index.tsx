@@ -33,7 +33,7 @@ const List: React.FC = () => {
         ...i,
         id: i.Name,
         active: i.State === 'ENABLED',
-        nameFormatted: formatName(i.Name).name,
+        nameFormatted: i.Description, // formatName(i.Name).name,
         route: formatName(i.Name).route,
         statusText: itemTag(i)
       }));
@@ -58,13 +58,14 @@ const List: React.FC = () => {
             ScheduleExpression: item.ScheduleExpression,
             active: item.active,
             State: item.active ? 'ENABLED' : 'DISABLED',
+            nameFormatted: item.Description,
             statusText: itemTag(item)
           }
         : i
     );
     setItems(list);
   };
-  
+
   const itemTag = (item: Services) => (
     <BooleanTag value={item.State === 'ENABLED'} yes={'Ativo'} no={'Inativo'} />
   );
@@ -106,7 +107,7 @@ const List: React.FC = () => {
           scroll={{ x: 600 }}
           size="small"
           columns={[
-            { title: 'Nome', dataIndex: 'nameFormatted' },
+            { title: 'Descrição', dataIndex: 'nameFormatted' },
             { title: 'Expressão', dataIndex: 'ScheduleExpression' },
             { title: 'Status', dataIndex: 'statusText' }
           ]}

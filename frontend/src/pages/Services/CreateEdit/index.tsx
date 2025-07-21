@@ -18,12 +18,13 @@ const CreateEdit: React.FC<PropTypes> = (props) => {
 
   const action = async () => {
     try {
-      const { Name, ScheduleExpression, active } = state;
+      const { Name, ScheduleExpression, active, nameFormatted } = state;
       const obj = {
         Name,
         ScheduleExpression,
         State: active ? 'ENABLED' : 'DISABLED',
-        active
+        active,
+        Description: nameFormatted
       };
       setLoading(true);
       const result = await api.put(`${apiRoutes.services}`, obj);
@@ -62,9 +63,9 @@ const CreateEdit: React.FC<PropTypes> = (props) => {
       <Row gutter={[16, 24]}>
         <Col lg={24} md={24} sm={24} xs={24}>
           <Input
-            label={'Nome do servico'}
-            readOnly={true}
+            label={'Descrição do servico'}
             value={state.nameFormatted}
+            onChange={(e) => dispatch({ nameFormatted: e.target.value })}
           />
         </Col>
         <Col lg={12} md={24} sm={24} xs={24}>

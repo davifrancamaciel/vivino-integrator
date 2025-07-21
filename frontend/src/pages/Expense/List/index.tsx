@@ -145,12 +145,12 @@ const List: React.FC = () => {
           { title: 'Tipo', dataIndex: 'expenseTypeName' },
           { title: 'Titulo', dataIndex: 'title' },
           { title: 'Valor', dataIndex: 'value' },
+          { title: 'Criada em', dataIndex: 'createdAt' },
+          { title: 'Alterada em', dataIndex: 'updatedAt' },
           {
             title: 'Vencimento',
             dataIndex: 'paymentDate'
           },
-          { title: 'Criada em', dataIndex: 'createdAt' },
-          { title: 'Alterada em', dataIndex: 'updatedAt' },
           { title: 'Paga', dataIndex: 'paidOut' }
         ]}
         dataSource={items}
