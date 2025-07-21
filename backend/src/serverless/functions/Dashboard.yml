@@ -14,3 +14,19 @@ dashboardProductGraphBar:
         method: get
         authorizer: verifyToken
         cors: true
+dashboardExpenses:
+  handler: src/functions/api/dashboard.expenses
+  events:
+    - http:
+        path: dashboard/expenses
+        method: get
+        authorizer: verifyToken
+        cors: true
+dashboardExpensesUpdate:
+  handler: src/functions/api/dashboard.expensesUpdate
+  events:
+    - http:
+        path: dashboard/expenses
+        method: put
+        authorizer: verifyToken
+        cors: true

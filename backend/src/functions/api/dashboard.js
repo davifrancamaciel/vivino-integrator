@@ -3,9 +3,10 @@
 const { startOfMonth, endOfMonth, startOfDay, endOfDay, subDays, parseISO, addYears } = require('date-fns');
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
-const { executeSelect } = require("../../services/ExecuteQueryService");
+const { executeSelect, executeUpdate } = require("../../services/ExecuteQueryService");
 const { roules } = require("../../utils/defaultValues");
 const salesRepository = require('../../repositories/salesRepository')
+const { formatDate } = require("../../utils/formatDate");
 
 
 module.exports.cards = async (event, context) => {
@@ -72,7 +73,7 @@ module.exports.productGraphBar = async (event, context) => {
 
         if (pathParameters.type === 'products')
             data = await productsSalesTotal(isAdm, user);
-      
+
         if (pathParameters.type === 'wines') {
             if (event.queryStringParameters) {
                 const { createdAtStart, createdAtEnd, pageSize } = event.queryStringParameters
@@ -84,6 +85,59 @@ module.exports.productGraphBar = async (event, context) => {
         }
 
         return handlerResponse(200, data)
+    } catch (err) {
+        return await handlerErrResponse(err)
+    }
+};
+
+module.exports.expenses = async (event, context) => {
+    try {
+        const { queryStringParameters } = event
+        const user = await getUser(event)
+
+        if (!user)
+            return handlerResponse(400, {}, 'Usuário não encontrado')
+
+        const { paidOut, paymentDate } = queryStringParameters
+
+        let isAdm = checkRouleProfileAccess(user.groups, roules.expenses);
+
+        const query = ` SELECT DATE(e.paymentDate) paymentDate, COUNT(e.id) amount, SUM(e.value) value, paidOut, GROUP_CONCAT(id ORDER BY id ASC SEPARATOR ', ') AS ids 
+                        FROM expenses e
+                        WHERE DATE(e.paymentDate) >= DATE('${paymentDate}') AND 
+                              DATE(e.paymentDate) <= DATE(DATE_ADD(NOW(), INTERVAL 30 DAY)) AND 
+                              e.paidOut = ${paidOut} 
+                              ${isAdm ? '' : `AND e.companyId = '${user.companyId}'`}
+                        GROUP BY DATE(e.paymentDate) 
+                        ORDER BY DATE(e.paymentDate) ASC 
+                        LIMIT 30;`
+        const data = await executeSelect(query);
+
+        return handlerResponse(200, data)
+    } catch (err) {
+        return await handlerErrResponse(err)
+    }
+};
+
+module.exports.expensesUpdate = async (event, context) => {
+    try {
+        const body = JSON.parse(event.body)
+        const user = await getUser(event)
+
+        if (!user)
+            return handlerResponse(400, {}, 'Usuário não encontrado')
+        if (!checkRouleProfileAccess(user.groups, roules.expenses))
+            return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
+        const { paidOut, ids, paymentDate } = body
+
+        let isAdm = checkRouleProfileAccess(user.groups, roules.expenses);
+
+        const query = ` UPDATE expenses 
+                            SET paidOut = ${paidOut}, updatedAt = NOW() 
+                        WHERE id IN (${ids}) ${isAdm ? '' : `AND companyId = '${user.companyId}'`}`;
+        const data = await executeUpdate(query);
+
+        return handlerResponse(200, data, `Despesas ${ids} da data ${formatDate(paymentDate)} alteradas com sucesso`)
     } catch (err) {
         return await handlerErrResponse(err)
     }
