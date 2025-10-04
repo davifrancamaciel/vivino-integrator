@@ -66,7 +66,9 @@ export const roules = {
   romanians: 'romaneios',
   sales: 'vendas',
   saleUserIdChange: 'vendedor_vendas',
-  expenses: 'despesas'
+  expenses: 'despesas',
+  clients: 'clientes',
+  categoryes: 'categorias'
 };
 
 export const enumStatusUserAws = {

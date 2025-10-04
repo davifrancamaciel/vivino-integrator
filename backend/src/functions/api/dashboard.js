@@ -1,5 +1,7 @@
 "use strict";
 
+const db = require('../../database');
+const { Op } = require('sequelize');
 const { startOfMonth, endOfMonth, startOfDay, endOfDay, subDays, parseISO, addYears } = require('date-fns');
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
@@ -7,7 +9,7 @@ const { executeSelect, executeUpdate } = require("../../services/ExecuteQuerySer
 const { roules } = require("../../utils/defaultValues");
 const salesRepository = require('../../repositories/salesRepository')
 const { formatDate } = require("../../utils/formatDate");
-
+const Expense = require('../../models/Expense')(db.sequelize, db.Sequelize);
 
 module.exports.cards = async (event, context) => {
     try {
@@ -100,9 +102,10 @@ module.exports.expenses = async (event, context) => {
 
         const { paidOut, paymentDate } = queryStringParameters
 
-        let isAdm = checkRouleProfileAccess(user.groups, roules.expenses);
+        let isAdm = checkRouleProfileAccess(user.groups, roules.administrator);
 
-        const query = ` SELECT DATE(e.paymentDate) paymentDate, COUNT(e.id) amount, SUM(e.value) value, paidOut, GROUP_CONCAT(id ORDER BY id ASC SEPARATOR ', ') AS ids 
+        const query = ` SELECT DATE(e.paymentDate) paymentDate, COUNT(e.id) amount, SUM(e.value) value, paidOut, 
+                               GROUP_CONCAT(id ORDER BY id ASC SEPARATOR ', ') AS ids
                         FROM expenses e
                         WHERE DATE(e.paymentDate) >= DATE('${paymentDate}') AND 
                               DATE(e.paymentDate) <= DATE(DATE_ADD(NOW(), INTERVAL 30 DAY)) AND 
@@ -111,13 +114,28 @@ module.exports.expenses = async (event, context) => {
                         GROUP BY DATE(e.paymentDate) 
                         ORDER BY DATE(e.paymentDate) ASC 
                         LIMIT 30;`
-        const data = await executeSelect(query);
+        let data = await executeSelect(query);
+        const ids = data.map(x => x.ids).join(',')
 
-        return handlerResponse(200, data)
+        const expenses = await Expense.findAll({
+            where: { id: { [Op.in]: ids.split(',') } }
+        })
+
+        const resp = data.map(x => ({
+            ...x,
+            expenses: getExpenses(expenses, x.ids)
+        }))
+
+        return handlerResponse(200, resp)
     } catch (err) {
         return await handlerErrResponse(err)
     }
 };
+
+const getExpenses = (expenses, ids) => {
+    const searchIds = ids.split(',')
+    return searchIds.map(id => expenses.find(e => e.id == id))
+}
 
 module.exports.expensesUpdate = async (event, context) => {
     try {

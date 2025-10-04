@@ -159,15 +159,16 @@ const CreateEdit: React.FC = (props: any) => {
           onChange={(e) => dispatch({ ean: e.target.value })}
         />
       </Col>
-
-      <Col lg={6} md={12} sm={24} xs={24}>
-        <Select
-          label={'Categoria'}
-          url={`${apiRoutes.categories}/all`}
-          value={state.categoryId}
-          onChange={(categoryId) => dispatch({ categoryId })}
-        />
-      </Col>
+      <ShowByRoule roule={roules.categoryes}>
+        <Col lg={6} md={12} sm={24} xs={24}>
+          <Select
+            label={'Categoria'}
+            url={`${apiRoutes.categories}/all`}
+            value={state.categoryId}
+            onChange={(categoryId) => dispatch({ categoryId })}
+          />
+        </Col>
+      </ShowByRoule>
       <Col lg={6} md={12} sm={24} xs={24}>
         <Switch
           label={'Ativo'}

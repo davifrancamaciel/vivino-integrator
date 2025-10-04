@@ -9,7 +9,9 @@ import useFormState from 'hooks/useFormState';
 
 import { formatPrice } from 'utils/formatPrice';
 import Action from 'components/Action';
-import { Expense } from './interfaces';
+import { ExpenseDto } from './interfaces';
+import { Link } from 'react-router-dom';
+import { Expense } from '../../Expense/interfaces';
 
 const Wines: React.FC = () => {
   const { state, dispatch } = useFormState({ pageNumber: 1, pageSize: 10 });
@@ -36,7 +38,7 @@ const Wines: React.FC = () => {
       });
       setLoading(false);
 
-      const itemsFormatted = resp.data.map((e: Expense) => {
+      const itemsFormatted = resp.data.map((e: ExpenseDto) => {
         const expense = {
           ...e,
           id: e.ids,
@@ -49,6 +51,12 @@ const Wines: React.FC = () => {
               apiRoutes={url}
               propName="paidOut"
             />
+          ),
+          expandable: (
+            <div>
+              <p>Clique no código para ver a despesa</p>
+              {expenseTags(e.expenses)}
+            </div>
           )
         };
         return expense;
@@ -60,6 +68,21 @@ const Wines: React.FC = () => {
       setTotalRecords(0);
       console.log(error);
       setLoading(false);
+    }
+  };
+
+  const expenseTags = (expenses: Expense[]) => {
+    if (expenses) {
+      return expenses.map((item: Expense) => (
+        <Link to={`/${apiRoutes.expenses}/edit/${item.id}`} target={'_blank'}>
+          <Tag style={{ margin: '3px' }} color={systemColors.LIGHT_BLUE}>
+            {item.title}{' '}
+            <Tag style={{ margin: '3px' }} color={systemColors.ORANGE}>
+              {formatPrice(Number(item.value) || 0)}
+            </Tag>
+          </Tag>
+        </Link>
+      ));
     }
   };
   return (
@@ -78,11 +101,11 @@ const Wines: React.FC = () => {
               { title: 'Vencimento', dataIndex: 'paymentDate' },
               { title: 'Quantidade', dataIndex: 'amount' },
               { title: 'Valor', dataIndex: 'value' },
-              { title: 'Paga', dataIndex: 'paidOut' }
+              { title: 'Paga(s)', dataIndex: 'paidOut' }
             ]}
             dataSource={items}
             totalRecords={totalRecords}
-            pageSize={state.pageSize}
+            pageSize={totalRecords}
             loading={loading}
             routes={{}}
           />

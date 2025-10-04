@@ -28,7 +28,7 @@ module.exports.list = async (event, context) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             whereStatement.companyId = user.companyId
         if (event.queryStringParameters) {
-            const { id, productName, producer, wineName, active, priceMin, priceMax, inventoryCountMin, inventoryCountMax, winesWarnig, skuVivino } = event.queryStringParameters
+            const { id, productName, producer, wineName, active, priceMin, priceMax, inventoryCountMin, inventoryCountMax, winesWarnig, skuVivino, vintage } = event.queryStringParameters
 
             if (id) whereStatement.id = id;
             if (skuVivino) whereStatement.skuVivino = skuVivino;
@@ -39,6 +39,8 @@ module.exports.list = async (event, context) => {
                 whereStatement.producer = { [Op.like]: `%${producer}%` }
             if (wineName)
                 whereStatement.wineName = { [Op.like]: `%${wineName}%` }
+            if (vintage)
+                whereStatement.vintage = { [Op.like]: `%${vintage}%` }
             if (active !== undefined && active !== '')
                 whereStatement.active = active === 'true';
 

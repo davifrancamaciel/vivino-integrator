@@ -69,5 +69,6 @@ export const originCompanys: IOptions[] = [
   { value: '9', label: 'Total Wine' },
   { value: '1', label: 'Ventura Vinhos' },
   { value: '5', label: 'Videiras e Oliveiras' },
-  { value: '4', label: 'Wine Brothers' }
+  { value: '10', label: 'Vilore comercio de alimentos' },
+  { value: '4', label: 'Wine Brothers' },
 ];

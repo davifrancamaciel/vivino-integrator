@@ -9,6 +9,8 @@ const roules = {
     sales: 'vendas',
     saleUserIdChange: 'vendedor_vendas',
     expenses: 'despesas',
+    clients: 'clientes',
+    categoryes: 'categorias',
 };
 
 const cognito = {

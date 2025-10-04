@@ -90,7 +90,7 @@ module.exports.listById = async (event) => {
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-        if (!checkRouleProfileAccess(user.groups, roules.products))
+        if (!checkRouleProfileAccess(user.groups, roules.categoryes))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const result = await Category.findByPk(pathParameters.id, {
@@ -122,7 +122,7 @@ module.exports.create = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.products))
+        if (!checkRouleProfileAccess(user.groups, roules.categoryes))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         let objOnSave = body
@@ -147,7 +147,7 @@ module.exports.update = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.products))
+        if (!checkRouleProfileAccess(user.groups, roules.categoryes))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = body
@@ -177,7 +177,7 @@ module.exports.delete = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.products))
+        if (!checkRouleProfileAccess(user.groups, roules.categoryes))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const { id } = pathParameters
@@ -201,7 +201,7 @@ module.exports.listAll = async (event, context) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.products))
+        if (!checkRouleProfileAccess(user.groups, roules.categoryes))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
         const whereStatement = { };
         if (!checkRouleProfileAccess(user.groups, roules.administrator))

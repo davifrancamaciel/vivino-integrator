@@ -128,14 +128,16 @@ const CreateEdit: React.FC = (props: any) => {
           />
         </Col>
       </ShowByRoule>
-      <Col lg={12} md={12} sm={24} xs={24}>
-        <Select
-          label={'Cliente'}
-          options={users}
-          value={state?.clientId}
-          onChange={(clientId) => dispatch({ clientId })}
-        />
-      </Col>
+      <ShowByRoule roule={roules.clients}>
+        <Col lg={12} md={12} sm={24} xs={24}>
+          <Select
+            label={'Cliente'}
+            options={users}
+            value={state?.clientId}
+            onChange={(clientId) => dispatch({ clientId })}
+          />
+        </Col>
+      </ShowByRoule>
       <ShowByRoule roule={roules.administrator}>
         <Col lg={12} md={12} sm={12} xs={24}>
           <Select

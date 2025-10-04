@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Col, Image } from 'antd';
 import PanelFilter from 'components/PanelFilter';
 import GridList from 'components/GridList';
@@ -17,9 +18,11 @@ import { formatPrice } from 'utils/formatPrice';
 import { useQuery } from 'hooks/queryString';
 import ExportCSV from './Export';
 import Action from 'components/Action';
+import { createQueryString } from 'utils';
 
 const List: React.FC = () => {
   const query = useQuery();
+  const history = useHistory();
   const { state, dispatch } = useFormState(initialStateFilter);
   const [items, setItems] = useState<Wine[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,27 +30,60 @@ const List: React.FC = () => {
 
   useEffect(() => {
     actionFilter(
-      1,
+      Number(query.get('pageNumber') || 1),
       query.get('active') || undefined,
-      query.get('skuVivino') || undefined
+      query.get('skuVivino') || undefined,
+
+      query.get('id') || undefined,
+      query.get('productName') || undefined,
+      query.get('producer') || undefined,
+      query.get('wineName') || undefined,
+      query.get('pageSize') || undefined,
+      query.get('vintage') || undefined,
+      query.get('priceMin') || undefined,
+      query.get('priceMax') || undefined,
+      query.get('inventoryCountMin') || undefined,
+      query.get('inventoryCountMax') || undefined
     );
   }, []);
 
   const actionFilter = async (
     pageNumber: number = 1,
     active: string = state.active,
-    skuVivino: string = state.skuVivino
+    skuVivino: string = state.skuVivino,
+
+    id: string = state.id,
+    productName: string = state.productName,
+    producer: string = state.producer,
+    wineName: string = state.wineName,
+    pageSize: string = state.pageSize,
+    vintage: string = state.vintage,
+    priceMin: string = state.priceMin,
+    priceMax: string = state.priceMax,
+    inventoryCountMin: string = state.inventoryCountMin,
+    inventoryCountMax: string = state.inventoryCountMax
   ) => {
     try {
-      dispatch({ pageNumber, active, skuVivino });
-
-      setLoading(true);
-      const resp = await api.get(apiRoutes.wines, {
-        ...state,
+      const newState = {
         pageNumber,
         active,
-        skuVivino
-      });
+        skuVivino,
+        id,
+        productName,
+        producer,
+        wineName,
+        pageSize,
+        vintage,
+        priceMin,
+        priceMax,
+        inventoryCountMin,
+        inventoryCountMax
+      };
+      dispatch(newState);
+      setHistoryPath(appRoutes.wines, newState);
+
+      setLoading(true);
+      const resp = await api.get(apiRoutes.wines, { ...state, ...newState });
       setLoading(false);
 
       const { count, rows } = resp.data;
@@ -62,11 +98,7 @@ const List: React.FC = () => {
         createdAt: formatDateHour(p.createdAt),
         updatedAt: formatDateHour(p.updatedAt),
         active: (
-          <Action
-            item={p}
-            setUpdate={() => {}}
-            apiRoutes={apiRoutes.wines}
-          />
+          <Action item={p} setUpdate={() => {}} apiRoutes={apiRoutes.wines} />
         )
       }));
       setItems(itemsFormatted);
@@ -76,6 +108,13 @@ const List: React.FC = () => {
       console.log(error);
       setLoading(false);
     }
+  };
+
+  const setHistoryPath = (path: string, state: any) => {
+    history.push({
+      pathname: `/${path}`,
+      search: createQueryString(state)
+    });
   };
 
   return (
@@ -120,10 +159,10 @@ const List: React.FC = () => {
         </Col>
         <Col lg={5} md={6} sm={24} xs={24}>
           <Input
-            label={'Nome do vinho'}
-            placeholder="Ex.: Réserve"
-            value={state.wineName}
-            onChange={(e) => dispatch({ wineName: e.target.value })}
+            label={'Safra'}
+            placeholder="Ex.: 2022"
+            value={state.vintage}
+            onChange={(e) => dispatch({ vintage: e.target.value })}
           />
         </Col>
 
@@ -187,6 +226,7 @@ const List: React.FC = () => {
           { title: 'Imagem', dataIndex: 'image' },
           { title: 'Código', dataIndex: 'id' },
           { title: 'Nome do vinho', dataIndex: 'productName' },
+          { title: 'Safra', dataIndex: 'vintage' },
           { title: 'Preço', dataIndex: 'price' },
           { title: 'Tamanho', dataIndex: 'bottleSize' },
           { title: 'País', dataIndex: 'country' },
@@ -196,7 +236,7 @@ const List: React.FC = () => {
           },
           { title: 'Criado em', dataIndex: 'createdAt' },
           { title: 'Alterado em', dataIndex: 'updatedAt' },
-          { title: 'Ativo', dataIndex: 'active' },
+          { title: 'Ativo', dataIndex: 'active' }
         ]}
         dataSource={items}
         onPagination={(pageNumber) => actionFilter(pageNumber)}

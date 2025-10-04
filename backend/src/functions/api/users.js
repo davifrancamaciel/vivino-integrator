@@ -22,7 +22,7 @@ module.exports.list = async (event) => {
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-        if (!checkRouleProfileAccess(user.groups, roules.users))
+        if (!checkRouleProfileAccess(user.groups, roules.users) && !checkRouleProfileAccess(user.groups, roules.clients))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         const whereStatement = {};
@@ -103,7 +103,7 @@ module.exports.listById = async (event) => {
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-        if (!checkRouleProfileAccess(user.groups, roules.users))
+        if (!checkRouleProfileAccess(user.groups, roules.users) && !checkRouleProfileAccess(user.groups, roules.clients))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade');
 
         const userInDb = await User.findByPk(pathParameters.id, {
@@ -151,7 +151,7 @@ module.exports.create = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.users))
+        if (!checkRouleProfileAccess(user.groups, roules.users) && !checkRouleProfileAccess(user.groups, roules.clients))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             companyId = user.companyId
@@ -221,7 +221,7 @@ module.exports.update = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.users))
+        if (!checkRouleProfileAccess(user.groups, roules.users) && !checkRouleProfileAccess(user.groups, roules.clients))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
@@ -297,7 +297,7 @@ module.exports.delete = async (event) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.users))
+        if (!checkRouleProfileAccess(user.groups, roules.users) && !checkRouleProfileAccess(user.groups, roules.clients))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade');
 
         if (Number(user.userId) === Number(id))

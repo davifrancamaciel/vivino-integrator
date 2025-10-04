@@ -63,8 +63,11 @@ const CreateEdit: React.FC = (props: any) => {
       const result = await api[method](apiRoutes.wines, { ...state, fileList });
 
       setLoading(false);
-
-      result.success && history.push(`/${appRoutes.wines}`);
+      if (result.success) {
+        type === 'update'
+          ? history.goBack()
+          : history.push(`/${appRoutes.wines}`);
+      }
     } catch (error) {
       setLoading(false);
     }

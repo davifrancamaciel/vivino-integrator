@@ -39,3 +39,24 @@ export const groupBy = (arr: any, prop: string) => {
   arr.forEach((obj: any) => map.get(obj[prop]).push(obj));
   return Array.from(map.values());
 };
+
+export const createQueryString = (queryObject: any) => {
+  let queryString = Object.keys(queryObject)
+    .filter(
+      (key) =>
+        queryObject[key] &&
+        !(Array.isArray(queryObject[key]) && !queryObject[key].length)
+    )
+    .map((key) => {
+      return Array.isArray(queryObject[key])
+        ? queryObject[key]
+            .map(
+              (item: any) =>
+                `${encodeURIComponent(key)}=${encodeURIComponent(item)}`
+            )
+            .join('&')
+        : `${encodeURIComponent(key)}=${encodeURIComponent(queryObject[key])}`;
+    })
+    .join('&');
+  return queryString ? `?${queryString}` : '';
+};

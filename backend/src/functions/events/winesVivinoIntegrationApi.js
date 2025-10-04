@@ -49,7 +49,7 @@ module.exports.auth = async (event, context) => {
             const config = {
                 method: 'POST',
                 maxBodyLength: Infinity,
-                url: `${getVivinoUrl(element.vivinoClientId)}/oauth/token?app_version=8.19&app_platform=`,
+                url: `${getVivinoUrl(element.vivinoClientId)}/oauth/token?app_version=9.0&app_platform=`,
                 headers: { ...formData.getHeaders() },
                 data: formData
             };
@@ -163,7 +163,7 @@ const getVivinoSales = async (companyId, dateReference, element) => {
     const config = {
         method: 'GET',
         maxBodyLength: Infinity,
-        url: `${getVivinoUrl(element.vivinoClientId)}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=8.19&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
+        url: `${getVivinoUrl(element.vivinoClientId)}/merchants/${element.vivinoId}/purchase_orders/_active?app_version=9.0&status=${status}&limit=${limit}&start_date=${dateReference}&end_date=${dateReference}`,
         headers: { 'Authorization': `Bearer ${element.vivinoAuthToken}` }
     };
 

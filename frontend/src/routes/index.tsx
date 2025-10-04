@@ -59,16 +59,16 @@ const routesArray: IRouteProps[] = [
     component: UserCreateEdit,
     roule: roules.users
   },
-  { path: `/${appRoutes.clients}`, component: UserList, roule: roules.users },
+  { path: `/${appRoutes.clients}`, component: UserList, roule: roules.clients },
   {
     path: `/${appRoutes.clients}/create`,
     component: UserCreateEdit,
-    roule: roules.users
+    roule: roules.clients
   },
   {
     path: `/${appRoutes.clients}/edit/:id`,
     component: UserCreateEdit,
-    roule: roules.users
+    roule: roules.clients
   },
   {
     path: `/${appRoutes.wines}`,

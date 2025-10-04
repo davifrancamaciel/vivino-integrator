@@ -98,7 +98,7 @@ const SliderMenu: React.FC = (props: any) => {
             </Menu.Item>
           </SubMenu>
         )}
-        {checkRouleProfileAccess(groupsUser, roules.products) && (
+        {checkRouleProfileAccess(groupsUser, roules.categoryes) && (
           <SubMenu
             key={`sub-/${appRoutes.categories}`}
             title={'Categorias'}
@@ -160,33 +160,33 @@ const SliderMenu: React.FC = (props: any) => {
           </SubMenu>
         )}
 
+        {checkRouleProfileAccess(groupsUser, roules.clients) && (
+          <SubMenu
+            key={`sub-/${appRoutes.clients}`}
+            title="Clientes"
+            icon={<UserOutlined />}
+          >
+            <Menu.Item key={`/${appRoutes.clients}`}>
+              <Link to={`/${appRoutes.clients}`}>Lista</Link>
+            </Menu.Item>
+            <Menu.Item key={`/${appRoutes.clients}/create`}>
+              <Link to={`/${appRoutes.clients}/create`}>Novo</Link>
+            </Menu.Item>
+          </SubMenu>
+        )}
         {checkRouleProfileAccess(groupsUser, roules.users) && (
-          <>
-            <SubMenu
-              key={`sub-/${appRoutes.clients}`}
-              title="Clientes"
-              icon={<UserOutlined />}
-            >
-              <Menu.Item key={`/${appRoutes.clients}`}>
-                <Link to={`/${appRoutes.clients}`}>Lista</Link>
-              </Menu.Item>
-              <Menu.Item key={`/${appRoutes.clients}/create`}>
-                <Link to={`/${appRoutes.clients}/create`}>Novo</Link>
-              </Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key={`sub-/${appRoutes.users}`}
-              title="Usuários"
-              icon={<UserOutlined />}
-            >
-              <Menu.Item key={`/${appRoutes.users}`}>
-                <Link to={`/${appRoutes.users}`}>Lista</Link>
-              </Menu.Item>
-              <Menu.Item key={`/${appRoutes.users}/create`}>
-                <Link to={`/${appRoutes.users}/create`}>Novo</Link>
-              </Menu.Item>
-            </SubMenu>
-          </>
+          <SubMenu
+            key={`sub-/${appRoutes.users}`}
+            title="Usuários"
+            icon={<UserOutlined />}
+          >
+            <Menu.Item key={`/${appRoutes.users}`}>
+              <Link to={`/${appRoutes.users}`}>Lista</Link>
+            </Menu.Item>
+            <Menu.Item key={`/${appRoutes.users}/create`}>
+              <Link to={`/${appRoutes.users}/create`}>Novo</Link>
+            </Menu.Item>
+          </SubMenu>
         )}
         {checkRouleProfileAccess(groupsUser, roules.administrator) && (
           <>
