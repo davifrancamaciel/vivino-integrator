@@ -1,7 +1,7 @@
 "use strict";
 
 const db = require('../../database');
-const { format, subMonths, startOfWeek, endOfWeek } = require('date-fns');
+const { format, subMonths, endOfMonth, subHours } = require('date-fns');
 const pt = require('date-fns/locale/pt');
 const Expense = require('../../models/Expense')(db.sequelize, db.Sequelize);
 const salesRepository = require('../../repositories/salesRepository');
@@ -15,7 +15,7 @@ module.exports.handler = async (event, context) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
 
-        let date = subMonths(new Date(), 1);
+        let date = subMonths(new Date(), 0);
 
         const { queryStringParameters } = event
         if (queryStringParameters)
@@ -45,7 +45,7 @@ module.exports.handler = async (event, context) => {
                 expenseTypeId: 1,
                 dividedIn: 1,
                 paidOut: false,
-                paymentDate: new Date(),
+                paymentDate: subHours(endOfMonth(date), 4),
                 userId: element.id,
                 companyId: element.companyId,
                 value,

@@ -157,7 +157,7 @@ module.exports.create = async (event) => {
             companyId = user.companyId
 
         if (type === userType.USER) {
-            if (password.length < 8)
+            if (password && password.length < 8)
                 return handlerResponse(400, {}, `A senha precisa ter ao menos 8 caracteres`)
             const item = await User.findOne({ where: { email } })
             if (item)

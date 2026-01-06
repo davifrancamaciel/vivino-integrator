@@ -48,9 +48,7 @@ module.exports.handler = async (event, context) => {
             }
         }
         const ratesData = await get(bodyRates);
-        const rates = ratesData.wsrolRS.tarifasRS.tarifas.valores
-
-
+        const rates = ratesData.wsrolRS.tarifasRS.tarifas.valores       
 
         const bodyAccommodations = body
         bodyAccommodations.wsrolRQ.hotelInfoRQ = {
@@ -62,13 +60,13 @@ module.exports.handler = async (event, context) => {
         }
         const accommodationsData = await get(bodyAccommodations);
         const accommodations = accommodationsData.wsrolRS.hotelInfoRS.quartos
-
+        
         const data = [];
 
         data.push(createObj(rates["MAS"], accommodations["MAS"]))
         data.push(createObj(rates["SUP"], accommodations["SUP"]))
         data.push(createObj(rates["SEN"], accommodations["SEN"]))
-
+       
         const dataFormatted = data.map(element => {
             const tarifas = Object.entries(element.PAD01).map((key) => {
                 const obj = {
@@ -94,12 +92,12 @@ module.exports.handler = async (event, context) => {
                 PAD01: null,
             }
         });
-
+        
         const message = dataFormatted.map(x => (` ${x.descricao} diária média de ${x.valorMedio} total de ${x.total} para ${x.quantidade} dias \n`)).join()
 
         return handlerResponse(200, { message, dataFormatted });
     } catch (err) {
-        const message = `ERRO AO BUSCAR ACOMODAÇÕES EMPRESA COD ${companyId} NA API VIVINO DATA ${dateReference}`
+        const message = `ERRO AO BUSCAR ACOMODAÇÕES`
         return await handlerErrResponse(err, null, message)
     }
 };

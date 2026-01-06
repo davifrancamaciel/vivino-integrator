@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { format, subMonths, addMonths } from 'date-fns';
+import { format, subMonths, addMonths, startOfMonth } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import {
   WarningOutlined,
@@ -68,7 +68,7 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(cards?.sales.totalValueMonth!),
       color: systemColors.GREEN,
-      text: `Valor total das ${cards?.sales.count!} vendas no mês`,
+      text: `Valor total das ${cards?.sales.count!} vendas`,
       icon: <DollarOutlined />,
       url: `${appRoutes.sales}?dateReference=${dateEn}`
     } as CardPropTypes;
@@ -83,7 +83,7 @@ const Cards: React.FC = () => {
       color: systemColors.YELLOW,
       text: `Commissão a pagar de ${
         commission ? parseFloat(commission.toString()).toFixed(2) : 0
-      }% sob ${count} vendas no mês seguinte`,
+      }% sob ${count} vendas`,
       icon: <ArrowDownOutlined />,
       url: `${appRoutes.sales}`
     } as CardPropTypes;
@@ -99,7 +99,7 @@ const Cards: React.FC = () => {
       color: systemColors.BLUE,
       text: `Minha commissão sob ${count} vendas a receber de ${
         commission ? parseFloat(commission.toString()).toFixed(2) : 0
-      }% no mês seguinte`,
+      }%`,
       icon: <ArrowUpOutlined />,
       url: `${appRoutes.sales}/my-commisions`
     } as CardPropTypes;
@@ -111,7 +111,7 @@ const Cards: React.FC = () => {
       loading,
       value: formatPrice(totalValueMonth),
       color: systemColors.ORANGE,
-      text: `Valor total das ${count} despesas no mês`,
+      text: `Valor total das ${count} despesas`,
       icon: <ArrowUpOutlined />,
       url: `${appRoutes.expenses}?dateReference=${dateEn}`
     } as CardPropTypes;
@@ -120,7 +120,10 @@ const Cards: React.FC = () => {
   const handleCardSaleExpenseMonth = (cards: CardsReuslt) => {
     const { total: winesSalesMonthValueStr } = cards?.winesSalesMonthValue;
     const { totalValueMonth: totalValueMonthExpensesStr } = cards?.expenses;
-    const { totalValueMonth: totalValueMonthSalesStr } = cards?.sales;
+    const {
+      totalValueMonth: totalValueMonthSalesStr,
+      totalValueCommissionMonth
+    } = cards?.sales;
 
     const totalValueMonthExpenses = Number(totalValueMonthExpensesStr || 0);
     const totalValueMonthSales = Number(totalValueMonthSalesStr || 0);
@@ -128,9 +131,19 @@ const Cards: React.FC = () => {
     const totalSales = totalValueMonthSales + winesSalesMonthValue;
 
     const isPositive = totalValueMonthExpenses < totalSales;
+    const isSumCommision =
+      formatDateEn(startOfMonth(date).toISOString()) ===
+      formatDateEn(startOfMonth(new Date()).toISOString());
+
+    const _totalValueCommissionMonth = isSumCommision
+      ? totalValueCommissionMonth
+      : 0;
+      
     return {
       loading,
-      value: formatPrice(totalSales - totalValueMonthExpenses),
+      value: formatPrice(
+        totalSales - totalValueMonthExpenses - _totalValueCommissionMonth
+      ),
       color: isPositive ? systemColors.GREEN : systemColors.RED,
       text: `Valor das vendas menos as despesas`,
       icon: isPositive ? <ArrowUpOutlined /> : <ArrowDownOutlined />,
