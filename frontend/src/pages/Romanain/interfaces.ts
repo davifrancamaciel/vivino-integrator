@@ -66,9 +66,12 @@ export const originCompanys: IOptions[] = [
   { value: '8', label: 'Loja Itaipava' },
   { value: '6', label: 'Millesime' },
   { value: '3', label: 'Rose Market' },
+  { value: '7', label: 'Surlie Comercio de Alimentos LTDA' },
   { value: '9', label: 'Total Wine' },
+  { value: '11', label: 'Ubimar' },
   { value: '1', label: 'Ventura Vinhos' },
   { value: '5', label: 'Videiras e Oliveiras' },
   { value: '10', label: 'Vilore comercio de alimentos' },
   { value: '4', label: 'Wine Brothers' },
+
 ];
