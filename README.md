@@ -4,6 +4,8 @@
   <a href='https://www.vivino.com/BR/pt-BR' target='_blank'>Vivino</a>.
 </h3>
 
+<img src="frontend/src/assets/sales_vivino.png" style='width:1000px'> 
+
 ## **:rocket: OBJETIVO**
 
 Projeto desenvolvido inicialmente para integração de Vinhos na plataforma Vivino, gerenciar usuários por perfis definidos e posteriormente adicionadas novas funcionalidades como vendas, despesas, roamenios de entregas utilizando [AWS Lambda][aws_lambda] com [Node Js][node] no backend e [React][react] + [TypeScript][typescript] no frontend

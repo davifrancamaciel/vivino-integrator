@@ -15,7 +15,7 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
     "seeds": "sequelize db:seed:all",
-    "prune": "sls prune -n 3 --stage prd"
+    "prune": "sls prune -n 1 --stage prd"
   },
   "keywords": [],
   "dependencies": {
