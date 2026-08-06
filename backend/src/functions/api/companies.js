@@ -188,9 +188,6 @@ module.exports.listAll = async (event, context) => {
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        if (!checkRouleProfileAccess(user.groups, roules.users))
-            return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
-
         context.callbackWaitsForEmptyEventLoop = false;
 
         const resp = await Company.findAll({
@@ -198,7 +195,7 @@ module.exports.listAll = async (event, context) => {
         })
 
         const respFormated = resp.map(item => ({
-            ...item,
+            ...item.dataValues,
             value: item.id,
             label: item.name,
         }));

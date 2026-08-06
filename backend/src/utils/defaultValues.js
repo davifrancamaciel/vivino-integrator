@@ -11,6 +11,7 @@ const roules = {
     expenses: 'despesas',
     clients: 'clientes',
     categoryes: 'categorias',
+    developers: 'desenvolvedores'
 };
 
 const cognito = {

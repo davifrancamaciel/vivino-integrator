@@ -201,12 +201,22 @@ const SliderMenu: React.FC = (props: any) => {
               <Menu.Item key={`/${appRoutes.companies}/create`}>
                 <Link to={`/${appRoutes.companies}/create`}>Nova</Link>
               </Menu.Item>
-            </SubMenu>
+            </SubMenu>         
+          </>
+        )}
+        {checkRouleProfileAccess(groupsUser, roules.developers) && (
+          <>
             <Menu.Item
               icon={<CloudServerOutlined />}
               key={`/${appRoutes.services}`}
             >
               <Link to={`/${appRoutes.services}`}>Serviços</Link>
+            </Menu.Item>
+            <Menu.Item
+              icon={<UnorderedListOutlined />}
+              key={`/${appRoutes.expenseTypes}`}
+            >
+              <Link to={`/${appRoutes.expenseTypes}`}>Tipos de Despesas</Link>
             </Menu.Item>
           </>
         )}

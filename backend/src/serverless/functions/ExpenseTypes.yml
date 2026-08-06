@@ -1,0 +1,48 @@
+# expenseTypes:
+#   handler: src/functions/api/expenseTypes.list
+#   events:
+#     - http:
+#         path: expense-types
+#         method: get
+#         authorizer: verifyToken
+#         cors: true 
+# expenseTypesById:
+#   handler: src/functions/api/expenseTypes.listById
+#   events:
+#     - http:
+#         path: expense-types/{id}
+#         method: get
+#         authorizer: verifyToken
+#         cors: true 
+# expenseTypesCreate:
+#   handler: src/functions/api/expenseTypes.create
+#   events:
+#     - http:
+#         path: expense-types
+#         method: post
+#         authorizer: verifyToken
+#         cors: true  
+# expenseTypesUpdate:
+#   handler: src/functions/api/expenseTypes.update
+#   events:
+#     - http:
+#         path: expense-types
+#         method: put
+#         authorizer: verifyToken
+#         cors: true 
+# expenseTypesDelete:
+#   handler: src/functions/api/expenseTypes.delete
+#   events:
+#     - http:
+#         path: expense-types/{id}
+#         method: delete
+#         authorizer: verifyToken
+#         cors: true
+expenseTypesAll:
+    handler: src/functions/api/expenseTypes.listAll
+    events:
+      - http:
+          path: expense-types/all
+          method: get
+          authorizer: verifyToken
+          cors: true

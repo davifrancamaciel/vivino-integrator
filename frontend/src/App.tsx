@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Router } from 'react-router-dom';
 import Routes from 'routes';
 import GlobalStyle from 'styles/global';
@@ -6,6 +6,8 @@ import history from 'services/browserhistory';
 import { AppContext } from 'hooks/contextLib';
 import { Group, IOptions } from './utils/commonInterfaces';
 import BackToTop from 'components/BackToTop';
+import { apiRoutes } from './utils/defaultValues';
+import api from './services/api-aws-amplify';
 
 const App: React.FC = () => {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -14,6 +16,16 @@ const App: React.FC = () => {
   const [groups, setGroups] = useState<Group[]>([]);
   const [users, setUsers] = useState<IOptions[]>([]);
   const [width, setWidth] = useState(window.innerWidth);
+  const [companies, setCompanies] = useState<IOptions[]>([]);
+
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  const onLoad = async () => {
+    const resp = await api.get(`${apiRoutes.companies}/all`);
+    setCompanies(resp.data);
+  };
 
   const value = {
     isAuthenticated,
@@ -27,7 +39,9 @@ const App: React.FC = () => {
     users,
     setUsers,
     width,
-    setWidth
+    setWidth,
+    companies,
+    setCompanies
   } as any;
 
   return (

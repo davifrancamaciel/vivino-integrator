@@ -73,5 +73,6 @@ export const originCompanys: IOptions[] = [
   { value: '5', label: 'Videiras e Oliveiras' },
   { value: '10', label: 'Vilore comercio de alimentos' },
   { value: '4', label: 'Wine Brothers' },
+  { value: '12', label: 'LA RIBERA' },
 
 ];

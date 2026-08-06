@@ -4,6 +4,7 @@ import Label from './Label';
 import Radio from './Radio';
 import Input from './Input';
 import Select from './Select';
+import SelectMultiple from './SelectMultiple';
 import Switch from './Switch';
 import Textarea from './Textarea';
 import CharLimit from './CharLimit';
@@ -18,6 +19,7 @@ export {
   Radio,
   Input,
   Select,
+  SelectMultiple,
   Switch,
   Textarea,
   CharLimit,

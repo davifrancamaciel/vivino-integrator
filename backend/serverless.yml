@@ -111,6 +111,7 @@ functions:
   - ${file(src/serverless/functions/Romanians.yml)}  
   - ${file(src/serverless/functions/Sales.yml)}  
   - ${file(src/serverless/functions/Expenses.yml)}  
+  - ${file(src/serverless/functions/ExpenseTypes.yml)}
   - ${file(src/serverless/functions/Services.yml)}
   - ${file(src/serverless/functions/Products.yml)}
   - ${file(src/serverless/functions/Categories.yml)}

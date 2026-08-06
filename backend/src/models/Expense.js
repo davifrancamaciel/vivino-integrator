@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
         paidOut: { type: DataTypes.BOOLEAN },
         paymentDate: { type: DataTypes.DATE },     
         companyId: { type: DataTypes.UUID },   
+        replicateNextMonth: { type: DataTypes.BOOLEAN, defaultValue: false },
     });
     
     Expense.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });  

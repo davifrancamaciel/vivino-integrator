@@ -1,5 +1,5 @@
 import { CloseSquareOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
 import { systemColors } from 'utils/defaultValues';
 import api from 'services/api-aws-amplify';
@@ -10,6 +10,7 @@ interface PropTypes {
   item: any;
   onDelete?: (id?: string | number) => void;
   propTexObjOndelete?: string;
+  text?: string;
 }
 
 const ActionDelete: React.FC<PropTypes> = (props) => {
@@ -24,8 +25,12 @@ const ActionDelete: React.FC<PropTypes> = (props) => {
     try {
       const routeDel = props.router.replace('/', '');
       if (routeDel === 'CUSTOM_DELETE') {
-        props.onDelete && props.onDelete(props.id);
-        setVisible(false);
+        if (props.onDelete) {
+          setLoading(true);
+          await props.onDelete(props.id);
+          setLoading(false);
+          setVisible(false);
+        }
         return;
       }
       setLoading(true);
@@ -43,13 +48,20 @@ const ActionDelete: React.FC<PropTypes> = (props) => {
 
   return (
     <>
-      <ActionButton
-        title={'Apagar'}
-        backgroundColor={systemColors.RED}
-        icon={<DeleteOutlined />}
-        onClick={showHideModal}
-        loading={loading}
-      />
+      {props.text && (
+        <a onClick={showHideModal} style={{ border: 'none' }}>
+          Apagar selecionados
+        </a>
+      )}
+      {!props.text && (
+        <ActionButton
+          title={'Apagar'}
+          backgroundColor={systemColors.RED}
+          icon={<DeleteOutlined />}
+          onClick={showHideModal}
+          loading={loading}
+        />
+      )}
       <Modal
         title="Confirmação"
         visible={visible}

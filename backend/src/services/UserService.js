@@ -19,7 +19,7 @@ const getUser = async (event) => {
         const { user } = requestContext.authorizer
 
         if (user) {
-            const userToken = JSON.parse(user)            
+            const userToken = JSON.parse(user)
             userToken.groups = userToken["cognito:groups"];
             userToken.companyId = userToken["custom:company_id"];
             userToken.userId = Number(userToken["custom:user_id"] || 0);
@@ -37,12 +37,13 @@ const getUser = async (event) => {
 const checkRouleProfileAccess = (groups, roule) => {
     try {
         if (!!groups) {
-            const isAdministrator = groups.find(
-                (r) =>
-                    r.toLocaleLowerCase() === roules.administrator.toLocaleLowerCase()
-            );
-            if (isAdministrator) return isAdministrator;
-
+            if (roule !== roules.developers) {
+                const isAdministrator = groups.find(
+                    (r) =>
+                        r.toLocaleLowerCase() === roules.administrator.toLocaleLowerCase()
+                );
+                if (isAdministrator) return isAdministrator;
+            }
             return groups.find(
                 (r) => r.toLocaleLowerCase() === roule.toLocaleLowerCase()
             );

@@ -21,6 +21,7 @@ export const appRoutes = {
   romanians: 'romanians',
   sales: 'sales',
   expenses: 'expenses',
+  expenseTypes: 'expense-types',
   companies: 'companies',
   categories: 'categories',
   services: 'services'
@@ -39,7 +40,7 @@ export const apiRoutes = {
   services: appRoutes.services,
   shippingCompanies: 'shipping-companies',
   expenses: 'expenses',
-  expenseTypes: 'expense-types'
+  expenseTypes: appRoutes.expenseTypes
 };
 
 export const apiRoutesArray = [
@@ -68,7 +69,8 @@ export const roules = {
   saleUserIdChange: 'vendedor_vendas',
   expenses: 'despesas',
   clients: 'clientes',
-  categoryes: 'categorias'
+  categoryes: 'categorias',
+  developers: 'desenvolvedores'
 };
 
 export const enumStatusUserAws = {
@@ -95,3 +97,28 @@ export const pageItemsFilter: IOptions[] = [
   { value: '500', label: '500' },
   { value: '1000', label: '1.000' }
 ];
+
+export const expensesTypesEnum = {
+  PAGAMENTO_COMISSAO: 1,
+  // RETIRADAS: 2, // MUDOU PARA RETIRADAS -> RETI
+  // COMI: 3,
+  // DFIX: 4,
+  // PAGAMENTO: 5,
+  // IMPOSTOS: 6,
+  // SEGURO: 7,
+  // INVESTIMENTOS: 8,
+  ALUGUEL: 9,
+  // MPUB: 10,
+  // COMB: 11,
+  // PEDAGIO: 12,
+  ENERGIA_ELETRICA: 13,
+  // MANUTENCAO: 14,
+  ALIMENTO: 15,
+  // EQUIPAMENTOS: 16,
+  MANUTENCOES: 17,
+  OUTROS: 18,
+  MERCADO: 19,
+  // TPAGO: 20,
+  EQUIPAMENTOS: 21,
+  // EVENT: 22
+};

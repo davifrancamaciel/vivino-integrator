@@ -4,11 +4,13 @@ import { roules } from './defaultValues';
 export const checkRouleProfileAccess = (groups: string[], roule: string) => {
   try {
     if (!!groups) {
-      const isAdministrator = groups.find(
-        (r: string) =>
-          r.toLocaleLowerCase() === roules.administrator.toLocaleLowerCase()
-      );
-      if (isAdministrator) return isAdministrator;
+      if (roule !== roules.developers) {
+        const isAdministrator = groups.find(
+          (r: string) =>
+            r.toLocaleLowerCase() === roules.administrator.toLocaleLowerCase()
+        );
+        if (isAdministrator) return isAdministrator;
+      }
 
       return groups.find(
         (r: string) => r.toLocaleLowerCase() === roule.toLocaleLowerCase()
