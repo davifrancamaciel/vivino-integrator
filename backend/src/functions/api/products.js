@@ -16,7 +16,7 @@ const RESOURCE_NAME = 'Produto'
 
 const list = async (event, context) => {
     try {
-        
+
 
         let whereStatement = {};
 
@@ -247,9 +247,9 @@ const listAll = async (event, context) => {
     }
 };
 
-const listByCompanyId = async (event, context) => {
+module.exports.listByCompanyId = async (event, context) => {
     try {
-        
+
         const { pathParameters } = event
         let whereStatement = { active: true };
 
@@ -270,9 +270,9 @@ const listByCompanyId = async (event, context) => {
     }
 };
 
-const getByCompanyId = async (event, context) => {
+module.exports.getByCompanyId = async (event, context) => {
     try {
-        
+
         const { pathParameters } = event
 
         const result = await Product.findByPk(pathParameters.id)
