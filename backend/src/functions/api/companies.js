@@ -8,13 +8,14 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { roules } = require("../../utils/defaultValues");
 const imageService = require("../../services/ImageService");
+const { createRouter } = require("../../utils/requestRouter");
 const s3 = require("../../services/AwsS3Service");
 const { executeSelect } = require("../../services/ExecuteQueryService");
 
 
 const RESOURCE_NAME = 'Empresa'
 
-module.exports.list = async (event, context) => {
+const list = async (event, context) => {
     try {
 
         const user = await getUser(event)
@@ -25,7 +26,7 @@ module.exports.list = async (event, context) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             return handlerResponse(403, {}, 'Usuário não tem permissão acessar esta funcionalidade')
 
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const whereStatement = {};
 
@@ -71,7 +72,7 @@ module.exports.list = async (event, context) => {
     }
 };
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -92,7 +93,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     const body = JSON.parse(event.body)
     try {
 
@@ -120,7 +121,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     try {
         const user = await getUser(event)
@@ -155,7 +156,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -181,14 +182,14 @@ module.exports.delete = async (event) => {
     }
 }
 
-module.exports.listAll = async (event, context) => {
+const listAll = async (event, context) => {
     try {
         const user = await getUser(event)
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
 
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const resp = await Company.findAll({
             order: [['name', 'ASC']],
@@ -225,3 +226,12 @@ const createFile = async (company) => {
     const { bucketPublicName } = process.env
     await s3.put(JSON.stringify({ id: company.id, name: company.name }), key, bucketPublicName);
 }
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    listAll,
+    create,
+    update,
+    delete: deleteFn
+});

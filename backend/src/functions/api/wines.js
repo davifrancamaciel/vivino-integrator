@@ -10,12 +10,13 @@ const { sendMessage } = require('../../services/AwsQueueService')
 const { roules } = require("../../utils/defaultValues");
 
 const imageService = require("../../services/ImageService");
+const { createRouter } = require("../../utils/requestRouter");
 
 const RESOURCE_NAME = 'Vinho'
 
-module.exports.list = async (event, context) => {
+const list = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         let whereStatement = {};
 
@@ -102,7 +103,7 @@ module.exports.list = async (event, context) => {
     }
 };
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -124,7 +125,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     const body = JSON.parse(event.body)
     try {
 
@@ -153,7 +154,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     try {
         const user = await getUser(event)
@@ -188,7 +189,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -228,3 +229,11 @@ const sendMessageWineFiles = async (user, wine, type) => {
         type
     });
 }
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    create,
+    update,
+    delete: deleteFn
+});

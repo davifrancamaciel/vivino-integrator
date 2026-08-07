@@ -10,12 +10,13 @@ const { executeSelect } = require("../../services/ExecuteQueryService");
 const { roules } = require("../../utils/defaultValues");
 const formatPrice = require("../../utils/formatPrice");
 const imageService = require("../../services/ImageService");
+const { createRouter } = require("../../utils/requestRouter");
 
 const RESOURCE_NAME = 'Produto'
 
-module.exports.list = async (event, context) => {
+const list = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         let whereStatement = {};
 
@@ -91,7 +92,7 @@ module.exports.list = async (event, context) => {
     }
 };
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -123,7 +124,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     const body = JSON.parse(event.body)
     try {
 
@@ -150,7 +151,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     try {
         const user = await getUser(event)
@@ -183,7 +184,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -210,7 +211,7 @@ module.exports.delete = async (event) => {
 
 }
 
-module.exports.listAll = async (event, context) => {
+const listAll = async (event, context) => {
     try {
         const { queryStringParameters } = event
         let whereStatement = {};
@@ -246,9 +247,9 @@ module.exports.listAll = async (event, context) => {
     }
 };
 
-module.exports.listByCompanyId = async (event, context) => {
+const listByCompanyId = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
         const { pathParameters } = event
         let whereStatement = { active: true };
 
@@ -269,9 +270,9 @@ module.exports.listByCompanyId = async (event, context) => {
     }
 };
 
-module.exports.getByCompanyId = async (event, context) => {
+const getByCompanyId = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
         const { pathParameters } = event
 
         const result = await Product.findByPk(pathParameters.id)
@@ -284,3 +285,12 @@ module.exports.getByCompanyId = async (event, context) => {
         return await handlerErrResponse(err)
     }
 };
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    listAll,
+    create,
+    update,
+    delete: deleteFn
+});

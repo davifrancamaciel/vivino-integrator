@@ -12,14 +12,15 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { executeSelect, executeDelete, executeUpdate } = require("../../services/ExecuteQueryService");
 const UserClientService = require('../../services/UserClientService')
+const { createRouter } = require("../../utils/requestRouter");
 
 const { roules, userType } = require("../../utils/defaultValues");
 
 const RESOURCE_NAME = 'Venda'
 
-module.exports.list = async (event, context) => {
+const list = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const whereStatement = {};
         const whereStatementUser = {};
@@ -116,7 +117,7 @@ module.exports.list = async (event, context) => {
     }
 };
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -161,7 +162,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     const body = JSON.parse(event.body)
     try {
 
@@ -195,7 +196,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     try {
         const user = await getUser(event)
@@ -245,7 +246,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -314,7 +315,7 @@ const createSale = async (objOnSave, body) => {
     return result;
 }
 
-module.exports.createPublic = async (event) => {
+const createPublic = async (event) => {
     let body = JSON.parse(event.body)
     try {
         const clientId = await UserClientService.addClientBySale(body);
@@ -346,3 +347,11 @@ module.exports.createPublic = async (event) => {
         return await handlerErrResponse(err, body)
     }
 }
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    create,
+    update,
+    delete: deleteFn
+});

@@ -26,7 +26,7 @@ module.exports.auth = async (event, context) => {
 
     let companyId = '';
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const resp = await Company.findAll({
             attributes: ['id', 'name', 'vivinoClientId', 'vivinoClientSecret', 'vivinoClientUsername', 'vivinoPassword'],
@@ -75,7 +75,7 @@ module.exports.sales = async (event, context) => {
     let [dateReference, hour] = new Date().toISOString().split('T');
 
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const { queryStringParameters } = event
         if (queryStringParameters)

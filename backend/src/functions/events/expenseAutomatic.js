@@ -6,7 +6,7 @@ const { executeInsert } = require("../../services/ExecuteQueryService");
 
 module.exports.handler = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         let date = new Date();
 

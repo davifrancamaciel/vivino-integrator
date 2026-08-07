@@ -1,41 +1,34 @@
 expenses:
-  handler: src/functions/api/expenses.list
+  handler: src/functions/api/expenses.handler
   events:
     - http:
         path: expenses
         method: get
         authorizer: verifyToken
-        cors: true 
-expensesById:
-  handler: src/functions/api/expenses.listById
-  events:
-    - http:
-        path: expenses/{id}
-        method: get
-        authorizer: verifyToken
-        cors: true 
-expensesCreate:
-  handler: src/functions/api/expenses.create
-  events:
+        cors: true
     - http:
         path: expenses
         method: post
         authorizer: verifyToken
-        cors: true  
-expensesUpdate:
-  handler: src/functions/api/expenses.update
-  events:
+        cors: true
     - http:
         path: expenses
         method: put
         authorizer: verifyToken
-        cors: true 
-expensesDelete:
-  handler: src/functions/api/expenses.delete
-  events:
+        cors: true
+    - http:
+        path: expenses/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true
     - http:
         path: expenses/{id}
         method: delete
+        authorizer: verifyToken
+        cors: true
+    - http:
+        path: expenses/delete
+        method: post
         authorizer: verifyToken
         cors: true
 expenseComissionEvent:  

@@ -12,10 +12,11 @@ const User = require('../../models/User')(db.sequelize, db.Sequelize);
 const Company = require('../../models/Company')(db.sequelize, db.Sequelize);
 const WineSaleUser = require('../../models/WineSaleUser')(db.sequelize, db.Sequelize);
 const imageService = require("../../services/ImageService");
+const { createRouter } = require("../../utils/requestRouter");
 
 const RESOURCE_NAME = 'Usuário'
 
-module.exports.list = async (event) => {
+const list = async (event) => {
     const { queryStringParameters } = event
     try {
         const user = await getUser(event)
@@ -96,7 +97,7 @@ module.exports.list = async (event) => {
     }
 }
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -141,7 +142,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     let userDbId = 0
     const body = JSON.parse(event.body)
     let { password, email, name, status, accessType, companyId, commissionMonth, phone, type, dayMaturityFavorite } = body;
@@ -212,7 +213,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     let { resetPassword, password, name, status, accessType, companyId, type } = body;
     try {
@@ -287,7 +288,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const { id } = pathParameters
@@ -343,7 +344,7 @@ const removeUserToGroup = async (Username, groups, position) => {
     return true
 }
 
-module.exports.listAll = async (event) => {
+const listAll = async (event) => {
     const { queryStringParameters } = event
     try {
         const whereStatement = {};
@@ -376,3 +377,12 @@ module.exports.listAll = async (event) => {
         return await handlerErrResponse(err, queryStringParameters)
     }
 }
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    listAll,
+    create,
+    update,
+    delete: deleteFn
+});

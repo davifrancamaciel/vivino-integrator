@@ -10,12 +10,13 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const romanianService = require("../../services/RomanianService");
 const { roules } = require("../../utils/defaultValues");
+const { createRouter } = require("../../utils/requestRouter");
 
 const RESOURCE_NAME = 'Romaneio'
 
-module.exports.list = async (event, context) => {
+const list = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const whereStatement = {};
         const whereStatementCompany = {};
@@ -105,7 +106,7 @@ module.exports.list = async (event, context) => {
     }
 };
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const user = await getUser(event)
 
     if (!user)
@@ -140,7 +141,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     const body = JSON.parse(event.body)
     try {
 
@@ -167,7 +168,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     try {
         const user = await getUser(event)
@@ -207,7 +208,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -255,3 +256,11 @@ const validateObjOnSave = (objOnSave) => {
     }
     return objOnSave;
 }
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    create,
+    update,
+    delete: deleteFn
+});

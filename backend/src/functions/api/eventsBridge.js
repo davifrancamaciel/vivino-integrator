@@ -15,7 +15,7 @@ const RESOURCE_NAME = 'Configurações'
 
 module.exports.get = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const user = await getUser(event)
 

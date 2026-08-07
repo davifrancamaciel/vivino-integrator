@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const [users, setUsers] = useState<IOptions[]>([]);
   const [width, setWidth] = useState(window.innerWidth);
   const [companies, setCompanies] = useState<IOptions[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onLoad();
@@ -41,7 +42,9 @@ const App: React.FC = () => {
     width,
     setWidth,
     companies,
-    setCompanies
+    setCompanies,
+    loading,
+    setLoading
   } as any;
 
   return (

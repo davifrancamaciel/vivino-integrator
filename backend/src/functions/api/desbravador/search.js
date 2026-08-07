@@ -16,7 +16,7 @@ module.exports.handler = async (event, context) => {
     let companyId = '';
 
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const { companyId, start, end } = event.queryStringParameters
 

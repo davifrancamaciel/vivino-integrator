@@ -6,7 +6,7 @@ const { handlerResponse, handlerErrResponse } = require("../../utils/handleRespo
 
 module.exports.listAll = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const resp = await ShippingCompany.findAll({
             attributes: ['id', 'name'],

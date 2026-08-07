@@ -11,7 +11,7 @@ const { roules } = require("../../utils/defaultValues");
 
 module.exports.list = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         let whereStatement = {}, whereStatementWine = {};
 

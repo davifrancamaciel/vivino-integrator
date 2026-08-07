@@ -8,16 +8,17 @@ const Category = require('../../models/Category')(db.sequelize, db.Sequelize);
 const { handlerResponse, handlerErrResponse } = require("../../utils/handleResponse");
 const { getUser, checkRouleProfileAccess } = require("../../services/UserService");
 const { roules } = require("../../utils/defaultValues");
+const { createRouter } = require("../../utils/requestRouter");
 
 const RESOURCE_NAME = 'Categoria'
 
-module.exports.list = async (event, context) => {
+const list = async (event, context) => {
     try {
         const user = await getUser(event)
 
         if (!user)
             return handlerResponse(400, {}, 'Usuário não encontrado')
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const whereStatement = {};
         const whereCompanys = {};
@@ -83,7 +84,7 @@ module.exports.list = async (event, context) => {
     }
 };
 
-module.exports.listById = async (event) => {
+const listById = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -113,7 +114,7 @@ module.exports.listById = async (event) => {
     }
 }
 
-module.exports.create = async (event) => {
+const create = async (event) => {
     const body = JSON.parse(event.body)
     try {
 
@@ -139,7 +140,7 @@ module.exports.create = async (event) => {
     }
 }
 
-module.exports.update = async (event) => {
+const update = async (event) => {
     const body = JSON.parse(event.body)
     try {
         const user = await getUser(event)
@@ -169,7 +170,7 @@ module.exports.update = async (event) => {
     }
 }
 
-module.exports.delete = async (event) => {
+const deleteFn = async (event) => {
     const { pathParameters } = event
     try {
         const user = await getUser(event)
@@ -194,7 +195,7 @@ module.exports.delete = async (event) => {
     }
 }
 
-module.exports.listAll = async (event, context) => {
+const listAll = async (event, context) => {
     try {
         const user = await getUser(event)
 
@@ -207,7 +208,7 @@ module.exports.listAll = async (event, context) => {
         if (!checkRouleProfileAccess(user.groups, roules.administrator))
             whereStatement.companyId = user.companyId
 
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const resp = await Category.findAll({
             where: whereStatement,
@@ -224,3 +225,12 @@ module.exports.listAll = async (event, context) => {
         return await handlerErrResponse(err)
     }
 };
+
+module.exports.handler = createRouter({
+    list,
+    listById,
+    listAll,
+    create,
+    update,
+    delete: deleteFn
+});

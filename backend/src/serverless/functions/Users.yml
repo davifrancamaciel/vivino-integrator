@@ -1,48 +1,33 @@
 users:
-    handler: src/functions/api/users.list
-    events:
-      - http:
-          path: users
-          method: get
-          authorizer: verifyToken
-          cors: true
-usersById:
-  handler: src/functions/api/users.listById
+  handler: src/functions/api/users.handler
   events:
     - http:
-        path: users/{id}
+        path: users
         method: get
         authorizer: verifyToken
         cors: true
-usersCreate:
-  handler: src/functions/api/users.create
-  events:
     - http:
         path: users
         method: post
         authorizer: verifyToken
         cors: true
-usersUpdate:
-  handler: src/functions/api/users.update
-  events:
     - http:
         path: users
         method: put
         authorizer: verifyToken
         cors: true
-usersDelete:
-  handler: src/functions/api/users.delete
-  events:
+    - http:
+        path: users/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true
     - http:
         path: users/{id}
         method: delete
         authorizer: verifyToken
         cors: true
-usersAll:
-    handler: src/functions/api/users.listAll
-    events:
-      - http:
-          path: users/all
-          method: get
-          authorizer: verifyToken
-          cors: true
+    - http:
+        path: users/all
+        method: get
+        authorizer: verifyToken
+        cors: true

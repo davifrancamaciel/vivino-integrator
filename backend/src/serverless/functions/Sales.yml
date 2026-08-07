@@ -1,47 +1,32 @@
 sales:
-  handler: src/functions/api/sales.list
+  handler: src/functions/api/sales.handler
   events:
     - http:
         path: sales
         method: get
         authorizer: verifyToken
-        cors: true 
-salesById:
-  handler: src/functions/api/sales.listById
-  events:
-    - http:
-        path: sales/{id}
-        method: get
-        authorizer: verifyToken
-        cors: true 
-salesCreate:
-  handler: src/functions/api/sales.create
-  events:
+        cors: true
     - http:
         path: sales
         method: post
         authorizer: verifyToken
-        cors: true  
-salesUpdate:
-  handler: src/functions/api/sales.update
-  events:
+        cors: true
     - http:
         path: sales
         method: put
         authorizer: verifyToken
-        cors: true 
-salesDelete:
-  handler: src/functions/api/sales.delete
-  events:
+        cors: true
+    - http:
+        path: sales/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true
     - http:
         path: sales/{id}
         method: delete
         authorizer: verifyToken
         cors: true
-salesCreatePublic:
-  handler: src/functions/api/sales.createPublic
-  events:
     - http:
         path: sales/public
-        method: post       
-        cors: true 
+        method: post
+        cors: true

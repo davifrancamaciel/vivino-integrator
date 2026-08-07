@@ -1,41 +1,34 @@
 wines:
-  handler: src/functions/api/wines.list
+  handler: src/functions/api/wines.handler
   events:
     - http:
         path: wines
         method: get
         authorizer: verifyToken
-        cors: true 
-winesById:
-  handler: src/functions/api/wines.listById
-  events:
-    - http:
-        path: wines/{id}
-        method: get
-        authorizer: verifyToken
-        cors: true 
-winesCreate:
-  handler: src/functions/api/wines.create
-  events:
+        cors: true
     - http:
         path: wines
         method: post
         authorizer: verifyToken
-        cors: true  
-winesUpdate:
-  handler: src/functions/api/wines.update
-  events:
+        cors: true
     - http:
         path: wines
         method: put
         authorizer: verifyToken
-        cors: true 
-winesDelete:
-  handler: src/functions/api/wines.delete
-  events:
+        cors: true
+    - http:
+        path: wines/{id}
+        method: get
+        authorizer: verifyToken
+        cors: true
     - http:
         path: wines/{id}
         method: delete
+        authorizer: verifyToken
+        cors: true
+    - http:
+        path: wines/all
+        method: get
         authorizer: verifyToken
         cors: true
 winesSaleHistory:

@@ -13,7 +13,7 @@ const { linkServices } = require("../../utils/defaultValues");
 
 module.exports.handler = async (event, context) => {
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         let date = subMonths(new Date(), 0);
 

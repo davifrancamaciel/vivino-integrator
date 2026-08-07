@@ -15,7 +15,7 @@ module.exports.handler = async (event, context) => {
     let [dateReference, hour] = new Date().toISOString().split('T');
 
     try {
-        context.callbackWaitsForEmptyEventLoop = false;
+        
 
         const { queryStringParameters } = event
         if (queryStringParameters)
